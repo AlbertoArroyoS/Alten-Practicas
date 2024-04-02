@@ -7,10 +7,18 @@ Realizada por:
 
 ###  Alberto Arroyo Santofimia
 
+## Objetivos: 
+1. Preparar una idea de proyecto del tipo API REST en el que se consuman los servicios proporcionados por la API.
+2. Crear un diseño de modelo de datos
+3. Implementar el modelo de datos
+4. Crear un proyecto back del tipo API Rest en SpringBoot
+5. Diseñar los métodos y verbos del proyecto
+6. Crear un proyecto front en Angular que muestre y consuma esos métodos de la API
+7. Añadir diseño mediante Bootstrap a la parte front
+8. Añadir seguridad al proyecto. Permisos de usuario, diferentes roles, etc.
 
-1- Preparar una idea de proyecto del tipo API REST en el que se consuman los servicios proporcionados por la API.
 
-
+## Práctica Alberto: 
 
 La idea del proyecto es gestionar una cadena de librerias.
 Se va a utilizar un servicio REST para gestionar los libros.
@@ -28,7 +36,6 @@ El modelo de datos consistira en que:
 
 - El cliente puede comprar de 1 a muchos libros y el libro puede ser comprado por más de un cliente
 - La libreria puede tener muchos libros y los libros a su vez pueden estar en más de una libreria
-
 
 
 Inicialmente tendremos el siguiente diagrama entidad relacion:
