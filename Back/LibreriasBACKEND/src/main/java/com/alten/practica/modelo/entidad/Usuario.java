@@ -10,8 +10,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
 
-//***********ESTA CLASE NO SE USA, ES DE PRUEBA***********
-//Prueba para los roles de usuario
+//***********ESTA CLASE ES DE PRUEBA***********
+//Tabla de usuarios para poder loguearse
 
 @Data
 @ToString
@@ -24,6 +24,8 @@ public class Usuario {
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "enabled")
+    private byte enabled;
 	
 	public Usuario() {
 		super();

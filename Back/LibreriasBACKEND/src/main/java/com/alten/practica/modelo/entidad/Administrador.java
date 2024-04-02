@@ -17,7 +17,7 @@ import lombok.ToString;
 public class Administrador{
 	
 	@Id
-	@Column(name = "id_usuario")
+	@Column(name = "id_administrador")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
