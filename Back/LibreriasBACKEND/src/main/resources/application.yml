@@ -1,5 +1,6 @@
 server:
   port: 8080
+
   
 spring:
     datasource:
@@ -11,6 +12,8 @@ jpa:
     hibernate:
     ddl-auto: update
     show-sql: true
+    
+persistence unit name: PracticasAlten
 
 
 
