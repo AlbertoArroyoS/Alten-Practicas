@@ -3,6 +3,8 @@ package com.alten.practica.modelo.persistencia;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.modelo.persistencia.interfaz.DaoLibreria;
 

@@ -2,9 +2,12 @@ package com.alten.practica.modelo.persistencia.interfaz;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.alten.practica.modelo.entidad.Libreria;
 
-public interface DaoLibreria {
+@Repository
+public interface DaoLibreria{
 	
 	//CRUD
 	//Añadir Libreria
