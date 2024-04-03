@@ -16,7 +16,7 @@ import lombok.ToString;
 @Data
 @ToString
 @Entity
-@Table(name = "authorities", schema = "practica")
+@Table(name = "authorities", schema = "dbo")
 public class Permiso {
 	
 	@Id
