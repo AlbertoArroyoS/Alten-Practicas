@@ -1,20 +1,20 @@
 server:
   port: 8080
-
   
 spring:
-    datasource:
-        url: jdbc:postgresql://localhost:5433/***NOMBRE BASE DE DATOS***
-        username: root
-        password: root
-        driver-class-name: org.postgresql.Driver
-jpa:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/db_libreria_Alten
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
     hibernate:
-    ddl-auto: update
-    show-sql: true
-    
-persistence unit name: PracticasAlten
-
-
-
-
+      ddl-auto: update
+      show-sql: true
+    properties:
+      javax:
+        persistence:
+          validation:
+            mode: none
+  persistence:
+    unit-name: PracticasAlten

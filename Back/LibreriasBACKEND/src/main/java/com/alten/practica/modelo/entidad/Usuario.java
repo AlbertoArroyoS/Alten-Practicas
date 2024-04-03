@@ -19,7 +19,9 @@ import lombok.ToString;
 @Table(name = "users", schema = "practica")
 public class Usuario {
 	
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	@Column(name = "usermane")
     private String username;
     @Column(name = "password")
