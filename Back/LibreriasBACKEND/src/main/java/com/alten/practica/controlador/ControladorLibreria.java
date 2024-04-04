@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.modelo.persistencia.interfaz.DaoLibreria;
 
+//*** VERSION VIEJA ***
 /**
  * Controlador que gestiona las operaciones CRUD para la entidad Libreria mediante
  * peticiones REST.
