@@ -13,11 +13,14 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 
 /**
  * Esta clase implementa la interfaz DaoLibreria y proporciona una implementación JPA (Java Persistence API) 
  * para interactuar con la base de datos.
  */
+@Repository
+@Transactional
 public class DaoLibreriaImplJPA implements DaoLibreria {
 
     /**
