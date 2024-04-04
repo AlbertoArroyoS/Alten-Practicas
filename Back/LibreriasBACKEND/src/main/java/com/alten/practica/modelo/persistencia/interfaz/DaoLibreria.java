@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.alten.practica.modelo.entidad.Libreria;
 
-
+/*
 public interface DaoLibreria{
 	
 	//CRUD
@@ -21,4 +21,4 @@ public interface DaoLibreria{
 	//Obtener todas las librerias en una lista
 	public List<Libreria> getLibrerias();
 	
-}
+}*/
