@@ -1,20 +1,3 @@
-server:
-  port: 8080
-
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5433/db_libreria_Alten?currentSchema=dbo
-    username: postgres
-    password: root
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-      show-sql: true
-    properties:
-      javax:
-        persistence:
-          validation:
-            mode: none
-  persistence:
-    unit-name: PracticasAlten
+  profiles:
+    active: dev
