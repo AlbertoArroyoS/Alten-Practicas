@@ -30,6 +30,8 @@ import com.alten.practica.modelo.persistencia.interfaz.DaoLibreria;
  * @Autowired Inyecta una instancia de DaoLibreria en el controlador.
  *
  */
+
+/*
 @RestController
 public class ControladorLibreria {
 	
@@ -122,4 +124,4 @@ public class ControladorLibreria {
 		    List<Libreria> lista = daoLibreria.getLibrerias();	    
 		    return new ResponseEntity<>(lista, HttpStatus.OK);
 		}
-}
+}*/
