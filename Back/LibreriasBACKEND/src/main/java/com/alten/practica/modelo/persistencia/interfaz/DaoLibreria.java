@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.alten.practica.modelo.entidad.Libreria;
 
-@Repository
+
 public interface DaoLibreria{
 	
 	//CRUD

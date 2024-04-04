@@ -40,7 +40,7 @@ public class ControladorLibreria {
 		
 		
 		//Dar de alta una libreria en la lista,usamos la anotación @PostMapping.
-		//La URL será: http://localhost:8080/libros
+		//La URL será: http://localhost:8080/librerias
 		
 		@PostMapping(path="librerias",consumes=MediaType.APPLICATION_JSON_VALUE,
 				produces=MediaType.APPLICATION_JSON_VALUE)
