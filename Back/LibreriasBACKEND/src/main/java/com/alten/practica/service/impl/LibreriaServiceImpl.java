@@ -2,6 +2,7 @@ package com.alten.practica.service.impl;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.alten.practica.modelo.entidad.Libreria;
@@ -21,26 +22,26 @@ public class LibreriaServiceImpl implements LibreriaService{
 
 	@Override
 	public Libreria save(Libreria libreria) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.libreriaRepository.save(libreria);
 	}
 
-	@Override
-	public Libreria update(Libreria libreria) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Libreria findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Libreria bean = this.libreriaRepository.findById(id).get();
+		return bean;
 	}
 
 	@Override
 	public List<Libreria> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.libreriaRepository.findAll();
+	}
+
+	@Override
+	public Libreria update(Libreria libreria, int id) {
+		Libreria bean = this.libreriaRepository.findById(id).get();
+		bean.setNombreLibreria(libreria.getNombreLibreria());
+        return this.libreriaRepository.save(bean);
 	}
 
 }

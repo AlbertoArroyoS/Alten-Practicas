@@ -2,13 +2,13 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="PracticasAlten" transaction-type="RESOURCE_LOCAL">
 		<!-- Aqui pondemos todas las clases que queremos que JPA vaya a leer las anotaciones
-		para poder mapearlas a la BBDD -->
+		para poder mapearlas a la BBDD 
 		<class>com.alten.modelo.entidad.Libreria</class>
 		<class>com.alten.modelo.entidad.Libro</class>
 		<class>com.alten.modelo.entidad.Administrador</class>
 		<class>com.alten.modelo.entidad.Cliente</class>
 		<class>com.alten.modelo.entidad.Permiso</class>
-		<class>com.alten.modelo.entidad.Usuario</class>
+		<class>com.alten.modelo.entidad.Usuario</class> -->
 		<properties>
 			<!-- Tenemos una seríe de parametros minimos que decirle a JPA para que se pueda
 			contectar a la BBDD -->
