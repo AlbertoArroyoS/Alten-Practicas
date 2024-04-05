@@ -11,6 +11,8 @@ public class LibreriaConstant {
 	public static final String RESOURCE_LIBRERIA = "/libreria";
 	public static final String RESOURCE_GENERIC_ID = "/{id}";
 	
+	public static final String CLIENTE_FRONTEND = "*";
+	
 	private LibreriaConstant() {
 		super();
 	}

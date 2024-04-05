@@ -8,7 +8,22 @@ import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.repository.LibreriaRepository;
 import com.alten.practica.service.LibreriaService;
 import com.alten.practica.dto.LibreriaDTO;
+import com.alten.practica.dto.request.LibreriaDTORequest;
 
+
+
+
+/**
+ * Clase que implementa la interfaz LibreriaService
+ * 
+ * @see com.alten.practica.service.LibreriaService
+ * 
+ * Ruta para acceder a una libreria por su id:
+ * http://localhost:8080/v1/app-libreria/librerias/libreria/1
+ * Ruta para listar todas las librerias:
+ * http://localhost:8080/v1/app-libreria/librerias/libreria
+ * 
+ */
 @Service
 public class LibreriaServiceImpl implements LibreriaService{
 	
@@ -21,8 +36,10 @@ public class LibreriaServiceImpl implements LibreriaService{
 	}
 
 	@Override
-	public Libreria save(Libreria libreria) {
-		return this.libreriaRepository.save(libreria);
+	public int save(LibreriaDTORequest dto) {
+		Libreria libreria = new Libreria();
+		libreria.setNombreLibreria(dto.getNombre());
+		return this.libreriaRepository.save(libreria).getId();
 	}
 
 
@@ -49,10 +66,11 @@ public class LibreriaServiceImpl implements LibreriaService{
 	}
 
 	@Override
-	public Libreria update(Libreria libreria, int id) {
+	public int update(LibreriaDTORequest dto, int id) {
 		Libreria bean = this.libreriaRepository.findById(id).get();
-		bean.setNombreLibreria(libreria.getNombreLibreria());
-        return this.libreriaRepository.save(bean);
+		bean.setId(id);
+		bean.setNombreLibreria(dto.getNombre());
+        return this.libreriaRepository.save(bean).getId();
 	}
 
 }
