@@ -22,6 +22,10 @@ import com.alten.practica.dto.request.LibreriaDTORequest;
  * http://localhost:8080/v1/app-libreria/librerias/libreria/1
  * Ruta para listar todas las librerias:
  * http://localhost:8080/v1/app-libreria/librerias/libreria
+ * Ruta para editar una libreria:
+ * http://localhost:8080/v1/app-libreria/librerias/libreria/1
+ * Ruta para crear una libreria:
+ * http://localhost:8080/v1/app-libreria/librerias/libreria
  * 
  */
 @Service
