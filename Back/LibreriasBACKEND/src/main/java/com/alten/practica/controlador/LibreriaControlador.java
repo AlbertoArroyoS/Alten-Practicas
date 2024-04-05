@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.service.LibreriaService;
 
@@ -26,13 +27,13 @@ public class LibreriaControlador {
 	
 	//@GetMapping para listar todos las librerias de la base de datos
 	@GetMapping("/findAll")
-	public List<Libreria> findAll () {
+	public List<LibreriaDTO> findAll () {
 		return this.libreriaService.findAll();
 	}
 	
 	//GerMapping para listar 1 libreria por su id
 	@GetMapping("/findById/{id}")
-	public Libreria findById(@PathVariable("id") int id) {
+	public LibreriaDTO findById(@PathVariable("id") int id) {
 		return this.libreriaService.findById(id);
 	}
 	

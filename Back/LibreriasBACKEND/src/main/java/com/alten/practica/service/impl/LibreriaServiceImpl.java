@@ -1,6 +1,8 @@
 package com.alten.practica.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.repository.LibreriaRepository;
 import com.alten.practica.service.LibreriaService;
+import com.alten.practica.dto.LibreriaDTO;
 
 @Service
 public class LibreriaServiceImpl implements LibreriaService{
@@ -27,14 +30,25 @@ public class LibreriaServiceImpl implements LibreriaService{
 
 
 	@Override
-	public Libreria findById(int id) {
+	public LibreriaDTO findById(int id) {
 		Libreria bean = this.libreriaRepository.findById(id).get();
-		return bean;
+		LibreriaDTO libreriaDTO = new LibreriaDTO();
+		libreriaDTO.setId(bean.getId());
+		libreriaDTO.setNombre(bean.getNombreLibreria());
+		return libreriaDTO;
 	}
 
 	@Override
-	public List<Libreria> findAll() {
-		return this.libreriaRepository.findAll();
+	public List<LibreriaDTO> findAll() {
+		List<Libreria> lista = this.libreriaRepository.findAll();
+		List<LibreriaDTO> listaDTO = new ArrayList<>();
+		for (Libreria bean : lista) {
+			LibreriaDTO libreriaDTO = new LibreriaDTO();
+			libreriaDTO.setId(bean.getId());
+			libreriaDTO.setNombre(bean.getNombreLibreria());
+			listaDTO.add(libreriaDTO);
+		}
+		return listaDTO;
 	}
 
 	@Override
