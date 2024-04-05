@@ -29,6 +29,13 @@ public class LibreriaControlador {
 		return this.libreriaService.findAll();
 	}
 	
+	//GerMapping para listar 1 libreria por su id
+	@GetMapping("/findById")
+	public Libreria findById(int id) {
+		return this.libreriaService.findById(id);
+	}
+	
+	
 	
 
 }
