@@ -3,10 +3,7 @@ package com.alten.practica.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.repository.LibreriaRepository;
 import com.alten.practica.service.LibreriaService;
