@@ -18,3 +18,26 @@ VALUES
 
 
 
+
+-- Supongamos que queremos asignar el libro "Cien años de soledad" a la Librería ABC con una cantidad de 20 y un precio de 30.99,
+-- y el libro "Harry Potter y la piedra filosofal" a la Librería XYZ con una cantidad de 15 y un precio de 25.99.
+
+
+-- Obtener los IDs de las librerías y los libros
+DO $$DECLARE
+    libreriaABCId INT;
+    libreriaXYZId INT;
+    cienAniosDeSoledadId INT;
+    harryPotterId INT;
+BEGIN
+    SELECT id_libreria INTO libreriaABCId FROM dbo.librerias WHERE nombre_libreria = 'Librería ABC';
+    SELECT id_libreria INTO libreriaXYZId FROM dbo.librerias WHERE nombre_libreria = 'Librería XYZ';
+    SELECT id_libro INTO cienAniosDeSoledadId FROM dbo.libros WHERE titulo = 'Cien años de soledad';
+    SELECT id_libro INTO harryPotterId FROM dbo.libros WHERE titulo = 'Harry Potter y la piedra filosofal';
+
+    -- Insertar registros en la tabla intermedia
+    INSERT INTO dbo.libreria_libro (libreria_id, libro_id, cantidad, precio)
+    VALUES 
+    (libreriaABCId, cienAniosDeSoledadId, 20, 30.99), -- Para la Librería ABC y "Cien años de soledad"
+    (libreriaXYZId, harryPotterId, 15, 25.99); -- Para la Librería XYZ y "Harry Potter y la piedra filosofal"
+END$$;
