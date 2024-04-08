@@ -28,4 +28,9 @@ public class LibreriaConstant {
 	
 	//ESQUEMA	
 	public static final String ESQUEMA_NOMBRE = "dbo";
+	
+	// =============================================================================================
+	// NOMBRE DE LOS PROCEDIMIENTOS ALMACENADOS
+	// =============================================================================================
+	public static final String SP_SEARCH_AUTOR = "select * from dbo.fn_buscar_autor(?1)";
 }
