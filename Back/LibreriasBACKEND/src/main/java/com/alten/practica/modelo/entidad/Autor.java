@@ -23,7 +23,7 @@ import lombok.ToString;
 public class Autor {
 	
     @Id
-    @Column(name = "id")
+    @Column(name = "id_autor")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "nombre")

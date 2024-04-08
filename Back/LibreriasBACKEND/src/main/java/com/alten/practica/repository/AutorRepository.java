@@ -14,8 +14,8 @@ public interface AutorRepository extends JpaRepository<Autor, Integer>{
 	
 	//LLAMADA A PROCEDIMIENTOS ALMACENADOS
 	
-	//Busqueda de autores por nombre
-	@Query(value = LibreriaConstant.SP_SEARCH_AUTOR, nativeQuery = true)
-	public List<Autor> buscarAutor(String nombre);
+	//Busqueda de autores por nombre, usando un procedimiento almacenado, la funcion fn_buscar_autor de la base de datos
+	@Query(value = LibreriaConstant.SP_SEARCH_AUTOR, nativeQuery = true , countQuery = LibreriaConstant.SP_SEARCH_CONTAR_AUTORES)
+	public List<Autor> buscarKeyWordSQL(String nombre);
 
 }

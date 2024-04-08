@@ -8,8 +8,10 @@ public class LibreriaConstant {
 	//contexto de la aplicacion
 	public static final String RESOURCE_GENERIC = API_VERSION + "/app-libreria";	
 	//Recursos, path del sistema libreria
-	public static final String RESOURCE_LIBRERIAS = "/librerias";	
+	public static final String RESOURCE_LIBRERIAS = "/librerias";
+	public static final String RESOURCE_AUTORES = "/autores";
 	public static final String RESOURCE_LIBRERIA = "/libreria";
+	public static final String RESOURCE_AUTOR = "/autor";
 	public static final String RESOURCE_GENERIC_ID = "/{id}";
 	
 	public static final String CLIENTE_FRONTEND = "*";
@@ -32,5 +34,6 @@ public class LibreriaConstant {
 	// =============================================================================================
 	// NOMBRE DE LOS PROCEDIMIENTOS ALMACENADOS
 	// =============================================================================================
-	public static final String SP_SEARCH_AUTOR = "select * from dbo.fn_buscar_autor(?1)";
+	public static final String SP_SEARCH_AUTOR = "select * from dbo.fn_buscar_autor(?)";
+	public static final String SP_SEARCH_CONTAR_AUTORES = "select count(*) from dbo.fn_buscar_autor(?)";	
 }

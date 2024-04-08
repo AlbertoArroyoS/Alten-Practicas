@@ -2,6 +2,7 @@ package com.alten.practica.dto;
 
 import java.io.Serializable;
 
+import lombok.Builder;
 import lombok.Data;
 /**
  * Clase que representa un DTO para usar en Spring una entidad de datos que se 
