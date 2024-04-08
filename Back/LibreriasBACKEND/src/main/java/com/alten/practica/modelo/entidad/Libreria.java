@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
@@ -37,12 +38,9 @@ public class Libreria {
 	@Column(name = "nivel_permiso")
 	private int nivelPermiso;
 	
-	@ManyToMany
-    @JoinTable(
-        name = "libreria_libro",
-        joinColumns = @JoinColumn(name = "libreria_id"),
-        inverseJoinColumns = @JoinColumn(name = "libro_id"))
-    private List<Libro> libros;
+	@OneToMany(mappedBy = "libreria")
+	private List<LibreriaLibro> libreriaLibros;
+
 	
 	public Libreria() {
 		super();

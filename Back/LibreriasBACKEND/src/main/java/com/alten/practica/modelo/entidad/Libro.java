@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
@@ -37,8 +38,9 @@ public class Libro {
     @Column(name = "precio")
     private double precio;
     
-    @ManyToMany(mappedBy = "libros")
-    private List<Libreria> librerias;
+    @OneToMany(mappedBy = "libro")
+    private List<LibreriaLibro> libreriaLibros;
+
 
 	public Libro() {
 		super();
