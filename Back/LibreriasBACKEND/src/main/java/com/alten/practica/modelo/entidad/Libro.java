@@ -1,10 +1,13 @@
 package com.alten.practica.modelo.entidad;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
@@ -33,6 +36,9 @@ public class Libro {
 	private String descripcion;
     @Column(name = "precio")
     private double precio;
+    
+    @ManyToMany(mappedBy = "libros")
+    private List<Libreria> librerias;
 
 	public Libro() {
 		super();
