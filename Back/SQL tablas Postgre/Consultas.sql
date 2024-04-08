@@ -35,7 +35,7 @@ WHERE
     dbo.fn_pre_format_cadena(lower(concat(ta.nombre, ' ', ta.apellidos))) LIKE '%' || dbo.fn_pre_format_cadena(lower('Gabriel') || '%');
    
    
- -- Buscar por nombre usando la funcion de quitar las tildes y borrando los espacios en blanco
+ -- Buscar por nombre usando la funcion de quitar las tildes y borrando los espacios en blanco, donde encuentre el caracter del espacio 32 lo ponga vacio
    
 SELECT
     ta.id,
@@ -44,10 +44,14 @@ SELECT
 FROM
     dbo.autores ta
 WHERE
-    replace(dbo.fn_pre_format_cadena(lower(concat(ta.nombre, ta.apellidos))), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower('Gabriel')), chr(32), '') || '%';
+    replace(dbo.fn_pre_format_cadena(lower(concat(ta.nombre, ta.apellidos))), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower('St')), chr(32), '') || '%';
 
    
 
+ -- Uscar la funcion para buscar por nombre
    
-   
+select * from dbo.autores a ;
 
+select * from dbo.fn_buscar_autor('lee');
+
+select dbo.fn_formar_cadena(nombre) from dbo.autores;

@@ -26,33 +26,35 @@ language 'plpgsql';
 
 
 ----------------------------------------------------------------------
---fn_search_author function **FUNCION PARA BUSCAR POR NOMBRE DEL AUTOR
+--fn_buscar_autor function **FUNCION PARA BUSCAR POR NOMBRE DEL AUTOR
 ----------------------------------------------------------------------
-create or replace function dbo.fn_search_author(
-in in_key_word varchar,
-in in_state varchar
-)returns table(
-idauthor int,
-name varchar,
-lastname varchar,
-state varchar
+   
+-- crear funcion para buscar por nombre
+   
+create or replace function dbo.fn_buscar_autor(
+    in in_key_word varchar
+) returns table (
+    id_autor int,
+    nombre varchar,
+    apellido varchar
 )
 as 
 $$
 begin
-	return query(
-	select 
-	ta.idauthor,
-	ta."name",
-	ta.lastname,
-	ta.state
-	from dbo.t_author ta 
-	where ta.state = in_state and 
-	replace(dbo.fn_pre_format_cadena(lower(concat(ta."name" || ta.lastname))),chr(32),'') like '%'|| replace(dbo.fn_pre_format_cadena(lower(in_key_word)),chr(32),'') ||'%'
-	);
+    return query (
+        SELECT
+            ta.id,
+            ta."nombre",
+            ta.apellidos 
+        FROM
+            dbo.autores ta
+        WHERE
+            replace(dbo.fn_pre_format_cadena(lower(concat(ta.nombre, ta.apellidos))), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower(in_key_word)), chr(32), '') || '%'
+    );
 end;
 $$
 language 'plpgsql';
+
 
 
 select * from dbo.libros l 
