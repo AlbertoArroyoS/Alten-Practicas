@@ -29,9 +29,9 @@ public class Libro {
 	private String titulo;
 	
 	@ManyToOne
-	@JoinColumn(name = "autor_id")
-	
+	@JoinColumn(name = "autor_id")	
 	private Autor autor;
+	
 	@Column(name = "genero")
 	private String genero;
 	@Column(name = "paginas")
