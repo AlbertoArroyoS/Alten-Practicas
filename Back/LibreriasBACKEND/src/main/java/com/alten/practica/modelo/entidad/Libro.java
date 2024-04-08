@@ -2,6 +2,8 @@ package com.alten.practica.modelo.entidad;
 
 import java.util.List;
 
+import com.alten.practica.constantes.LibreriaConstant;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ import lombok.ToString;
 @Data
 @ToString
 @Entity
-@Table(name = "libros", schema = "dbo")
+@Table(name = LibreriaConstant.TABLA_NOMBRE_LIBROS, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class Libro {
 	
 	@Id

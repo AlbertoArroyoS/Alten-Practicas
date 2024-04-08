@@ -1,6 +1,9 @@
 package com.alten.practica.modelo.entidad;
 
 import java.util.List;
+
+import com.alten.practica.constantes.LibreriaConstant;
+
 import jakarta.persistence.JoinColumn;
 
 import jakarta.persistence.Column;
@@ -13,14 +16,12 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 @Data
 @ToString
 @Entity
-@Table(name = "librerias", schema = "dbo")
+@Table(name = LibreriaConstant.TABLA_NOMBRE_LIBRERIAS, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class Libreria {
 	
 	@Id

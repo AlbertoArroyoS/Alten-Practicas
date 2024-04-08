@@ -18,7 +18,14 @@ public class LibreriaConstant {
 		super();
 	}
 	
+	//NOMBRES TABLAS
+	public static final String TABLA_NOMBRE_AUTORES = "autores";
+	public static final String TABLA_NOMBRE_LIBROS = "libros";
+	public static final String TABLA_NOMBRE_LIBRERIAS = "librerias";
+	public static final String TABLA_NOMBRE_LIBRERIA_LIBRO = "libreria_libro";
+	public static final String TABLA_NOMBRE_USUARIOS = "usuarios";
 	
 	
-
+	//ESQUEMA	
+	public static final String ESQUEMA_NOMBRE = "dbo";
 }
