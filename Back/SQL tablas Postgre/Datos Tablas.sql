@@ -42,6 +42,26 @@ BEGIN
     (350, 30.75, stephenId, 'Jack Torrance, un aspirante a escritor y alcohólico en recuperación, acepta un trabajo como cuidador de invierno del Hotel Overlook en las montañas de Colorado, lo que lleva a una serie de eventos terroríficos.', 'Doubleday', 'Terror', 'El resplandor');
 END$$;
 
+--De forma individual
+
+DO $$
+DECLARE
+    gabrielId INT;
+BEGIN
+    -- Obtener el ID del autor
+    SELECT id INTO gabrielId FROM dbo.autores WHERE nombre = 'Gabriel' AND apellidos = 'García Márquez';
+   
+    -- Insertar datos de libros con el ID del autor
+    INSERT INTO dbo.libros (paginas, precio, autor_id, descripcion, editorial, genero, titulo)
+    VALUES 
+    (300, 25.99, gabrielId, 'Una saga familiar que abarca varias generaciones de la familia Buendía en el ficticio pueblo de Macondo, describiendo la historia de su fundación y la decadencia de la familia.', 'Editorial Sudamericana', 'Ficción', 'Cien años de soledad');
+    
+    -- Guardar los cambios
+    COMMIT;
+END$$;
+
+
+
 --4. Asignar libro a libreria
 -- Ahora Supongamos que queremos asignar el libro "Cien años de soledad" a la Librería ABC con una cantidad de 20 y un precio de 30.99,
 -- y el libro "Harry Potter y la piedra filosofal" a la Librería XYZ con una cantidad de 15 y un precio de 25.99.
