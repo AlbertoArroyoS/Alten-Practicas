@@ -1,3 +1,4 @@
+-- Ver datos tablas
 select * from dbo.librerias l
 select * from dbo.autores a 
 select * from dbo.libros l 
@@ -5,6 +6,14 @@ select * from dbo.libreria_libro ll
 
 delete from dbo.libreria_libro 
 delete from dbo.libros
+
+-- borrar tablas
+
+DROP TABLE dbo.librerias
+DROP TABLE dbo.autores
+DROP TABLE dbo.libros 
+DROP TABLE dbo.libreria_libro
+
 
 SELECT id FROM dbo.autores WHERE nombre = 'Gabriel' AND apellidos = 'García Márquez';
 
@@ -55,3 +64,7 @@ select * from dbo.autores a ;
 select * from dbo.fn_buscar_autor('lee');
 
 select dbo.fn_formar_cadena(nombre) from dbo.autores;
+
+select count(*) from dbo.fn_buscar_autor('st')
+
+select * from dbo.fn_buscar_autor('le')
