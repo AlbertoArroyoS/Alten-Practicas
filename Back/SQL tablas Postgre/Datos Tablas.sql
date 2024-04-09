@@ -28,10 +28,10 @@ DECLARE
     stephenId INT;
 BEGIN
     -- Obtener los IDs de los autores
-    SELECT id INTO gabrielId FROM dbo.autores WHERE nombre = 'Gabriel' AND apellidos = 'García Márquez';
-    SELECT id INTO jkId FROM dbo.autores WHERE nombre = 'J.K.' AND apellidos = 'Rowling';
-    SELECT id INTO harperId FROM dbo.autores WHERE nombre = 'Harper' AND apellidos = 'Lee';
-    SELECT id INTO stephenId FROM dbo.autores WHERE nombre = 'Stephen' AND apellidos = 'King';
+    SELECT id_autor INTO gabrielId FROM dbo.autores WHERE nombre = 'Gabriel' AND apellidos = 'García Márquez';
+    SELECT id_autor INTO jkId FROM dbo.autores WHERE nombre = 'J.K.' AND apellidos = 'Rowling';
+    SELECT id_autor INTO harperId FROM dbo.autores WHERE nombre = 'Harper' AND apellidos = 'Lee';
+    SELECT id_autor INTO stephenId FROM dbo.autores WHERE nombre = 'Stephen' AND apellidos = 'King';
     
     -- Insertar datos de libros con los IDs de autores
     INSERT INTO dbo.libros (paginas, precio, autor_id, descripcion, editorial, genero, titulo)

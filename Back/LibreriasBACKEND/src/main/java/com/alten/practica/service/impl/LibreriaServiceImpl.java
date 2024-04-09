@@ -44,6 +44,7 @@ public class LibreriaServiceImpl implements LibreriaService{
 		Libreria libreria = new Libreria();
 		libreria.setNombreLibreria(dto.getNombre());
 		return this.libreriaRepository.save(libreria).getId();
+		
 	}
 
 
@@ -76,5 +77,6 @@ public class LibreriaServiceImpl implements LibreriaService{
 		bean.setNombreLibreria(dto.getNombre());
         return this.libreriaRepository.save(bean).getId();
 	}
+
 
 }
