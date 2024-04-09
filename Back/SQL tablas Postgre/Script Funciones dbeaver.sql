@@ -61,20 +61,20 @@ language 'plpgsql';
 select * from dbo.libros l 
 
 ----------------------------------------------------------------------
---fn_save_author function
+--fn_save_author function -- FUNCION PARA GUARDAR UN AUTOR
 ----------------------------------------------------------------------
-create or replace function dbo.fn_save_author(
-in in_name varchar,
-in in_lastName varchar
+create or replace function dbo.fn_guardar_autor(
+in in_nombre varchar,
+in in_apellidos varchar
 )
-returns setof dbo.t_author 
+returns setof dbo.autores
 as 
 $$
 begin 
-	insert into dbo.t_author(name,lastname,state)
-	values(in_name,in_lastname,default);
+	insert into dbo.autores(nombre,apellidos)
+	values(in_nombre,in_apellidos);
 	return query
-    select ta.* from dbo.t_author ta where ta.idauthor = lastval();
+    select a.* from dbo.autores a where a.id_autor = lastval();
 end;
 $$
 language 'plpgsql';
