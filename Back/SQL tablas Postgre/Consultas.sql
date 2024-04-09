@@ -98,6 +98,7 @@ WHERE
 SELECT
     ta.id_libro,
     ta.titulo ,
+    ta.autor_id ,
     dbo.autores.nombre AS nombre_autor,
     dbo.autores.apellidos as apellidos_autor,
     ta.genero,

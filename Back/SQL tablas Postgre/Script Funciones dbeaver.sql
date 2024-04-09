@@ -78,3 +78,53 @@ begin
 end;
 $$
 language 'plpgsql';
+
+
+----------------------------------------------------------------------
+--fn_buscar_libro function **FUNCION PARA BUSCAR POR NOMBRE DEL LIBRO
+----------------------------------------------------------------------
+ 
+
+-- crear funcion para buscar por nombre
+      
+create or replace function dbo.fn_buscar_nombre_libro (
+    in in_key_word varchar
+) 
+returns table (
+    id_libro int,
+    titulo varchar,
+    id_autor int,
+    nombre varchar,
+    apellidos varchar,
+    genero varchar,
+    paginas int,
+    editorial varchar,
+    descripcion varchar,
+    precio double precision
+)
+as 
+$$
+begin
+    return query (
+        SELECT
+		    ta.id_libro,
+		    ta.titulo ,
+		    ta.autor_id ,
+		    dbo.autores.nombre AS nombre_autor,
+		    dbo.autores.apellidos as apellidos_autor,
+		    ta.genero,
+		    ta.paginas,
+		    ta.editorial,
+		    ta.descripcion,
+		    ta.precio 
+		FROM
+		    dbo.libros ta
+		JOIN
+		    dbo.autores ON ta.autor_id = dbo.autores.id_autor
+		WHERE
+		    replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower(in_key_word)), chr(32), '') || '%'
+    );
+end;
+$$
+language 'plpgsql';
+
