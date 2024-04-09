@@ -5,12 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.alten.practica.dto.AutorDTO;
-import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
-import com.alten.practica.modelo.entidad.Autor;
-import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.modelo.entidad.Libro;
 import com.alten.practica.repository.LibroRepository;
 import com.alten.practica.service.LibroService;
