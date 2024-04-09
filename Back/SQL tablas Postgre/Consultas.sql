@@ -15,6 +15,11 @@ DROP TABLE dbo.libros
 DROP TABLE dbo.libreria_libro
 
 
+DROP FUNCTION IF EXISTS dbo.fn_guardar_autor(character varying, character varying) CASCADE;
+DROP TABLE IF EXISTS dbo.autores CASCADE;
+
+-- 
+
 SELECT id FROM dbo.autores WHERE nombre = 'Gabriel' AND apellidos = 'García Márquez';
 
 -- QUITAR LAS TILDES A UNA COLUMNA DE UNA TABLA USANDO LA FUNCION CREADA fn_pre_format_cadena
@@ -113,5 +118,8 @@ JOIN
 WHERE
     replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower('cien')), chr(32), '') || '%';
 
+-- funcion para buscar titulo libro
+   
+select * from dbo.fn_buscar_nombre_libro('a');
 
 

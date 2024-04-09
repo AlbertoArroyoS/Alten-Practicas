@@ -3,6 +3,8 @@ package com.alten.practica.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.LibroDTO;
@@ -13,6 +15,7 @@ import com.alten.practica.modelo.entidad.Libro;
 import com.alten.practica.repository.LibroRepository;
 import com.alten.practica.service.LibroService;
 
+@Service
 public class LibroServiceImpl implements LibroService{
 	
 	LibroRepository libroRepository;
@@ -52,13 +55,15 @@ public class LibroServiceImpl implements LibroService{
 	public LibroDTO findById(int id) {
 		Libro bean = this.libroRepository.findById(id).get();
 		LibroDTO libroDTO = new LibroDTO();
-		libroDTO.setTitulo(bean.getTitulo());
-		libroDTO.setAutor(bean.getAutor());
-		libroDTO.setGenero(bean.getGenero());
-		libroDTO.setPaginas(bean.getPaginas());
-		libroDTO.setEditorial(bean.getEditorial());
-		libroDTO.setDescripcion(bean.getDescripcion());
-		libroDTO.setPrecio(bean.getPrecio());
+			libroDTO.setTitulo(bean.getTitulo());
+			libroDTO.setIdAutor(bean.getAutor().getId());
+			libroDTO.setAutorNombre(bean.getAutor().getNombre());
+			libroDTO.setAutorApellido(bean.getAutor().getApellidos());
+			libroDTO.setGenero(bean.getGenero());
+			libroDTO.setPaginas(bean.getPaginas());
+			libroDTO.setEditorial(bean.getEditorial());
+			libroDTO.setDescripcion(bean.getDescripcion());
+			libroDTO.setPrecio(bean.getPrecio());			
 		return libroDTO;
 	
 	}
@@ -70,12 +75,14 @@ public class LibroServiceImpl implements LibroService{
 		for (Libro bean : lista) {
 			LibroDTO libroDTO = new LibroDTO();
 			libroDTO.setTitulo(bean.getTitulo());
-			libroDTO.setAutor(bean.getAutor());
+			libroDTO.setIdAutor(bean.getAutor().getId());
+			libroDTO.setAutorNombre(bean.getAutor().getNombre());
+			libroDTO.setAutorApellido(bean.getAutor().getApellidos());
 			libroDTO.setGenero(bean.getGenero());
 			libroDTO.setPaginas(bean.getPaginas());
 			libroDTO.setEditorial(bean.getEditorial());
 			libroDTO.setDescripcion(bean.getDescripcion());
-			libroDTO.setPrecio(bean.getPrecio());
+			libroDTO.setPrecio(bean.getPrecio());			
 			listaDTO.add(libroDTO);
 		}
 		return listaDTO;
@@ -90,11 +97,24 @@ public class LibroServiceImpl implements LibroService{
 
 	@Override
 	public List<LibroDTO> findByTitle(String title) {
-		List<Libro> lista = this.libroRepository.findByTitle(title);
+		List<Libro> lista = this.libroRepository.buscarKeyWordSQL(title);
+		List<LibroDTO> listaDTO = new ArrayList<>();
+		for (Libro bean : lista) {
+			LibroDTO libroDTO = new LibroDTO();
+			libroDTO.setTitulo(bean.getTitulo());
+			libroDTO.setIdAutor(bean.getAutor().getId());
+			libroDTO.setAutorNombre(bean.getAutor().getNombre());
+			libroDTO.setAutorApellido(bean.getAutor().getApellidos());
+			libroDTO.setGenero(bean.getGenero());
+			libroDTO.setPaginas(bean.getPaginas());
+			libroDTO.setEditorial(bean.getEditorial());
+			libroDTO.setDescripcion(bean.getDescripcion());
+			libroDTO.setPrecio(bean.getPrecio());	
+			listaDTO.add(libroDTO);
+		}
+		return listaDTO;
 		
 	}
 	
-	
-
 
 }

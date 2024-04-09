@@ -40,14 +40,14 @@ public class AutorControlador {
 		this.autorService = autorService;
 	}
 	
-	//@GetMapping para listar todos las librerias de la base de datos
+	//@GetMapping para buscar por key_word
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
 	public List<AutorDTO> buscarKeyWordSQL (@RequestParam String key_word) {
 		return this.autorService.buscarKeyWordSQL(key_word);
 	}
 	
 	
-	//@GetMapping para listar todos las librerias de la base de datos
+	//Metodo para crear un autor
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
 	public AutorDTO nuevoAutorSQL (@RequestBody AutorDTORequest dto) {
 		return this.autorService.nuevoAutorSQL(dto);

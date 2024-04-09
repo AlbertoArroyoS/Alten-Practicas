@@ -10,7 +10,9 @@ import lombok.Data;
 public class LibroDTO {
 
 	private String titulo;
-	private Autor autor;
+	private int idAutor;
+	private String autorNombre;
+	private String autorApellido;
 	private String genero;
 	private int paginas;
 	private String editorial;

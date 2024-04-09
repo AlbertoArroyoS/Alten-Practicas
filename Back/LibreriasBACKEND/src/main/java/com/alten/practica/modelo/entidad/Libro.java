@@ -31,7 +31,7 @@ public class Libro {
 	private String titulo;
 	
 	@ManyToOne
-	@JoinColumn(name = "autor_id")	
+	@JoinColumn(name = "id_autor" , referencedColumnName = "id_autor")	
 	private Autor autor;
 	
 	@Column(name = "genero")

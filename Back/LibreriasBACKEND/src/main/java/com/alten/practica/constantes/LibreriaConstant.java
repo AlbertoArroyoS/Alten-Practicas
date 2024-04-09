@@ -17,8 +17,10 @@ public class LibreriaConstant {
 	// =============================================================================================
 	public static final String RESOURCE_LIBRERIAS = "/librerias";
 	public static final String RESOURCE_AUTORES = "/autores";
+	public static final String RESOURCE_LIBROS = "/libros";
 	public static final String RESOURCE_LIBRERIA = "/libreria";
 	public static final String RESOURCE_AUTOR = "/autor";
+	public static final String RESOURCE_LIBRO = "/libro";
 	public static final String RESOURCE_GENERIC_ID = "/{id}";
 	
 	
@@ -51,4 +53,6 @@ public class LibreriaConstant {
 	public static final String SP_SEARCH_AUTOR = "select * from dbo.fn_buscar_autor(?)";
 	public static final String SP_SEARCH_CONTAR_AUTORES = "select count(*) from dbo.fn_buscar_autor(?)";
 	public static final String SP_NUEVO_AUTOR = "select * from dbo.fn_guardar_autor(?1,?2);";
+	public static final String SP_SEARCH_LIBRO = "select * from dbo.fn_buscar_nombre_libro(?)";
+	public static final String SP_SEARCH_CONTAR_LIBROS = "select count(*) from dbo.fn_buscar_nombre_libro(?)";
 }
