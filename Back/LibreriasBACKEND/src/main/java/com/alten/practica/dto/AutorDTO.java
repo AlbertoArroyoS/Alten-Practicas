@@ -11,6 +11,5 @@ public class AutorDTO implements Serializable{
 	
 	private int id;
 	private String nombre;
-	private String apellidos;
 
 }
