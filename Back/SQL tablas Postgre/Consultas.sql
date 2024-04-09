@@ -76,21 +76,41 @@ select * from dbo.fn_guardar_autor('Alberto','Arroyo Santofimia');
 
 
 
---
-DO $$DECLARE
-    libreriaABCId INT;
-    libreriaXYZId INT;
-    cienAniosDeSoledadId INT;
-    harryPotterId INT;
-BEGIN
-    SELECT id_libreria INTO libreriaABCId FROM dbo.librerias WHERE nombre_libreria = 'Librería ABC';
-    SELECT id_libreria INTO libreriaXYZId FROM dbo.librerias WHERE nombre_libreria = 'Librería XYZ';
-    SELECT id_libro INTO cienAniosDeSoledadId FROM dbo.libros WHERE titulo = 'Cien años de soledad';
-    SELECT id_libro INTO harryPotterId FROM dbo.libros WHERE titulo = 'Harry Potter y la piedra filosofal';
+-- Buscar por nombre de libro
+select * from dbo.libros l 
 
-    -- Insertar registros en la tabla intermedia
-    INSERT INTO dbo.libreria_libro (libreria_id, libro_id, cantidad, precio)
-    VALUES 
-    (libreriaABCId, cienAniosDeSoledadId, 20, 30.99), -- Para la Librería ABC y "Cien años de soledad"
-    (libreriaXYZId, harryPotterId, 15, 25.99); -- Para la Librería XYZ y "Harry Potter y la piedra filosofal"
-END$$;
+SELECT
+    ta.id_libro,
+    ta.titulo ,
+    ta.autor_id,
+    ta.genero,
+    ta.paginas,
+    ta.editorial,
+    ta.descripcion,
+    ta.precio 
+FROM
+    dbo.libros ta
+WHERE
+    replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower('cien')), chr(32), '') || '%';
+   
+-- buscar por nombre del libro y que con un join nos del el nombre y el apellido, no el id
+   
+SELECT
+    ta.id_libro,
+    ta.titulo ,
+    dbo.autores.nombre AS nombre_autor,
+    dbo.autores.apellidos as apellidos_autor,
+    ta.genero,
+    ta.paginas,
+    ta.editorial,
+    ta.descripcion,
+    ta.precio 
+FROM
+    dbo.libros ta
+JOIN
+    dbo.autores ON ta.autor_id = dbo.autores.id_autor
+WHERE
+    replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower('cien')), chr(32), '') || '%';
+
+
+

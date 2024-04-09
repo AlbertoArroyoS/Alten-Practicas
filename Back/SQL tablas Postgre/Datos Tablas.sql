@@ -34,7 +34,7 @@ BEGIN
     SELECT id_autor INTO stephenId FROM dbo.autores WHERE nombre = 'Stephen' AND apellidos = 'King';
     
     -- Insertar datos de libros con los IDs de autores
-    INSERT INTO dbo.libros (paginas, precio, autor_id, descripcion, editorial, genero, titulo)
+    INSERT INTO dbo.libros (paginas, precio, id_autor, descripcion, editorial, genero, titulo)
     VALUES 
     (300, 25.99, gabrielId, 'Una saga familiar que abarca varias generaciones de la familia Buendía en el ficticio pueblo de Macondo, describiendo la historia de su fundación y la decadencia de la familia.', 'Editorial Sudamericana', 'Ficción', 'Cien años de soledad'),
     (400, 19.99, jkId, 'La historia sigue a Harry Potter, un joven mago, mientras descubre su verdadera identidad y lucha contra Lord Voldemort, el mago tenebroso que intentó asesinarlo cuando era un bebé.', 'Salani Editore', 'Fantasía', 'Harry Potter y la piedra filosofal'),
