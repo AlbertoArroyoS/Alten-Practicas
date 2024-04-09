@@ -1,13 +1,16 @@
 package com.alten.practica.service.impl;
 
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.alten.practica.dto.AutorDTO;
+import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.repository.AutorRepository;
+
 import com.alten.practica.service.AutorService;
 
 
@@ -40,6 +43,20 @@ public class AutorServiceImpl implements AutorService{
 				.collect(Collectors.toList());
 
 	}
+
+
+
+	@Override
+	public AutorDTO nuevoAutorSQL(AutorDTORequest dto) {		
+		//convertir a dto con el metodo convertirEntidadADto
+		return convertirEntidadADto(this.autorRepository.nuevoAutorSQL(dto.getNombre(), dto.getApellidos()));
+
+	}
+
+
+
+
+
 	
 
 }

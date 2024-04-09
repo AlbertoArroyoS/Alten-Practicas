@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.AutorDTO;
+import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.service.AutorService;
 
 /*
@@ -42,4 +45,13 @@ public class AutorControlador {
 	public List<AutorDTO> buscarKeyWordSQL (@RequestParam String key_word) {
 		return this.autorService.buscarKeyWordSQL(key_word);
 	}
+	
+	
+	//@GetMapping para listar todos las librerias de la base de datos
+	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
+	public AutorDTO nuevoAutorSQL (@RequestBody AutorDTORequest dto) {
+		return this.autorService.nuevoAutorSQL(dto);
+	}
+	
+	
 }

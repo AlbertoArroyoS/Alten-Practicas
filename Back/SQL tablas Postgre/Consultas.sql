@@ -57,7 +57,7 @@ WHERE
 
    
 
- -- Uscar la funcion para buscar por nombre
+ -- Usar la funcion para buscar por nombre
    
 select * from dbo.autores a ;
 
@@ -68,3 +68,6 @@ select dbo.fn_format_cadena(nombre) from dbo.autores;
 select count(*) from dbo.fn_buscar_autor('st')
 
 select * from dbo.fn_buscar_autor('le')
+
+
+-- (Usar la funcion para guardar un autor)

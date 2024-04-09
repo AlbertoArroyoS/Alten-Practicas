@@ -2,38 +2,53 @@ package com.alten.practica.constantes;
 
 public class LibreriaConstant {
 
-	//API version
+	// =============================================================================================
+	// API VERSION
+	// =============================================================================================
 	public static final String API_VERSION = "/v1";
 
-	//contexto de la aplicacion
+	// =============================================================================================
+	// CONTEXTO DE LA APLICACION
+	// =============================================================================================
 	public static final String RESOURCE_GENERIC = API_VERSION + "/app-libreria";	
-	//Recursos, path del sistema libreria
+	
+	// =============================================================================================
+	// PATH DEL SISTEMA LIBRERIA. RECURSOS
+	// =============================================================================================
 	public static final String RESOURCE_LIBRERIAS = "/librerias";
 	public static final String RESOURCE_AUTORES = "/autores";
 	public static final String RESOURCE_LIBRERIA = "/libreria";
 	public static final String RESOURCE_AUTOR = "/autor";
 	public static final String RESOURCE_GENERIC_ID = "/{id}";
 	
+	
+	// =============================================================================================
+	// PATH DEL SISTEMA LIBRERIA FRONT END
+	// =============================================================================================
 	public static final String CLIENTE_FRONTEND = "*";
 	
 	private LibreriaConstant() {
 		super();
 	}
 	
-	//NOMBRES TABLAS
+	// =============================================================================================
+	// NOMBRE DE LAS TABLAS
+	// =============================================================================================
 	public static final String TABLA_NOMBRE_AUTORES = "autores";
 	public static final String TABLA_NOMBRE_LIBROS = "libros";
 	public static final String TABLA_NOMBRE_LIBRERIAS = "librerias";
 	public static final String TABLA_NOMBRE_LIBRERIA_LIBRO = "libreria_libro";
 	public static final String TABLA_NOMBRE_USUARIOS = "usuarios";
 	
-	
-	//ESQUEMA	
+	// =============================================================================================
+	// NOMBRE DE LOS ESQUEMAS
+	// =============================================================================================
 	public static final String ESQUEMA_NOMBRE = "dbo";
 	
 	// =============================================================================================
-	// NOMBRE DE LOS PROCEDIMIENTOS ALMACENADOS
+	// NOMBRE DE LOS PROCEDIMIENTOS ALMACENADOS (FUNCIONES DE SQL SERVER)
 	// =============================================================================================
 	public static final String SP_SEARCH_AUTOR = "select * from dbo.fn_buscar_autor(?)";
-	public static final String SP_SEARCH_CONTAR_AUTORES = "select count(*) from dbo.fn_buscar_autor(?)";	
+	public static final String SP_SEARCH_CONTAR_AUTORES = "select count(*) from dbo.fn_buscar_autor(?)";
+	public static final String SP_NUEVO_AUTOR = "select * from dbo.fn_guardar_autor(?1,?2);";
 }
