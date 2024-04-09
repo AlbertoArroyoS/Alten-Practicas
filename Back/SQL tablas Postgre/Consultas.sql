@@ -63,7 +63,7 @@ select * from dbo.autores a ;
 
 select * from dbo.fn_buscar_autor('lee');
 
-select dbo.fn_formar_cadena(nombre) from dbo.autores;
+select dbo.fn_format_cadena(nombre) from dbo.autores;
 
 select count(*) from dbo.fn_buscar_autor('st')
 

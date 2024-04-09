@@ -28,7 +28,8 @@ language 'plpgsql';
 ----------------------------------------------------------------------
 --fn_buscar_autor function **FUNCION PARA BUSCAR POR NOMBRE DEL AUTOR
 ----------------------------------------------------------------------
-   
+ 
+
 -- crear funcion para buscar por nombre
    
 create or replace function dbo.fn_buscar_autor(
@@ -36,14 +37,14 @@ create or replace function dbo.fn_buscar_autor(
 ) returns table (
     id_autor int,
     nombre varchar,
-    apellido varchar
+    apellidos varchar
 )
 as 
 $$
 begin
     return query (
         SELECT
-            ta.id,
+            ta.id_autor,
             ta."nombre",
             ta.apellidos 
         FROM
