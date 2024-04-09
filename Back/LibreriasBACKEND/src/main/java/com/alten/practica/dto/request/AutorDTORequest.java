@@ -14,4 +14,14 @@ public class AutorDTORequest implements Serializable	{
 	//atributos que nos envia el cliente
 	private String nombre;
 	private String apellidos;
+	
+	public AutorDTORequest() {
+		super();
+	}
+	
+	public AutorDTORequest(String nombre, String apellidos) {
+		super();
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+	}
 }

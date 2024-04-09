@@ -55,6 +55,28 @@ public class AutorServiceImpl implements AutorService{
 
 
 
+	@Override
+	public AutorDTO buscarPorId(int id) {
+		// Buscar el autor por su ID en el repositorio de autores
+	    Autor autor = autorRepository.findById(id).orElse(null);
+	    
+	    // Verificar si el autor existe
+	    if (autor != null) {
+	        // Si existe, crear un objeto AutorDTO y copiar los datos del autor a él
+	        AutorDTO autorDTO = new AutorDTO(autor.getId(), autor.getNombre() + " " + autor.getApellidos());
+	        autorDTO.setId(autor.getId());
+	        autorDTO.setNombre(autor.getNombre()+ " " + autor.getApellidos());
+	        
+	        // Devolver el objeto AutorDTO
+	        return autorDTO;
+	    } else {
+	        // Si el autor no existe, devolver null o manejar el caso según tus necesidades
+	        return null;
+	    }
+	}
+
+
+
 
 
 	

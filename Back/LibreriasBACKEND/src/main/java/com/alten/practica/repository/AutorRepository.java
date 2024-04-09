@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.alten.practica.constantes.LibreriaConstant;
+import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
 
 @Repository
@@ -20,5 +21,7 @@ public interface AutorRepository extends JpaRepository<Autor, Integer>{
 	
 	@Query(value = LibreriaConstant.SP_NUEVO_AUTOR, nativeQuery = true)
 	public Autor nuevoAutorSQL(String nombre, String apellidos);
+
+	
 
 }

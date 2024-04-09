@@ -109,7 +109,7 @@ begin
         SELECT
 		    ta.id_libro,
 		    ta.titulo ,
-		    ta.autor_id ,
+		    ta.id_autor,
 		    dbo.autores.nombre AS nombre_autor,
 		    dbo.autores.apellidos as apellidos_autor,
 		    ta.genero,
@@ -120,7 +120,7 @@ begin
 		FROM
 		    dbo.libros ta
 		JOIN
-		    dbo.autores ON ta.autor_id = dbo.autores.id_autor
+		    dbo.autores ON ta.id_autor = dbo.autores.id_autor
 		WHERE
 		    replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower(in_key_word)), chr(32), '') || '%'
     );

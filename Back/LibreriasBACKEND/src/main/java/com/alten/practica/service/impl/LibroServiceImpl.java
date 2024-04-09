@@ -5,9 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibroDTO;
+import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.dto.request.LibroDTORequest;
+import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libro;
+import com.alten.practica.repository.AutorRepository;
 import com.alten.practica.repository.LibroRepository;
 import com.alten.practica.service.LibroService;
 
@@ -15,23 +19,51 @@ import com.alten.practica.service.LibroService;
 public class LibroServiceImpl implements LibroService{
 	
 	LibroRepository libroRepository;
+	AutorRepository autorRepository;
 	
 	public LibroServiceImpl(LibroRepository libroRepository) {
 		this.libroRepository = libroRepository;
+		this.autorRepository = autorRepository;
 	}
-
+	
 	@Override
 	public int save(LibroDTORequest dto) {
-		Libro libro = new Libro();
-		libro.setTitulo(dto.getTitulo());
-		libro.setAutor(dto.getAutor());
-        libro.setGenero(dto.getGenero());
-        libro.setPaginas(dto.getPaginas());
-        libro.setEditorial(dto.getEditorial());
-        libro.setDescripcion(dto.getDescripcion());
-        libro.setPrecio(dto.getPrecio());
-        return this.libroRepository.save(libro).getId();
+	    Libro libro = new Libro();
+	    
+	    
+	    String nombreAutor = dto.getAutor().getNombre();
+	    String apellidoAutor = dto.getAutor().getApellidos();
+
+	    // Busca el autor en la base de datos
+	    List<Autor> autorExistente = autorRepository.buscarKeyWordSQL(nombreAutor + " " + apellidoAutor);
+
+	    // Si el autor no existe, créalo
+	    if (autorExistente == null) {
+	    	Autor nuevoAutor = new Autor();
+	        nuevoAutor.setNombre(nombreAutor);
+	        nuevoAutor.setApellidos(apellidoAutor);	        
+	        // Guarda el nuevo autor en la base de datos
+	        autorRepository.save(nuevoAutor);
+	    }else{
+	    	
+	    }
+	    int id = 0;
+	    //Conseguir el id del autor
+		for (Autor autor : autorExistente) {
+			id= autor.getId();
+		}
 		
+	    // Configura el libro
+	    libro.setTitulo(dto.getTitulo());
+	    libro.setAutor(null).setId(id);; // Usa el autor existente o recién creado
+	    libro.setGenero(dto.getGenero());
+	    libro.setPaginas(dto.getPaginas());
+	    libro.setEditorial(dto.getEditorial());
+	    libro.setDescripcion(dto.getDescripcion());
+	    libro.setPrecio(dto.getPrecio());
+
+	    // Guarda el libro en la base de datos
+	    return libroRepository.save(libro).getId();
 	}
 
 	@Override

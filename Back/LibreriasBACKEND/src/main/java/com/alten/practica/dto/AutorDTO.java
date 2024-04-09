@@ -11,5 +11,15 @@ public class AutorDTO implements Serializable{
 	
 	private int id;
 	private String nombre;
+	
+	public AutorDTO() {
+		super();
+	}
+	
+	public AutorDTO(int id, String nombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+	}
 
 }

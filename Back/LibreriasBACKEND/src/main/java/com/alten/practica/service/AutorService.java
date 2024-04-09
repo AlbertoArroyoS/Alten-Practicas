@@ -10,6 +10,7 @@ public interface AutorService {
 	
 	public List<AutorDTO> buscarKeyWordSQL(String nombre);
 	public AutorDTO nuevoAutorSQL(AutorDTORequest dto);
-
+	//buscar por id
+	public AutorDTO buscarPorId(int id);
 
 }
