@@ -20,3 +20,11 @@ spring:
             mode: none
   persistence:
     unit-name: PracticasAlten
+
+springdoc:
+  swagger-ui:
+     enabled: true
+     path: /swagger-ui.html  
+  api-docs:
+     path: /api-docs
+  packagesToScan: com.alten.practica.controlador

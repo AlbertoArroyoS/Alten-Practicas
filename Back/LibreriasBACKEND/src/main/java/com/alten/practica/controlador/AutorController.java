@@ -2,6 +2,7 @@ package com.alten.practica.controlador;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.AutorDTO;
-import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.service.AutorService;
 
