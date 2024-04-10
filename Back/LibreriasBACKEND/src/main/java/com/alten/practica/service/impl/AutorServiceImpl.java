@@ -4,12 +4,13 @@ import java.util.List;
 
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
-import com.alten.practica.repository.AutorRepository;
+import com.alten.practica.repository.IAutorRepository;
 
 import com.alten.practica.service.AutorService;
 
@@ -18,13 +19,9 @@ import com.alten.practica.service.AutorService;
 public class AutorServiceImpl implements AutorService{
 	
 	//inyectamos el repositorio del autor
-	final AutorRepository autorRepository;
+	@Autowired
+	IAutorRepository autorRepository;
 	
-	public AutorServiceImpl(AutorRepository autorRepository) {
-		this.autorRepository = autorRepository;
-	}
-
-
 	
 	//Metodo para convertir de entidad a dto	
 	private AutorDTO convertirEntidadADto(Autor autor) {

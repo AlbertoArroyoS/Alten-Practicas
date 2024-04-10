@@ -55,4 +55,5 @@ public class LibreriaConstant {
 	public static final String SP_NUEVO_AUTOR = "select * from dbo.fn_guardar_autor(?1,?2);";
 	public static final String SP_SEARCH_LIBRO = "select * from dbo.fn_buscar_nombre_libro(?)";
 	public static final String SP_SEARCH_CONTAR_LIBROS = "select count(*) from dbo.fn_buscar_nombre_libro(?)";
+	public static final String SP_NUEVO_LIBRO = "select * from dbo.fn_guardar_libro(?1,?2,?3,?4,?5,?6,?7);";
 }

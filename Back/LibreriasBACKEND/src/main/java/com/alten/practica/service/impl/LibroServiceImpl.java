@@ -3,6 +3,7 @@ package com.alten.practica.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alten.practica.dto.AutorDTO;
@@ -11,20 +12,18 @@ import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libro;
-import com.alten.practica.repository.AutorRepository;
-import com.alten.practica.repository.LibroRepository;
+import com.alten.practica.repository.IAutorRepository;
+import com.alten.practica.repository.ILibroRepository;
 import com.alten.practica.service.LibroService;
 
 @Service
 public class LibroServiceImpl implements LibroService{
 	
-	LibroRepository libroRepository;
-	AutorRepository autorRepository;
+	@Autowired
+	ILibroRepository libroRepository;
+	@Autowired
+	IAutorRepository autorRepository;
 	
-	public LibroServiceImpl(LibroRepository libroRepository) {
-		this.libroRepository = libroRepository;
-		this.autorRepository = autorRepository;
-	}
 	
 	@Override
 	public int save(LibroDTORequest dto) {

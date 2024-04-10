@@ -2,6 +2,7 @@ package com.alten.practica.controlador;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,15 +32,11 @@ import com.alten.practica.service.LibreriaService;
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
 @CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) //Permite que el FrontEnd se conecte a este controlador, de momento todos, luego se especificará
-public class LibreriaControlador {
+public class LibreriaController {
 	
+	@Autowired
 	private LibreriaService libreriaService;
 
-	public LibreriaControlador(LibreriaService libreriaService) {
-		super();
-		this.libreriaService = libreriaService;
-	}
-	
 	
 	//@GetMapping para listar todos las librerias de la base de datos
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA)

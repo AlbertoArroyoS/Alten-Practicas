@@ -3,9 +3,10 @@ package com.alten.practica.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.alten.practica.modelo.entidad.Libreria;
-import com.alten.practica.repository.LibreriaRepository;
+import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.service.LibreriaService;
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
@@ -32,12 +33,10 @@ import com.alten.practica.dto.request.LibreriaDTORequest;
 public class LibreriaServiceImpl implements LibreriaService{
 	
 	//inyeccion por constructor del repositorio de la libreria	
+	@Autowired
+	ILibreriaRepository libreriaRepository;
 	
-	LibreriaRepository libreriaRepository;
-	
-	public LibreriaServiceImpl(LibreriaRepository libreriaRepository) {
-		this.libreriaRepository = libreriaRepository;
-	}
+
 
 	@Override
 	public int save(LibreriaDTORequest dto) {

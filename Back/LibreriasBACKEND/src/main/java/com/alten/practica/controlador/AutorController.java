@@ -2,6 +2,7 @@ package com.alten.practica.controlador;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,16 +30,12 @@ import com.alten.practica.service.AutorService;
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
 @CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) 
-public class AutorControlador {
+public class AutorController {
 	
 	//Inyectamos el servicio
+	@Autowired
 	private AutorService autorService;
 	
-	//Constructor
-	public AutorControlador(AutorService autorService) {
-		super();
-		this.autorService = autorService;
-	}
 	
 	//@GetMapping para buscar por key_word
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)

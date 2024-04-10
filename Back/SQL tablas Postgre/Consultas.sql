@@ -122,4 +122,20 @@ WHERE
    
 select * from dbo.fn_buscar_nombre_libro('a');
 
+-- funcion para guardar el libro obteniendo el id del autor por codigo en Spring y metiendolo por parametro
+
+
+select * from dbo.fn_guardar_libro(?1,?2,?3,?4,?5,?6,?7)
+
+select * from dbo.fn_guardar_libro(
+    'El Señor de los Anillos', 
+    'J.R.R.', 
+    'Tolkien', 
+    'Fantasía épica', 
+    600, 
+    'Middle-earth Press', 
+    'El Señor de los Anillos sigue las aventuras de un grupo de personajes que buscan destruir el Anillo Único, un arma poderosa forjada por el Señor Oscuro Sauron.', 
+    9.99
+);
+
 

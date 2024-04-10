@@ -6,13 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alten.practica.constantes.LibreriaConstant;
+import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.LibroDTO;
+import com.alten.practica.dto.request.AutorDTORequest;
+import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.service.LibroService;
 
 
@@ -29,7 +34,7 @@ import com.alten.practica.service.LibroService;
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
 @CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) 
-public class LibroControlador {
+public class LibroController {
 	
 	@Autowired
 	private LibroService libroService;
@@ -53,5 +58,12 @@ public class LibroControlador {
 	public LibroDTO findById(@PathVariable("id") int id) {
 		return this.libroService.findById(id);
 	}
+	
+	//Incluir un libro
+	@PostMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
+	public int nuevoAutorSQL (@RequestBody LibroDTORequest dto) {
+		return this.libroService.save(dto);
+	}
+	
 
 }

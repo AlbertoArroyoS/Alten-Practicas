@@ -61,7 +61,7 @@ language 'plpgsql';
 select * from dbo.libros l 
 
 ----------------------------------------------------------------------
---fn_save_author function -- FUNCION PARA GUARDAR UN AUTOR
+--fn_guardar_autor function -- FUNCION PARA GUARDAR UN AUTOR
 ----------------------------------------------------------------------
 create or replace function dbo.fn_guardar_autor(
 in in_nombre varchar,
@@ -124,6 +124,55 @@ begin
 		WHERE
 		    replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower(in_key_word)), chr(32), '') || '%'
     );
+end;
+$$
+language 'plpgsql';
+
+
+----------------------------------------------------------------------
+--fn_guardar_libro function -- FUNCION PARA GUARDAR UN LIBRO , comprueba si el autor existe y se añade el id al libro y si no existe lo crea con un nuevo id
+-- tambien comprueba si el libro existe para no añadirlo
+----------------------------------------------------------------------
+
+create or replace function dbo.fn_guardar_libro(
+    in_titulo varchar,
+    in_nombre_autor varchar,
+    in_apellidos_autor varchar,
+    in_genero varchar,
+    in_paginas int,
+    in_editorial varchar,
+    in_descripcion varchar,
+    in_precio double precision
+)
+returns setof dbo.libros
+as 
+$$
+declare
+    v_id_autor int;
+    v_id_libro int;
+begin 
+    -- Verificar si el autor existe
+	select id_autor into v_id_autor from dbo.autores where nombre = in_nombre_autor and apellidos = in_apellidos_autor;
+	
+	-- Si el autor no existe, insertarlo
+	if v_id_autor is null then
+	    insert into dbo.autores(nombre, apellidos) values(in_nombre_autor, in_apellidos_autor);
+	    v_id_autor := lastval(); -- Obtener el ID del nuevo autor
+	end if;
+	
+	-- Verificar si el libro ya existe
+	select id_libro into v_id_libro from dbo.libros where titulo = in_titulo and id_autor = v_id_autor;
+	
+	-- Si el libro no existe, insertarlo
+	if v_id_libro is null then
+	    insert into dbo.libros(titulo, id_autor, genero, paginas, editorial, descripcion, precio)
+	    values(in_titulo, v_id_autor, in_genero, in_paginas, in_editorial, in_descripcion, in_precio);
+	else
+	    raise exception 'El libro ya existe en la base de datos.';
+	end if;
+
+    -- Devolver el libro recién insertado
+    return query select * from dbo.libros where id_libro = lastval();
 end;
 $$
 language 'plpgsql';

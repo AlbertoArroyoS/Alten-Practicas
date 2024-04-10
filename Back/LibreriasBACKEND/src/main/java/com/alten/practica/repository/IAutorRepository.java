@@ -11,7 +11,7 @@ import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
 
 @Repository
-public interface AutorRepository extends JpaRepository<Autor, Integer>{
+public interface IAutorRepository extends JpaRepository<Autor, Integer>{
 	
 	//LLAMADA A PROCEDIMIENTOS ALMACENADOS
 	
