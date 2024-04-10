@@ -13,5 +13,7 @@ public interface LibroService {
 	public List<LibroDTO> findAll();
 	public int delete(int id);
 	public List<LibroDTO> findByTitle(String title);
+	LibroDTO guardarLibro(String titulo, String nombreAutor, String apellidosAutor, String genero, int paginas,
+			String editorial, String descripcion, double precio);
 
 }

@@ -12,7 +12,8 @@ import lombok.Data;
 public class LibroDTORequest {
 	
 	private String titulo;
-	private AutorDTORequest autor;
+	private String nombreAutor;
+	private String apellidosAutor;
 	private String genero;
 	private int paginas;
 	private String editorial;

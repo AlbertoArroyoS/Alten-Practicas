@@ -3,6 +3,8 @@ package com.alten.practica.controlador;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +32,9 @@ import com.alten.practica.service.LibroService;
  * http://localhost:8080/v1/app-libreria/libros/libro/1
  * Libro por nombre de libro a buscar
  * http://localhost:8080/v1/app-libreria/libros/libro?key_word=resplandor
- * Ruta para editar una libreria:
+ * Ruta para editar una libro:
  * http://localhost:8080/v1/app-libreria/libros/libro/1
- * Ruta para crear una libreria:
+ * Ruta para crear una libro:
  * http://localhost:8080/v1/app-libreria/libros/libro
  */
 
@@ -64,12 +66,27 @@ public class LibroController {
 	public LibroDTO findById(@PathVariable("id") int id) {
 		return this.libroService.findById(id);
 	}
-	
+/*	
 	//Incluir un libro
 	@PostMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
 	public LibroDTO nuevoLibroSQL (@RequestBody LibroDTORequest dto) {
 		return this.libroService.save(dto);
 	}
+*/	
+	@PostMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
+	public ResponseEntity<String> guardarLibro(@RequestBody LibroDTO libroDTO) {
+        libroService.guardarLibro(
+            libroDTO.getTitulo(), 
+            libroDTO.getNombreAutor(), 
+            libroDTO.getApellidoAutor(), 
+            libroDTO.getGenero(), 
+            libroDTO.getPaginas(), 
+            libroDTO.getEditorial(), 
+            libroDTO.getDescripcion(), 
+            libroDTO.getPrecio()
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body("Libro guardado exitosamente");
+    }
 	
 	@PutMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO + LibreriaConstant.RESOURCE_GENERIC_ID)
 	public int update(@RequestBody LibroDTORequest dto, @PathVariable("id") int id) {

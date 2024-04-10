@@ -2,6 +2,7 @@ package com.alten.practica.modelo.entidad;
 
 import java.util.List;
 
+
 import com.alten.practica.constantes.LibreriaConstant;
 
 import jakarta.persistence.Column;
@@ -14,9 +15,11 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
+@Builder
 @Data
 @ToString
 @Entity
@@ -48,9 +51,24 @@ public class Libro {
     @OneToMany(mappedBy = "libro")
     private List<LibreriaLibro> libreriaLibros;
 
+	public Libro(int id, String titulo, Autor autor, String genero, int paginas, String editorial, String descripcion,
+			double precio, List<LibreriaLibro> libreriaLibros) {
+		super();
+		this.id = id;
+		this.titulo = titulo;
+		this.autor = autor;
+		this.genero = genero;
+		this.paginas = paginas;
+		this.editorial = editorial;
+		this.descripcion = descripcion;
+		this.precio = precio;
+		this.libreriaLibros = libreriaLibros;
+	}
 
 	public Libro() {
 		super();
 	}
 
+
+    
 }
