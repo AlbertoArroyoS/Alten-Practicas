@@ -78,7 +78,7 @@ public class LibroController {
         libroService.guardarLibro(
             libroDTO.getTitulo(), 
             libroDTO.getNombreAutor(), 
-            libroDTO.getApellidoAutor(), 
+            libroDTO.getApellidosAutor(), 
             libroDTO.getGenero(), 
             libroDTO.getPaginas(), 
             libroDTO.getEditorial(), 
