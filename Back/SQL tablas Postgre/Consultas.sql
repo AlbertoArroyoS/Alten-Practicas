@@ -103,7 +103,7 @@ WHERE
 SELECT
     ta.id_libro,
     ta.titulo ,
-    ta.autor_id ,
+    ta.id_autor ,
     dbo.autores.nombre AS nombre_autor,
     dbo.autores.apellidos as apellidos_autor,
     ta.genero,
@@ -114,7 +114,7 @@ SELECT
 FROM
     dbo.libros ta
 JOIN
-    dbo.autores ON ta.autor_id = dbo.autores.id_autor
+    dbo.autores ON ta.id_autor = dbo.autores.id_autor
 WHERE
     replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower('cien')), chr(32), '') || '%';
 
@@ -138,4 +138,4 @@ select * from dbo.fn_guardar_libro(
     9.99
 );
 
-
+-- 

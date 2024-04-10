@@ -75,7 +75,7 @@ public class LibroController {
 */	
 	@PostMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
 	public ResponseEntity<String> guardarLibro(@RequestBody LibroDTO libroDTO) {
-        libroService.guardarLibro(
+        libroService.guardarLibroSQL(
             libroDTO.getTitulo(), 
             libroDTO.getNombreAutor(), 
             libroDTO.getApellidosAutor(), 

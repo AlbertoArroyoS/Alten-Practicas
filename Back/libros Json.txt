@@ -1,0 +1,134 @@
+﻿ {
+        "titulo": "Cien años de soledad",
+        "nombreAutor": "Gabriel",
+        "apellidosAutor": "García Márquez",
+        "genero": "Ficción",
+        "paginas": 300,
+        "editorial": "Editorial Sudamericana",
+        "descripcion": "Una saga familiar que abarca varias generaciones de la familia Buendía en el ficticio pueblo de Macondo, describiendo la historia de su fundación y la decadencia de la familia.",
+        "precio": 25.99
+    },
+    {
+        "titulo": "Harry Potter y la piedra filosofal",
+        "nombreAutor": "J.K.",
+        "apellidosAutor": "Rowling",
+        "genero": "Fantasía",
+        "paginas": 400,
+        "editorial": "Salani Editore",
+        "descripcion": "La historia sigue a Harry Potter, un joven mago, mientras descubre su verdadera identidad y lucha contra Lord Voldemort, el mago tenebroso que intentó asesinarlo cuando era un bebé.",
+        "precio": 19.99
+    },
+    {
+        "titulo": "Matar a un ruiseñor",
+        "nombreAutor": "Harper",
+        "apellidosAutor": "Lee",
+        "genero": "Novela",
+        "paginas": 250,
+        "editorial": "J.B. Lippincott & Co.",
+        "descripcion": "La novela explora los temas del racismo y la injusticia a través de la historia de Atticus Finch, un abogado que defiende a un hombre negro acusado de violar a una mujer blanca.",
+        "precio": 15.5
+    },
+    {
+        "titulo": "El resplandor",
+        "nombreAutor": "Stephen",
+        "apellidosAutor": "King",
+        "genero": "Terror",
+        "paginas": 350,
+        "editorial": "Doubleday",
+        "descripcion": "Jack Torrance, un aspirante a escritor y alcohólico en recuperación, acepta un trabajo como cuidador de invierno del Hotel Overlook en las montañas de Colorado, lo que lleva a una serie de eventos terroríficos.",
+        "precio": 30.75
+    },
+    {
+        "titulo": "El Señor de los Anillos",
+        "nombreAutor": "J.R.R.",
+        "apellidosAutor": "Tolkien",
+        "genero": "Fantasía épica",
+        "paginas": 600,
+        "editorial": "Middle-earth Press",
+        "descripcion": "El Señor de los Anillos sigue las aventuras de un grupo de personajes que buscan destruir el Anillo Único, un arma poderosa forjada por el Señor Oscuro Sauron.",
+        "precio": 9.99
+    },
+    {
+        "titulo": "Orgullo y prejuicio",
+        "nombreAutor": "Jane",
+        "apellidosAutor": "Austen",
+        "genero": "Novela romántica",
+        "paginas": 300,
+        "editorial": "Longman",
+        "descripcion": "Orgullo y prejuicio sigue la vida de Elizabeth Bennet mientras lidia con problemas de matrimonio, moralidad y clase social en la Inglaterra del siglo XIX.",
+        "precio": 23.75
+    },
+    {
+        "titulo": "El nombre del viento",
+        "nombreAutor": "Patrick",
+        "apellidosAutor": "Rothfuss",
+        "genero": "Fantasía",
+        "paginas": 662,
+        "editorial": "Debolsillo",
+        "descripcion": "La historia sigue a Kvothe, un joven prodigio en la magia y la música, mientras narra sus aventuras y desventuras en un mundo de fantasía.",
+        "precio": 20.5
+    },
+    {
+        "titulo": "La ciudad y los perros",
+        "nombreAutor": "Mario",
+        "apellidosAutor": "Vargas Llosa",
+        "genero": "Novela",
+        "paginas": 384,
+        "editorial": "Seix Barral",
+        "descripcion": "La novela relata la vida de un grupo de jóvenes internos en un colegio militar de Lima, y las dificultades y conflictos que enfrentan en un ambiente de disciplina, violencia y corrupción.",
+        "precio": 15.95
+    }
+]
+
+[
+    {
+        "titulo": "Don Quijote de la Mancha",
+        "nombreAutor": "Miguel de",
+        "apellidosAutor": "Cervantes Saavedra",
+        "genero": "Novela",
+        "paginas": 863,
+        "editorial": "Francisco de Robles",
+        "descripcion": "La novela cuenta la historia de un hidalgo español, Alonso Quijano, que se vuelve loco después de leer demasiados libros de caballería y decide convertirse en un caballero andante, adoptando el nombre de Don Quijote de la Mancha.",
+        "precio": 18.99
+    },
+    {
+        "titulo": "1984",
+        "nombreAutor": "George",
+        "apellidosAutor": "Orwell",
+        "genero": "Ciencia ficción",
+        "paginas": 328,
+        "editorial": "Secker & Warburg",
+        "descripcion": "La novela distópica presenta un mundo totalitario gobernado por el omnipresente Gran Hermano, donde el gobierno manipula y controla la vida de sus ciudadanos, incluso sus pensamientos.",
+        "precio": 12.5
+    },
+    {
+        "titulo": "Crónica de una muerte anunciada",
+        "nombreAutor": "Gabriel",
+        "apellidosAutor": "García Márquez",
+        "genero": "Novela",
+        "paginas": 120,
+        "editorial": "La Oveja Negra",
+        "descripcion": "La novela narra los eventos que conducen a la muerte de Santiago Nasar, un joven colombiano, después de que los hermanos Vicario anuncian su intención de matarlo para vengar el honor de su hermana.",
+        "precio": 14.25
+    },
+    {
+        "titulo": "Moby-Dick",
+        "nombreAutor": "Herman",
+        "apellidosAutor": "Melville",
+        "genero": "Novela",
+        "paginas": 624,
+        "editorial": "Richard Bentley",
+        "descripcion": "La novela sigue al marinero Ishmael y su obsesiva búsqueda del gran cachalote blanco conocido como Moby Dick, mientras navega en el barco ballenero Pequod bajo el comando del capitán Ahab.",
+        "precio": 22.0
+    },
+    {
+        "titulo": "Anna Karenina",
+        "nombreAutor": "León",
+        "apellidosAutor": "Tolstói",
+        "genero": "Novela",
+        "paginas": 864,
+        "editorial": "The Russian Messenger",
+        "descripcion": "La novela cuenta la historia de Anna Karenina, una mujer adúltera y descontenta de la alta sociedad rusa, y Konstantín Levin, un noble terrateniente que busca la verdadera felicidad en el trabajo y la vida familiar.",
+        "precio": 19.75
+    }
+]

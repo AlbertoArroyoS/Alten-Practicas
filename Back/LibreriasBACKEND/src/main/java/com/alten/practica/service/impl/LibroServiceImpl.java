@@ -21,32 +21,15 @@ public class LibroServiceImpl implements LibroService{
 	
 	@Autowired
 	ILibroRepository libroRepository;
+	@Autowired
+	IAutorRepository autorRepository;
+	
 	
 	@Override
-	public LibroDTO guardarLibro(String titulo, String nombreAutor, String apellidosAutor, String genero, int paginas, String editorial, String descripcion, double precio) {
+	public LibroDTO guardarLibroSQL(String titulo, String nombreAutor, String apellidosAutor, String genero, int paginas, String editorial, String descripcion, double precio) {
         return libroRepository.guardarLibroSQL(titulo, nombreAutor, apellidosAutor, genero, paginas, editorial, descripcion, precio);
     }
 	
-	/*
-	@Override
-	public LibroDTO save(LibroDTORequest dto) {
-		LibroDTO libroDTO = LibroDTO.builder()
-			.titulo(dto.getTitulo())
-            .nombreAutor(dto.getNombreAutor()) // Utiliza un método para convertir el autor
-            .apellidoAutor(dto.getApellidoAutor()) // Utiliza un método para convertir el autor
-            .genero(dto.getGenero())
-            .paginas(dto.getPaginas())
-            .editorial(dto.getEditorial())
-            .descripcion(dto.getDescripcion())
-            .precio(dto.getPrecio())
-            .build();
-		
-        return (this.libroRepository.nuevoLibroSQL(libroDTO.getTitulo(), libroDTO.getNombreAutor(), libroDTO.getApellidoAutor(),libroDTO.getGenero(),libroDTO.getPaginas(), libroDTO.getEditorial(), libroDTO.getDescripcion(), libroDTO.getPrecio()));
-	    
-	    
-	    //(String titulo,int idAutor,String genero,int paginas,String editorial,String descripcion,double precio)
-	    //return libroRepository.nuevoLibroSQL(dto.getTitulo(), dto.getNombreAutor(), dto.getApellidoAutor(),dto.getGenero(),dto.getPaginas(), dto.getEditorial(), dto.getDescripcion(), dto.getPrecio());
-	}*/
 
 	@Override
 	public int update(LibroDTORequest dto, int id) {
