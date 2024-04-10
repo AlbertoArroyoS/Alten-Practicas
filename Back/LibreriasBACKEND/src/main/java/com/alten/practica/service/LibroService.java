@@ -7,7 +7,7 @@ import com.alten.practica.dto.request.LibroDTORequest;
 
 public interface LibroService {
 	
-	public int save(LibroDTORequest dto);
+	public LibroDTO save(LibroDTORequest dto);
 	public int update (LibroDTORequest dto, int id);
 	public LibroDTO findById(int id);
 	public List<LibroDTO> findAll();

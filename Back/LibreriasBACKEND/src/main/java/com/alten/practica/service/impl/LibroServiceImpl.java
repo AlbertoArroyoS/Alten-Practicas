@@ -26,50 +26,20 @@ public class LibroServiceImpl implements LibroService{
 	
 	
 	@Override
-	public int save(LibroDTORequest dto) {
+	public LibroDTO save(LibroDTORequest dto) {
 	    Libro libro = new Libro();
-	    
-	    
+	       
 	    String nombreAutor = dto.getAutor().getNombre();
 	    String apellidoAutor = dto.getAutor().getApellidos();
 
-	    // Busca el autor en la base de datos
-	    List<Autor> autorExistente = autorRepository.buscarKeyWordSQL(nombreAutor + " " + apellidoAutor);
-
-	    // Si el autor no existe, créalo
-	    if (autorExistente == null) {
-	    	Autor nuevoAutor = new Autor();
-	        nuevoAutor.setNombre(nombreAutor);
-	        nuevoAutor.setApellidos(apellidoAutor);	        
-	        // Guarda el nuevo autor en la base de datos
-	        autorRepository.save(nuevoAutor);
-	    }else{
-	    	
-	    }
-	    int id = 0;
-	    //Conseguir el id del autor
-		for (Autor autor : autorExistente) {
-			id= autor.getId();
-		}
-		
-	    // Configura el libro
-	    libro.setTitulo(dto.getTitulo());
-	    libro.setAutor(null).setId(id);; // Usa el autor existente o recién creado
-	    libro.setGenero(dto.getGenero());
-	    libro.setPaginas(dto.getPaginas());
-	    libro.setEditorial(dto.getEditorial());
-	    libro.setDescripcion(dto.getDescripcion());
-	    libro.setPrecio(dto.getPrecio());
-
-	    // Guarda el libro en la base de datos
-	    return libroRepository.save(libro).getId();
+	    //(String titulo,int idAutor,String genero,int paginas,String editorial,String descripcion,double precio)
+	    return libroRepository.nuevoLibroSQL(dto.getTitulo(), nombreAutor, apellidoAutor,dto.getGenero(),dto.getPaginas(), dto.getEditorial(), dto.getDescripcion(), dto.getPrecio() );
 	}
 
 	@Override
 	public int update(LibroDTORequest dto, int id) {
 		Libro libro = this.libroRepository.findById(id).get();
 		libro.setTitulo(dto.getTitulo());
-		libro.setAutor(dto.getAutor());
 		libro.setGenero(dto.getGenero());
 		libro.setPaginas(dto.getPaginas());
 		libro.setEditorial(dto.getEditorial());

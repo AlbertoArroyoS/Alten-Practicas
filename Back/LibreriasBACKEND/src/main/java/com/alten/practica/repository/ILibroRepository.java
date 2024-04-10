@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.alten.practica.constantes.LibreriaConstant;
+import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libro;
 
@@ -19,6 +20,9 @@ public interface ILibroRepository extends JpaRepository<Libro, Integer>{
 	public List<Libro> buscarKeyWordSQL(String nombre);
 	
 	
-	@Query(value = LibreriaConstant.SP_NUEVO_AUTOR, nativeQuery = true)
-	public Autor nuevoLibroSQL(String titulo,int idAutor,String genero,int paginas,String editorial,String descripcion,double precio);
+	@Query(value = LibreriaConstant.SP_NUEVO_LIBRO, nativeQuery = true)
+	public LibroDTO nuevoLibroSQL(String titulo, String nombreAutor, String apellidoAutor, String genero, int paginas,
+			String editorial, String descripcion, double precio);
+
+
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
+import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.service.LibroService;
 
@@ -28,6 +30,10 @@ import com.alten.practica.service.LibroService;
  * http://localhost:8080/v1/app-libreria/libros/libro/1
  * Libro por nombre de libro a buscar
  * http://localhost:8080/v1/app-libreria/libros/libro?key_word=resplandor
+ * Ruta para editar una libreria:
+ * http://localhost:8080/v1/app-libreria/libros/libro/1
+ * Ruta para crear una libreria:
+ * http://localhost:8080/v1/app-libreria/libros/libro
  */
 
 
@@ -61,8 +67,13 @@ public class LibroController {
 	
 	//Incluir un libro
 	@PostMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
-	public int nuevoAutorSQL (@RequestBody LibroDTORequest dto) {
+	public LibroDTO nuevoLibroSQL (@RequestBody LibroDTORequest dto) {
 		return this.libroService.save(dto);
+	}
+	
+	@PutMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO + LibreriaConstant.RESOURCE_GENERIC_ID)
+	public int update(@RequestBody LibroDTORequest dto, @PathVariable("id") int id) {
+		return this.libroService.update(dto, id);
 	}
 	
 
