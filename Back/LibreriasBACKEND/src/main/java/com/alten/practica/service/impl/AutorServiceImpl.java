@@ -73,6 +73,13 @@ public class AutorServiceImpl implements AutorService{
 	}
 
 
+	@Override
+	public int obtenerIdAutor(String nombre, String apellidos) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 	
 
 

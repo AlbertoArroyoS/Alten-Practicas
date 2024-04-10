@@ -12,5 +12,7 @@ public interface AutorService {
 	public AutorDTO nuevoAutorSQL(AutorDTORequest dto);
 	//buscar por id
 	public AutorDTO buscarPorId(int id);
+	//obtener id del autor
+	public int obtenerIdAutor(String nombre, String apellidos);
 
 }
