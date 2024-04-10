@@ -74,9 +74,29 @@ public class AutorServiceImpl implements AutorService{
 
 
 	@Override
-	public int obtenerIdAutor(String nombre, String apellidos) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int obtenerIdAutor(String nombreCompleto) {
+		/*
+	    // Buscar el autor por su nombre y apellidos en el repositorio de autores
+	    Autor autor = autorRepository.findByNombreAndApellidos(nombre, apellidos);
+	    
+	    // Verificar si el autor existe
+	    if (autor != null) {
+	        // Si existe, devolver su ID
+	        return autor.getId();
+	    } else {
+	        // Si el autor no existe, devolver -1 o manejar el caso según tus necesidades
+	        return -1;
+	    }*/
+		
+		List<Autor> autor = autorRepository.buscarKeyWordSQL(nombreCompleto);
+
+		// Verificar si la lista está vacía antes de intentar acceder al primer elemento
+		if (autor.isEmpty()) {
+		    return -1;
+		}
+
+		// Obtener el ID del primer autor en la lista
+		return autor.get(0).getId();
 	}
 
 

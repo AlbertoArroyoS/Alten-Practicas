@@ -13,6 +13,6 @@ public interface AutorService {
 	//buscar por id
 	public AutorDTO buscarPorId(int id);
 	//obtener id del autor
-	public int obtenerIdAutor(String nombre, String apellidos);
+	public int obtenerIdAutor(String nombreCompleto);
 
 }

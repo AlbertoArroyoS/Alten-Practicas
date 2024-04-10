@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.alten.practica.constantes.LibreriaConstant;
@@ -21,6 +22,10 @@ public interface IAutorRepository extends JpaRepository<Autor, Integer>{
 	
 	@Query(value = LibreriaConstant.SP_NUEVO_AUTOR, nativeQuery = true)
 	public Autor nuevoAutorSQL(String nombre, String apellidos);
+	
+	//Metodo para obtener el id del autor
+	@Query("SELECT a FROM Autor a WHERE a.nombre = :nombre AND a.apellidos = :apellidos")
+	Autor findByNombreAndApellidos(@Param("nombre") String nombre, @Param("apellidos") String apellidos);
 
 	
 

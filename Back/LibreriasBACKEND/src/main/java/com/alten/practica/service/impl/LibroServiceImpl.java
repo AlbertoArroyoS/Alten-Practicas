@@ -121,9 +121,44 @@ public class LibroServiceImpl implements LibroService{
 
 	@Override
 	public LibroDTO save(LibroDTORequest dto) {
-		// TODO Auto-generated method stub
-		return null;
+	    // Buscar el autor en la base de datos
+	    Autor autor = autorRepository.findByNombreAndApellidos(dto.getNombreAutor(), dto.getApellidosAutor());
+
+	    // Verificar si el autor existe
+	    if (autor == null) {
+	        // Si el autor no existe, crear un nuevo autor
+	        autor = new Autor();
+	        autor.setNombre(dto.getNombreAutor());
+	        autor.setApellidos(dto.getApellidosAutor());
+	        autor = autorRepository.save(autor); // Guardar el autor y obtener su ID
+	    }
+/*
+	    // Comprobar si el libro ya existe
+	    Libro libroExistente = libroRepository.findByTituloAndAutor(dto.getTitulo(), autor);
+
+	    // Verificar si el libro ya existe
+	    if (libroExistente != null) {
+	        // Si el libro ya existe, puedes manejar el caso aquí, por ejemplo, lanzar una excepción o devolver null
+	        return null; // Devolver null indicando que el libro ya existe
+	    }
+*/
+	    // Crear un nuevo libro
+	    Libro libro = new Libro();
+	    libro.setTitulo(dto.getTitulo());
+	    libro.setAutor(autor);
+	    libro.setGenero(dto.getGenero());
+	    libro.setPaginas(dto.getPaginas());
+	    libro.setEditorial(dto.getEditorial());
+	    libro.setDescripcion(dto.getDescripcion());
+	    libro.setPrecio(dto.getPrecio());
+
+	    // Guardar el libro en la base de datos
+	    libro = libroRepository.save(libro);
+
+	    // Crear y devolver el objeto LibroDTO
+	    return convertirEntidadADto(libro);
 	}
-	
+
+			
 
 }
