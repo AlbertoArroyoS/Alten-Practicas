@@ -2,7 +2,6 @@ package com.alten.practica.controlador;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,48 +30,52 @@ import com.alten.practica.service.ILibreriaService;
  * http://localhost:8080/v1/app-libreria/librerias/libreria
  */
 
-
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
-@CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) //Permite que el FrontEnd se conecte a este controlador, de momento todos, luego se especificará
+@CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) // Permite que el FrontEnd se conecte a este controlador, de momento
+												// todos, luego se especificará
 public class LibreriaController {
-	
+
 	@Autowired
 	private ILibreriaService libreriaService;
 
-	
-	//@GetMapping para listar todos las librerias de la base de datos + LibreriaConstant.RESOURCE_LIBRERIA
+	// @GetMapping para listar todos las librerias de la base de datos +
+	// LibreriaConstant.RESOURCE_LIBRERIA
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS)
-	public List<LibreriaDTO> findAll () {
+	public List<LibreriaDTO> findAll() {
 		return this.libreriaService.findAll();
 	}
-	
-	//GetMapping para listar 1 libreria por su id
-	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA + LibreriaConstant.RESOURCE_GENERIC_ID)
+
+	// GetMapping para listar 1 libreria por su id
+	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA
+			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public LibreriaDTO findById(@PathVariable("id") int id) {
 		return this.libreriaService.findById(id);
 	}
-	
+
 	@PostMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA)
 	public int save(@RequestBody LibreriaDTORequest dto) {
 		return this.libreriaService.save(dto);
 	}
-	
-	@PutMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA + LibreriaConstant.RESOURCE_GENERIC_ID)
+
+	@PutMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA
+			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public int update(@RequestBody LibreriaDTORequest dto, @PathVariable("id") int id) {
 		return this.libreriaService.update(dto, id);
 	}
-	
-	@DeleteMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA + LibreriaConstant.RESOURCE_GENERIC_ID)
+
+	@DeleteMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA
+			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public void delete(@PathVariable("id") int id) {
-	    this.libreriaService.delete(id);
-	    /*
-	    if (deletedId != -1) {
-	        return ResponseEntity.ok("Libreria eliminada con éxito"); // Si la eliminación fue exitosa, devuelves un ResponseEntity con estado 200 (OK)
-	    } else {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Libreria no encontrada"); // Si no se encontró la libreria, devuelves un ResponseEntity con estado 404 (NOT FOUND)
-	    }*/
+		this.libreriaService.delete(id);
+		/*
+		 * if (deletedId != -1) { return
+		 * ResponseEntity.ok("Libreria eliminada con éxito"); // Si la eliminación fue
+		 * exitosa, devuelves un ResponseEntity con estado 200 (OK) } else { return
+		 * ResponseEntity.status(HttpStatus.NOT_FOUND).body("Libreria no encontrada");
+		 * // Si no se encontró la libreria, devuelves un ResponseEntity con estado 404
+		 * (NOT FOUND) }
+		 */
 	}
-	
 
 }

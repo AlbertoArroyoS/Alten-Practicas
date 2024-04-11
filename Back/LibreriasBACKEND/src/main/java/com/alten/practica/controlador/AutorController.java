@@ -2,8 +2,6 @@ package com.alten.practica.controlador;
 
 import java.util.List;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
-import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.service.IAutorService;
 
 /*
@@ -35,55 +32,59 @@ import com.alten.practica.service.IAutorService;
 
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
-@CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) 
+@CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND)
 public class AutorController {
-	
-	//Inyectamos el servicio
+
+	// Inyectamos el servicio
 	@Autowired
 	private IAutorService autorService;
-	
-	
-	//@GetMapping para buscar por key_word
+
+	// @GetMapping para buscar por key_word
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
-	public List<AutorDTO> buscarKeyWordSQL (@RequestParam String key_word) {
+	public List<AutorDTO> buscarKeyWordSQL(@RequestParam String key_word) {
 		return this.autorService.buscarKeyWordSQL(key_word);
 	}
-	
-	
-	//GetMapping para listar 1 autor por su id
-	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_GENERIC_ID)
+
+	// GetMapping para listar 1 autor por su id
+	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
+			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public AutorDTO findById(@PathVariable("id") int id) {
 		return this.autorService.findById(id);
 	}
-	
-	//@GetMapping para listar todos las librerias de la base de datos
+
+	// @GetMapping para listar todos las librerias de la base de datos
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
-	public List<AutorDTO> findAll () {
+	public List<AutorDTO> findAll() {
 		return this.autorService.findAll();
 	}
-	
-	//Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL (@RequestBody AutorDTORequest dto) {
+
+	// Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL
+	// (@RequestBody AutorDTORequest dto) {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
-	public int save (@RequestBody AutorDTORequest dto) {
+	public int save(@RequestBody AutorDTORequest dto) {
 		return this.autorService.save(dto);
 	}
-	//Metodo para eliminar un autor
-	@DeleteMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_GENERIC_ID)
+
+	// Metodo para eliminar un autor
+	@DeleteMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
+			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public void delete(@PathVariable("id") int id) {
-	    this.autorService.delete(id);
-	    /*
-	    if (deletedId != -1) {
-	        return ResponseEntity.ok("Libreria eliminada con éxito"); // Si la eliminación fue exitosa, devuelves un ResponseEntity con estado 200 (OK)
-	    } else {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Libreria no encontrada"); // Si no se encontró la libreria, devuelves un ResponseEntity con estado 404 (NOT FOUND)
-	    }*/
+		this.autorService.delete(id);
+		/*
+		 * if (deletedId != -1) { return
+		 * ResponseEntity.ok("Libreria eliminada con éxito"); // Si la eliminación fue
+		 * exitosa, devuelves un ResponseEntity con estado 200 (OK) } else { return
+		 * ResponseEntity.status(HttpStatus.NOT_FOUND).body("Libreria no encontrada");
+		 * // Si no se encontró la libreria, devuelves un ResponseEntity con estado 404
+		 * (NOT FOUND) }
+		 */
 	}
-	
-	//Metodo para actualizar un autor
-	@PutMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_GENERIC_ID)
+
+	// Metodo para actualizar un autor
+	@PutMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
+			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public int update(@RequestBody AutorDTORequest dto, @PathVariable("id") int id) {
 		return this.autorService.update(dto, id);
 	}
-	
-	
+
 }
