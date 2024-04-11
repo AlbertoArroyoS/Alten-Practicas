@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.service.ILibreriaService;
@@ -21,6 +23,7 @@ import com.alten.practica.dto.request.LibreriaDTORequest;
  * 
  * 
  */
+@Transactional
 @Service
 public class LibreriaServiceImpl implements ILibreriaService{
 	

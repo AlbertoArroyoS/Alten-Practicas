@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
@@ -14,7 +15,7 @@ import com.alten.practica.modelo.entidad.Libro;
 import com.alten.practica.repository.IAutorRepository;
 import com.alten.practica.repository.ILibroRepository;
 import com.alten.practica.service.ILibroService;
-
+@Transactional
 @Service
 public class LibroServiceImpl implements ILibroService{
 	

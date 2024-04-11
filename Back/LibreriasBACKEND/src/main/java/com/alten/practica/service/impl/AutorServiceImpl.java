@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
@@ -14,7 +15,7 @@ import com.alten.practica.repository.IAutorRepository;
 
 import com.alten.practica.service.IAutorService;
 
-
+@Transactional
 @Service
 public class AutorServiceImpl implements IAutorService{
 	
