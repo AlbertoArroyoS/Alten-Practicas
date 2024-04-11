@@ -16,5 +16,7 @@ public interface ILibreriaService {
 	
 	public List<LibreriaDTO> findAll();
 	
+	public void delete(int id);
+	
 
 }

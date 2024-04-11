@@ -102,6 +102,13 @@ public class LibreriaServiceImpl implements ILibreriaService{
         return this.libreriaRepository.save(bean).getId();
 	}
 	
+	@Override
+	public void delete(int id) {
+	    this.libreriaRepository.deleteById(id);
+			
+	}
+	
+	
 	public LibreriaDTO convertirBeanADTO(Libreria bean) {
 		return LibreriaDTO.builder()
 				.id(bean.getId())
@@ -113,6 +120,7 @@ public class LibreriaServiceImpl implements ILibreriaService{
 				
 				
 	}
+
 	
 
 }
