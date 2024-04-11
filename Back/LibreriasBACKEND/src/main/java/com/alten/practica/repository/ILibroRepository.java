@@ -13,6 +13,11 @@ import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libro;
 
+/**
+ * Interfaz que extiende de JpaRepository, para realizar operaciones con la base
+ * de datos para la entidad Libro
+ * 
+ */
 @Repository
 public interface ILibroRepository extends JpaRepository<Libro, Integer>{
 	

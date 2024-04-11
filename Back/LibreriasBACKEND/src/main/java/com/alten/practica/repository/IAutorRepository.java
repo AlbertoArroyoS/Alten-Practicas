@@ -11,6 +11,11 @@ import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
 
+/**
+ * Interfaz que extiende de JpaRepository, para realizar operaciones con la base
+ * de datos para la entidad Autor
+ * 
+ */
 @Repository
 public interface IAutorRepository extends JpaRepository<Autor, Integer>{
 	
