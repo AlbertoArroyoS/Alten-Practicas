@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
+import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.service.IAutorService;
 
 /*
@@ -75,6 +77,12 @@ public class AutorController {
 	    } else {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Libreria no encontrada"); // Si no se encontró la libreria, devuelves un ResponseEntity con estado 404 (NOT FOUND)
 	    }*/
+	}
+	
+	//Metodo para actualizar un autor
+	@PutMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_GENERIC_ID)
+	public int update(@RequestBody AutorDTORequest dto, @PathVariable("id") int id) {
+		return this.autorService.update(dto, id);
 	}
 	
 	
