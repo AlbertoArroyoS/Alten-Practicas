@@ -1,14 +1,22 @@
 package com.alten.practica.dto;
 
 
-import com.alten.practica.modelo.entidad.Autor;
+import java.io.Serializable;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Builder
 @Data
-public class LibroDTO {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class LibroDTO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String titulo;
 	private String nombreAutor;
 	private String apellidosAutor;
@@ -18,25 +26,6 @@ public class LibroDTO {
 	private String descripcion;
     private double precio;
     
-    
-    public LibroDTO() {
-		super();
-	}
-    
-    
-	public LibroDTO(String titulo, String nombreAutor, String apellidoAutor, String genero, int paginas,
-			String editorial, String descripcion, double precio) {
-		super();
-		this.titulo = titulo;
-		this.nombreAutor = nombreAutor;
-		this.apellidosAutor = apellidoAutor;
-		this.genero = genero;
-		this.paginas = paginas;
-		this.editorial = editorial;
-		this.descripcion = descripcion;
-		this.precio = precio;
-	}
-
-    
+  
     
 }
