@@ -1,6 +1,5 @@
 package com.alten.practica.modelo.entidad;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.alten.practica.constantes.LibreriaConstant;
@@ -13,11 +12,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
+
 
 @Data
-@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = LibreriaConstant.TABLA_NOMBRE_AUTORES, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class Autor {
@@ -36,7 +40,4 @@ public class Autor {
     @OneToMany(mappedBy="autor", cascade = CascadeType.PERSIST)
     private List<Libro> libros;
 
-	public Autor() {
-		super();
-	}
 }
