@@ -20,8 +20,12 @@ Realizada por:
 
 ## Práctica Alberto: 
 
-La idea del proyecto es gestionar una cadena de librerias.
-Se va a utilizar un servicio REST para gestionar los libros.
+La idea del proyecto es una pagina web de venta de libros de segunda mano. Libros
+particulares o exclusivos. Donde los usuarios pueden poner a la venta sus librerias
+y podran ver los libros que ponen a la venta otros usuarios.
+Estamos en una epoca que el coleccionismo está cada vez mas cotizado y hay mucho mercado 
+de libros de segunda mano, libros exclusivos, ediciones limitadas, etc.
+
 
 A través de la web podran acceder 3 tipos de usuarios:
 
