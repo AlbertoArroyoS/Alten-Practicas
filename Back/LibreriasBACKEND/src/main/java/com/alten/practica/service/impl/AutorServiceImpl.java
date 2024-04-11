@@ -125,6 +125,15 @@ public class AutorServiceImpl implements IAutorService{
 	}
 
 
+	@Override
+	public int save(AutorDTORequest dto) {
+		Autor autor = new Autor();
+		autor.setNombre(dto.getNombre());
+		autor.setApellidos(dto.getApellidos());
+		return this.autorRepository.save(autor).getId();
+	}
+
+
 	
 
 

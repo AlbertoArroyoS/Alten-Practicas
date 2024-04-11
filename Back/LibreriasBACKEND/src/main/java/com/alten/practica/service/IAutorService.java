@@ -10,6 +10,8 @@ import com.alten.practica.dto.request.AutorDTORequest;
 public interface IAutorService {
 	
 	public List<AutorDTO> buscarKeyWordSQL(String nombre);
+	public int save(AutorDTORequest dto);
+	//Cargando una funcion SQL
 	public AutorDTO nuevoAutorSQL(AutorDTORequest dto);
 	//buscar por id
 	public AutorDTO findById(int id);

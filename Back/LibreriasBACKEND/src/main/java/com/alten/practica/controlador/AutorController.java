@@ -60,10 +60,10 @@ public class AutorController {
 		return this.autorService.findAll();
 	}
 	
-	//Metodo para crear un autor
+	//Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL (@RequestBody AutorDTORequest dto) {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
-	public AutorDTO nuevoAutorSQL (@RequestBody AutorDTORequest dto) {
-		return this.autorService.nuevoAutorSQL(dto);
+	public int save (@RequestBody AutorDTORequest dto) {
+		return this.autorService.save(dto);
 	}
 	//Metodo para eliminar un autor
 	@DeleteMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_GENERIC_ID)
