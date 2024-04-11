@@ -35,6 +35,8 @@ import lombok.extern.slf4j.Slf4j;
  * http://localhost:8080/v1/app-libreria/libros/libro/1
  * Ruta para crear una libro:
  * http://localhost:8080/v1/app-libreria/libros/libro
+ * Ruta para buscar por key_word un libro:
+ * http://localhost:8080/v1/app-libreria/libros/libro?key_word=a&page=0&size=4
  */
 @Slf4j
 @RestController
