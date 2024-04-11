@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,6 +64,17 @@ public class AutorController {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
 	public AutorDTO nuevoAutorSQL (@RequestBody AutorDTORequest dto) {
 		return this.autorService.nuevoAutorSQL(dto);
+	}
+	//Metodo para eliminar un autor
+	@DeleteMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_GENERIC_ID)
+	public void delete(@PathVariable("id") int id) {
+	    this.autorService.delete(id);
+	    /*
+	    if (deletedId != -1) {
+	        return ResponseEntity.ok("Libreria eliminada con éxito"); // Si la eliminación fue exitosa, devuelves un ResponseEntity con estado 200 (OK)
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Libreria no encontrada"); // Si no se encontró la libreria, devuelves un ResponseEntity con estado 404 (NOT FOUND)
+	    }*/
 	}
 	
 	

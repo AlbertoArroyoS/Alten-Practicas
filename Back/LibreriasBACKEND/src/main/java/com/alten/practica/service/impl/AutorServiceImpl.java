@@ -120,7 +120,7 @@ public class AutorServiceImpl implements IAutorService{
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		this.autorRepository.deleteById(id);
 		
 	}
 
