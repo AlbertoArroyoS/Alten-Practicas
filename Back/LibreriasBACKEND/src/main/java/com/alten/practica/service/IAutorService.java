@@ -12,9 +12,10 @@ public interface IAutorService {
 	public List<AutorDTO> buscarKeyWordSQL(String nombre);
 	public AutorDTO nuevoAutorSQL(AutorDTORequest dto);
 	//buscar por id
-	public AutorDTO buscarPorId(int id);
+	public AutorDTO findById(int id);
 	//obtener id del autor
 	public int obtenerIdAutor(String nombreCompleto);
 	public List<AutorDTO> findAll();
+	public void delete(int id);
 
 }

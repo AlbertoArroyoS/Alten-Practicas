@@ -88,7 +88,7 @@ public class LibreriaServiceImpl implements ILibreriaService{
 		//
 		return lista.stream()
                 .map(this::convertirBeanADTO) // Utiliza una referencia a método para convertir de bean a DTO
-                .collect(Collectors.toList()); // Corrige la capitalización de "Collectors.toList()"
+                .collect(Collectors.toList()); 
 	}
 
 	@Override

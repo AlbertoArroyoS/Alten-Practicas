@@ -26,7 +26,7 @@ public class AutorServiceImpl implements IAutorService{
 	
 	
 	//Metodo para convertir de entidad a dto	
-	private AutorDTO convertirEntidadADto(Autor autor) {
+	private AutorDTO convertirBeanADTO(Autor autor) {
 		return AutorDTO.builder()
 				.id(autor.getId())
 				.nombre(autor.getNombre() + " " + autor.getApellidos())
@@ -38,7 +38,7 @@ public class AutorServiceImpl implements IAutorService{
 	public List<AutorDTO> buscarKeyWordSQL(String nombre) {
 		List<Autor> listaAutores = this.autorRepository.buscarKeyWordSQL(nombre);
 		return listaAutores.stream()
-				.map((bean) -> convertirEntidadADto(bean))
+				.map((bean) -> convertirBeanADTO(bean))
 				.collect(Collectors.toList());
 
 	}
@@ -48,28 +48,26 @@ public class AutorServiceImpl implements IAutorService{
 	@Override
 	public AutorDTO nuevoAutorSQL(AutorDTORequest dto) {		
 		//convertir a dto con el metodo convertirEntidadADto
-		return convertirEntidadADto(this.autorRepository.nuevoAutorSQL(dto.getNombre(), dto.getApellidos()));
+		return convertirBeanADTO(this.autorRepository.nuevoAutorSQL(dto.getNombre(), dto.getApellidos()));
 
 	}
 
 
 
 	@Override
-	public AutorDTO buscarPorId(int id) {
-		// Buscar el autor por su ID en el repositorio de autores
+	public AutorDTO findById(int id) {
+	    // Buscar el autor por su ID en el repositorio de autores
 	    Autor autor = autorRepository.findById(id).orElse(null);
-	    
+
 	    // Verificar si el autor existe
 	    if (autor != null) {
-	        // Si existe, crear un objeto AutorDTO y copiar los datos del autor a él
-	        AutorDTO autorDTO = new AutorDTO(autor.getId(), autor.getNombre() + " " + autor.getApellidos());
-	        autorDTO.setId(autor.getId());
-	        autorDTO.setNombre(autor.getNombre()+ " " + autor.getApellidos());
+	        // Utilizar el método convertirEntidadADto para convertir el autor a un DTO
+	        AutorDTO autorDTO = convertirBeanADTO(autor);
 	        
 	        // Devolver el objeto AutorDTO
 	        return autorDTO;
 	    } else {
-	        // Si el autor no existe, devolver null o manejar el caso según tus necesidades
+	        // Si el autor no existe, devolver null o manejar el caso 
 	        return null;
 	    }
 	}
@@ -105,6 +103,7 @@ public class AutorServiceImpl implements IAutorService{
 	@Override
 	public List<AutorDTO> findAll() {
 		List<Autor> lista = this.autorRepository.findAll();
+		/*
 		List<AutorDTO> listaDTO = new ArrayList<>();
 		for (Autor bean : lista) {
 			AutorDTO autorDTO = new AutorDTO();
@@ -112,7 +111,17 @@ public class AutorServiceImpl implements IAutorService{
 			autorDTO.setNombre(bean.getNombre() + " " + bean.getApellidos());
 			listaDTO.add(autorDTO);
 		}
-		return listaDTO;
+		return listaDTO;*/
+		return lista.stream()
+                .map(this::convertirBeanADTO) // Utiliza una referencia a método para convertir de bean a DTO
+                .collect(Collectors.toList()); 
+	}
+
+
+	@Override
+	public void delete(int id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

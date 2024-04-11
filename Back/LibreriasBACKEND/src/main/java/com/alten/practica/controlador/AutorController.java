@@ -50,7 +50,7 @@ public class AutorController {
 	//GetMapping para listar 1 autor por su id
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_GENERIC_ID)
 	public AutorDTO findById(@PathVariable("id") int id) {
-		return this.autorService.buscarPorId(id);
+		return this.autorService.findById(id);
 	}
 	
 	//@GetMapping para listar todos las librerias de la base de datos
