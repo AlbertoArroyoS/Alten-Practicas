@@ -21,7 +21,7 @@ import com.alten.practica.service.ILibreriaService;
  * Ruta para acceder a una libreria por su id:
  * http://localhost:8080/v1/app-libreria/librerias/libreria/1
  * Ruta para listar todas las librerias:
- * http://localhost:8080/v1/app-libreria/librerias/libreria
+ * http://localhost:8080/v1/app-libreria/librerias/
  * Ruta para editar una libreria:
  * http://localhost:8080/v1/app-libreria/librerias/libreria/1
  * Ruta para crear una libreria:
@@ -38,8 +38,8 @@ public class LibreriaController {
 	private ILibreriaService libreriaService;
 
 	
-	//@GetMapping para listar todos las librerias de la base de datos
-	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA)
+	//@GetMapping para listar todos las librerias de la base de datos + LibreriaConstant.RESOURCE_LIBRERIA
+	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS)
 	public List<LibreriaDTO> findAll () {
 		return this.libreriaService.findAll();
 	}
