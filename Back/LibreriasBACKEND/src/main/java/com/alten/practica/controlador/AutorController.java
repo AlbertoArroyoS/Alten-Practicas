@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
-import com.alten.practica.service.AutorService;
+import com.alten.practica.service.IAutorService;
 
 /*
  * Ruta para acceder a una libreria por su id:
@@ -36,7 +36,7 @@ public class AutorController {
 	
 	//Inyectamos el servicio
 	@Autowired
-	private AutorService autorService;
+	private IAutorService autorService;
 	
 	
 	//@GetMapping para buscar por key_word

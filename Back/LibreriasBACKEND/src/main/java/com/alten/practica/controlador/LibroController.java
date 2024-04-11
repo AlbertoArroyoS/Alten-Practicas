@@ -22,7 +22,7 @@ import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.dto.request.LibroDTORequest;
-import com.alten.practica.service.LibroService;
+import com.alten.practica.service.ILibroService;
 
 
 /*
@@ -45,7 +45,7 @@ import com.alten.practica.service.LibroService;
 public class LibroController {
 	
 	@Autowired
-	private LibroService libroService;
+	private ILibroService libroService;
 	
 
 	

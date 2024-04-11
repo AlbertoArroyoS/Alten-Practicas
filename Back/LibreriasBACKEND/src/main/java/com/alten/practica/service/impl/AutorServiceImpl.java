@@ -12,11 +12,11 @@ import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.repository.IAutorRepository;
 
-import com.alten.practica.service.AutorService;
+import com.alten.practica.service.IAutorService;
 
 
 @Service
-public class AutorServiceImpl implements AutorService{
+public class AutorServiceImpl implements IAutorService{
 	
 	//inyectamos el repositorio del autor
 	@Autowired

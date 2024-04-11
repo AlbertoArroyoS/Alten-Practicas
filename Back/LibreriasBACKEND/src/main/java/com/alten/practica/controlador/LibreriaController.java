@@ -16,7 +16,7 @@ import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.modelo.entidad.Libreria;
-import com.alten.practica.service.LibreriaService;
+import com.alten.practica.service.ILibreriaService;
 /*
  * Ruta para acceder a una libreria por su id:
  * http://localhost:8080/v1/app-libreria/librerias/libreria/1
@@ -35,7 +35,7 @@ import com.alten.practica.service.LibreriaService;
 public class LibreriaController {
 	
 	@Autowired
-	private LibreriaService libreriaService;
+	private ILibreriaService libreriaService;
 
 	
 	//@GetMapping para listar todos las librerias de la base de datos

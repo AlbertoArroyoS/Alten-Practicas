@@ -1,23 +1,22 @@
 package com.alten.practica.service.impl;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibroDTO;
-import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libro;
 import com.alten.practica.repository.IAutorRepository;
 import com.alten.practica.repository.ILibroRepository;
-import com.alten.practica.service.LibroService;
+import com.alten.practica.service.ILibroService;
 
 @Service
-public class LibroServiceImpl implements LibroService{
+public class LibroServiceImpl implements ILibroService{
 	
 	@Autowired
 	ILibroRepository libroRepository;

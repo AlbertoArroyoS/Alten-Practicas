@@ -6,7 +6,7 @@ import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
 
 
-public interface AutorService {
+public interface IAutorService {
 	
 	public List<AutorDTO> buscarKeyWordSQL(String nombre);
 	public AutorDTO nuevoAutorSQL(AutorDTORequest dto);

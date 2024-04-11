@@ -2,11 +2,11 @@ package com.alten.practica.service;
 
 import java.util.List;
 
+
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
-import com.alten.practica.modelo.entidad.Libreria;
 
-public interface LibreriaService {
+public interface ILibreriaService {
 	
 	public int save(LibreriaDTORequest dto);
 	

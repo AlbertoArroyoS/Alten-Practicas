@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.repository.ILibreriaRepository;
-import com.alten.practica.service.LibreriaService;
+import com.alten.practica.service.ILibreriaService;
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
 
@@ -17,20 +17,12 @@ import com.alten.practica.dto.request.LibreriaDTORequest;
 /**
  * Clase que implementa la interfaz LibreriaService
  * 
- * @see com.alten.practica.service.LibreriaService
+ * @see com.alten.practica.service.ILibreriaService
  * 
- * Ruta para acceder a una libreria por su id:
- * http://localhost:8080/v1/app-libreria/librerias/libreria/1
- * Ruta para listar todas las librerias:
- * http://localhost:8080/v1/app-libreria/librerias/libreria
- * Ruta para editar una libreria:
- * http://localhost:8080/v1/app-libreria/librerias/libreria/1
- * Ruta para crear una libreria:
- * http://localhost:8080/v1/app-libreria/librerias/libreria
  * 
  */
 @Service
-public class LibreriaServiceImpl implements LibreriaService{
+public class LibreriaServiceImpl implements ILibreriaService{
 	
 	//inyeccion por constructor del repositorio de la libreria	
 	@Autowired

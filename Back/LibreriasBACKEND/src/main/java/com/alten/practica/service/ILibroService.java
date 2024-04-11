@@ -5,7 +5,7 @@ import java.util.List;
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
 
-public interface LibroService {
+public interface ILibroService {
 	
 	public LibroDTO save(LibroDTORequest dto);
 	public int update (LibroDTORequest dto, int id);
