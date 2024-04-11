@@ -3,6 +3,7 @@ package com.alten.practica.controlador;
 import java.util.List;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,14 @@ import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.service.IAutorService;
 
 /*
- * Ruta para acceder a una libreria por su id:
- * http://localhost:8080/v1/app-libreria/librerias/libreria/1
- * Ruta para listar todas las librerias:
- * http://localhost:8080/v1/app-libreria/librerias/libreria
- * Ruta para editar una libreria:
- * http://localhost:8080/v1/app-libreria/librerias/libreria/1
+ * Ruta para acceder a un autor por su id:
+ * http://localhost:8080/v1/app-libreria/autores/autor/1
+ * Ruta para listar todas los autores:
+ * http://localhost:8080/v1/app-libreria/autores
+ * Ruta para editar un autor:
+ * http://localhost:8080/v1/app-libreria/autores/autor/1
  * Ruta para crear una libreria:
- * http://localhost:8080/v1/app-libreria/librerias/libreria
+ * http://localhost:8080/v1/app-libreria/autores/autor
  */
 
 @RestController
@@ -52,6 +53,11 @@ public class AutorController {
 		return this.autorService.buscarPorId(id);
 	}
 	
+	//@GetMapping para listar todos las librerias de la base de datos
+	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
+	public List<AutorDTO> findAll () {
+		return this.autorService.findAll();
+	}
 	
 	//Metodo para crear un autor
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)

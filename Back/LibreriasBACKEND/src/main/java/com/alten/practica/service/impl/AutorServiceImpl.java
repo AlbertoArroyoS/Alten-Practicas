@@ -1,5 +1,7 @@
 package com.alten.practica.service.impl;
 
+import java.util.ArrayList;
+
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -7,7 +9,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
@@ -98,6 +99,20 @@ public class AutorServiceImpl implements IAutorService{
 
 		// Obtener el ID del primer autor en la lista
 		return autor.get(0).getId();
+	}
+
+
+	@Override
+	public List<AutorDTO> findAll() {
+		List<Autor> lista = this.autorRepository.findAll();
+		List<AutorDTO> listaDTO = new ArrayList<>();
+		for (Autor bean : lista) {
+			AutorDTO autorDTO = new AutorDTO();
+			autorDTO.setId(bean.getId());
+			autorDTO.setNombre(bean.getNombre() + " " + bean.getApellidos());
+			listaDTO.add(autorDTO);
+		}
+		return listaDTO;
 	}
 
 
