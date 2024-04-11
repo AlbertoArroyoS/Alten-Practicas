@@ -1,27 +1,34 @@
 package com.alten.practica.dto.request;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 //Capturar los datos de la peticion que vienen en el body
-
-@Builder
+//atributos que nos envia el cliente
 @Data
-public class AutorDTORequest implements Serializable	{
-	
-	//atributos que nos envia el cliente
-	private String nombre;
-	private String apellidos;
-	
-	public AutorDTORequest() {
-		super();
-	}
-	
-	public AutorDTORequest(String nombre, String apellidos) {
-		super();
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-	}
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class AutorDTORequest{
+		// LOS ATRIBUTOS NO SEAN NULOS.
+		@NotNull
+
+		// LOS ATRIBUTOS NO SEAN VACIOS.
+		@NotEmpty
+
+		// LOS ATRIBUTOS NOS SEAN NULAS NI BACIOS.
+		@NotBlank
+		
+		//VALIDA LA LONGITUD MINIMA Y MAXIMA DE UNA CADENA
+		@Size(min = 5,max = 100)
+		private String nombre;
+		private String apellidos;
+		
+
 }
