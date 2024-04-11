@@ -32,6 +32,9 @@ public class LibreriaDTORequest {
 		
 		//VALIDA LA LONGITUD MINIMA Y MAXIMA DE UNA CADENA
 		@Size(min = 5,max = 100)
-		private String nombre;
+		private String nombreLibreria;
+		private String nombreDueno;
+		private String direccion;
+		private String ciudad;
 
 }

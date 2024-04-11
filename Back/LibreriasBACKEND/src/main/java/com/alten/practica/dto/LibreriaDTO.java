@@ -1,6 +1,7 @@
 package com.alten.practica.dto;
 
 import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,9 @@ public class LibreriaDTO implements Serializable{
 	 */
 	private static final long serialVersionUID = -1219294407338278479L;
 	private int id;
-	private String nombre;
+	private String nombreLibreria;
+	private String nombreDueno;
+	private String direccion;
+	private String ciudad;
 
 }
