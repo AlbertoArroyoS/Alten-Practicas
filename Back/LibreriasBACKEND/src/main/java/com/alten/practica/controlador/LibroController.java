@@ -3,6 +3,8 @@ package com.alten.practica.controlador;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +22,8 @@ import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.service.ILibroService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
  * Todos los libros
  * http://localhost:8080/v1/app-libreria/libros
@@ -32,7 +36,7 @@ import com.alten.practica.service.ILibroService;
  * Ruta para crear una libro:
  * http://localhost:8080/v1/app-libreria/libros/libro
  */
-
+@Slf4j
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
 @CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND)
@@ -50,8 +54,9 @@ public class LibroController {
 
 	// @GetMapping para buscar por key_word un libro
 	@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
-	public List<LibroDTO> buscarKeyWordSQL(@RequestParam String key_word) {
-		return this.libroService.findByTitle(key_word);
+	public Page<LibroDTO> buscarKeyWordSQL(@RequestParam String key_word, Pageable pageable) {
+		log.info("crce LibroController -> {} " + pageable);
+		return this.libroService.findByTitle(key_word, pageable);
 	}
 
 	// @GetMapping para listar todos las librerias de la base de datos

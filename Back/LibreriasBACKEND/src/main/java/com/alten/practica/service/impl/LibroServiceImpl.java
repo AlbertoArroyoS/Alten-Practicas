@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -134,23 +136,18 @@ public class LibroServiceImpl implements ILibroService {
 	}
 
 	@Override
-	public List<LibroDTO> findByTitle(String title) {
-		List<Libro> lista = this.libroRepository.buscarKeyWordSQL(title);
-		List<LibroDTO> listaDTO = new ArrayList<>();
-		for (Libro bean : lista) {
-			LibroDTO libroDTO = new LibroDTO();
-			libroDTO.setTitulo(bean.getTitulo());
-			libroDTO.setNombreAutor(bean.getAutor().getNombre());
-			libroDTO.setApellidosAutor(bean.getAutor().getApellidos());
-			libroDTO.setGenero(bean.getGenero());
-			libroDTO.setPaginas(bean.getPaginas());
-			libroDTO.setEditorial(bean.getEditorial());
-			libroDTO.setDescripcion(bean.getDescripcion());
-			libroDTO.setPrecio(bean.getPrecio());
-			listaDTO.add(libroDTO);
-		}
-		return listaDTO;
-
+	public Page<LibroDTO> findByTitle(String title, Pageable pageable) {
+		Page<Libro> listaPages = this.libroRepository.buscarKeyWordSQL(title, pageable);
+		return listaPages
+				.map(libro -> LibroDTO.builder()
+						.titulo(libro.getTitulo())
+						.nombreAutor(libro.getAutor().getNombre())
+						.apellidosAutor(libro.getAutor().getApellidos())
+						.genero(libro.getGenero())
+						.paginas(libro.getPaginas())
+						.editorial(libro.getEditorial())
+						.descripcion(libro.getDescripcion())
+						.precio(libro.getPrecio()).build());
 	}
 
 }

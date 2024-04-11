@@ -2,6 +2,9 @@ package com.alten.practica.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
 
@@ -26,6 +29,6 @@ public interface ILibroService {
 	public int delete(int id);
 
 	// Metodo para buscar por key_word, por palabra clave
-	public List<LibroDTO> findByTitle(String title);
+	public Page<LibroDTO> findByTitle(String title, Pageable pageable);
 
 }
