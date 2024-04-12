@@ -63,7 +63,7 @@ public class LibroController {
 	@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
 	public Page<LibroDTO> buscarKeyWordSQL(@RequestParam String key_word, PageableDTO pageable) {
 		log.info("crce LibroController -> {} " + pageable);
-		return this.libroService.findByTitle(key_word, this.libreriaUtil.getPageable(pageable));
+		return this.libroService.findByTitle(key_word, this.libreriaUtil.getPageable(pageable,"id_libro"));
 	}
 
 	// @GetMapping para listar todos las librerias de la base de datos
