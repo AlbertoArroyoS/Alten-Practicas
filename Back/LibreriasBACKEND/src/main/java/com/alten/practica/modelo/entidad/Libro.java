@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,10 +53,9 @@ public class Libro {
     
     @OneToMany(mappedBy = "libro")
     private List<LibreriaLibro> libreriaLibros;
-
-    @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
+    
+    @OneToMany(mappedBy = "libro")
+    private List<ClienteCompraLibro> listaClientes;
 
 
     

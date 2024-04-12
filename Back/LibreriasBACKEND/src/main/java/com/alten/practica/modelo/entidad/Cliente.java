@@ -38,6 +38,6 @@ public class Cliente {
 	}
 	
 	@OneToMany(mappedBy = "cliente")
-    private List<Libro> listaLibros;
+    private List<ClienteCompraLibro> listaCompras;
 	
 }
