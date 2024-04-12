@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.LibroDTO;
+import com.alten.practica.dto.PageableDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.service.ILibroService;
+import com.alten.practica.util.LibreriaUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +48,9 @@ public class LibroController {
 
 	@Autowired
 	private ILibroService libroService;
+	
+	@Autowired
+	LibreriaUtil libreriaUtil;
 
 	private LibroDTORequest convertirLibroDTORequest(LibroDTO libroDTO) {
 		return LibroDTORequest.builder().titulo(libroDTO.getTitulo()).nombreAutor(libroDTO.getNombreAutor())
@@ -56,9 +61,9 @@ public class LibroController {
 
 	// @GetMapping para buscar por key_word un libro
 	@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
-	public Page<LibroDTO> buscarKeyWordSQL(@RequestParam String key_word, Pageable pageable) {
+	public Page<LibroDTO> buscarKeyWordSQL(@RequestParam String key_word, PageableDTO pageable) {
 		log.info("crce LibroController -> {} " + pageable);
-		return this.libroService.findByTitle(key_word, pageable);
+		return this.libroService.findByTitle(key_word, this.libreriaUtil.getPageable(pageable));
 	}
 
 	// @GetMapping para listar todos las librerias de la base de datos

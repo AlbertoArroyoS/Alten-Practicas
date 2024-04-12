@@ -21,6 +21,8 @@ public class LibreriaUtil {
 	 * Metodo que devuelve un objeto Pageable Recibe un objeto PageableDTO, con el
 	 * orden, el campo, el numero de pagina y el tamaño de la pagina
 	 * 
+	 * order = 1 ASC, 0 DESC
+	 * 
 	 * @param pageableDTO
 	 * @return
 	 */
@@ -35,6 +37,7 @@ public class LibreriaUtil {
 			Sort.Direction direction = sortOrder.get().equals(1) ? Sort.Direction.ASC : Sort.Direction.DESC;
 			pageable = PageRequest.of(pageNumber, perPage, Sort.by(direction, sortField.get()));
 		} else {
+			// Por defecto se ordena por id de forma descendente
 			pageable = PageRequest.of(pageNumber, perPage, Sort.by(Sort.Direction.DESC, "id"));
 		}
 		return pageable;
