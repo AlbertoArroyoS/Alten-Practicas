@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
+import com.alten.practica.mapper.IAutorMapper;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.repository.IAutorRepository;
 
@@ -23,10 +24,14 @@ public class AutorServiceImpl implements IAutorService {
 	// inyectamos el repositorio del autor
 	@Autowired
 	IAutorRepository autorRepository;
+	@Autowired
+	IAutorMapper autorMapper;
 
 	// Metodo para convertir de entidad a dto
 	private AutorDTO convertirBeanADTO(Autor autor) {
-		return AutorDTO.builder().id(autor.getId()).nombre(autor.getNombre() + " " + autor.getApellidos()).build();
+		return AutorDTO.builder()
+				.id(autor.getId())
+				.nombre(autor.getNombre() + " " + autor.getApellidos()).build();
 	}
 
 	@Override
@@ -71,9 +76,9 @@ public class AutorServiceImpl implements IAutorService {
 		 * autorDTO.setNombre(bean.getNombre() + " " + bean.getApellidos());
 		 * listaDTO.add(autorDTO); } return listaDTO;
 		 */
-		return lista.stream().map(this::convertirBeanADTO) // Utiliza una referencia a método para convertir de bean a
-															// DTO
-				.collect(Collectors.toList());
+		return lista.stream()
+	            .map(autor -> autorMapper.toDTO(autor))
+	            .collect(Collectors.toList());
 	}
 
 	@Override

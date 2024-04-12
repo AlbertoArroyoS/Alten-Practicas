@@ -13,6 +13,7 @@ import com.alten.practica.service.ILibreriaService;
 
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
+import com.alten.practica.mapper.ILibreriaMapper;
 
 /**
  * Clase que implementa la interfaz LibreriaService
@@ -28,6 +29,9 @@ public class LibreriaServiceImpl implements ILibreriaService {
 	// inyeccion por constructor del repositorio de la libreria
 	@Autowired
 	ILibreriaRepository libreriaRepository;
+	
+	@Autowired
+	ILibreriaMapper libreriaMapper;
 
 	/**
 	 * Metodo para convertir de entidad Libreria a DTO LibreriaDTO
@@ -86,9 +90,10 @@ public class LibreriaServiceImpl implements ILibreriaService {
 		 * convertirBeanADTO(bean) .collect(Collectors.toList());
 		 */
 		//
-		return lista.stream().map(this::convertirBeanADTO) // Utiliza una referencia a método para convertir de bean a
-															// DTO
-				.collect(Collectors.toList());
+		return lista.stream()
+	            .map(libreria -> libreriaMapper.toDTO(libreria))
+	            .collect(Collectors.toList());
+
 	}
 
 	@Override
