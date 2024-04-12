@@ -1,7 +1,6 @@
 package com.alten.practica.modelo.entidad;
 
 import java.sql.Date;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
