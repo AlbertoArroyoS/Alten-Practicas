@@ -53,7 +53,9 @@ public class Libro {
     @OneToMany(mappedBy = "libro")
     private List<LibreriaLibro> libreriaLibros;
 
-
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
 
 
     

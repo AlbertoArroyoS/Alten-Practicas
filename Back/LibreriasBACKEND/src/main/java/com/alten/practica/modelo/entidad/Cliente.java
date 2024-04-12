@@ -1,10 +1,13 @@
 package com.alten.practica.modelo.entidad;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
@@ -33,5 +36,8 @@ public class Cliente {
 	public Cliente() {
 		super();
 	}
+	
+	@OneToMany(mappedBy = "cliente")
+    private List<Libro> listaLibros;
 	
 }

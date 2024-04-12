@@ -29,9 +29,9 @@ public class LibreriaLibro {
     @ManyToOne
     @JoinColumn(name = "id_libro", referencedColumnName = "id_libro")
     private Libro libro;
-    
+    @Column(name = "cantidad")
     private int cantidad;
-    
+    @Column(name = "precio")
     private double precio;
 
 	public LibreriaLibro() {
