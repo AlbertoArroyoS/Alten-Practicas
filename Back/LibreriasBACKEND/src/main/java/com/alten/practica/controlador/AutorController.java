@@ -48,12 +48,17 @@ public class AutorController {
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
 	public ResponseEntity<List<AutorDTO>> buscarKeyWordSQL(@RequestParam String key_word) {
 		//return this.autorService.buscarKeyWordSQL(key_word);
-		List<AutorDTO> lista = this.autorService.buscarKeyWordSQL(key_word);
-		if (lista.isEmpty()) {
-			return new ResponseEntity<>(lista, HttpStatus.NOT_FOUND); // 404 NOT FOUND
-		} else {
-			return new ResponseEntity<>(lista, HttpStatus.OK); // 200 OK
+		try {
+			List<AutorDTO> lista = this.autorService.buscarKeyWordSQL(key_word);
+			if (lista.isEmpty()) {
+				return new ResponseEntity<>(lista, HttpStatus.NOT_FOUND); // 404 NOT FOUND
+			} else {
+				return new ResponseEntity<>(lista, HttpStatus.OK); // 200 OK
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
 		}
+
 	}
 
 	// GetMapping para listar 1 autor por su id
@@ -77,12 +82,17 @@ public class AutorController {
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
 	public ResponseEntity<List<AutorDTO>> findAll() {
 		//return this.autorService.findAll();
-		List<AutorDTO> lista = this.autorService.findAll();
-		if (lista.isEmpty()) {
-			return new ResponseEntity<>(lista, HttpStatus.NOT_FOUND); // 404 NOT FOUND
-		} else {
-			return new ResponseEntity<>(lista, HttpStatus.OK); // 200 OK
+		try {
+			List<AutorDTO> lista = this.autorService.findAll();
+			if (lista.isEmpty()) {
+				return new ResponseEntity<>(lista, HttpStatus.NOT_FOUND); // 404 NOT FOUND
+			} else {
+				return new ResponseEntity<>(lista, HttpStatus.OK); // 200 OK
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
 		}
+
 	}
 
 	// Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL
@@ -91,16 +101,21 @@ public class AutorController {
 	public ResponseEntity<AutorDTO> save(@RequestBody AutorDTORequest dto) {
 		//return this.autorService.save(dto);
 		//return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
-		AutorDTO dtoAlta = this.autorService.save(dto);
-		HttpStatus codigoRespuesta = null;
-		if(dtoAlta != null) {
-			codigoRespuesta = HttpStatus.CREATED;
-		}else {
-			codigoRespuesta = HttpStatus.BAD_REQUEST;
-		}		
-		ResponseEntity<AutorDTO> re = 
-				new ResponseEntity<AutorDTO>(dtoAlta, codigoRespuesta);
-		return re;
+		try {
+			AutorDTO dtoAlta = this.autorService.save(dto);
+			HttpStatus codigoRespuesta = null;
+			if(dtoAlta != null) {
+				codigoRespuesta = HttpStatus.CREATED; // 201 CREATED
+			}else {
+				codigoRespuesta = HttpStatus.BAD_REQUEST; // 400 BAD REQUEST
+			}		
+			ResponseEntity<AutorDTO> re = 
+					new ResponseEntity<AutorDTO>(dtoAlta, codigoRespuesta);
+			return re;
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
+		}
+
 	
 	}
 
@@ -108,16 +123,16 @@ public class AutorController {
 	@DeleteMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
-		
-		boolean borrado = autorService.delete(id);
-		HttpStatus codigoRespuesta = null;
-		if(borrado) {
-			codigoRespuesta = HttpStatus.OK;
-		}else {
-			codigoRespuesta = HttpStatus.BAD_REQUEST;
+		try {
+			boolean borrado = autorService.delete(id);
+			if (borrado) {
+				return new ResponseEntity<Integer>(id, HttpStatus.OK); // 200 OK
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 NOT FOUND
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
 		}
-		return new ResponseEntity<Integer>(id,codigoRespuesta);
-
 		
 	}
 
@@ -126,16 +141,20 @@ public class AutorController {
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<AutorDTO> update(@RequestBody AutorDTORequest dto, @PathVariable("id") int id) {
 	//	return this.autorService.update(dto, id);			
-		AutorDTO dtoModificado = this.autorService.update(dto, id);
-		HttpStatus codigoRespuesta = null;
-		if(dtoModificado != null) {
-			codigoRespuesta = HttpStatus.OK;
-		}else {
-			codigoRespuesta = HttpStatus.BAD_REQUEST;
+		try {
+			AutorDTO dtoModificado = this.autorService.update(dto, id);
+			HttpStatus codigoRespuesta = null;
+			if (dtoModificado != null) {
+				codigoRespuesta = HttpStatus.OK; // 200 OK
+			} else {
+				codigoRespuesta = HttpStatus.BAD_REQUEST; // 400 BAD REQUEST
+			}
+			ResponseEntity<AutorDTO> re = new ResponseEntity<AutorDTO>(dtoModificado, codigoRespuesta);
+			return re;
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
 		}
-		
-		ResponseEntity<AutorDTO> re = new ResponseEntity<AutorDTO>(dtoModificado, codigoRespuesta);
-		return re;
+
 	}
 
 }
