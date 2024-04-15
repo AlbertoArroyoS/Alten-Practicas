@@ -2,7 +2,10 @@ package com.alten.practica.controlador;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,8 +66,9 @@ public class AutorController {
 	// Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL
 	// (@RequestBody AutorDTORequest dto) {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
-	public int save(@RequestBody AutorDTORequest dto) {
-		return this.autorService.save(dto);
+	public ResponseEntity<AutorDTO> save(@RequestBody AutorDTORequest dto) {
+		//return this.autorService.save(dto);
+		return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
 	}
 
 	// Metodo para eliminar un autor

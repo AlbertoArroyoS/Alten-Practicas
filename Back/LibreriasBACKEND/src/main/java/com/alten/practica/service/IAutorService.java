@@ -8,7 +8,7 @@ import com.alten.practica.dto.request.AutorDTORequest;
 public interface IAutorService {
 
 	// Metodo para guardar un autor
-	public int save(AutorDTORequest dto);
+	public AutorDTO save(AutorDTORequest dto);
 
 	// Metodo para guardar un autor Cargando Procedimiento SQL
 	public AutorDTO saveAutorSQL(AutorDTORequest dto);
