@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
+import com.alten.practica.mapper.ILibroMapper;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libro;
 import com.alten.practica.repository.IAutorRepository;
@@ -26,6 +27,8 @@ public class LibroServiceImpl implements ILibroService {
 	ILibroRepository libroRepository;
 	@Autowired
 	IAutorRepository autorRepository;
+	@Autowired
+	ILibroMapper libroMapper;
 
 	// Método para convertir de entidad Libro a DTO LibroDTO
 	private LibroDTO convertirBeanADTO(Libro libro) {
@@ -139,15 +142,8 @@ public class LibroServiceImpl implements ILibroService {
 	public Page<LibroDTO> findByTitle(String title, Pageable pageable) {
 		Page<Libro> listaPages = this.libroRepository.buscarKeyWordSQL(title, pageable);
 		return listaPages
-				.map(libro -> LibroDTO.builder()
-						.titulo(libro.getTitulo())
-						.nombreAutor(libro.getAutor().getNombre())
-						.apellidosAutor(libro.getAutor().getApellidos())
-						.genero(libro.getGenero())
-						.paginas(libro.getPaginas())
-						.editorial(libro.getEditorial())
-						.descripcion(libro.getDescripcion())
-						.precio(libro.getPrecio()).build());
+				.map(libro -> libroMapper.toDTO(libro));
+						
 	}
 
 }
