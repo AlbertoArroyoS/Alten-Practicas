@@ -1,6 +1,7 @@
 package com.alten.practica.service.impl;
 
-import java.util.ArrayList;
+
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.mapper.ILibroMapper;

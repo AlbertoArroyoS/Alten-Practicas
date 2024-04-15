@@ -2,8 +2,6 @@ package com.alten.practica.modelo.entidad;
 
 import java.util.List;
 
-
-
 import com.alten.practica.constantes.LibreriaConstant;
 
 import jakarta.persistence.Column;
@@ -15,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

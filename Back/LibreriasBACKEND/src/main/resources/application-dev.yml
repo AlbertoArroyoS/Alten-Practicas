@@ -18,8 +18,15 @@ spring:
         persistence:
           validation:
             mode: none
-  persistence:
-    unit-name: PracticasAlten
+      persistence:
+      unit-name: PracticasAlten
+      
+      
+  application:
+    name: librerias-alten
+  jmx:
+    default-domain: ${spring.application.name}
+    
 
 springdoc:
   swagger-ui:
@@ -28,3 +35,16 @@ springdoc:
   api-docs:
      path: /api-docs
   packagesToScan: com.alten.practica.controlador
+  
+  
+ ## CONFIGURACION DE LOS LOGS
+logging:
+  level:
+    root: info
+  pattern:
+    console: "%d{dd-MM-yyyy HH:mm:ss} - %msg%n"
+  file: 
+    name: log/${spring.application.name}.log
+    max-size: 10MB
+    total-size-cap: 100MB
+    
