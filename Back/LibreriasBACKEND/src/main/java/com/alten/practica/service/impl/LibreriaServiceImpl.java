@@ -33,17 +33,14 @@ public class LibreriaServiceImpl implements ILibreriaService {
 	@Autowired
 	ILibreriaMapper libreriaMapper;
 
-	/**
-	 * Metodo para convertir de entidad Libreria a DTO LibreriaDTO
-	 * 
-	 * @param bean
-	 * @return LibreriaDTO
-	 */
+	// Metodo para convertir de entidad a dto. Ya no se necesita, realizar el mapeo con MapStruct
+
+	/*
 	public LibreriaDTO convertirBeanADTO(Libreria bean) {
 		return LibreriaDTO.builder().id(bean.getId()).nombreLibreria(bean.getNombreLibreria())
 				.nombreDueno(bean.getNombreDueno()).direccion(bean.getDireccion()).ciudad(bean.getCiudad()).build();
 
-	}
+	}*/
 
 	@Override
 	public int save(LibreriaDTORequest dto) {
@@ -68,7 +65,7 @@ public class LibreriaServiceImpl implements ILibreriaService {
 																			// NullPointerException
 
 		if (bean != null) {
-			return convertirBeanADTO(bean); // Utiliza el método convertirBeanADTO para convertir el bean a DTO
+			return libreriaMapper.toDTO(bean); // Utiliza el método convertirBeanADTO para convertir el bean a DTO
 		} else {
 			return null; // Devuelve null si el bean no se encuentra en la base de datos
 		}

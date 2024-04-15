@@ -3,6 +3,7 @@ package com.alten.practica.service.impl;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.mapper.ILibroMapper;
@@ -30,12 +32,13 @@ public class LibroServiceImpl implements ILibroService {
 	@Autowired
 	ILibroMapper libroMapper;
 
-	// Método para convertir de entidad Libro a DTO LibroDTO
+	// Método para convertir de entidad Libro a DTO LibroDTO. Ya no se necesita, realizar el mapeo con MapStruct
+	/*
 	private LibroDTO convertirBeanADTO(Libro libro) {
 		return LibroDTO.builder().titulo(libro.getTitulo()).nombreAutor(libro.getAutor().getNombre())
 				.apellidosAutor(libro.getAutor().getApellidos()).genero(libro.getGenero()).paginas(libro.getPaginas())
 				.editorial(libro.getEditorial()).descripcion(libro.getDescripcion()).precio(libro.getPrecio()).build();
-	}
+	}*/
 
 	@Override
 	public int save(LibroDTORequest dto) {
@@ -86,7 +89,8 @@ public class LibroServiceImpl implements ILibroService {
 
 	@Override
 	public LibroDTO findById(int id) {
-		Libro bean = this.libroRepository.findById(id).get();
+		Libro libro = this.libroRepository.findById(id).get();
+		/*
 		LibroDTO libroDTO = new LibroDTO();
 		libroDTO.setTitulo(bean.getTitulo());
 		libroDTO.setNombreAutor(bean.getAutor().getNombre());
@@ -96,13 +100,25 @@ public class LibroServiceImpl implements ILibroService {
 		libroDTO.setEditorial(bean.getEditorial());
 		libroDTO.setDescripcion(bean.getDescripcion());
 		libroDTO.setPrecio(bean.getPrecio());
-		return libroDTO;
+		return libroDTO;*/
+		if (libro != null) {
+			// Utilizar el método convertirEntidadADto para convertir el libro a un DTO
+			LibroDTO libroDTO = libroMapper.toDTO(libro);
+			// Devolver el objeto LibroDTO
+			return libroDTO;
+		} else {
+			// Si el libro no existe, devolver null o manejar el caso
+			return null;
+		}
+		
+		
 
 	}
 
 	@Override
 	public List<LibroDTO> findAll() {
 		List<Libro> lista = this.libroRepository.findAll();
+		/*
 		List<LibroDTO> listaDTO = new ArrayList<>();
 		for (Libro bean : lista) {
 			LibroDTO libroDTO = new LibroDTO();
@@ -116,7 +132,11 @@ public class LibroServiceImpl implements ILibroService {
 			libroDTO.setPrecio(bean.getPrecio());
 			listaDTO.add(libroDTO);
 		}
-		return listaDTO;
+		return listaDTO;*/
+		
+		return lista.stream()
+	            .map(libro -> libroMapper.toDTO(libro))
+	            .collect(Collectors.toList());
 
 	}
 

@@ -27,12 +27,13 @@ public class AutorServiceImpl implements IAutorService {
 	@Autowired
 	IAutorMapper autorMapper;
 
-	// Metodo para convertir de entidad a dto
+	// Metodo para convertir de entidad a dto. Ya no se necesita, realizar el mapeo con MapStruct
+	/*
 	private AutorDTO convertirBeanADTO(Autor autor) {
 		return AutorDTO.builder()
 				.id(autor.getId())
 				.nombre(autor.getNombre() + " " + autor.getApellidos()).build();
-	}
+	}*/
 
 	@Override
 	public int save(AutorDTORequest dto) {
@@ -45,7 +46,7 @@ public class AutorServiceImpl implements IAutorService {
 	@Override
 	public AutorDTO saveAutorSQL(AutorDTORequest dto) {
 		// convertir a dto con el metodo convertirEntidadADto
-		return convertirBeanADTO(this.autorRepository.nuevoAutorSQL(dto.getNombre(), dto.getApellidos()));
+		return autorMapper.toDTO(this.autorRepository.nuevoAutorSQL(dto.getNombre(), dto.getApellidos()));
 
 	}
 
@@ -57,7 +58,7 @@ public class AutorServiceImpl implements IAutorService {
 		// Verificar si el autor existe
 		if (autor != null) {
 			// Utilizar el método convertirEntidadADto para convertir el autor a un DTO
-			AutorDTO autorDTO = convertirBeanADTO(autor);
+			AutorDTO autorDTO = autorMapper.toDTO(autor);
 
 			// Devolver el objeto AutorDTO
 			return autorDTO;
@@ -99,7 +100,7 @@ public class AutorServiceImpl implements IAutorService {
 	@Override
 	public List<AutorDTO> buscarKeyWordSQL(String nombre) {
 		List<Autor> listaAutores = this.autorRepository.buscarKeyWordSQL(nombre);
-		return listaAutores.stream().map((bean) -> convertirBeanADTO(bean)).collect(Collectors.toList());
+		return listaAutores.stream().map((bean) -> autorMapper.toDTO(bean)).collect(Collectors.toList());
 
 	}
 
