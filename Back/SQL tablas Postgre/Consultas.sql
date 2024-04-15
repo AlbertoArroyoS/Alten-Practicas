@@ -141,4 +141,4 @@ select * from dbo.fn_guardar_libro(
 -- ver si existe un id
 select count(*)>0 from dbo.librerias l where l.id_libreria = 1;
 
-
+select count(*) from dbo.librerias l where l.id_libreria = 1
