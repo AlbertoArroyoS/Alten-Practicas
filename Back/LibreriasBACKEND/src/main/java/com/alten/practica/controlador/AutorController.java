@@ -19,6 +19,8 @@ import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.service.IAutorService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
  * Ruta para acceder a un autor por su id:
  * http://localhost:8080/v1/app-libreria/autores/autor/1
@@ -29,7 +31,7 @@ import com.alten.practica.service.IAutorService;
  * Ruta para crear una libreria:
  * http://localhost:8080/v1/app-libreria/autores/autor
  */
-
+@Slf4j
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
 @CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND)

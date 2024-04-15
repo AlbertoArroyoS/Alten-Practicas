@@ -19,6 +19,8 @@ import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.service.ILibreriaService;
+
+import lombok.extern.slf4j.Slf4j;
 /*
  * Ruta para acceder a una libreria por su id:
  * http://localhost:8080/v1/app-libreria/librerias/libreria/1
@@ -29,7 +31,7 @@ import com.alten.practica.service.ILibreriaService;
  * Ruta para crear una libreria:
  * http://localhost:8080/v1/app-libreria/librerias/libreria
  */
-
+@Slf4j
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
 @CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) // Permite que el FrontEnd se conecte a este controlador, de momento
@@ -50,6 +52,7 @@ public class LibreriaController {
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public LibreriaDTO findById(@PathVariable("id") int id) {
+		
 		return this.libreriaService.findById(id);
 	}
 

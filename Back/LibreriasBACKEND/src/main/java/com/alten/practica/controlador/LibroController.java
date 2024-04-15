@@ -51,18 +51,19 @@ public class LibroController {
 	
 	@Autowired
 	LibreriaUtil libreriaUtil;
-
+/*
 	private LibroDTORequest convertirLibroDTORequest(LibroDTO libroDTO) {
 		return LibroDTORequest.builder().titulo(libroDTO.getTitulo()).nombreAutor(libroDTO.getNombreAutor())
 				.apellidosAutor(libroDTO.getApellidosAutor()).genero(libroDTO.getGenero())
 				.paginas(libroDTO.getPaginas()).editorial(libroDTO.getEditorial())
 				.descripcion(libroDTO.getDescripcion()).precio(libroDTO.getPrecio()).build();
-	}
+	}*/
 
 	// @GetMapping para buscar por key_word un libro
 	@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
 	public Page<LibroDTO> buscarKeyWordSQL(@RequestParam String key_word, PageableDTO pageable) {
-		log.info("crce LibroController -> {} " + pageable);
+		//
+		log.info("LibroController -> {} " + pageable.toString());
 		return this.libroService.findByTitle(key_word, this.libreriaUtil.getPageable(pageable,"id_libro"));
 	}
 
