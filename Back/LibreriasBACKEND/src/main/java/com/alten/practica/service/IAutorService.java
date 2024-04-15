@@ -20,10 +20,10 @@ public interface IAutorService {
 	public List<AutorDTO> findAll();
 
 	// Metodo para actualizar un autor
-	public int update(AutorDTORequest dto, int id);
+	public AutorDTO update(AutorDTORequest dto, int id);
 
 	// Metodo para borrar un autor
-	public void delete(int id);
+	public boolean delete(int id);
 
 	// Metodo para buscar por key_word, Cargando Procedimiento SQL, por palabra
 	// clave

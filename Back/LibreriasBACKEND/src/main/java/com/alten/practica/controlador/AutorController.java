@@ -46,21 +46,43 @@ public class AutorController {
 
 	// @GetMapping para buscar por key_word
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
-	public List<AutorDTO> buscarKeyWordSQL(@RequestParam String key_word) {
-		return this.autorService.buscarKeyWordSQL(key_word);
+	public ResponseEntity<List<AutorDTO>> buscarKeyWordSQL(@RequestParam String key_word) {
+		//return this.autorService.buscarKeyWordSQL(key_word);
+		List<AutorDTO> lista = this.autorService.buscarKeyWordSQL(key_word);
+		if (lista.isEmpty()) {
+			return new ResponseEntity<>(lista, HttpStatus.NOT_FOUND); // 404 NOT FOUND
+		} else {
+			return new ResponseEntity<>(lista, HttpStatus.OK); // 200 OK
+		}
 	}
 
 	// GetMapping para listar 1 autor por su id
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public AutorDTO findById(@PathVariable("id") int id) {
-		return this.autorService.findById(id);
+	public ResponseEntity<AutorDTO> findById(@PathVariable("id") int id) {
+		try {
+	        AutorDTO dto = this.autorService.findById(id);
+	        if (dto != null) {
+	        	return new ResponseEntity<AutorDTO>(dto, HttpStatus.OK); // 200 OK
+	        } else {
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 NOT FOUND
+	        }
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
+	    }
+
 	}
 
-	// @GetMapping para listar todos las librerias de la base de datos
+	// @GetMapping para listar todos los autores de la base de datos
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
-	public List<AutorDTO> findAll() {
-		return this.autorService.findAll();
+	public ResponseEntity<List<AutorDTO>> findAll() {
+		//return this.autorService.findAll();
+		List<AutorDTO> lista = this.autorService.findAll();
+		if (lista.isEmpty()) {
+			return new ResponseEntity<>(lista, HttpStatus.NOT_FOUND); // 404 NOT FOUND
+		} else {
+			return new ResponseEntity<>(lista, HttpStatus.OK); // 200 OK
+		}
 	}
 
 	// Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL
@@ -68,29 +90,52 @@ public class AutorController {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
 	public ResponseEntity<AutorDTO> save(@RequestBody AutorDTORequest dto) {
 		//return this.autorService.save(dto);
-		return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
+		//return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
+		AutorDTO dtoAlta = this.autorService.save(dto);
+		HttpStatus codigoRespuesta = null;
+		if(dtoAlta != null) {
+			codigoRespuesta = HttpStatus.CREATED;
+		}else {
+			codigoRespuesta = HttpStatus.BAD_REQUEST;
+		}		
+		ResponseEntity<AutorDTO> re = 
+				new ResponseEntity<AutorDTO>(dtoAlta, codigoRespuesta);
+		return re;
+	
 	}
 
 	// Metodo para eliminar un autor
 	@DeleteMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public void delete(@PathVariable("id") int id) {
-		this.autorService.delete(id);
-		/*
-		 * if (deletedId != -1) { return
-		 * ResponseEntity.ok("Libreria eliminada con éxito"); // Si la eliminación fue
-		 * exitosa, devuelves un ResponseEntity con estado 200 (OK) } else { return
-		 * ResponseEntity.status(HttpStatus.NOT_FOUND).body("Libreria no encontrada");
-		 * // Si no se encontró la libreria, devuelves un ResponseEntity con estado 404
-		 * (NOT FOUND) }
-		 */
+	public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
+		
+		boolean borrado = autorService.delete(id);
+		HttpStatus codigoRespuesta = null;
+		if(borrado) {
+			codigoRespuesta = HttpStatus.OK;
+		}else {
+			codigoRespuesta = HttpStatus.BAD_REQUEST;
+		}
+		return new ResponseEntity<Integer>(id,codigoRespuesta);
+
+		
 	}
 
 	// Metodo para actualizar un autor
 	@PutMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public int update(@RequestBody AutorDTORequest dto, @PathVariable("id") int id) {
-		return this.autorService.update(dto, id);
+	public ResponseEntity<AutorDTO> update(@RequestBody AutorDTORequest dto, @PathVariable("id") int id) {
+	//	return this.autorService.update(dto, id);			
+		AutorDTO dtoModificado = this.autorService.update(dto, id);
+		HttpStatus codigoRespuesta = null;
+		if(dtoModificado != null) {
+			codigoRespuesta = HttpStatus.OK;
+		}else {
+			codigoRespuesta = HttpStatus.BAD_REQUEST;
+		}
+		
+		ResponseEntity<AutorDTO> re = new ResponseEntity<AutorDTO>(dtoModificado, codigoRespuesta);
+		return re;
 	}
 
 }

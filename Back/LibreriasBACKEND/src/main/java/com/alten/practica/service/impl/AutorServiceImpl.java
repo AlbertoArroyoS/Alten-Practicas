@@ -83,17 +83,22 @@ public class AutorServiceImpl implements IAutorService {
 	}
 
 	@Override
-	public int update(AutorDTORequest dto, int id) {
+	public AutorDTO update(AutorDTORequest dto, int id) {
 		Autor autor = this.autorRepository.findById(id).get();
 		autor.setId(id);
 		autor.setNombre(dto.getNombre());
 		autor.setApellidos(dto.getApellidos());
-		return this.autorRepository.save(autor).getId();
+		return autorMapper.toDTO(autorRepository.save(autor));
 	}
 
 	@Override
-	public void delete(int id) {
-		this.autorRepository.deleteById(id);
+	public boolean delete(int id) {
+		if(autorRepository.findById(id).isPresent()) {
+			autorRepository.deleteById(id);
+			return true;
+		}else {
+			return false;
+		}		
 
 	}
 
