@@ -70,8 +70,8 @@ public class LibroController {
 
 	// @GetMapping para listar todos las librerias de la base de datos
 	@GetMapping(LibreriaConstant.RESOURCE_LIBROS)
-	public List<LibroDTO> findAll() {
-		return this.libroService.findAll();
+	public ResponseEntity<List<LibroDTO>> findAll() {
+		return new ResponseEntity<>(this.libroService.findAll(), HttpStatus.OK); // 200 OK
 	}
 
 	// GetMapping para listar 1 libreria por su id
