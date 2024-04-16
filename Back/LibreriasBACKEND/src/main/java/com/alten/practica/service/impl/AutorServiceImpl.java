@@ -4,6 +4,7 @@ package com.alten.practica.service.impl;
 
 import java.util.List;
 
+
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.repository.IAutorRepository;
 
 import com.alten.practica.service.IAutorService;
+import com.alten.practica.errorhandler.EntityNotFoundException;
 
 @Transactional
 @Service
@@ -53,8 +55,10 @@ public class AutorServiceImpl implements IAutorService {
 	@Override
 	public AutorDTO findById(int id) {
 		// Buscar el autor por su ID en el repositorio de autores
-		Autor autor = autorRepository.findById(id).orElse(null);
-
+		Autor autor = autorRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
+						
+						
 		// Verificar si el autor existe
 		if (autor != null) {
 			// Utilizar el método convertirEntidadADto para convertir el autor a un DTO
@@ -64,6 +68,7 @@ public class AutorServiceImpl implements IAutorService {
 			return autorDTO;
 		} else {
 			// Si el autor no existe, devolver null o manejar el caso
+			
 			return null;
 		}
 	}
