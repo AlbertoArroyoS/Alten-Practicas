@@ -38,13 +38,13 @@ springdoc:
   
   
  ## CONFIGURACION DE LOS LOGS
-logging:
-  level:
-    root: info
-  pattern:
-    console: "%d{dd-MM-yyyy HH:mm:ss} - %msg%n"
-  file: 
-    name: log/${spring.application.name}.log
-    max-size: 10MB
-    total-size-cap: 100MB
+##logging:
+  ##level:
+    ##root: info
+  ##pattern:
+    ##console: "%d{dd-MM-yyyy HH:mm:ss} - %msg%n"
+  ##file: 
+    ##name: log/${spring.application.name}.log
+    ##max-size: 10MB
+    ##total-size-cap: 100MB
     

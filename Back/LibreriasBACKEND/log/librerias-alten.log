@@ -44,3 +44,31 @@
 2024-04-16T07:42:42.941+02:00  INFO 37620 --- [librerias-alten] [RMI TCP Connection(8)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-04-16T07:42:42.942+02:00  INFO 37620 --- [librerias-alten] [RMI TCP Connection(8)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2024-04-16T07:42:42.944+02:00  INFO 37620 --- [librerias-alten] [RMI TCP Connection(8)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-04-16T07:44:01.545+02:00  INFO 31504 --- [librerias-alten] [main] c.a.p.LibreriasBackendApplication        : Starting LibreriasBackendApplication using Java 17.0.3 with PID 31504 (D:\Alten-Practicas\Alten-Practicas\Back\LibreriasBACKEND\target\classes started by termi in D:\Alten-Practicas\Alten-Practicas\Back\LibreriasBACKEND)
+2024-04-16T07:44:01.546+02:00  INFO 31504 --- [librerias-alten] [main] c.a.p.LibreriasBackendApplication        : The following 1 profile is active: "dev"
+2024-04-16T07:44:01.970+02:00  INFO 31504 --- [librerias-alten] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-16T07:44:02.007+02:00  INFO 31504 --- [librerias-alten] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 32 ms. Found 3 JPA repository interfaces.
+2024-04-16T07:44:02.279+02:00  INFO 31504 --- [librerias-alten] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-04-16T07:44:02.286+02:00  INFO 31504 --- [librerias-alten] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-16T07:44:02.286+02:00  INFO 31504 --- [librerias-alten] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-16T07:44:02.322+02:00  INFO 31504 --- [librerias-alten] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-04-16T07:44:02.322+02:00  INFO 31504 --- [librerias-alten] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 750 ms
+2024-04-16T07:44:02.423+02:00  INFO 31504 --- [librerias-alten] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-16T07:44:02.452+02:00  INFO 31504 --- [librerias-alten] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-04-16T07:44:02.469+02:00  INFO 31504 --- [librerias-alten] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-04-16T07:44:02.599+02:00  INFO 31504 --- [librerias-alten] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-16T07:44:02.614+02:00  INFO 31504 --- [librerias-alten] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-16T07:44:02.713+02:00  INFO 31504 --- [librerias-alten] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1de12397
+2024-04-16T07:44:02.714+02:00  INFO 31504 --- [librerias-alten] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-16T07:44:03.347+02:00  INFO 31504 --- [librerias-alten] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-16T07:44:03.426+02:00  INFO 31504 --- [librerias-alten] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-16T07:44:03.574+02:00  INFO 31504 --- [librerias-alten] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-16T07:44:04.155+02:00  INFO 31504 --- [librerias-alten] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2024-04-16T07:44:04.162+02:00  INFO 31504 --- [librerias-alten] [main] c.a.p.LibreriasBackendApplication        : Started LibreriasBackendApplication in 2.876 seconds (process running for 3.295)
+2024-04-16T07:44:22.135+02:00  INFO 31504 --- [librerias-alten] [http-nio-8080-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-16T07:44:22.136+02:00  INFO 31504 --- [librerias-alten] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-16T07:44:22.137+02:00  INFO 31504 --- [librerias-alten] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-04-16T10:50:08.736+02:00  INFO 31504 --- [librerias-alten] [RMI TCP Connection(189)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2024-04-16T10:50:08.750+02:00  INFO 31504 --- [librerias-alten] [RMI TCP Connection(189)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-16T10:50:08.752+02:00  INFO 31504 --- [librerias-alten] [RMI TCP Connection(189)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-16T10:50:08.754+02:00  INFO 31504 --- [librerias-alten] [RMI TCP Connection(189)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
