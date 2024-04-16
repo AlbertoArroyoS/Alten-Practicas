@@ -3,6 +3,7 @@ package com.alten.practica.controlador;
 import java.util.List;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.service.IAutorService;
-
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -104,7 +105,7 @@ public class AutorController {
 	// Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL
 	// (@RequestBody AutorDTORequest dto) {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
-	public ResponseEntity<AutorDTO> save(@RequestBody AutorDTORequest dto) {
+	public ResponseEntity<AutorDTO> save(@Valid @RequestBody AutorDTORequest dto) {
 		//return this.autorService.save(dto);
 		//return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
 		try {

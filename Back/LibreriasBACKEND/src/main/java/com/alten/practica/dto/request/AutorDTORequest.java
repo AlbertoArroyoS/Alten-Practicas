@@ -26,8 +26,14 @@ public class AutorDTORequest{
 		@NotBlank
 		
 		//VALIDA LA LONGITUD MINIMA Y MAXIMA DE UNA CADENA
-		@Size(min = 5,max = 100)
+		@Size(min = 2,max = 250)
+		
+		@NotBlank
+		@Size(min = 2,max = 250)
 		private String nombre;
+		
+		@NotBlank
+		@Size(min = 2,max = 250)
 		private String apellidos;
 		
 
