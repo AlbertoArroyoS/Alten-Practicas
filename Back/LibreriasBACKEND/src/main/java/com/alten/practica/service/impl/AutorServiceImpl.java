@@ -17,7 +17,10 @@ import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.repository.IAutorRepository;
 
 import com.alten.practica.service.IAutorService;
+import com.alten.practica.util.LibreriaResource;
+import com.alten.practica.util.LibreriaUtil;
 import com.alten.practica.errorhandler.EntityNotFoundException;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 
 @Transactional
 @Service
@@ -28,6 +31,8 @@ public class AutorServiceImpl implements IAutorService {
 	IAutorRepository autorRepository;
 	@Autowired
 	IAutorMapper autorMapper;
+	@Autowired
+	LibreriaUtil libreriaUtil;
 
 	// Metodo para convertir de entidad a dto. Ya no se necesita, realizar el mapeo con MapStruct
 	/*
@@ -39,10 +44,16 @@ public class AutorServiceImpl implements IAutorService {
 
 	@Override
 	public AutorDTO save(AutorDTORequest dto) {
+		
 		Autor autor = new Autor();
 		autor.setNombre(dto.getNombre());
 		autor.setApellidos(dto.getApellidos());
+		autorMapper.toDTO(autorRepository.save(autor));
+		
 		return autorMapper.toDTO(autorRepository.save(autor));
+		//Autor autor = this.autorRepository.save(this.autorMapper.toBean(dto));
+
+		//return libreriaUtil.createHrefFromResource(autor.getId(), LibreriaResource.AUTOR);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.service.IAutorService;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -108,6 +109,7 @@ public class AutorController {
 	public ResponseEntity<AutorDTO> save(@Valid @RequestBody AutorDTORequest dto) {
 		//return this.autorService.save(dto);
 		//return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
+		
 		try {
 			AutorDTO dtoAlta = this.autorService.save(dto);
 			HttpStatus codigoRespuesta = null;
@@ -122,6 +124,9 @@ public class AutorController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
 		}
+		//log.info("crce controller save -> {} "+dto.toString());
+		
+		//return new ResponseEntity<HrefEntityDTO>(this.autorService.save(dto), HttpStatus.CREATED);
 
 	
 	}

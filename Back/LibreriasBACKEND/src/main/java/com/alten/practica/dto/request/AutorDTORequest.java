@@ -16,22 +16,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AutorDTORequest{
-		// LOS ATRIBUTOS NO SEAN NULOS.
-		@NotNull
+		// LOS ATRIBUTOS NO SEAN NULOS.  @NotNull
 
-		// LOS ATRIBUTOS NO SEAN VACIOS.
-		@NotEmpty
+		// LOS ATRIBUTOS NO SEAN VACIOS.  @NotEmpty
 
-		// LOS ATRIBUTOS NOS SEAN NULAS NI BACIOS.
-		@NotBlank
+		// LOS ATRIBUTOS NOS SEAN NULAS NI BACIOS.  @NotBlank
 		
 		//VALIDA LA LONGITUD MINIMA Y MAXIMA DE UNA CADENA
-		@Size(min = 2,max = 250)
-		
+		@NotNull
+		@NotEmpty
 		@NotBlank
 		@Size(min = 2,max = 250)
 		private String nombre;
 		
+		@NotNull
+		@NotEmpty
 		@NotBlank
 		@Size(min = 2,max = 250)
 		private String apellidos;

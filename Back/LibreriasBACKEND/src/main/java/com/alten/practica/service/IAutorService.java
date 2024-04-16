@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.request.AutorDTORequest;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 
 public interface IAutorService {
 

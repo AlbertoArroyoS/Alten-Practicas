@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.alten.practica.dto.AutorDTO;
+import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
 
 @Mapper (builder = @Builder(disableBuilder = true))
@@ -14,5 +15,8 @@ public interface IAutorMapper {
 	//source: atributo de la entidad, target: atributo del DTO, expression: expresion para realizar el mapeo
 	@Mapping(target = "nombre", expression = "java(autor.getNombre() + \" \" + autor.getApellidos())")
 	public AutorDTO toDTO(Autor autor);
+	
+	//proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo convertimos a entidad
+	public Autor toBean(AutorDTORequest dto);
 
 }
