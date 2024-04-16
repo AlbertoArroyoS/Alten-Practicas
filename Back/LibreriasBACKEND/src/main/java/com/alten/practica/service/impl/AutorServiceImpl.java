@@ -57,8 +57,9 @@ public class AutorServiceImpl implements IAutorService {
 		// Buscar el autor por su ID en el repositorio de autores
 		Autor autor = autorRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
-						
-						
+			
+		return autorMapper.toDTO(autor);
+		/*				
 		// Verificar si el autor existe
 		if (autor != null) {
 			// Utilizar el método convertirEntidadADto para convertir el autor a un DTO
@@ -70,7 +71,7 @@ public class AutorServiceImpl implements IAutorService {
 			// Si el autor no existe, devolver null o manejar el caso
 			
 			return null;
-		}
+		}*/
 	}
 
 	@Override

@@ -65,6 +65,8 @@ public class AutorController {
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<AutorDTO> findById(@PathVariable("id") int id) {
+		return new ResponseEntity<AutorDTO>(this.autorService.findById(id), HttpStatus.OK);
+		/*
 		try {
 	        AutorDTO dto = this.autorService.findById(id);
 	        if (dto != null) {
@@ -74,7 +76,7 @@ public class AutorController {
 	        }
 	    } catch (Exception e) {
 	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
-	    }
+	    }*/
 
 	}
 

@@ -1,5 +1,6 @@
 package com.alten.practica.util;
 
+import java.lang.reflect.Field;
 import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
@@ -7,7 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.PageableDTO;
+import com.alten.practica.errorhandler.EntityGenericServerException;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 
 //Clase donde se encuentran todos los metodos generales
 //como validar un email, un password, un nombre, un apellido, etc
@@ -45,6 +49,25 @@ public class LibreriaUtil {
 			pageable = PageRequest.of(pageNumber, perPage, Sort.by(Sort.Direction.DESC, campoPorDefecto));
 		}
 		return pageable;
+	}
+	
+	public HrefEntityDTO createHrefFromResource(Object id, LibreriaResource resource)
+			throws EntityGenericServerException {
+		HrefEntityDTO hrefEntity = new HrefEntityDTO();
+		try {
+			StringBuilder builder = new StringBuilder();
+			Field field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "S");
+			Object valueResource = field.get("");
+			builder.append(valueResource);
+			field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "S_" + resource);
+			valueResource = field.get("");
+			builder.append(valueResource).append("/").append(id);
+			hrefEntity.setId(id);
+			hrefEntity.setHref(builder.toString());
+		} catch (Exception e) {
+			throw new EntityGenericServerException("Error generating href resource");
+		}
+		return hrefEntity;
 	}
 
 }
