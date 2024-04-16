@@ -1,5 +1,14 @@
 package com.alten.practica.errorhandler;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 //Clase que gestiona los errores por parte del servidor
+
+@Getter
+@Setter
+@ToString
 public class EntityGenericServerException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
