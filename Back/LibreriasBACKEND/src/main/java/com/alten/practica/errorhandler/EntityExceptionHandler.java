@@ -1,10 +1,15 @@
 package com.alten.practica.errorhandler;
 //clase para gestionar de manera centralizada nuestros errores/excepciones
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -12,6 +17,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.alten.practica.constantes.LibreriaConstant;
+
+import jakarta.annotation.Nullable;
 /**
  * Controlador de excepciones global que maneja errores específicos para aplicaciones REST, extendiendo ResponseEntityExceptionHandler.
  */
@@ -142,6 +149,47 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> buildResponseEntity(ErrorDTO errorDTO) {
         return new ResponseEntity<>(errorDTO, errorDTO.getHttpStatus());
     }
+    
+
+    
+    @Nullable
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		String error = "Malformed JSON request";
+		return buildResponseEntity(new ErrorDTO(HttpStatus.BAD_REQUEST,
+				LibreriaConstant.PREFIX_CLIENT_ERROR + LibreriaConstant.BAD_REQUEST, error, ex));
+	}
+
+    @Nullable
+	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		String error = ex.getParameterName() + " parameter is missing";
+
+		return buildResponseEntity(new ErrorDTO(HttpStatus.BAD_REQUEST,
+				LibreriaConstant.PREFIX_CLIENT_ERROR + LibreriaConstant.BAD_REQUEST, error, ex));
+	}
+
+    @Nullable
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ErrorDTO errorDTO = new ErrorDTO(HttpStatus.BAD_REQUEST,
+				LibreriaConstant.PREFIX_CLIENT_ERROR + LibreriaConstant.BAD_REQUEST);
+		errorDTO.setMessage(ex.getBindingResult().getFieldError().toString());
+		errorDTO.setSubErrors(fillValidationErrorsFrom(ex));
+		return buildResponseEntity(errorDTO);
+	}
+
+	protected List<SubError> fillValidationErrorsFrom(MethodArgumentNotValidException argumentNotValid) {
+		List<SubError> subErrorCollection = new ArrayList<>();
+		argumentNotValid.getBindingResult().getFieldErrors().get(0).getRejectedValue();
+		argumentNotValid.getBindingResult().getFieldErrors().stream().forEach((objError) -> {
+			SubError sysceSubError = new ValidationError(objError.getObjectName(), objError.getField(),
+					objError.getRejectedValue(), objError.getDefaultMessage());
+			subErrorCollection.add(sysceSubError);
+		});
+		return subErrorCollection;
+	}
+    
     
 
 }
