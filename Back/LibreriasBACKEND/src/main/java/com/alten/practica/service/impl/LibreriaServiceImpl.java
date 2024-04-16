@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.service.ILibreriaService;
 
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
+import com.alten.practica.errorhandler.EntityNotFoundException;
 import com.alten.practica.mapper.ILibreriaMapper;
 
 /**
@@ -60,7 +62,7 @@ public class LibreriaServiceImpl implements ILibreriaService {
 		 * libreriaDTO = new LibreriaDTO(); libreriaDTO.setId(bean.getId());
 		 * libreriaDTO.setNombre(bean.getNombreLibreria()); return libreriaDTO;
 		 */
-
+		/*
 		Libreria bean = this.libreriaRepository.findById(id).orElse(null); // Utiliza orElse(null) para evitar
 																			// NullPointerException
 
@@ -68,7 +70,12 @@ public class LibreriaServiceImpl implements ILibreriaService {
 			return libreriaMapper.toDTO(bean); // Utiliza el método convertirBeanADTO para convertir el bean a DTO
 		} else {
 			return null; // Devuelve null si el bean no se encuentra en la base de datos
-		}
+		}*/
+		
+		Libreria libreria = libreriaRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("La libreria con id %s no existe", id)));
+			
+		return libreriaMapper.toDTO(libreria);
 	}
 
 	@Override

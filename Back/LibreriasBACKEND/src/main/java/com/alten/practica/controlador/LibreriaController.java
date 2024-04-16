@@ -44,16 +44,17 @@ public class LibreriaController {
 	// @GetMapping para listar todos las librerias de la base de datos +
 	// LibreriaConstant.RESOURCE_LIBRERIA
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS)
-	public List<LibreriaDTO> findAll() {
-		return this.libreriaService.findAll();
+	public ResponseEntity<List<LibreriaDTO>> findAll() {
+		return new ResponseEntity<>(this.libreriaService.findAll(), HttpStatus.OK); // 200 OK
+		
 	}
 
 	// GetMapping para listar 1 libreria por su id
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public LibreriaDTO findById(@PathVariable("id") int id) {
-		
-		return this.libreriaService.findById(id);
+	public ResponseEntity<LibreriaDTO> findById(@PathVariable("id") int id) {
+		return new ResponseEntity<>(this.libreriaService.findById(id), HttpStatus.OK); // 200 OK
+
 	}
 
 	@PostMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA)
