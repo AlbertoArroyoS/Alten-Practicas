@@ -65,6 +65,7 @@ public class AutorController {
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<AutorDTO> findById(@PathVariable("id") int id) {
+		
 		return new ResponseEntity<AutorDTO>(this.autorService.findById(id), HttpStatus.OK);
 		/*
 		try {
@@ -83,6 +84,9 @@ public class AutorController {
 	// @GetMapping para listar todos los autores de la base de datos
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
 	public ResponseEntity<List<AutorDTO>> findAll() {
+		
+		return new ResponseEntity<>(this.autorService.findAll(), HttpStatus.OK); // 200 OK
+		/*
 		//return this.autorService.findAll();
 		try {
 			List<AutorDTO> lista = this.autorService.findAll();
@@ -93,7 +97,7 @@ public class AutorController {
 			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
-		}
+		}*/
 
 	}
 

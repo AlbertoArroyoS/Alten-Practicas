@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
+import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.PageableDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
@@ -76,8 +77,8 @@ public class LibroController {
 	// GetMapping para listar 1 libreria por su id
 	@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public LibroDTO findById(@PathVariable("id") int id) {
-		return this.libroService.findById(id);
+	public ResponseEntity<LibroDTO> findById(@PathVariable("id") int id) {
+		return new ResponseEntity<LibroDTO>(this.libroService.findById(id), HttpStatus.OK);
 	}
 
 	/*

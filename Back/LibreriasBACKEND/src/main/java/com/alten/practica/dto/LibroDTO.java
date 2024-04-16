@@ -32,6 +32,20 @@ public class LibroDTO implements Serializable{
      * En LibroMapper para acceder a los datos del autor poner
      *  libroDTO.setNombreAutor( libro.getAutor().getNombre() );
         libroDTO.setApellidosAutor( libro.getAutor().getApellidos() );
+        
+        
+        
+        LibroDTO libroDTO = new LibroDTO();
+
+        libroDTO.setId( libro.getId() );
+        libroDTO.setTitulo( libro.getTitulo() );
+        libroDTO.setNombreAutor( libro.getAutor().getNombre() );
+        libroDTO.setApellidosAutor( libro.getAutor().getApellidos() );
+        libroDTO.setGenero( libro.getGenero() );
+        libroDTO.setPaginas( libro.getPaginas() );
+        libroDTO.setEditorial( libro.getEditorial() );
+        libroDTO.setDescripcion( libro.getDescripcion() );
+        libroDTO.setPrecio( libro.getPrecio() );
      */
     
 }

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
+import com.alten.practica.errorhandler.EntityNotFoundException;
 import com.alten.practica.mapper.ILibroMapper;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libro;
@@ -89,7 +90,13 @@ public class LibroServiceImpl implements ILibroService {
 
 	@Override
 	public LibroDTO findById(int id) {
-		Libro libro = this.libroRepository.findById(id).get();
+		
+		Libro libro = libroRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El libro con id %s no existe", id)));
+			
+		return libroMapper.toDTO(libro);
+		
+		
 		/*
 		LibroDTO libroDTO = new LibroDTO();
 		libroDTO.setTitulo(bean.getTitulo());
@@ -101,6 +108,9 @@ public class LibroServiceImpl implements ILibroService {
 		libroDTO.setDescripcion(bean.getDescripcion());
 		libroDTO.setPrecio(bean.getPrecio());
 		return libroDTO;*/
+		/*
+		Libro libro = this.libroRepository.findById(id).get();
+		
 		if (libro != null) {
 			// Utilizar el método convertirEntidadADto para convertir el libro a un DTO
 			LibroDTO libroDTO = libroMapper.toDTO(libro);
@@ -109,7 +119,7 @@ public class LibroServiceImpl implements ILibroService {
 		} else {
 			// Si el libro no existe, devolver null o manejar el caso
 			return null;
-		}
+		}*/
 		
 		
 
