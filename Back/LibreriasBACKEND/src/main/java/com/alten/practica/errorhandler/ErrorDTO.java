@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +34,8 @@ public class ErrorDTO {
 		this.code = code;
 		this.httpStatus = httpStatus;
 	}
-
+	
+	
 	public ErrorDTO(HttpStatus httpStatus, String code, Throwable e) {
 		this();
 		this.code = code;
