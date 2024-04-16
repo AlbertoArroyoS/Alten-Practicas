@@ -51,23 +51,43 @@ public class LibreriaUtil {
 		return pageable;
 	}
 	
+	/**
+	 * Crea una referencia URL (Href) para un recurso específico de la librería usando su identificador.
+	 * 
+	 * Este método genera un URL completo para acceder a un recurso específico de una librería,
+	 * como puede ser un autor, una librería o un libro, utilizando los identificadores definidos en
+	 * las constantes de {@link LibreriaConstant}. El URL generado es útil para proporcionar accesos directos
+	 * en interfaces de usuario o APIs donde se requiere referenciar recursos específicos.
+	 * 
+	 * @param id El identificador del recurso, como puede ser el ID de un libro, un autor o una librería.
+	 * @param resource El tipo de recurso de la librería para el cual se está creando el href; debe ser uno de los valores definidos en {@link LibreriaResource}.
+	 * @return Un objeto {@link HrefEntityDTO} que contiene el ID del recurso y el href construido.
+	 * @throws EntityGenericServerException Si hay un error al acceder a las constantes o al construir el href, se lanza esta excepción indicando un problema en el servidor.
+	 */
 	public HrefEntityDTO createHrefFromResource(Object id, LibreriaResource resource)
-			throws EntityGenericServerException {
-		HrefEntityDTO hrefEntity = new HrefEntityDTO();
-		try {
-			StringBuilder builder = new StringBuilder();
-			Field field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "S");
-			Object valueResource = field.get("");
-			builder.append(valueResource);
-			field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "S_" + resource);
-			valueResource = field.get("");
-			builder.append(valueResource).append("/").append(id);
-			hrefEntity.setId(id);
-			hrefEntity.setHref(builder.toString());
-		} catch (Exception e) {
-			throw new EntityGenericServerException("Error generating href resource");
-		}
-		return hrefEntity;
+	        throws EntityGenericServerException {
+	    HrefEntityDTO hrefEntity = new HrefEntityDTO();
+	    try {
+	        StringBuilder builder = new StringBuilder();
+	        // Obtener el campo de la clase de constantes que corresponde al nombre del recurso.
+	        Field field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "S");
+	        Object valueResource = field.get(null);
+	        builder.append(valueResource);
+	        
+	        // Concatenar el identificador específico del tipo de recurso.
+	        field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "S_" + resource);
+	        valueResource = field.get(null);
+	        builder.append(valueResource).append("/").append(id);
+	        
+	        // Establecer el ID y href en el objeto DTO para su retorno.
+	        hrefEntity.setId(id);
+	        hrefEntity.setHref(builder.toString());
+	    } catch (Exception e) {
+	        // Lanzar una excepción específica del servidor en caso de error durante la generación del href.
+	        throw new EntityGenericServerException("Error generating href resource");
+	    }
+	    return hrefEntity;
 	}
+
 
 }
