@@ -17,6 +17,7 @@ public class LibroDTO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String titulo;
 	private String nombreAutor;
 	private String apellidosAutor;
@@ -27,5 +28,10 @@ public class LibroDTO implements Serializable{
     private double precio;
     
   
+    /*
+     * En LibroMapper para acceder a los datos del autor poner
+     *  libroDTO.setNombreAutor( libro.getAutor().getNombre() );
+        libroDTO.setApellidosAutor( libro.getAutor().getApellidos() );
+     */
     
 }
