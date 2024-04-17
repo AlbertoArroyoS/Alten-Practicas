@@ -43,7 +43,7 @@ public class AutorServiceImpl implements IAutorService {
 	}*/
 
 	@Override
-	public AutorDTO save(AutorDTORequest dto) {
+	public HrefEntityDTO  save(AutorDTORequest dto) {
 		/*
 		Autor autor = new Autor();
 		autor.setNombre(dto.getNombre());
@@ -52,13 +52,13 @@ public class AutorServiceImpl implements IAutorService {
 		*/
 		
 		Autor autor = this.autorRepository.save(this.autorMapper.toBean(dto));
-		return autorMapper.toDTO(autor);
+		//return autorMapper.toDTO(autor);
 		
 		
 		//return autorMapper.toDTO(autorRepository.save(autor));
 		//Autor autor = this.autorRepository.save(this.autorMapper.toBean(dto));
 
-		//return libreriaUtil.createHrefFromResource(autor.getId(), LibreriaResource.AUTOR);
+		return libreriaUtil.createHrefFromResource(autor.getId(), LibreriaResource.AUTOR);
 	}
 
 	@Override

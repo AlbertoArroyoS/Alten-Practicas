@@ -1,6 +1,7 @@
 package com.alten.practica.util;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
@@ -64,18 +65,19 @@ public class LibreriaUtil {
 	 * @return Un objeto {@link HrefEntityDTO} que contiene el ID del recurso y el href construido.
 	 * @throws EntityGenericServerException Si hay un error al acceder a las constantes o al construir el href, se lanza esta excepción indicando un problema en el servidor.
 	 */
+/*
 	public HrefEntityDTO createHrefFromResource(Object id, LibreriaResource resource)
 	        throws EntityGenericServerException {
 	    HrefEntityDTO hrefEntity = new HrefEntityDTO();
 	    try {
 	        StringBuilder builder = new StringBuilder();
 	        // Obtener el campo de la clase de constantes que corresponde al nombre del recurso.
-	        Field field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "S");
+	        Field field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "ES");
 	        Object valueResource = field.get(null);
 	        builder.append(valueResource);
 	        
 	        // Concatenar el identificador específico del tipo de recurso.
-	        field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "S_" + resource);
+	        field = LibreriaConstant.class.getDeclaredField("RESOURCE_" + resource + "ES_" + resource);
 	        valueResource = field.get(null);
 	        builder.append(valueResource).append("/").append(id);
 	        
@@ -83,11 +85,50 @@ public class LibreriaUtil {
 	        hrefEntity.setId(id);
 	        hrefEntity.setHref(builder.toString());
 	    } catch (Exception e) {
+	    	e.printStackTrace(); // Considerar usar un sistema de logging en lugar de printStackTrace en un entorno de producción
 	        // Lanzar una excepción específica del servidor en caso de error durante la generación del href.
 	        throw new EntityGenericServerException("Error generating href resource");
 	    }
 	    return hrefEntity;
+	}*/
+	
+	public HrefEntityDTO createHrefFromResource(Object id, LibreriaResource resource)
+	        throws EntityGenericServerException {
+	    HrefEntityDTO hrefEntity = new HrefEntityDTO();
+	    try {
+	        StringBuilder builder = new StringBuilder();
+	        String resourcePath;
+
+	        // Utilizar un switch para seleccionar el recurso adecuado
+	        switch (resource) {
+	            case LIBRERIA:
+	                resourcePath = LibreriaConstant.RESOURCE_LIBRERIA;
+	                break;
+	            case AUTOR:
+	                resourcePath = LibreriaConstant.RESOURCE_AUTOR;
+	                break;
+	            case LIBRO:
+	                resourcePath = LibreriaConstant.RESOURCE_LIBRO;
+	                break;
+	            default:
+	                throw new IllegalArgumentException("Unsupported resource type: " + resource);
+	        }
+
+	        // Construir el href
+	        builder.append(resourcePath).append("/").append(id);
+	        hrefEntity.setId(id);
+	        hrefEntity.setHref(builder.toString());
+	    } catch (Exception e) {
+	        e.printStackTrace(); // Considerar usar un sistema de logging en lugar de printStackTrace en un entorno de producción
+	        // Lanzar una excepción específica del servidor en caso de error durante la generación del href.
+	        throw new EntityGenericServerException("Error generating href resource: " + e.getMessage(), e);
+	    }
+	    return hrefEntity;
 	}
+
+	
+
+
 
 
 }

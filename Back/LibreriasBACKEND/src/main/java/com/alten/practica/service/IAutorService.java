@@ -9,7 +9,7 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 public interface IAutorService {
 
 	// Metodo para guardar un autor
-	public AutorDTO save(AutorDTORequest dto);
+	public HrefEntityDTO save(AutorDTORequest dto);
 
 	// Metodo para guardar un autor Cargando Procedimiento SQL
 	public AutorDTO saveAutorSQL(AutorDTORequest dto);

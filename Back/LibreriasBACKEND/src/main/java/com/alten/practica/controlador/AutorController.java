@@ -106,10 +106,10 @@ public class AutorController {
 	// Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL
 	// (@RequestBody AutorDTORequest dto) {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
-	public ResponseEntity<AutorDTO> save(@Valid @RequestBody AutorDTORequest dto) {
+	public ResponseEntity<HrefEntityDTO> save(@Valid @RequestBody AutorDTORequest dto) {
 		//return this.autorService.save(dto);
 		//return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
-		
+		/*
 		try {
 			AutorDTO dtoAlta = this.autorService.save(dto);
 			HttpStatus codigoRespuesta = null;
@@ -123,10 +123,10 @@ public class AutorController {
 			return re;
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
-		}
+		}*/
 		//log.info("crce controller save -> {} "+dto.toString());
 		
-		//return new ResponseEntity<HrefEntityDTO>(this.autorService.save(dto), HttpStatus.CREATED);
+		return new ResponseEntity<HrefEntityDTO>(this.autorService.save(dto), HttpStatus.CREATED);
 
 	
 	}
