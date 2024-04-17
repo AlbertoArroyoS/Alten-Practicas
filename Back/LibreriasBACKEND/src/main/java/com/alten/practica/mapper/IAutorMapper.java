@@ -1,6 +1,7 @@
 package com.alten.practica.mapper;
 
 import org.mapstruct.Builder;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
