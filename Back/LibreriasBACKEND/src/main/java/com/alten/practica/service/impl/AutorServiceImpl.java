@@ -60,7 +60,7 @@ public class AutorServiceImpl implements IAutorService {
 		
 		autorRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos())
 			.ifPresent(a -> {
-	             throw new IllegalStateException("Autor con el nombre '" + dto.getNombre() + " y apellidos "+ dto.getApellidos()+ "' ya existe");
+	             throw new IllegalStateException("Autor con el nombre '" + dto.getNombre() + "' y apellidos '"+ dto.getApellidos()+ "' ya existe");
 	         });
 		
 		
