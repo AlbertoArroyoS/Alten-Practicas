@@ -29,6 +29,17 @@ import jakarta.annotation.Nullable;
 public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 
 	// Manejo para cuando se pone valores que ya existen en la base de datos
+	/**
+	 * Maneja las excepciones de tipo {@link IllegalStateException} que pueden ser lanzadas
+	 * cuando un método ha sido invocado en un objeto que no está en el estado adecuado
+	 * para aceptar dicha llamada. Este manejador captura la excepción y crea una respuesta
+	 * estructurada para informar adecuadamente al cliente de la API sobre el conflicto.
+	 *
+	 * @param ex La excepción de tipo {@link IllegalStateException} capturada.
+	 * @return Una {@link ResponseEntity<Object>} que contiene un {@link ErrorDTO} con
+	 *         información detallada sobre el error, incluyendo un mensaje descriptivo
+	 *         y el código de error HTTP correspondiente al conflicto detectado.
+	 */
 	@ExceptionHandler(IllegalStateException.class)
 	public ResponseEntity<Object> handleIllegalStateException(IllegalStateException ex) {
 		
