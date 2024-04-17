@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -52,9 +53,9 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleHttpRestClient(HttpStatusCodeException ex) {
 		ErrorDTO sysceError = null;
 		if (ex.getStatusCode().is4xxClientError()) {
-			sysceError = new ErrorDTO((HttpStatus) ex.getStatusCode(), LibreriaConstant.PREFIX_CLIENT_ERROR);
+			sysceError = new ErrorDTO(ex.getStatusCode(), LibreriaConstant.PREFIX_CLIENT_ERROR);
 		} else if (ex.getStatusCode().is5xxServerError()) {
-			sysceError = new ErrorDTO((HttpStatus) ex.getStatusCode(), LibreriaConstant.PREFIX_SERVER_ERROR);
+			sysceError = new ErrorDTO(ex.getStatusCode(), LibreriaConstant.PREFIX_SERVER_ERROR);
 		}
 		sysceError.setMessage(ex.getStatusText());
 		return buildResponseEntity(sysceError);
@@ -180,9 +181,9 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return Una {@link ResponseEntity} que encapsula un {@link ErrorDTO} con
 	 *         detalles del error.
 	 */
-	@Nullable
+	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
+			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		String error = "Malformed JSON request";
 		return buildResponseEntity(new ErrorDTO(HttpStatus.BAD_REQUEST,
 				LibreriaConstant.PREFIX_CLIENT_ERROR + LibreriaConstant.BAD_REQUEST, error, ex));
@@ -200,9 +201,9 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return Una {@link ResponseEntity} que encapsula un {@link ErrorDTO} con
 	 *         detalles del error.
 	 */
-	@Nullable
+	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
+			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		String error = ex.getParameterName() + " parameter is missing";
 		return buildResponseEntity(new ErrorDTO(HttpStatus.BAD_REQUEST,
 				LibreriaConstant.PREFIX_CLIENT_ERROR + LibreriaConstant.BAD_REQUEST, error, ex));
@@ -220,9 +221,10 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return Una {@link ResponseEntity} que encapsula un {@link ErrorDTO} con
 	 *         detalles del error y errores específicos de validación.
 	 */
-	@Nullable
+	//@ExceptionHandler(MethodArgumentNotValidException.class)
+	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
+			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		ErrorDTO errorDTO = new ErrorDTO(HttpStatus.BAD_REQUEST,
 				LibreriaConstant.PREFIX_CLIENT_ERROR + LibreriaConstant.BAD_REQUEST);
 		errorDTO.setMessage(ex.getBindingResult().getFieldError().toString());

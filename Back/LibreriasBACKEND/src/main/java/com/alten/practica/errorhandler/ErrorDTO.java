@@ -18,7 +18,7 @@ import lombok.ToString;
 public class ErrorDTO {
 	
 	private String code;
-	private HttpStatus httpStatus;
+	private HttpStatusCode httpStatus;
 	private Date timestamp;
 	private String message;
 	private String debugMessage;
@@ -29,14 +29,14 @@ public class ErrorDTO {
 	}
 
 
-	public ErrorDTO(HttpStatus httpStatus, String code) {
+	public ErrorDTO(HttpStatusCode httpStatusCode, String code) {
 		this();
 		this.code = code;
-		this.httpStatus = httpStatus;
+		this.httpStatus = httpStatusCode;
 	}
 	
 	
-	public ErrorDTO(HttpStatus httpStatus, String code, Throwable e) {
+	public ErrorDTO(HttpStatusCode httpStatus, String code, Throwable e) {
 		this();
 		this.code = code;
 		this.httpStatus = httpStatus;
@@ -44,7 +44,7 @@ public class ErrorDTO {
 		this.debugMessage = e.getLocalizedMessage();
 	}
 
-	public ErrorDTO(HttpStatus httpStatus, String code, String message, Throwable e) {
+	public ErrorDTO(HttpStatusCode httpStatus, String code, String message, Throwable e) {
 		this();
 		this.code = code;
 		this.httpStatus = httpStatus;

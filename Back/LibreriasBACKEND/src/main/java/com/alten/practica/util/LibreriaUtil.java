@@ -92,6 +92,22 @@ public class LibreriaUtil {
 	    return hrefEntity;
 	}*/
 	
+	/**
+	 * Crea un objeto {@link HrefEntityDTO} que representa un enlace HREF a un recurso específico basado en el identificador y el tipo de recurso proporcionados.
+	 * Este método construye la URL utilizando constantes predefinidas basadas en el tipo de recurso, asegurando que el enlace esté correctamente formateado.
+	 *
+	 * @param id El identificador del recurso; este valor se añadirá al final de la URL del recurso.
+	 * @param resource El tipo de recurso que se utilizará para determinar la parte base de la URL. Este parámetro debe ser uno de los valores definidos en {@link LibreriaResource}.
+	 * @return Un objeto {@link HrefEntityDTO} que contiene tanto el identificador como el HREF construido.
+	 * @throws EntityGenericServerException Si ocurre un error al generar el HREF, como un tipo de recurso no soportado.
+	 * @throws IllegalArgumentException Si se proporciona un tipo de recurso no reconocido o no soportado, lo que no debería suceder si todos los casos están correctamente manejados en el switch.
+	 * 
+	 * Ejemplo de uso:
+	 * {@code 
+	 * HrefEntityDTO href = createHrefFromResource(5, LibreriaResource.AUTOR);
+	 * System.out.println("Href: " + href.getHref()); // Imprime el HREF generado para el autor con ID 5.
+	 * }
+	 */
 	public HrefEntityDTO createHrefFromResource(Object id, LibreriaResource resource)
 	        throws EntityGenericServerException {
 	    HrefEntityDTO hrefEntity = new HrefEntityDTO();
@@ -102,13 +118,13 @@ public class LibreriaUtil {
 	        // Utilizar un switch para seleccionar el recurso adecuado
 	        switch (resource) {
 	            case LIBRERIA:
-	                resourcePath = LibreriaConstant.RESOURCE_LIBRERIA;
+	                resourcePath = LibreriaConstant.RESOURCE_LIBRERIA + LibreriaConstant.RESOURCE_LIBRERIAS;
 	                break;
 	            case AUTOR:
-	                resourcePath = LibreriaConstant.RESOURCE_AUTOR;
+	                resourcePath = LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_AUTORES;
 	                break;
 	            case LIBRO:
-	                resourcePath = LibreriaConstant.RESOURCE_LIBRO;
+	                resourcePath = LibreriaConstant.RESOURCE_LIBRO + LibreriaConstant.RESOURCE_LIBROS;
 	                break;
 	            default:
 	                throw new IllegalArgumentException("Unsupported resource type: " + resource);

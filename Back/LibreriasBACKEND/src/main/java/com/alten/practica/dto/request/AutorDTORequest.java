@@ -1,4 +1,5 @@
 package com.alten.practica.dto.request;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,25 +16,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AutorDTORequest{
-		// LOS ATRIBUTOS NO SEAN NULOS.  @NotNull
+public class AutorDTORequest {
+	// LOS ATRIBUTOS NO SEAN NULOS. @NotNull
 
-		// LOS ATRIBUTOS NO SEAN VACIOS.  @NotEmpty
+	// LOS ATRIBUTOS NO SEAN VACIOS. @NotEmpty
 
-		// LOS ATRIBUTOS NOS SEAN NULAS NI BACIOS.  @NotBlank
-		
-		//VALIDA LA LONGITUD MINIMA Y MAXIMA DE UNA CADENA
-		@NotNull
-		@NotEmpty
-		@NotBlank
-		@Size(min = 2,max = 250)
-		private String nombre;
-		
-		@NotNull
-		@NotEmpty
-		@NotBlank
-		@Size(min = 2,max = 250)
-		private String apellidos;
-		
+	// LOS ATRIBUTOS NOS SEAN NULAS NI BACIOS. @NotBlank
+
+	// VALIDA LA LONGITUD MINIMA Y MAXIMA DE UNA CADENA
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(min = 2, max = 250, message = "El nombre debe tener entre 2 y 250 caracteres")
+	private String nombre;
+
+	@NotBlank(message = "Los apellidos no pueden estar vacíos")
+	@Size(min = 2, max = 250, message = "Los apellidos deben tener entre 2 y 250 caracteres")
+	private String apellidos;
 
 }
