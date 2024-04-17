@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,14 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.dto.AutorDTO;
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.PageableDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.service.ILibroService;
 import com.alten.practica.util.LibreriaUtil;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -89,13 +90,20 @@ public class LibroController {
 	 * LibroDTORequest dto) { return this.libroService.save(dto); }
 	 */
 	@PostMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)
-	public ResponseEntity<String> guardarLibro(@RequestBody LibroDTORequest dto) {
+	public ResponseEntity<HrefEntityDTO> save(@Valid @RequestBody LibroDTORequest dto) {
+		
+		return new ResponseEntity<HrefEntityDTO>(this.libroService.save(dto), HttpStatus.CREATED);
+
+		
+		/*
+		 * 
+		 * Forma vieja
 	    int resultado = libroService.save(dto);
 	    if (resultado != -1) {
 	        return ResponseEntity.status(HttpStatus.CREATED).body("Libro guardado exitosamente");
 	    } else {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error al guardar el libro");
-	    }
+	    }*/
 	}
 
 

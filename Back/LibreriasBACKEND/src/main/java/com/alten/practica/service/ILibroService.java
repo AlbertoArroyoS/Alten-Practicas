@@ -7,11 +7,12 @@ import org.springframework.data.domain.Pageable;
 
 import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.dto.request.LibroDTORequest;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 
 public interface ILibroService {
 
 	// Metodo para guardar un libro
-	public int save(LibroDTORequest dto);
+	public HrefEntityDTO save(LibroDTORequest dto);
 
 	// Metodo para guardar un libro Cargando Procedimiento SQL
 	public int saveLibroSQL(LibroDTORequest dto);
