@@ -111,17 +111,48 @@ public class AutorServiceImpl implements IAutorService {
 	            .map(autor -> autorMapper.toDTO(autor))
 	            .collect(Collectors.toList());
 	}
-
+	//@Transactional
 	@Override
+	public HrefEntityDTO update(AutorDTORequest dto, int id) {
+	    Autor autor = autorRepository.findById(id)
+	            .orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
+	    autor.setId(id);
+
+	    // Comprobar si existen duplicados antes de actualizar
+	    List<Autor> autoresDuplicados = autorRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos())
+	            .stream()
+	            .filter(a -> a.getId() != id) // Excluir el autor actual de la comprobación de duplicados
+	            .collect(Collectors.toList());
+
+	    if (!autoresDuplicados.isEmpty()) {
+	        throw new IllegalStateException("Autor con el nombre '" + dto.getNombre() + "' y apellidos '" + dto.getApellidos() + "' ya existe");
+	    }
+
+	    // Actualizar datos del autor
+	    autor.setNombre(dto.getNombre());
+	    autor.setApellidos(dto.getApellidos());
+
+	    // Guardar el autor actualizado y devolver un enlace al recurso actualizado
+	    Autor savedAutor = autorRepository.save(autor);
+	    return libreriaUtil.createHrefFromResource(savedAutor.getId(), LibreriaResource.AUTOR);
+	}
+
+	/*
+	 * FORMA ANTIGUA DE HACERLO
 	public HrefEntityDTO update(AutorDTORequest dto, int id) {
 		Autor autor = autorRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));		autor.setId(id);
 		autor.setNombre(dto.getNombre());
 		autor.setApellidos(dto.getApellidos());
 		//return autorMapper.toDTO(autorRepository.save(autor));
-		this.autorRepository.save(autor);
-		return libreriaUtil.createHrefFromResource(autor.getId(), LibreriaResource.AUTOR);
-	}
+		
+		autorRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos())
+		.ifPresent(a -> {
+             throw new IllegalStateException("Autor con el nombre '" + dto.getNombre() + "' y apellidos '"+ dto.getApellidos()+ "' ya existe");
+         });
+	
+		return libreriaUtil.createHrefFromResource(this.autorRepository.save(autor).getId(), LibreriaResource.AUTOR);
+	} */
 
 	@Override
 	public HrefEntityDTO delete(int id) {
