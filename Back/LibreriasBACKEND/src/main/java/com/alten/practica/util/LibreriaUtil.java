@@ -118,13 +118,13 @@ public class LibreriaUtil {
 	        // Utilizar un switch para seleccionar el recurso adecuado
 	        switch (resource) {
 	            case LIBRERIA:
-	                resourcePath = LibreriaConstant.RESOURCE_LIBRERIA + LibreriaConstant.RESOURCE_LIBRERIAS;
+	                resourcePath = LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA;
 	                break;
 	            case AUTOR:
-	                resourcePath = LibreriaConstant.RESOURCE_AUTOR + LibreriaConstant.RESOURCE_AUTORES;
+	                resourcePath = LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR;
 	                break;
 	            case LIBRO:
-	                resourcePath = LibreriaConstant.RESOURCE_LIBRO + LibreriaConstant.RESOURCE_LIBROS;
+	                resourcePath = LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO;
 	                break;
 	            default:
 	                throw new IllegalArgumentException("Unsupported resource type: " + resource);

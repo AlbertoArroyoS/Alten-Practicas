@@ -106,7 +106,7 @@ public class AutorController {
 	// Metodo para crear un autor, otra opcion public AutorDTO nuevoAutorSQL
 	// (@RequestBody AutorDTORequest dto) {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
-	public ResponseEntity<HrefEntityDTO> save(@Validated @RequestBody AutorDTORequest dto) {
+	public ResponseEntity<HrefEntityDTO> save(@RequestBody @Valid AutorDTORequest dto) {
 		//return this.autorService.save(dto);
 		//return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
 		/*
