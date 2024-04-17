@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -109,6 +108,10 @@ public class AutorController {
 	// (@RequestBody AutorDTORequest dto) {
 	@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)
 	public ResponseEntity<HrefEntityDTO> save(@Valid @RequestBody AutorDTORequest dto) {
+		
+		return new ResponseEntity<HrefEntityDTO>(this.autorService.save(dto), HttpStatus.CREATED);
+		
+		//Forma antigua de hacerlo, antes de implementar HrefEntityDTO y paquete errorhandler
 		//return this.autorService.save(dto);
 		//return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
 		/*
@@ -128,7 +131,7 @@ public class AutorController {
 		}*/
 		//log.info("crce controller save -> {} "+dto.toString());
 		
-		return new ResponseEntity<HrefEntityDTO>(this.autorService.save(dto), HttpStatus.CREATED);
+		
 
 	
 	}
