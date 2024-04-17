@@ -24,12 +24,12 @@ public class AutorDTORequest {
 	// LOS ATRIBUTOS NOS SEAN NULAS NI BACIOS. @NotBlank
 
 	// VALIDA LA LONGITUD MINIMA Y MAXIMA DE UNA CADENA
-	@NotNull(message = "El id no puede ser nulo")
+	@NotNull(message = "El nombre no puede ser nulo")
 	@NotBlank(message = "El nombre no puede estar vacío")
 	@Size(min = 2, max = 250, message = "El nombre debe tener entre 2 y 250 caracteres")
 	private String nombre;
 
-	@NotNull(message = "El id no puede ser nulo")
+	@NotNull(message = "Los apellidos no pueden ser nulo")
 	@NotBlank(message = "Los apellidos no pueden estar vacíos")
 	@Size(min = 2, max = 250, message = "Los apellidos deben tener entre 2 y 250 caracteres")
 	private String apellidos;

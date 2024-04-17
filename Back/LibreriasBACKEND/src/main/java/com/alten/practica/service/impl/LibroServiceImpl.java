@@ -43,6 +43,7 @@ public class LibroServiceImpl implements ILibroService {
 
 	@Override
 	public int save(LibroDTORequest dto) {
+		/*
 		// Buscar el autor en la base de datos
 		Autor autor = autorRepository.findByNombreAndApellidos(dto.getNombreAutor(), dto.getApellidosAutor());
 
@@ -54,7 +55,7 @@ public class LibroServiceImpl implements ILibroService {
 			autor.setApellidos(dto.getApellidosAutor());
 			autor = autorRepository.save(autor); // Guardar el autor y obtener su ID
 		}
-		
+		*/
 		/*
 		 * // Comprobar si el libro ya existe Libro libroExistente =
 		 * libroRepository.findByTituloAndAutor(dto.getTitulo(), autor);
@@ -67,7 +68,7 @@ public class LibroServiceImpl implements ILibroService {
 		// Crear un nuevo libro
 		Libro libro = new Libro();
 		libro.setTitulo(dto.getTitulo());
-		libro.setAutor(autor);
+		//libro.setAutor(autor);
 		libro.setGenero(dto.getGenero());
 		libro.setPaginas(dto.getPaginas());
 		libro.setEditorial(dto.getEditorial());

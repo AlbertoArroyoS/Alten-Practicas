@@ -1,6 +1,7 @@
 package com.alten.practica.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,7 +29,7 @@ public interface IAutorRepository extends JpaRepository<Autor, Integer>{
 	
 	//Metodo para obtener el id del autor
 	@Query("SELECT a FROM Autor a WHERE a.nombre = :nombre AND a.apellidos = :apellidos")
-	Autor findByNombreAndApellidos(@Param("nombre") String nombre, @Param("apellidos") String apellidos);
+	Optional<Autor> findByNombreAndApellidos(@Param("nombre") String nombre, @Param("apellidos") String apellidos);
 
 	
 

@@ -28,18 +28,17 @@ import jakarta.annotation.Nullable;
 @RestControllerAdvice
 public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	/**
-	 * Construye la entidad de respuesta basada en el DTO de error proporcionado.
-	 * Asigna el estado HTTP al cuerpo de la respuesta basándose en el error
-	 * proporcionado.
-	 *
-	 * @param errorDTO el DTO que contiene información sobre el error.
-	 * @return una ResponseEntity con el estado HTTP y el cuerpo del error
-	 *         configurados.
-	 */
-	private ResponseEntity<Object> buildResponseEntity(ErrorDTO errorDTO) {
-		return new ResponseEntity<>(errorDTO, errorDTO.getHttpStatus());
+	// Manejo para cuando se pone valores que ya existen en la base de datos
+	@ExceptionHandler(IllegalStateException.class)
+	public ResponseEntity<Object> handleIllegalStateException(IllegalStateException ex) {
+		
+		ErrorDTO sysceError = new ErrorDTO(HttpStatus.CONFLICT,
+				LibreriaConstant.PREFIX_CLIENT_ERROR + LibreriaConstant.CONFLICT);
+		sysceError.setMessage(ex.getMessage());
+		return buildResponseEntity(sysceError);
+		
 	}
+
 
 	/**
 	 * Maneja excepciones del tipo HttpStatusCodeException. Genera un DTO de error
@@ -221,7 +220,7 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @return Una {@link ResponseEntity} que encapsula un {@link ErrorDTO} con
 	 *         detalles del error y errores específicos de validación.
 	 */
-	//@ExceptionHandler(MethodArgumentNotValidException.class)
+	// @ExceptionHandler(MethodArgumentNotValidException.class)
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -249,6 +248,19 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 			subErrorCollection.add(sysceSubError);
 		});
 		return subErrorCollection;
+	}
+
+	/**
+	 * Construye la entidad de respuesta basada en el DTO de error proporcionado.
+	 * Asigna el estado HTTP al cuerpo de la respuesta basándose en el error
+	 * proporcionado.
+	 *
+	 * @param errorDTO el DTO que contiene información sobre el error.
+	 * @return una ResponseEntity con el estado HTTP y el cuerpo del error
+	 *         configurados.
+	 */
+	private ResponseEntity<Object> buildResponseEntity(ErrorDTO errorDTO) {
+		return new ResponseEntity<>(errorDTO, errorDTO.getHttpStatus());
 	}
 
 }

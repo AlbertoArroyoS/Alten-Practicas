@@ -3,9 +3,7 @@ package com.alten.practica.service.impl;
 
 
 import java.util.List;
-
-
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +50,21 @@ public class AutorServiceImpl implements IAutorService {
 		autorMapper.toDTO(autorRepository.save(autor));
 		*/
 		
-		Autor autor = this.autorRepository.save(this.autorMapper.toBean(dto));
+	
 		//return autorMapper.toDTO(autor);
 		
 		
 		//return autorMapper.toDTO(autorRepository.save(autor));
 		//Autor autor = this.autorRepository.save(this.autorMapper.toBean(dto));
+		
+		
+		autorRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos())
+			.ifPresent(a -> {
+	             throw new IllegalStateException("Autor con el nombre '" + dto.getNombre() + " y apellidos "+ dto.getApellidos()+ "' ya existe");
+	         });
+		
+		
+		Autor autor = this.autorRepository.save(this.autorMapper.toBean(dto));
 
 		return libreriaUtil.createHrefFromResource(autor.getId(), LibreriaResource.AUTOR);
 	}
@@ -106,22 +113,22 @@ public class AutorServiceImpl implements IAutorService {
 	}
 
 	@Override
-	public AutorDTO update(AutorDTORequest dto, int id) {
-		Autor autor = this.autorRepository.findById(id).get();
-		autor.setId(id);
+	public HrefEntityDTO update(AutorDTORequest dto, int id) {
+		Autor autor = autorRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));		autor.setId(id);
 		autor.setNombre(dto.getNombre());
 		autor.setApellidos(dto.getApellidos());
-		return autorMapper.toDTO(autorRepository.save(autor));
+		//return autorMapper.toDTO(autorRepository.save(autor));
+		this.autorRepository.save(autor);
+		return libreriaUtil.createHrefFromResource(autor.getId(), LibreriaResource.AUTOR);
 	}
 
 	@Override
-	public boolean delete(int id) {
-		if(autorRepository.findById(id).isPresent()) {
-			autorRepository.deleteById(id);
-			return true;
-		}else {
-			return false;
-		}		
+	public HrefEntityDTO delete(int id) {
+		Autor autor = autorRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));	
+		this.autorRepository.delete(autor);
+		return libreriaUtil.createHrefFromResource(autor.getId(), LibreriaResource.AUTOR);
 
 	}
 
@@ -153,5 +160,20 @@ public class AutorServiceImpl implements IAutorService {
 		// Obtener el ID del primer autor en la lista
 		return autor.get(0).getId();
 	}
+
+	@Override
+	public Optional<AutorDTO> findByName(String nombre, String apellidos) {
+	    Optional<Autor> autorOptional = autorRepository.findByNombreAndApellidos(nombre, apellidos);
+	    
+	    if (autorOptional.isPresent()) {
+	        throw new IllegalStateException("Autor con el nombre '" + nombre + "' y apellidos '" + apellidos + "' ya existe");
+	    }
+
+	    return autorOptional.map(autorMapper::toDTO);
+	}
+
+
+
+
 
 }

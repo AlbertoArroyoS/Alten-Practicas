@@ -112,7 +112,6 @@ public class AutorController {
 		return new ResponseEntity<HrefEntityDTO>(this.autorService.save(dto), HttpStatus.CREATED);
 		
 		//Forma antigua de hacerlo, antes de implementar HrefEntityDTO y paquete errorhandler
-		//return this.autorService.save(dto);
 		//return new ResponseEntity<AutorDTO>(this.autorService.save(dto), HttpStatus.CREATED);//201 CREATED
 		/*
 		try {
@@ -139,7 +138,10 @@ public class AutorController {
 	// Metodo para eliminar un autor
 	@DeleteMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
+	public ResponseEntity<HrefEntityDTO> delete(@PathVariable("id") int id) {
+		
+		/*
+		 * Forma antigua de hacerlo, antes de implementar HrefEntityDTO y paquete errorhandler
 		try {
 			boolean borrado = autorService.delete(id);
 			if (borrado) {
@@ -149,15 +151,16 @@ public class AutorController {
 			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
-		}
-		
-	}
+		}*/
+		return new ResponseEntity<HrefEntityDTO>(this.autorService.delete(id), HttpStatus.OK);	}
 
 	// Metodo para actualizar un autor
 	@PutMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public ResponseEntity<AutorDTO> update(@RequestBody AutorDTORequest dto, @PathVariable("id") int id) {
-	//	return this.autorService.update(dto, id);			
+	public ResponseEntity<HrefEntityDTO> update(@Valid @RequestBody AutorDTORequest dto, @PathVariable("id") int id) {
+		
+	/*		
+	 * Forma antigua de hacerlo, antes de implementar HrefEntityDTO y paquete errorhandler	
 		try {
 			AutorDTO dtoModificado = this.autorService.update(dto, id);
 			HttpStatus codigoRespuesta = null;
@@ -170,7 +173,8 @@ public class AutorController {
 			return re;
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
-		}
+		}*/
+		return new ResponseEntity<HrefEntityDTO>(this.autorService.update(dto, id), HttpStatus.OK);
 
 	}
 
