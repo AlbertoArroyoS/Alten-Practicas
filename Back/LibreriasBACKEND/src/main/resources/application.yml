@@ -1,3 +1,6 @@
 spring:
   profiles:
     active: dev
+    
+  banner:
+     location: classpath:/config/banner.txt
