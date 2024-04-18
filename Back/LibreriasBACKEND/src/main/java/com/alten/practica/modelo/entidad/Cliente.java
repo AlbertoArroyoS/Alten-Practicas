@@ -2,6 +2,8 @@ package com.alten.practica.modelo.entidad;
 
 import java.util.List;
 
+import com.alten.practica.constantes.LibreriaConstant;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,13 +11,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @Data
-@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "clientes", schema = "dbo")
+@Table(name = LibreriaConstant.TABLA_NOMBRE_CLIENTE, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class Cliente {
 	
 	@Id
@@ -33,9 +39,6 @@ public class Cliente {
 	@Column(name = "nivel_permiso")
 	private int nivelPermiso;
 
-	public Cliente() {
-		super();
-	}
 	
 	@OneToMany(mappedBy = "cliente")
     private List<ClienteCompraLibro> listaCompras;

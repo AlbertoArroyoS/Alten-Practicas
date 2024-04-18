@@ -26,26 +26,24 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = LibreriaConstant.TABLA_NOMBRE_CLIENTE_COMPRA_LIBRO, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class ClienteCompraLibro {
-	
-	 @Id
-	    @Column(name = "id_compra")
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private int id;
 
-	    @ManyToOne
-	    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
-	    private Cliente cliente;
+	@Id
+	@Column(name = "id_compra")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-	    @ManyToOne
-	    @JoinColumn(name = "id_libro", referencedColumnName = "id_libro")
-	    private Libro libro;
-	    
-	    @DateTimeFormat(pattern = "dd-MM-yyyy")
-	    private Date fechaCompra;
-	    
-	    @Column(name = "precio")
-	    private double precio;
-	    
-	  
+	@ManyToOne
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+	private Cliente cliente;
+
+	@ManyToOne
+	@JoinColumn(name = "id_libro", referencedColumnName = "id_libro")
+	private Libro libro;
+
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	private Date fechaCompra;
+
+	@Column(name = "precio")
+	private double precio;
 
 }
