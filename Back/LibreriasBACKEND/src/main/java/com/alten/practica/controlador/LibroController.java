@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,10 +41,11 @@ import lombok.extern.slf4j.Slf4j;
  * Ruta para buscar por key_word un libro:
  * http://localhost:8080/v1/app-libreria/libros/libro?key_word=a&page=0&size=4
  */
-@Slf4j
+
+//@CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) // Para permitir peticiones desde el frontend, quien puede hacer peticiones a este controlador
+@Slf4j //para logs de lombok
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
-@CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND)
 public class LibroController {
 
 	@Autowired

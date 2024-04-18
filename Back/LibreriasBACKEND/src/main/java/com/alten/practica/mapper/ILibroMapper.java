@@ -15,5 +15,7 @@ public interface ILibroMapper {
 	// expresion para realizar el mapeo
 	
 	public LibroDTO toDTO(Libro libro);
+	
+	public Libro toBean(LibroDTO libroDTO);
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +34,10 @@ import lombok.extern.slf4j.Slf4j;
  * Ruta para crear una libreria:
  * http://localhost:8080/v1/app-libreria/autores/autor
  */
-@Slf4j
+//@CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND) // Para permitir peticiones desde el frontend, quien puede hacer peticiones a este controlador
+@Slf4j //para logs de lombok
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
-@CrossOrigin(LibreriaConstant.CLIENTE_FRONTEND)
 public class AutorController {
 
 	// Inyectamos el servicio
