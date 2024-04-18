@@ -70,6 +70,8 @@ public class LibreriaConstant {
 	public static final String TABLA_NOMBRE_LIBRERIAS = "librerias";
 	public static final String TABLA_NOMBRE_LIBRERIA_LIBRO = "libreria_libro";
 	public static final String TABLA_NOMBRE_USUARIOS = "usuarios";
+	public static final String TABLA_NOMBRE_LIBRERIA_CON_LIBROS = "libreria_libro";
+	public static final String TABLA_NOMBRE_CLIENTE_COMPRA_LIBRO = "cliente_compra_libro";
 	
 	// =============================================================================================
 	// NOMBRE DE LOS ESQUEMAS

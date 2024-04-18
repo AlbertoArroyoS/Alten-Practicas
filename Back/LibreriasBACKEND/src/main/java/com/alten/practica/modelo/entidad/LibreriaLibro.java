@@ -1,5 +1,7 @@
 package com.alten.practica.modelo.entidad;
 
+import com.alten.practica.constantes.LibreriaConstant;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,13 +10,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @Data
-@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "libreria_libro", schema = "dbo")
+@Table(name = LibreriaConstant.TABLA_NOMBRE_LIBRERIA_CON_LIBROS, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class LibreriaLibro {
 
     @Id
@@ -34,8 +40,6 @@ public class LibreriaLibro {
     @Column(name = "precio")
     private double precio;
 
-	public LibreriaLibro() {
-		super();
-	}
+
 }
 

@@ -75,7 +75,7 @@ public class AutorServiceImpl implements IAutorService {
 		return autorMapper.toDTO(this.autorRepository.nuevoAutorSQL(dto.getNombre(), dto.getApellidos()));
 
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public AutorDTO findById(int id) {
 		// Buscar el autor por su ID en el repositorio de autores
@@ -97,7 +97,7 @@ public class AutorServiceImpl implements IAutorService {
 			return null;
 		}*/
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public List<AutorDTO> findAll() {
 		List<Autor> lista = this.autorRepository.findAll();

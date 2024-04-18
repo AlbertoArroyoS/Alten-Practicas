@@ -72,7 +72,7 @@ public class LibreriaServiceImpl implements ILibreriaService {
 		return this.libreriaRepository.save(libreria).getId();*/
 
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public LibreriaDTO findById(int id) {
 		/*
@@ -95,7 +95,7 @@ public class LibreriaServiceImpl implements ILibreriaService {
 			
 		return libreriaMapper.toDTO(libreria);
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public List<LibreriaDTO> findAll() {
 		List<Libreria> lista = this.libreriaRepository.findAll();

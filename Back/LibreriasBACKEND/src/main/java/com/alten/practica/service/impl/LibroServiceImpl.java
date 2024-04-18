@@ -120,7 +120,7 @@ public class LibroServiceImpl implements ILibroService {
 				dto.getPaginas(), dto.getEditorial(), dto.getDescripcion(), dto.getPrecio());
 		return 0;
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public LibroDTO findById(int id) {
 
@@ -148,7 +148,7 @@ public class LibroServiceImpl implements ILibroService {
 		 */
 
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public List<LibroDTO> findAll() {
 		List<Libro> lista = this.libroRepository.findAll();
@@ -185,7 +185,7 @@ public class LibroServiceImpl implements ILibroService {
 		this.libroRepository.deleteById(id);
 		return id;
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public Page<LibroDTO> findByTitle(String title, Pageable pageable) {
 		Page<Libro> listaPages = this.libroRepository.buscarKeyWordSQL(title, pageable);
