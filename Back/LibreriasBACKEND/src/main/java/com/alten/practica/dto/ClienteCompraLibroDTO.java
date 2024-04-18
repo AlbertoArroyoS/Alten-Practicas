@@ -15,22 +15,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteCompraLibroDTO implements Serializable{
+public class ClienteCompraLibroDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
 
 	private int id;
 
-
 	private Cliente cliente;
-
 
 	private Libro libro;
 
-
 	private Date fechaCompra;
-
 
 	private double precio;
 

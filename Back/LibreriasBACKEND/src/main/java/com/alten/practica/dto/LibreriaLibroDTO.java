@@ -14,20 +14,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LibreriaLibroDTO implements Serializable{
-
+public class LibreriaLibroDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
 
-	    private int id;
+	private int id;
 
-	    private Libreria libreria;
+	private Libreria libreria;
 
-	    private Libro libro;
+	private Libro libro;
 
-	    private int cantidad;
+	private int cantidad;
 
-	    private double precio;
+	private double precio;
 
 }
