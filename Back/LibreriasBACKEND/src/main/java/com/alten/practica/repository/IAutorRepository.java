@@ -28,7 +28,7 @@ public interface IAutorRepository extends JpaRepository<Autor, Integer>{
 	@Query(value = LibreriaConstant.SP_NUEVO_AUTOR, nativeQuery = true)
 	public Autor nuevoAutorSQL(String nombre, String apellidos);
 	
-	//Metodo para obtener el id del autor
+	//Metodo para buscar por nombre
 	@Query("SELECT a FROM Autor a WHERE a.nombre = :nombre AND a.apellidos = :apellidos")
 	Optional<Autor> findByNombreAndApellidos(@Param("nombre") String nombre, @Param("apellidos") String apellidos);
 

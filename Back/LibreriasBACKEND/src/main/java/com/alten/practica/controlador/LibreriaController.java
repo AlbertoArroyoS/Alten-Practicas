@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.service.ILibreriaService;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 /*
  * Ruta para acceder a una libreria por su id:
@@ -58,20 +60,24 @@ public class LibreriaController {
 	}
 
 	@PostMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA)
-	public int save(@RequestBody LibreriaDTORequest dto) {
-		return this.libreriaService.save(dto);
+	public ResponseEntity<HrefEntityDTO> save(@Valid @RequestBody LibreriaDTORequest dto) {
+		
+		return new ResponseEntity<HrefEntityDTO>(this.libreriaService.save(dto), HttpStatus.CREATED);
+
 	}
 
 	@PutMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public int update(@RequestBody LibreriaDTORequest dto, @PathVariable("id") int id) {
-		return this.libreriaService.update(dto, id);
+	public ResponseEntity<HrefEntityDTO> update(@Valid @RequestBody LibreriaDTORequest dto, @PathVariable("id") int id) {
+		
+		return new ResponseEntity<HrefEntityDTO>(this.libreriaService.update(dto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public void delete(@PathVariable("id") int id) {
-		this.libreriaService.delete(id);
+	public ResponseEntity<HrefEntityDTO> delete(@PathVariable("id") int id) {
+				
+		return new ResponseEntity<HrefEntityDTO>(this.libreriaService.delete(id), HttpStatus.OK);
 		/*
 		 * if (deletedId != -1) { return
 		 * ResponseEntity.ok("Libreria eliminada con éxito"); // Si la eliminación fue

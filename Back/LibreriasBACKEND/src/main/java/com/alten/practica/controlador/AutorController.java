@@ -2,8 +2,6 @@ package com.alten.practica.controlador;
 
 import java.util.List;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -152,7 +150,8 @@ public class AutorController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER ERROR
 		}*/
-		return new ResponseEntity<HrefEntityDTO>(this.autorService.delete(id), HttpStatus.OK);	}
+		return new ResponseEntity<HrefEntityDTO>(this.autorService.delete(id), HttpStatus.OK);	
+	}
 
 	// Metodo para actualizar un autor
 	@PutMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR

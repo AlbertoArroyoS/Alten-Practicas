@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.dto.request.LibreriaDTORequest;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 
 public interface ILibreriaService {
 
 	// Metodo para guardar una libreria
-	public int save(LibreriaDTORequest dto);
+	public HrefEntityDTO save(LibreriaDTORequest dto);
 
 	// Metodo para buscar por id
 	public LibreriaDTO findById(int id);
@@ -17,9 +18,9 @@ public interface ILibreriaService {
 	public List<LibreriaDTO> findAll();
 	
 	// Metodo para actualizar una libreria
-	public int update(LibreriaDTORequest dto, int id);
+	public HrefEntityDTO update(LibreriaDTORequest dto, int id);
 
 	// Metodo para borrar una libreria
-	public void delete(int id);
+	public HrefEntityDTO delete(int id);
 
 }
