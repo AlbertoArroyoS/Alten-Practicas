@@ -21,7 +21,7 @@ import com.alten.practica.service.IAutorService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
-@Transactional
+@Transactional // Transacción para todos los métodos del servicio
 @Service
 public class AutorServiceImpl implements IAutorService {
 
@@ -191,7 +191,7 @@ public class AutorServiceImpl implements IAutorService {
 		// Obtener el ID del primer autor en la lista
 		return autor.get(0).getId();
 	}
-
+	@Transactional (readOnly = true) // para que no se haga un commit, solo lectura , de manera especifica ("En caso de tener el general y el especifico, se toma el especifico, 
 	@Override
 	public Optional<AutorDTO> findByName(String nombre, String apellidos) {
 	    Optional<Autor> autorOptional = autorRepository.findByNombreAndApellidos(nombre, apellidos);
