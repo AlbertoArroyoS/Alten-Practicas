@@ -24,10 +24,10 @@ public interface ILibroService {
 	public List<LibroDTO> findAll();
 
 	// Metodo para actualizar un libro
-	public int HrefEntityDTO(LibroDTORequest dto, int id);
+	public int update(LibroDTORequest dto, int id);
 
 	// Metodo para borrar un libro
-	public int HrefEntityDTO(int id);
+	public int delete(int id);
 
 	// Metodo para buscar por key_word, por palabra clave
 	public Page<LibroDTO> findByTitle(String title, Pageable pageable);
