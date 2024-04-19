@@ -19,8 +19,8 @@ import com.alten.practica.util.LibreriaUtil;
 
 @Transactional // Transacción para todos los métodos del servicio
 @Service
-public class ClienteServiceImpl implements IClienteService{
-	
+public class ClienteServiceImpl implements IClienteService {
+
 	@Autowired
 	IClienteRepository clienteRepository;
 	@Autowired
@@ -30,16 +30,15 @@ public class ClienteServiceImpl implements IClienteService{
 
 	@Override
 	public HrefEntityDTO save(ClienteDTORequest dto) {
-		
-		clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos())
-		.ifPresent(a -> {
-             throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"+ dto.getApellidos()+ "' ya existe");
-         });
-	
-	
-	Cliente cliente = this.clienteRepository.save(this.clienteMapper.toBean(dto));
 
-	return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
+		clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
+			throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
+					+ dto.getApellidos() + "' ya existe");
+		});
+
+		Cliente cliente = this.clienteRepository.save(this.clienteMapper.toBean(dto));
+
+		return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
 
 	}
 
@@ -47,7 +46,7 @@ public class ClienteServiceImpl implements IClienteService{
 	public ClienteDTO findById(int id) {
 		Cliente cpl = clienteRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
-			
+
 		return clienteMapper.toDTO(cpl);
 	}
 
@@ -59,8 +58,21 @@ public class ClienteServiceImpl implements IClienteService{
 
 	@Override
 	public HrefEntityDTO update(ClienteDTORequest dto, int id) {
-		// TODO Auto-generated method stub
-		return null;
+		clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
+			throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
+					+ dto.getApellidos() + "' ya existe");
+		});
+		Cliente cpl = clienteRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
+
+		cpl.setNombre(dto.getNombre());
+		cpl.setApellidos(dto.getApellidos());
+		cpl.setEmail(dto.getEmail());
+		cpl.setPassword(dto.getPassword());
+		cpl.setNivelPermiso(dto.getNivelPermiso());
+
+		return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
+
 	}
 
 	@Override

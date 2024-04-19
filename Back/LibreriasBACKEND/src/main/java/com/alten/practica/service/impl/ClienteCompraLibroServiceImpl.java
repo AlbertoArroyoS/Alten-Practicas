@@ -70,8 +70,21 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 
 	@Override
 	public HrefEntityDTO update(ClienteCompraLibroDTORequest dto, int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Cliente cli = clienteRepository.findById(dto.getIdCliente()).orElseThrow(
+				() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", dto.getIdCliente())));
+		Libro libro = libroRepository.findById(dto.getIdLibro()).orElseThrow(
+				() -> new EntityNotFoundException(String.format("El libro con id %s no existe", dto.getIdLibro())));
+		
+		ClienteCompraLibro cpl = clienteCompraLibroRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("La compra con id %s no existe", id)));
+			
+		cpl.setCliente(cli);
+		cpl.setLibro(libro);
+		cpl.setFechaCompra(dto.getFechaCompra());
+		
+
+		return libreriaUtil.createHrefFromResource(this.clienteCompraLibroRepository.save(cpl).getId(), LibreriaResource.CLIENTECOMPRALIBRO);
+		
 	}
 
 	@Override

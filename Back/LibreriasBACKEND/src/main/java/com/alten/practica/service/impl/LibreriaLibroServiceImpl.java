@@ -71,8 +71,22 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService{
 
 	@Override
 	public HrefEntityDTO update(LibreriaLibroDTORequest dto, int id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Libreria cli = libreriaRepository.findById(dto.getIdLibreria()).orElseThrow(
+				() -> new EntityNotFoundException(String.format("La libreria con id %s no existe", dto.getIdLibreria())));
+		Libro libro = libroRepository.findById(dto.getIdLibro()).orElseThrow(
+				() -> new EntityNotFoundException(String.format("El libro con id %s no existe", dto.getIdLibro())));
+		
+		LibreriaLibro cpl = libreriaLibroRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("id %s no existe", id)));
+			
+		cpl.setLibreria(cli);
+		cpl.setLibro(libro);
+		cpl.setCantidad(dto.getCantidad());
+		cpl.setPrecio(dto.getPrecio());
+		
+		return libreriaUtil.createHrefFromResource(this.libreriaLibroRepository.save(cpl).getId(), LibreriaResource.LIBRERIALIBRO);
+
 	}
 
 	@Override
