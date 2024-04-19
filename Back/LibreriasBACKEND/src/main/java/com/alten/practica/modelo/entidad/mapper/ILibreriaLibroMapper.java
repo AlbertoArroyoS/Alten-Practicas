@@ -2,17 +2,24 @@ package com.alten.practica.modelo.entidad.mapper;
 
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import com.alten.practica.modelo.entidad.Autor;
-import com.alten.practica.modelo.entidad.dto.AutorDTO;
-import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
+import com.alten.practica.modelo.entidad.LibreriaLibro;
+import com.alten.practica.modelo.entidad.dto.LibreriaLibroDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibreriaLibroDTORequest;
 
-@Mapper (builder = @Builder(disableBuilder = true))
+@Mapper(builder = @Builder(disableBuilder = true))
 public interface ILibreriaLibroMapper {
-	
-public AutorDTO toDTO(Autor autor);
-	
-	//proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo convertimos a entidad
-	public Autor toBean(AutorDTORequest dto);
+
+	@Mapping(target = "nombreLibreria", source = "libreria.nombreLibreria") // Asume que Libreria tiene un campo `nombre`
+    @Mapping(target = "tituloLibro", source = "libro.titulo") // Asume que Libro tiene un campo `titulo`
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "cantidad", source = "cantidad")
+    @Mapping(target = "precio", source = "precio")
+    LibreriaLibroDTO toDTO(LibreriaLibro libreriaLibro);
+
+	// proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo
+	// convertimos a entidad
+	public LibreriaLibro toBean(LibreriaLibroDTORequest dto);
 
 }

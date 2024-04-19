@@ -3,16 +3,17 @@ package com.alten.practica.modelo.entidad.mapper;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 
-import com.alten.practica.modelo.entidad.Autor;
-import com.alten.practica.modelo.entidad.dto.AutorDTO;
-import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
+import com.alten.practica.modelo.entidad.Cliente;
+import com.alten.practica.modelo.entidad.dto.ClienteDTO;
+import com.alten.practica.modelo.entidad.dto.request.ClienteDTORequest;
 
-@Mapper (builder = @Builder(disableBuilder = true))
+@Mapper(builder = @Builder(disableBuilder = true))
 public interface IClienteMapper {
-	
-public AutorDTO toDTO(Autor autor);
-	
-	//proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo convertimos a entidad
-	public Autor toBean(AutorDTORequest dto);
+
+	public ClienteDTO toDTO(Cliente cliente);
+
+	// proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo
+	// convertimos a entidad
+	public Cliente toBean(ClienteDTORequest dto);
 
 }
