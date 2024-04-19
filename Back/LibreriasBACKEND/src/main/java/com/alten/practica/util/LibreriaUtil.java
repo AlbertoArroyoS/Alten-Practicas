@@ -1,7 +1,5 @@
 package com.alten.practica.util;
 
-import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
@@ -118,13 +116,22 @@ public class LibreriaUtil {
 	        // Utilizar un switch para seleccionar el recurso adecuado
 	        switch (resource) {
 	            case LIBRERIA:
-	                resourcePath = LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA;
+	                resourcePath = LibreriaConstant.RESOURCE_LIBRERIAS;
 	                break;
 	            case AUTOR:
-	                resourcePath = LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR;
+	                resourcePath = LibreriaConstant.RESOURCE_AUTORES;
 	                break;
 	            case LIBRO:
-	                resourcePath = LibreriaConstant.RESOURCE_CLIENTES + LibreriaConstant.RESOURCE_LIBRO;
+	                resourcePath = LibreriaConstant.RESOURCE_LIBROS;
+	                break;
+	            case CLIENTE:
+	                resourcePath = LibreriaConstant.RESOURCE_CLIENTES;
+	                break;
+	            case CLIENTECOMPRALIBRO:
+	                resourcePath = LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS;
+	                break;
+	            case LIBRERIALIBRO:
+	                resourcePath = LibreriaConstant.RESOURCE_LIBRERIA_LIBROS;
 	                break;
 	            default:
 	                throw new IllegalArgumentException("Unsupported resource type: " + resource);
@@ -142,9 +149,11 @@ public class LibreriaUtil {
 	    return hrefEntity;
 	}
 
+}
+
 	
 
 
 
 
-}
+

@@ -26,7 +26,9 @@ public class ClienteDTORequest {
 	@Size(min = 2, max = 250, message = "Los apellidos deben tener entre 2 y 250 caracteres")
 	private String apellidos;
 	
-	@Email
+	@NotNull(message = "El email no puede ser nulo")
+    @NotBlank(message = "El email no puede estar vacío")
+    @Email(message = "El formato del email no es válido")
 	private String email;
 	
 	private String password;
