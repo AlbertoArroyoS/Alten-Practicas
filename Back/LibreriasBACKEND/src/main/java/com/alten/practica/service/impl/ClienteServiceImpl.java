@@ -14,6 +14,7 @@ import com.alten.practica.modelo.entidad.dto.request.ClienteDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IClienteMapper;
 import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.service.IClienteService;
+import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
 @Transactional // Transacción para todos los métodos del servicio
@@ -29,8 +30,17 @@ public class ClienteServiceImpl implements IClienteService{
 
 	@Override
 	public HrefEntityDTO save(ClienteDTORequest dto) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos())
+		.ifPresent(a -> {
+             throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"+ dto.getApellidos()+ "' ya existe");
+         });
+	
+	
+	Cliente cliente = this.clienteRepository.save(this.clienteMapper.toBean(dto));
+
+	return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
+
 	}
 
 	@Override
