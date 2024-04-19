@@ -124,7 +124,7 @@ public class LibreriaUtil {
 	                resourcePath = LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR;
 	                break;
 	            case LIBRO:
-	                resourcePath = LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO;
+	                resourcePath = LibreriaConstant.RESOURCE_CLIENTES + LibreriaConstant.RESOURCE_LIBRO;
 	                break;
 	            default:
 	                throw new IllegalArgumentException("Unsupported resource type: " + resource);

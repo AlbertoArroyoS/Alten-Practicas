@@ -50,6 +50,12 @@ public class LibreriaConstant {
 	public static final String RESOURCE_LIBRERIA = "/libreria";
 	public static final String RESOURCE_AUTOR = "/autor";
 	public static final String RESOURCE_LIBRO = "/libro";
+	public static final String RESOURCE_CLIENTES = "/clientes";
+	public static final String RESOURCE_CLIENTE = "/cliente";
+	public static final String RESOURCE_LIBRERIA_LIBROS = "/libreria_libros";
+	public static final String RESOURCE_LIBRERIA_LIBRO = "/libreria_libro";
+	public static final String RESOURCE_CLIENTE_COMPRA_LIBROS = "/compras";
+	public static final String RESOURCE_CLIENTE_COMPRA_LIBRO = "/compra";
 	public static final String RESOURCE_GENERIC_ID = "/{id}";
 	
 	
