@@ -1,11 +1,11 @@
-package com.alten.practica.mapper;
+package com.alten.practica.modelo.entidad.mapper;
 
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 
-import com.alten.practica.dto.LibreriaDTO;
-import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.modelo.entidad.Libreria;
+import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibreriaDTORequest;
 
 @Mapper(builder = @Builder(disableBuilder = true))
 public interface ILibreriaMapper {

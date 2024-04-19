@@ -1,4 +1,4 @@
-package com.alten.practica.dto;
+package com.alten.practica.modelo.entidad.dto;
 
 import java.util.Optional;
 

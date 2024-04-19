@@ -10,8 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.dto.LibroDTO;
 import com.alten.practica.modelo.entidad.Libro;
+import com.alten.practica.modelo.entidad.dto.LibroDTO;
 
 /**
  * Interfaz que extiende de JpaRepository, para realizar operaciones con la base

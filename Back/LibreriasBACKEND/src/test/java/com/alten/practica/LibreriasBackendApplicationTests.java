@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alten.practica.dto.LibreriaDTO;
 import com.alten.practica.modelo.entidad.Libreria;
+import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
 import com.alten.practica.repository.ILibreriaRepository;
 
 @SpringBootTest

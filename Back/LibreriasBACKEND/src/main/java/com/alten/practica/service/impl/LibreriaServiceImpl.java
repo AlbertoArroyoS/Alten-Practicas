@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alten.practica.dto.LibreriaDTO;
-import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.errorhandler.EntityNotFoundException;
 import com.alten.practica.errorhandler.HrefEntityDTO;
-import com.alten.practica.mapper.ILibreriaMapper;
 import com.alten.practica.modelo.entidad.Libreria;
+import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibreriaDTORequest;
+import com.alten.practica.modelo.entidad.mapper.ILibreriaMapper;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.service.ILibreriaService;
 import com.alten.practica.util.LibreriaResource;

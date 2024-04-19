@@ -1,13 +1,13 @@
-package com.alten.practica.mapper;
+package com.alten.practica.modelo.entidad.mapper;
 
 import org.mapstruct.Builder;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.alten.practica.dto.AutorDTO;
-import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.Autor;
+import com.alten.practica.modelo.entidad.dto.AutorDTO;
+import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
 
 @Mapper (builder = @Builder(disableBuilder = true))
 public interface IAutorMapper {

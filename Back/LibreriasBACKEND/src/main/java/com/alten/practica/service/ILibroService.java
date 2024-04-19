@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.alten.practica.dto.LibroDTO;
-import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.LibroDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibroDTORequest;
 
 public interface ILibroService {
 

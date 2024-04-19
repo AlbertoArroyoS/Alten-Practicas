@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.dto.LibreriaDTO;
-import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibreriaDTORequest;
 import com.alten.practica.service.ILibreriaService;
 
 import jakarta.validation.Valid;

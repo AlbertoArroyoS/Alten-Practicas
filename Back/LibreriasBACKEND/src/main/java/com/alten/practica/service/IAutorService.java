@@ -3,9 +3,9 @@ package com.alten.practica.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.alten.practica.dto.AutorDTO;
-import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.AutorDTO;
+import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
 
 public interface IAutorService {
 

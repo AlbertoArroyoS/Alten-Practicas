@@ -10,13 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alten.practica.dto.LibroDTO;
-import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.errorhandler.EntityNotFoundException;
 import com.alten.practica.errorhandler.HrefEntityDTO;
-import com.alten.practica.mapper.ILibroMapper;
 import com.alten.practica.modelo.entidad.Autor;
 import com.alten.practica.modelo.entidad.Libro;
+import com.alten.practica.modelo.entidad.dto.LibroDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibroDTORequest;
+import com.alten.practica.modelo.entidad.mapper.ILibroMapper;
 import com.alten.practica.repository.IAutorRepository;
 import com.alten.practica.repository.ILibroRepository;
 import com.alten.practica.service.ILibroService;

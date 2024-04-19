@@ -1,4 +1,4 @@
-package com.alten.practica.dto.request;
+package com.alten.practica.modelo.entidad.dto.request;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

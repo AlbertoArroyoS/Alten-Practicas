@@ -10,9 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.dto.PageableDTO;
 import com.alten.practica.errorhandler.EntityGenericServerException;
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.PageableDTO;
 
 //Clase donde se encuentran todos los metodos generales
 //como validar un email, un password, un nombre, un apellido, etc

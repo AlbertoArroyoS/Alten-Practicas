@@ -2,9 +2,9 @@ package com.alten.practica.service;
 
 import java.util.List;
 
-import com.alten.practica.dto.LibreriaDTO;
-import com.alten.practica.dto.request.LibreriaDTORequest;
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibreriaDTORequest;
 
 public interface ILibreriaService {
 

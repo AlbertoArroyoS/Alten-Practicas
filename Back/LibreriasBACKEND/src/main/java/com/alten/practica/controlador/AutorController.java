@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.dto.AutorDTO;
-import com.alten.practica.dto.request.AutorDTORequest;
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.AutorDTO;
+import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
 import com.alten.practica.service.IAutorService;
 
 import jakarta.validation.Valid;

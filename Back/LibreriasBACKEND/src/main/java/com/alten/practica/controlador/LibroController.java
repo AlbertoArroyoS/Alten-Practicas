@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.dto.LibroDTO;
-import com.alten.practica.dto.PageableDTO;
-import com.alten.practica.dto.request.LibroDTORequest;
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.LibroDTO;
+import com.alten.practica.modelo.entidad.dto.PageableDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibroDTORequest;
 import com.alten.practica.service.ILibroService;
 import com.alten.practica.util.LibreriaUtil;
 
