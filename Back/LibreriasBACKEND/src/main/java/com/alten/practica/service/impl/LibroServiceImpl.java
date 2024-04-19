@@ -169,24 +169,27 @@ public class LibroServiceImpl implements ILibroService {
 	}
 
 	@Override
-	public int update(LibroDTORequest dto, int id) {
-		Libro libro = this.libroRepository.findById(id).get();
+	public HrefEntityDTO update(LibroDTORequest dto, int id) {
+		Libro libro = libroRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El libro con id %s no existe", id)));
+
+
 		libro.setTitulo(dto.getTitulo());
 		libro.setGenero(dto.getGenero());
 		libro.setPaginas(dto.getPaginas());
 		libro.setEditorial(dto.getEditorial());
 		libro.setDescripcion(dto.getDescripcion());
 		libro.setPrecio(dto.getPrecio());
-		return this.libroRepository.save(libro).getId();
+		return libreriaUtil.createHrefFromResource(libroRepository.save(libro).getId(), LibreriaResource.LIBRO);
 	}
 
 	@Override
-	public int delete(int id) {
+	public HrefEntityDTO delete(int id) {
 		Libro libro = libroRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El libro con id %s no existe", id)));
 
 		this.libroRepository.deleteById(libro.getId());
-		return id;
+		return libreriaUtil.createHrefFromResource(libro.getId(), LibreriaResource.LIBRO);
 	}
 	@Transactional (readOnly = true)
 	@Override
