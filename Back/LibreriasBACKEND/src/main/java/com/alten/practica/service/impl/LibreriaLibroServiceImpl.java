@@ -91,8 +91,12 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService{
 
 	@Override
 	public HrefEntityDTO delete(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		LibreriaLibro cpl = libreriaLibroRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("id %s no existe", id)));
+			
+		this.libreriaLibroRepository.delete(cpl);
+		return libreriaUtil.createHrefFromResource(cpl.getId(), LibreriaResource.LIBRERIALIBRO);
+		
 	}
 
 }

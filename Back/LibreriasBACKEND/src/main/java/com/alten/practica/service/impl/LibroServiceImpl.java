@@ -182,7 +182,10 @@ public class LibroServiceImpl implements ILibroService {
 
 	@Override
 	public int delete(int id) {
-		this.libroRepository.deleteById(id);
+		Libro libro = libroRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El libro con id %s no existe", id)));
+
+		this.libroRepository.deleteById(libro.getId());
 		return id;
 	}
 	@Transactional (readOnly = true)

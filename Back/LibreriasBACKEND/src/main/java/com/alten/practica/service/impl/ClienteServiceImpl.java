@@ -77,8 +77,12 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Override
 	public HrefEntityDTO delete(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Cliente cpl = clienteRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
+
+		this.clienteRepository.delete(cpl);
+		
+		return libreriaUtil.createHrefFromResource(cpl.getId(), LibreriaResource.CLIENTE);
 	}
 
 }

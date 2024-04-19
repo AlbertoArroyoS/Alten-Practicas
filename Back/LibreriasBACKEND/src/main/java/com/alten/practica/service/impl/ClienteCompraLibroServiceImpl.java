@@ -1,6 +1,7 @@
 package com.alten.practica.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,8 +65,9 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 
 	@Override
 	public List<ClienteCompraLibroDTO> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ClienteCompraLibro> lista = clienteCompraLibroRepository.findAll();
+		
+		return lista.stream().map(clienteCompraLibrosMapper::toDTO).collect(Collectors.toList());
 	}
 
 	@Override
@@ -89,8 +91,14 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 
 	@Override
 	public HrefEntityDTO delete(int id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ClienteCompraLibro cpl = clienteCompraLibroRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("La compra con id %s no existe", id)));
+			
+		this.clienteCompraLibroRepository.delete(cpl);
+		
+		return libreriaUtil.createHrefFromResource(cpl.getId(), LibreriaResource.CLIENTECOMPRALIBRO);
+		
 	}
 	
 	
