@@ -53,7 +53,7 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 		return libreriaUtil.createHrefFromResource(this.clienteCompraLibroRepository.save(ccl).getId(), LibreriaResource.CLIENTECOMPRALIBRO);
 		
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public ClienteCompraLibroDTO findById(int id) {
 		
@@ -62,7 +62,7 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 			
 		return clienteCompraLibrosMapper.toDTO(cpl);
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public List<ClienteCompraLibroDTO> findAll() {
 		List<ClienteCompraLibro> lista = clienteCompraLibroRepository.findAll();

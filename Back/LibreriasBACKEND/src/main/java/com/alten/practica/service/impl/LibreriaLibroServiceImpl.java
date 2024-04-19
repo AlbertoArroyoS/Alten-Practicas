@@ -54,7 +54,7 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService{
 		
 		return libreriaUtil.createHrefFromResource(this.libreriaLibroRepository.save(ccl).getId(), LibreriaResource.LIBRERIALIBRO);
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public LibreriaLibroDTO findById(int id) {
 		LibreriaLibro cpl = libreriaLibroRepository.findById(id)
@@ -62,7 +62,7 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService{
 			
 		return libreriaLibroMapper.toDTO(cpl);
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public List<LibreriaLibroDTO> findAll() {
 		List<LibreriaLibro> lista = libreriaLibroRepository.findAll();

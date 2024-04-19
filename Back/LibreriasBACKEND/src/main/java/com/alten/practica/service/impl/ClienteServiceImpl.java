@@ -41,7 +41,7 @@ public class ClienteServiceImpl implements IClienteService {
 		return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
 
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public ClienteDTO findById(int id) {
 		Cliente cpl = clienteRepository.findById(id)
@@ -49,7 +49,7 @@ public class ClienteServiceImpl implements IClienteService {
 
 		return clienteMapper.toDTO(cpl);
 	}
-
+	@Transactional (readOnly = true)
 	@Override
 	public List<ClienteDTO> findAll() {
 		List<Cliente> clientes = clienteRepository.findAll();
