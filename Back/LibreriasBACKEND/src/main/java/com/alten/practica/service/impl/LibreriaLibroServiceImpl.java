@@ -65,8 +65,8 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService{
 
 	@Override
 	public List<LibreriaLibroDTO> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<LibreriaLibro> lista = libreriaLibroRepository.findAll();
+		return lista.stream().map(libreriaLibroMapper::toDTO).toList();
 	}
 
 	@Override

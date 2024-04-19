@@ -52,8 +52,8 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Override
 	public List<ClienteDTO> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Cliente> clientes = clienteRepository.findAll();
+		return clientes.stream().map(clienteMapper::toDTO).toList();
 	}
 
 	@Override
