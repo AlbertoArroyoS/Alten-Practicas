@@ -109,16 +109,20 @@ public class LibroController {
 
 	@PutMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public int update(@RequestBody LibroDTORequest dto, @PathVariable("id") int id) {
-		return this.libroService.update(dto, id);
+	public ResponseEntity<HrefEntityDTO> update(@RequestBody LibroDTORequest dto, @PathVariable("id") int id) {
+
+		return new ResponseEntity<HrefEntityDTO>(this.libroService.update(dto, id), HttpStatus.OK);
 	}
 
 	// Eliminar un libro
 	// Metodo para eliminar un autor
 	@DeleteMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
-	public void delete(@PathVariable("id") int id) {
+	public ResponseEntity<HrefEntityDTO> delete(@PathVariable("id") int id) {
+		
 		this.libroService.delete(id);
+		
+		return new ResponseEntity<HrefEntityDTO>(this.libroService.delete(id), HttpStatus.OK);	
 		/*
 		 * if (deletedId != -1) { return
 		 * ResponseEntity.ok("Libreria eliminada con éxito"); // Si la eliminación fue
