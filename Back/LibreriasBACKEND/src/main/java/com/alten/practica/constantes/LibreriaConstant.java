@@ -1,35 +1,37 @@
 package com.alten.practica.constantes;
 
+/*
+ * Clase que contiene las constantes de la aplicación.
+ */
 public class LibreriaConstant {
-	
 
 	// =============================================================================================
 	// CODIGO DE ERROR DEL CLIENTE Y SERVIDOR
 	// =============================================================================================
 
-		// Errores de cliente
-		public static final String BAD_REQUEST = "400";
-		public static final String UNAUTHORIZED = "401";
-		public static final String FORBIDDEN = "403";
-		public static final String NOT_FOUND = "404";
-		public static final String METHOD_NOT_ALLOWED = "405";
-		public static final String NOT_ACCEPTABLE = "406";
-		public static final String CONFLICT = "409";
-		public static final String UNPROCESSABLE_ENTITY = "422";
-		public static final String EXPECTATION_FAILED = "417";
-		public static final Float NR_VUELTO_DEFAULT = (float) 0;
+	// Errores de cliente
+	public static final String BAD_REQUEST = "400";
+	public static final String UNAUTHORIZED = "401";
+	public static final String FORBIDDEN = "403";
+	public static final String NOT_FOUND = "404";
+	public static final String METHOD_NOT_ALLOWED = "405";
+	public static final String NOT_ACCEPTABLE = "406";
+	public static final String CONFLICT = "409";
+	public static final String UNPROCESSABLE_ENTITY = "422";
+	public static final String EXPECTATION_FAILED = "417";
+	public static final Float NR_VUELTO_DEFAULT = (float) 0;
 
-		// Errores de servidor
-		public static final String INTERNAL_SERVER_ERROR = "500";
-		public static final String NOT_IMPLEMENTED = "501";
-		public static final String BAD_GATEWAY = "503";
-		public static final String SERVICE_UNAVAILABLE = "504";
-		public static final String GATEWAY_TIMEOUT = "505";
-		public static final String NOT_VALIDATED = "506";
+	// Errores de servidor
+	public static final String INTERNAL_SERVER_ERROR = "500";
+	public static final String NOT_IMPLEMENTED = "501";
+	public static final String BAD_GATEWAY = "503";
+	public static final String SERVICE_UNAVAILABLE = "504";
+	public static final String GATEWAY_TIMEOUT = "505";
+	public static final String NOT_VALIDATED = "506";
 
-		// prefijos identificar si es un error de cliente o de servidor
-		public static final String PREFIX_SERVER_ERROR = "SRV";
-		public static final String PREFIX_CLIENT_ERROR = "CLI";
+	// prefijos identificar si es un error de cliente o de servidor
+	public static final String PREFIX_SERVER_ERROR = "SRV";
+	public static final String PREFIX_CLIENT_ERROR = "CLI";
 
 	// =============================================================================================
 	// API VERSION
@@ -39,8 +41,8 @@ public class LibreriaConstant {
 	// =============================================================================================
 	// CONTEXTO DE LA APLICACION
 	// =============================================================================================
-	public static final String RESOURCE_GENERIC = API_VERSION + "/app-libreria";	
-	
+	public static final String RESOURCE_GENERIC = API_VERSION + "/app-libreria";
+
 	// =============================================================================================
 	// PATH DEL SISTEMA LIBRERIA. RECURSOS
 	// =============================================================================================
@@ -57,17 +59,16 @@ public class LibreriaConstant {
 	public static final String RESOURCE_CLIENTE_COMPRA_LIBROS = "/compras";
 	public static final String RESOURCE_CLIENTE_COMPRA_LIBRO = "/compra";
 	public static final String RESOURCE_GENERIC_ID = "/{id}";
-	
-	
+
 	// =============================================================================================
 	// PATH DEL SISTEMA LIBRERIA FRONT END
 	// =============================================================================================
 	public static final String CLIENTE_FRONTEND = "*";
-	
+
 	private LibreriaConstant() {
 		super();
 	}
-	
+
 	// =============================================================================================
 	// NOMBRE DE LAS TABLAS
 	// =============================================================================================
@@ -79,12 +80,12 @@ public class LibreriaConstant {
 	public static final String TABLA_NOMBRE_LIBRERIA_CON_LIBROS = "libreria_libro";
 	public static final String TABLA_NOMBRE_CLIENTE_COMPRA_LIBRO = "cliente_compra_libro";
 	public static final String TABLA_NOMBRE_CLIENTE = "clientes";
-	
+
 	// =============================================================================================
 	// NOMBRE DE LOS ESQUEMAS
 	// =============================================================================================
 	public static final String ESQUEMA_NOMBRE = "dbo";
-	
+
 	// =============================================================================================
 	// NOMBRE DE LOS PROCEDIMIENTOS ALMACENADOS (FUNCIONES DE SQL SERVER)
 	// =============================================================================================

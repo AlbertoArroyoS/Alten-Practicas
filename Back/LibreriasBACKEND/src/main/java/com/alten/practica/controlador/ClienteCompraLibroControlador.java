@@ -23,7 +23,10 @@ import com.alten.practica.util.LibreriaUtil;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * Controlador REST para gestionar las operaciones CRUD sobre las compras de libros por parte de los clientes.
+ * Proporciona endpoints para obtener, crear, actualizar y eliminar compras, así como para consultar compras específicas.
+ */
 @Slf4j //para logs de lombok
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
@@ -37,20 +40,52 @@ public class ClienteCompraLibroControlador {
 
 
 
-	// @GetMapping para listar todos las librerias de la base de datos
+	/**
+	 * Lista todas las compras de libros registradas en la base de datos.
+	 *
+	 * Este método recupera y retorna todas las compras de libros disponibles en la base de datos.
+	 *
+	 * @return un {@link ResponseEntity<List<ClienteCompraLibroDTO>>} que contiene la lista de todas las compras
+	 *         de libros. El estado HTTP de la respuesta es 200 (OK) si la operación es exitosa.
+	 */
 	@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS)
 	public ResponseEntity<List<ClienteCompraLibroDTO>> findAll() {
 		return new ResponseEntity<>(this.clienteLibroService.findAll(), HttpStatus.OK); // 200 OK
 	}
 
-	// GetMapping para listar 1 libreria por su id
+	/**
+	 * Obtiene una compra específica de libro por su ID.
+	 *
+	 * Este método busca en la base de datos y retorna los detalles de una compra de libro específica
+	 * utilizando el ID proporcionado. Si la compra se encuentra, se devuelve en el cuerpo de la respuesta
+	 * HTTP con un estado 200 (OK). Si la compra no se encuentra, se devuelve un estado HTTP 404 (Not Found)
+	 * para indicar que el recurso solicitado no está disponible.
+	 *
+	 * @param id el ID de la compra de libro a obtener. Este debe ser un identificador válido de una compra existente.
+	 * @return un {@link ResponseEntity<ClienteCompraLibroDTO>} que contiene la compra de libro si se encuentra,
+	 *         o un estado HTTP 404 si no se encuentra. 
+	 */
 	@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<ClienteCompraLibroDTO> findById(@PathVariable("id") int id) {
 		return new ResponseEntity<ClienteCompraLibroDTO>(this.clienteLibroService.findById(id), HttpStatus.OK);
 	}
 
-	//
+	/**
+	 * Crea una nueva compra de libro en la base de datos.
+	 *
+	 * Este método acepta un DTO que contiene los datos necesarios para registrar una nueva compra de libro. Si la
+	 * creación es exitosa, devuelve un {@link ResponseEntity} que incluye un {@link HrefEntityDTO}. Este objeto
+	 * {@link HrefEntityDTO} contiene el ID del recurso creado y un enlace (href) para acceder directamente a él.
+	 * El estado HTTP 201 es retornado para indicar que la creación fue exitosa y que un nuevo recurso fue creado
+	 * en el servidor.
+	 *
+	 * @param dto el DTO con los datos de la nueva compra. Debe incluir al menos los detalles esenciales del libro
+	 *            y la información del cliente.
+	 * @return un {@link ResponseEntity<HrefEntityDTO>} con el estado HTTP 201, indicando la creación exitosa del
+	 *         recurso. El cuerpo del {@link ResponseEntity} incluye un {@link HrefEntityDTO} con el ID del nuevo
+	 *         recurso y el enlace correspondiente.
+	 */
 	@PostMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO)
 	public ResponseEntity<HrefEntityDTO> save(@Valid @RequestBody ClienteCompraLibroDTORequest dto) {
 		
@@ -58,7 +93,20 @@ public class ClienteCompraLibroControlador {
 
 	}
 
-	// Actualizar un libro
+	/**
+	 * Actualiza una compra de libro existente.
+	 *
+	 * Este método procesa la actualización de los detalles de una compra de libro utilizando los datos proporcionados
+	 * en el DTO. Si la actualización es exitosa, devuelve un {@link ResponseEntity} que contiene un {@link HrefEntityDTO}
+	 * con el ID del objeto actualizado, la URL del recurso, y el estado HTTP adecuado para representar el resultado
+	 * de la operación (usualmente {@link HttpStatus#OK}).
+	 *
+	 * @param dto el DTO con la información actualizada de la compra. No debe ser nulo y debe contener al menos un campo
+	 *            válido para actualizar.
+	 * @param id el ID de la compra a actualizar. Debe corresponder a una compra existente.
+	 * @return un {@link ResponseEntity<HrefEntityDTO>} que incluye detalles del objeto actualizado, la URL del recurso,
+	 *         y el estado HTTP de la operación. Proporciona una confirmación visual de la actualización para los clientes de la API.
+	 */
 	@PutMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<HrefEntityDTO> update(@RequestBody ClienteCompraLibroDTORequest dto, @PathVariable("id") int id) {
@@ -66,8 +114,21 @@ public class ClienteCompraLibroControlador {
 		return new ResponseEntity<HrefEntityDTO>(this.clienteLibroService.update(dto, id), HttpStatus.OK);
 	}
 
-	// Eliminar un libro
-	// Metodo para eliminar un autor
+	/**
+	 * Elimina una compra de libro por su ID.
+	 *
+	 * Este método gestiona la eliminación de una compra de libro específica en la
+	 * base de datos. Al eliminar exitosamente, devuelve un {@link ResponseEntity}
+	 * que contiene un {@link HrefEntityDTO} con el ID del objeto eliminado, la URL
+	 * para acceder al recurso, y el estado HTTP adecuado para representar el
+	 * resultado de la operación (normalmente {@link HttpStatus#OK} si es exitosa).
+	 *
+	 * @param id el ID de la compra de libro a eliminar.
+	 * @return un {@link ResponseEntity<HrefEntityDTO>} que incluye detalles del
+	 *         objeto eliminado, la URL del recurso y el estado HTTP de la
+	 *         operación, lo cual facilita la verificación del resultado de la
+	 *         llamada API por parte de los clientes.
+	 */
 	@DeleteMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<HrefEntityDTO> delete(@PathVariable("id") int id) {

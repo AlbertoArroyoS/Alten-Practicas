@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+/*
+ * Clase que representa un objeto de transferencia de datos (DTO) para
+ * representar un enlace a un recurso.
+ * Devuelve el id del recurso y la URL del recurso.
+ */	
 
 @Setter
 @Getter
