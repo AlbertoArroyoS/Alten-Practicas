@@ -10,17 +10,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Clase que implementa la interfaz Pageable para manejar la paginación de
+ * resultados.
+ *
+ * Esta clase proporciona información sobre la paginación de resultados,
+ * incluyendo el número de página, el tamaño de página, el orden opcional y el
+ * campo opcional para ordenar los resultados.
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageableDTO implements Pageable{
-	
+public class PageableDTO implements Pageable {
+
 	private int page;
 	private int size;
 	private Optional<Integer> order;
 	private Optional<String> field;
-	
+
 	public Optional<Integer> getOrder() {
 		return order;
 	}
