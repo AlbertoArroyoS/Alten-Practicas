@@ -70,9 +70,7 @@ public class LibreriaLibroControlador {
 	@DeleteMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA_LIBRO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<HrefEntityDTO> delete(@PathVariable("id") int id) {
-		
-		this.libreriaLibroService.delete(id);
-		
+				
 		return new ResponseEntity<HrefEntityDTO>(this.libreriaLibroService.delete(id), HttpStatus.OK);	
 
 	}
