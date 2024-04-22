@@ -23,7 +23,6 @@ public interface ILibroMapper {
     @Mapping(target = "paginas", source = "libro.paginas")
     @Mapping(target = "editorial", source = "libro.editorial")
     @Mapping(target = "descripcion", source = "libro.descripcion")
-    @Mapping(target = "precio", source = "libro.precio")
     LibroDTO toDTO(Libro libro);
 
     // Similar mapeo inverso, si es necesario.
@@ -37,7 +36,6 @@ public interface ILibroMapper {
     @Mapping(target = "paginas", source = "libroDTO.paginas")
     @Mapping(target = "editorial", source = "libroDTO.editorial")
     @Mapping(target = "descripcion", source = "libroDTO.descripcion")
-    @Mapping(target = "precio", source = "libroDTO.precio")
     Libro toBean(LibroDTO libroDTO);
 
 }

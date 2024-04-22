@@ -45,8 +45,6 @@ public class Libro {
 	private String editorial;
 	@Column(name = "descripcion")
 	private String descripcion;
-    @Column(name = "precio")
-    private double precio;
     
     @OneToMany(mappedBy = "libro")
     private List<LibreriaLibro> libreriaLibros;

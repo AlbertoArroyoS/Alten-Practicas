@@ -2,6 +2,7 @@ package com.alten.practica.modelo.entidad.dto;
 
 
 import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,6 @@ public class LibroDTO implements Serializable{
 	private int paginas;
 	private String editorial;
 	private String descripcion;
-    private double precio;
     
   
     /*
