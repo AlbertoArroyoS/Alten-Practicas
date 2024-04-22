@@ -18,8 +18,10 @@ public class LibreriaLibroDTO implements Serializable {
 
 
 	private int id;
-    private String nombreLibreria; // Nombre de la librería
+	private int idLibro; // Identificador del libro   
     private String tituloLibro; // Título del libro
+    private String nombreLibreria; // Nombre de la librería
+    private int idLibreria;
     private int cantidad;
     private double precio;
     private int edicion;

@@ -72,7 +72,25 @@ BEGIN
         (libreriaXYZId, harryPotterId, 15, 2 , 25.99, '2023-01-02'); -- Para la Librería XYZ y "Harry Potter y la piedra filosofal"
 END$$;
 
+-- Insertar clientes
 
+INSERT INTO dbo.clientes (nombre, apellidos, email, password, nivel_permiso)
+VALUES 
+    ('Juan', 'Pérez', 'juan.perez@example.com', 'p4ssw0rd', 1),
+    ('María', 'Gómez', 'maria.gomez@example.com', 'm4ri4p4ss', 2),
+    ('Carlos', 'Martínez', 'carlos.martinez@example.com', 'c4rl05', 3),
+    ('Laura', 'Rodríguez', 'laura.rodriguez@example.com', 'laulau123', 1);
+
+ 
+   
+-- Insertar los libros que compran los clientes   
+   
+INSERT INTO dbo.cliente_compra_libro (id_cliente, id_libro, fecha_compra, precio)
+VALUES 
+    (1, 1, '2023-04-01', 29.99),
+    (2, 2, '2023-04-02', 39.99),
+    (3, 3, '2023-04-03', 19.99);
+   
 
 
 
