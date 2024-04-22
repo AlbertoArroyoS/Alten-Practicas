@@ -70,7 +70,6 @@ public class ClienteControlador {
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<HrefEntityDTO> delete(@PathVariable("id") int id) {
 		
-		this.clienteService.delete(id);
 		
 		return new ResponseEntity<HrefEntityDTO>(this.clienteService.delete(id), HttpStatus.OK);	
 
