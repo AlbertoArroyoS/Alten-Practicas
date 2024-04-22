@@ -47,8 +47,8 @@ public class LibreriaLibro {
     @Column(name = "edicion")
     private int edicion;
     
+   // @Column(name = "fecha_publicacion")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "fecha_publicacion")
     private Date fechaPublicacion;
     
 

@@ -48,7 +48,9 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 		ClienteCompraLibro ccl = ClienteCompraLibro.builder()
 				.cliente(cli)
 				.libro(libro)
-				.fechaCompra(dto.getFechaCompra()).build();
+				.fechaCompra(dto.getFechaCompra())
+				.precio(dto.getPrecio())
+				.build();
 		
 		return libreriaUtil.createHrefFromResource(this.clienteCompraLibroRepository.save(ccl).getId(), LibreriaResource.CLIENTECOMPRALIBRO);
 		
@@ -83,6 +85,7 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 		cpl.setCliente(cli);
 		cpl.setLibro(libro);
 		cpl.setFechaCompra(dto.getFechaCompra());
+		cpl.setPrecio(dto.getPrecio());
 		
 
 		return libreriaUtil.createHrefFromResource(this.clienteCompraLibroRepository.save(cpl).getId(), LibreriaResource.CLIENTECOMPRALIBRO);
