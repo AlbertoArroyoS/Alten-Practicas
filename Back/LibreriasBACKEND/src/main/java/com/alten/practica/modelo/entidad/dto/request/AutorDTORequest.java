@@ -1,7 +1,5 @@
 package com.alten.practica.modelo.entidad.dto.request;
 
-
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,6 +10,14 @@ import lombok.NoArgsConstructor;
 
 //Capturar los datos de la peticion que vienen en el body
 //atributos que nos envia el cliente
+/**
+ * Clase que representa un DTO (Data Transfer Object) para capturar los datos de
+ * una solicitud de autor. Información que enviará el cliente al servidor.
+ *
+ * Esta clase contiene atributos que se envían en el cuerpo de una petición
+ * HTTP, los cuales deben cumplir ciertas validaciones, como no ser nulos, no
+ * estar vacíos y cumplir con una longitud mínima y máxima.
+ */
 @Data
 @Builder
 @AllArgsConstructor
