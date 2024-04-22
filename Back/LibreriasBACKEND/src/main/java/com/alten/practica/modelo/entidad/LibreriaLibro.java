@@ -19,6 +19,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Clase que representa la relación entre una librería y un libro.
+ *
+ * Esta clase contiene información sobre la relación entre una librería y un
+ * libro, incluyendo su identificador único, la librería asociada, el libro
+ * asociado, la cantidad disponible en la librería, el precio, la edición y la
+ * fecha de publicación.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,31 +35,28 @@ import lombok.NoArgsConstructor;
 @Table(name = LibreriaConstant.TABLA_NOMBRE_LIBRERIA_CON_LIBROS, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class LibreriaLibro {
 
-    @Id
-    @Column(name = "id_libreria_libro")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@Column(name = "id_libreria_libro")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_libreria", referencedColumnName = "id_libreria")
-    private Libreria libreria;
+	@ManyToOne
+	@JoinColumn(name = "id_libreria", referencedColumnName = "id_libreria")
+	private Libreria libreria;
 
-    @ManyToOne
-    @JoinColumn(name = "id_libro", referencedColumnName = "id_libro")
-    private Libro libro;
-    @Column(name = "cantidad")
-    private int cantidad;
-    @Column(name = "precio")
-    private double precio;
-    
-    @Column(name = "edicion")
-    private int edicion;
-    
-   // @Column(name = "fecha_publicacion")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date fechaPublicacion;
-    
+	@ManyToOne
+	@JoinColumn(name = "id_libro", referencedColumnName = "id_libro")
+	private Libro libro;
+	@Column(name = "cantidad")
+	private int cantidad;
+	@Column(name = "precio")
+	private double precio;
 
+	@Column(name = "edicion")
+	private int edicion;
+
+	// @Column(name = "fecha_publicacion")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	private Date fechaPublicacion;
 
 }
-

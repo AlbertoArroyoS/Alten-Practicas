@@ -3,15 +3,15 @@ package com.alten.practica.errorhandler;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-//Clase para enviarle la respuesta al cliente
-
+/*
+ * Clase que representa el objeto de respuesta de error que se enviará al cliente.
+ */
 @Getter
 @Setter
 @ToString

@@ -19,6 +19,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Clase que representa una compra de libro realizada por un cliente. Producto
+ * de la relación entre la tabla cliente y la tabla libro.
+ *
+ * Esta clase contiene información sobre una compra de libro, incluyendo su
+ * identificador único, el cliente que realizó la compra, el libro comprado, la
+ * fecha de compra y el precio.
+ */
 @Data
 @Builder
 @AllArgsConstructor

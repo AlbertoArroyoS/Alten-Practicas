@@ -16,7 +16,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * Clase que representa una librería.
+ *
+ * Esta clase contiene información sobre una librería, incluyendo su
+ * identificador único, nombre de la librería, nombre del dueño, dirección,
+ * ciudad, nivel de permiso, correo electrónico y la lista de libros asociados a
+ * la librería.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -24,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = LibreriaConstant.TABLA_NOMBRE_LIBRERIAS, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class Libreria {
-	
+
 	@Id
 	@Column(name = "id_libreria")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,9 +50,5 @@ public class Libreria {
 	private String email;
 	@OneToMany(mappedBy = "libreria")
 	private List<LibreriaLibro> libreriaLibros;
-	
-
-	
-	
 
 }

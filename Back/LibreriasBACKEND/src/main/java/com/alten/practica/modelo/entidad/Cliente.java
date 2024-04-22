@@ -16,6 +16,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Clase que representa un cliente de la librería.
+ *
+ * Esta clase contiene información sobre un cliente, incluyendo su identificador
+ * único, nombre, apellidos, correo electrónico, contraseña, nivel de permiso y
+ * la lista de compras de libros asociadas.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -23,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = LibreriaConstant.TABLA_NOMBRE_CLIENTE, schema = LibreriaConstant.ESQUEMA_NOMBRE)
 public class Cliente {
-	
+
 	@Id
 	@Column(name = "id_cliente")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +46,7 @@ public class Cliente {
 	@Column(name = "nivel_permiso")
 	private int nivelPermiso;
 
-	
 	@OneToMany(mappedBy = "cliente")
-    private List<ClienteCompraLibro> listaCompras;
-	
+	private List<ClienteCompraLibro> listaCompras;
+
 }
