@@ -33,11 +33,11 @@ public interface ILibroRepository extends JpaRepository<Libro, Integer> {
 	 * descripcion, double precio);
 	 */
 
-	@Query(value = "SELECT * FROM dbo.fn_guardar_libro(:titulo, :nombreAutor, :apellidosAutor, :genero, :paginas, :editorial, :descripcion, :precio)", nativeQuery = true)
+	@Query(value = "SELECT * FROM dbo.fn_guardar_libro(:titulo, :nombreAutor, :apellidosAutor, :genero, :paginas, :editorial, :descripcion)", nativeQuery = true)
 	public LibroDTO guardarLibroSQL(@Param("titulo") String titulo, @Param("nombreAutor") String nombreAutor,
 			@Param("apellidosAutor") String apellidosAutor, @Param("genero") String genero,
 			@Param("paginas") int paginas, @Param("editorial") String editorial,
-			@Param("descripcion") String descripcion, @Param("precio") double precio);
+			@Param("descripcion") String descripcion);
 
 	@Query("SELECT l FROM Libro l WHERE l.titulo = :titulo")
 	Optional<Libro> findByTitulo(@Param("titulo") String titulo);

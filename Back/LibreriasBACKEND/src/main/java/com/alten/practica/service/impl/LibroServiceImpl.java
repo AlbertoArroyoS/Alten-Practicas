@@ -103,7 +103,8 @@ public class LibroServiceImpl implements ILibroService {
 		libro.setPaginas(dto.getPaginas());
 		libro.setEditorial(dto.getEditorial());
 		libro.setDescripcion(dto.getDescripcion());
-		libro.setPrecio(dto.getPrecio());
+
+		
 
 		// Guardar el libro en la base de datos
 		libro = libroRepository.save(libro);
@@ -117,7 +118,7 @@ public class LibroServiceImpl implements ILibroService {
 	@Override
 	public int saveLibroSQL(LibroDTORequest dto) {
 		libroRepository.guardarLibroSQL(dto.getTitulo(), dto.getNombreAutor(), dto.getApellidosAutor(), dto.getGenero(),
-				dto.getPaginas(), dto.getEditorial(), dto.getDescripcion(), dto.getPrecio());
+				dto.getPaginas(), dto.getEditorial(), dto.getDescripcion());
 		return 0;
 	}
 	@Transactional (readOnly = true)
@@ -179,7 +180,6 @@ public class LibroServiceImpl implements ILibroService {
 		libro.setPaginas(dto.getPaginas());
 		libro.setEditorial(dto.getEditorial());
 		libro.setDescripcion(dto.getDescripcion());
-		libro.setPrecio(dto.getPrecio());
 		return libreriaUtil.createHrefFromResource(libroRepository.save(libro).getId(), LibreriaResource.LIBRO);
 	}
 

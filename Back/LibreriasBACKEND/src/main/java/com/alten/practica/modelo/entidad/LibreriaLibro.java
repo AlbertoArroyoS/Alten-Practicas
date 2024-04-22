@@ -1,5 +1,9 @@
 package com.alten.practica.modelo.entidad;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.alten.practica.constantes.LibreriaConstant;
 
 import jakarta.persistence.Column;
@@ -39,6 +43,14 @@ public class LibreriaLibro {
     private int cantidad;
     @Column(name = "precio")
     private double precio;
+    
+    @Column(name = "edicion")
+    private int edicion;
+    
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Column(name = "fecha_publicacion")
+    private Date fechaPublicacion;
+    
 
 
 }

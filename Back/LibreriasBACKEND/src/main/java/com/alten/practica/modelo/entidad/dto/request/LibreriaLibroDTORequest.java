@@ -1,5 +1,7 @@
 package com.alten.practica.modelo.entidad.dto.request;
 
+import java.util.Date;
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,8 +26,12 @@ public class LibreriaLibroDTORequest {
 	private int idLibro;
 
 	private int cantidad;
+	
 	@DecimalMin(value = "0.01", message = "El precio debe ser al menos 0.01")
     private double precio;
+	
+	private int edicion;
+	private Date fechaPublicacion;
 
 
 }

@@ -1,6 +1,7 @@
 package com.alten.practica.modelo.entidad.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,8 @@ public class LibreriaLibroDTO implements Serializable {
     private String tituloLibro; // Título del libro
     private int cantidad;
     private double precio;
+    private int edicion;
+    private Date fechaPublicacion;
 
 
 }
