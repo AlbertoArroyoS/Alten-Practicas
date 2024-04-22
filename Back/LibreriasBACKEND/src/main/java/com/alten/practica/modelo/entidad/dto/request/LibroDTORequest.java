@@ -1,6 +1,5 @@
 package com.alten.practica.modelo.entidad.dto.request;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -14,14 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LibroDTORequest {
-		// LOS ATRIBUTOS NO SEAN NULOS.
-		@NotNull
-
-		// LOS ATRIBUTOS NO SEAN VACIOS.
-		@NotEmpty
-
-		// LOS ATRIBUTOS NOS SEAN NULAS NI BACIOS.
-		@NotBlank
+	
 		
 		//VALIDA LA LONGITUD MINIMA Y MAXIMA DE UNA CADENA
 		@NotNull(message = "El titulo no puede ser nulo")

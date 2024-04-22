@@ -48,6 +48,8 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService{
 				.libro(libro)
 				.cantidad(dto.getCantidad())
 				.precio(dto.getPrecio())
+				.edicion(dto.getEdicion())
+				.fechaPublicacion(dto.getFechaPublicacion())
 				.build();
 				
 				
@@ -83,7 +85,9 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService{
 		cpl.setLibreria(cli);
 		cpl.setLibro(libro);
 		cpl.setCantidad(dto.getCantidad());
-		cpl.setPrecio(dto.getPrecio());
+		cpl.setPrecio(dto.getPrecio());		
+		cpl.setEdicion(dto.getEdicion());
+		cpl.setFechaPublicacion(dto.getFechaPublicacion());
 		
 		return libreriaUtil.createHrefFromResource(this.libreriaLibroRepository.save(cpl).getId(), LibreriaResource.LIBRERIALIBRO);
 

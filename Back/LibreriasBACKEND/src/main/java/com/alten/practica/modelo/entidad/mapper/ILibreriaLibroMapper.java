@@ -12,19 +12,25 @@ import com.alten.practica.modelo.entidad.dto.request.LibreriaLibroDTORequest;
 public interface ILibreriaLibroMapper {
 
 	
-	@Mapping(target = "nombreLibreria", source = "libreria.nombreLibreria")
-	@Mapping(target = "tituloLibro", source = "libro.titulo")
-	@Mapping(target = "idLibro", source = "libro.id") 
-	@Mapping(target = "idLibreria", source = "libreria.id") 														
-	@Mapping(target = "id", source = "id")
-	@Mapping(target = "cantidad", source = "cantidad")
-	@Mapping(target = "precio", source = "precio")
-	@Mapping(target = "edicion", source = "edicion")
-	@Mapping(target = "fechaPublicacion", source = "fechaPublicacion") // 															// publicación es relevante
-	LibreriaLibroDTO toDTO(LibreriaLibro libreriaLibro);
+	  // Mapeos para DTO
+    @Mapping(target = "nombreLibreria", source = "libreria.nombreLibreria")
+    @Mapping(target = "tituloLibro", source = "libro.titulo")
+    @Mapping(target = "idLibro", source = "libro.id")
+    @Mapping(target = "idLibreria", source = "libreria.id")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "cantidad", source = "cantidad")
+    @Mapping(target = "precio", source = "precio")
+    @Mapping(target = "edicion", source = "edicion")
+    @Mapping(target = "fechaPublicacion", source = "fechaPublicacion")
+    LibreriaLibroDTO toDTO(LibreriaLibro libreriaLibro);
 
-	// proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo
-	// convertimos a entidad
-	public LibreriaLibro toBean(LibreriaLibroDTORequest dto);
+    // Mapeo desde DTORequest a Entidad
+    @Mapping(target = "libreria.id", source = "idLibreria")
+    @Mapping(target = "libro.id", source = "idLibro")
+    @Mapping(target = "cantidad", source = "cantidad")
+    @Mapping(target = "precio", source = "precio")
+    @Mapping(target = "edicion", source = "edicion")
+    @Mapping(target = "fechaPublicacion", source = "fechaPublicacion")
+    LibreriaLibro toBean(LibreriaLibroDTORequest dto);
 
 }

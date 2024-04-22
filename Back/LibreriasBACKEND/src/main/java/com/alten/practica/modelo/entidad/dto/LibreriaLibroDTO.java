@@ -3,6 +3,8 @@ package com.alten.practica.modelo.entidad.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +27,8 @@ public class LibreriaLibroDTO implements Serializable {
     private int cantidad;
     private double precio;
     private int edicion;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date fechaPublicacion;
 
 
