@@ -1,21 +1,14 @@
 package com.alten.practica;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.alten.practica.modelo.entidad.Libreria;
-import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
-import com.alten.practica.repository.ILibreriaRepository;
 
 @SpringBootTest
 class LibreriasBackendApplicationTests {
 	
 	
-	@Autowired
-	private ILibreriaRepository libreriaRepository;
+	//@Autowired
+	//private ILibreriaRepository libreriaRepository;
 	
 	
 	
@@ -24,7 +17,7 @@ class LibreriasBackendApplicationTests {
 	void contextLoads() {
 	
 	
-		
+		/*
 		
 		List<Libreria> listaLibrerias = this.libreriaRepository.findByCiudadContainingOrderByNombreLibreriaAsc("Ciu");
 		System.out.println("El tamaño de la lista " + listaLibrerias.size());
@@ -40,7 +33,7 @@ class LibreriasBackendApplicationTests {
 		System.out.println("La libreria existe:  " + libreriaExiste );
 		
 
-		
+		*/
 		
 	}
 

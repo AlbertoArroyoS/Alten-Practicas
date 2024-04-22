@@ -25,5 +25,6 @@ public class LibreriaDTO implements Serializable{
 	private String nombreDueno;
 	private String direccion;
 	private String ciudad;
+	private String email;
 
 }
