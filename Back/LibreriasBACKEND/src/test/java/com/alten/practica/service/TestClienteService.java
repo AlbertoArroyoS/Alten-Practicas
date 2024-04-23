@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alten.practica.errorhandler.EntityNotFoundException;
 import com.alten.practica.errorhandler.HrefEntityDTO;
@@ -29,35 +30,42 @@ import com.alten.practica.service.impl.ClienteServiceImpl;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
-class TestClienteService{
+/**
+ * Clase para probar los métodos de la clase ClienteService
+ * 
+ * @see com.alten.practica.service.impl.ClienteServiceImpl
+ * 
+ */
+@SpringBootTest
+class TestClienteService {
 
-    @Mock
-    private IClienteRepository clienteRepository;
+	@Mock
+	private IClienteRepository clienteRepository;
 
-    @Mock
-    private IClienteMapper clienteMapper;
+	@Mock
+	private IClienteMapper clienteMapper;
 
-    @Mock
-    private LibreriaUtil libreriaUtil;
+	@Mock
+	private LibreriaUtil libreriaUtil;
 
-    @InjectMocks
-    private ClienteServiceImpl clienteService;
+	@InjectMocks
+	private ClienteServiceImpl clienteService;
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        resetMocks();
-    }
+	@BeforeEach
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+		resetMocks();
+	}
 
-    private void resetMocks() {
-        reset(clienteRepository, clienteMapper, libreriaUtil);
-    }
+	private void resetMocks() {
+		reset(clienteRepository, clienteMapper, libreriaUtil);
+	}
 
-    @Test
-    @DisplayName("Test para guardar un nuevo cliente")
-    public void testSave() {
-    	
-        ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+	@Test
+	@DisplayName("Test para guardar un nuevo cliente")
+	public void testSave() {
+
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
 		Cliente cliente = new Cliente();
 		cliente.setId(1);
 
@@ -65,131 +73,127 @@ class TestClienteService{
 		when(clienteMapper.toBean(dtoRequest)).thenReturn(cliente);
 		when(clienteRepository.save(cliente)).thenReturn(cliente);
 
-
 		HrefEntityDTO expectedHrefEntityDTO = new HrefEntityDTO();
 		when(libreriaUtil.createHrefFromResource(1, LibreriaResource.CLIENTE)).thenReturn(expectedHrefEntityDTO);
 
 		HrefEntityDTO result = clienteService.save(dtoRequest);
 
 		assertEquals(expectedHrefEntityDTO, result);
-    }
+	}
 
+	@Test
+	@DisplayName("Test para guardar un cliente con nombre y apellidos ya existentes")
+	public void testSaveExistingClient() {
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
 
+		when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.of(new Cliente()));
 
+		assertThrows(IllegalStateException.class, () -> clienteService.save(dtoRequest));
+	}
 
-    @Test
-    @DisplayName("Test para guardar un cliente con nombre y apellidos ya existentes")
-    public void testSaveExistingClient() {
-        ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+	@Test
+	@DisplayName("Test para buscar un cliente por ID")
+	public void testFindById() {
+		Cliente cliente = new Cliente();
+		cliente.setId(1);
 
-        when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.of(new Cliente()));
+		when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
 
-        assertThrows(IllegalStateException.class, () -> clienteService.save(dtoRequest));
-    }
+		ClienteDTO expectedDTO = new ClienteDTO();
+		expectedDTO.setId(1);
+		when(clienteMapper.toDTO(cliente)).thenReturn(expectedDTO);
 
-    @Test
-    @DisplayName("Test para buscar un cliente por ID")
-    public void testFindById() {
-        Cliente cliente = new Cliente();
-        cliente.setId(1);
+		ClienteDTO result = clienteService.findById(1);
 
-        when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
+		assertEquals(expectedDTO, result);
+	}
 
-        ClienteDTO expectedDTO = new ClienteDTO();
-        expectedDTO.setId(1);
-        when(clienteMapper.toDTO(cliente)).thenReturn(expectedDTO);
+	@Test
+	@DisplayName("Test para buscar un cliente por ID que no existe")
+	public void testFindByIdNotFound() {
+		when(clienteRepository.findById(1)).thenReturn(Optional.empty());
 
-        ClienteDTO result = clienteService.findById(1);
+		assertThrows(EntityNotFoundException.class, () -> clienteService.findById(1));
+	}
 
-        assertEquals(expectedDTO, result);
-    }
+	@Test
+	@DisplayName("Test para listar todos los clientes")
+	public void testFindAll() {
+		List<Cliente> clientes = List.of(new Cliente(), new Cliente());
 
-    @Test
-    @DisplayName("Test para buscar un cliente por ID que no existe")
-    public void testFindByIdNotFound() {
-        when(clienteRepository.findById(1)).thenReturn(Optional.empty());
+		when(clienteRepository.findAll()).thenReturn(clientes);
 
-        assertThrows(EntityNotFoundException.class, () -> clienteService.findById(1));
-    }
+		List<ClienteDTO> expectedDTOList = List.of(new ClienteDTO(), new ClienteDTO());
+		when(clienteMapper.toDTO(any())).thenReturn(new ClienteDTO());
 
-    @Test
-    @DisplayName("Test para listar todos los clientes")
-    public void testFindAll() {
-        List<Cliente> clientes = List.of(new Cliente(), new Cliente());
+		List<ClienteDTO> result = clienteService.findAll();
 
-        when(clienteRepository.findAll()).thenReturn(clientes);
+		assertEquals(expectedDTOList, result);
+	}
 
-        List<ClienteDTO> expectedDTOList = List.of(new ClienteDTO(), new ClienteDTO());
-        when(clienteMapper.toDTO(any())).thenReturn(new ClienteDTO());
+	@Test
+	@DisplayName("Test para actualizar un cliente")
+	public void testUpdate() {
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
 
-        List<ClienteDTO> result = clienteService.findAll();
+		when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.empty());
+		when(clienteRepository.findById(1)).thenReturn(Optional.of(new Cliente()));
 
-        assertEquals(expectedDTOList, result);
-    }
+		Cliente cliente = new Cliente();
+		cliente.setId(1);
+		when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
 
-    @Test
-    @DisplayName("Test para actualizar un cliente")
-    public void testUpdate() {
-        ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+		HrefEntityDTO expectedHrefEntityDTO = new HrefEntityDTO();
+		when(libreriaUtil.createHrefFromResource(1, LibreriaResource.CLIENTE)).thenReturn(expectedHrefEntityDTO);
 
-        when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.empty());
-        when(clienteRepository.findById(1)).thenReturn(Optional.of(new Cliente()));
+		HrefEntityDTO result = clienteService.update(dtoRequest, 1);
 
-        Cliente cliente = new Cliente();
-        cliente.setId(1);
-        when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
+		assertEquals(expectedHrefEntityDTO, result);
+	}
 
-        HrefEntityDTO expectedHrefEntityDTO = new HrefEntityDTO();
-        when(libreriaUtil.createHrefFromResource(1, LibreriaResource.CLIENTE)).thenReturn(expectedHrefEntityDTO);
+	@Test
+	@DisplayName("Test para actualizar un cliente que no existe")
+	public void testUpdateNotFound() {
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
 
-        HrefEntityDTO result = clienteService.update(dtoRequest, 1);
+		when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.empty());
+		when(clienteRepository.findById(1)).thenReturn(Optional.empty());
 
-        assertEquals(expectedHrefEntityDTO, result);
-    }
+		assertThrows(EntityNotFoundException.class, () -> clienteService.update(dtoRequest, 1));
+	}
 
-    @Test
-    @DisplayName("Test para actualizar un cliente que no existe")
-    public void testUpdateNotFound() {
-        ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+	@Test
+	@DisplayName("Test para actualizar un cliente con nombre y apellidos ya existentes")
+	public void testUpdateExistingClient() {
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
 
-        when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.empty());
-        when(clienteRepository.findById(1)).thenReturn(Optional.empty());
+		when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.of(new Cliente()));
 
-        assertThrows(EntityNotFoundException.class, () -> clienteService.update(dtoRequest, 1));
-    }
+		assertThrows(IllegalStateException.class, () -> clienteService.update(dtoRequest, 1));
+	}
 
-    @Test
-    @DisplayName("Test para actualizar un cliente con nombre y apellidos ya existentes")
-    public void testUpdateExistingClient() {
-        ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+	@Test
+	@DisplayName("Test para eliminar un cliente")
+	public void testDelete() {
+		Cliente cliente = new Cliente();
+		cliente.setId(1);
 
-        when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.of(new Cliente()));
+		when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
 
-        assertThrows(IllegalStateException.class, () -> clienteService.update(dtoRequest, 1));
-    }
+		HrefEntityDTO expectedHrefEntityDTO = new HrefEntityDTO();
+		when(libreriaUtil.createHrefFromResource(1, LibreriaResource.CLIENTE)).thenReturn(expectedHrefEntityDTO);
 
-    @Test
-    @DisplayName("Test para eliminar un cliente")
-    public void testDelete() {
-        Cliente cliente = new Cliente();
-        cliente.setId(1);
+		HrefEntityDTO result = clienteService.delete(1);
 
-        when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
+		assertEquals(expectedHrefEntityDTO, result);
+		verify(clienteRepository, times(1)).delete(cliente);
+	}
 
-        HrefEntityDTO expectedHrefEntityDTO = new HrefEntityDTO();
-        when(libreriaUtil.createHrefFromResource(1, LibreriaResource.CLIENTE)).thenReturn(expectedHrefEntityDTO);
+	@Test
+	@DisplayName("Test para eliminar un cliente que no existe")
+	public void testDeleteNotFound() {
+		when(clienteRepository.findById(1)).thenReturn(Optional.empty());
 
-        HrefEntityDTO result = clienteService.delete(1);
-
-        assertEquals(expectedHrefEntityDTO, result);
-        verify(clienteRepository, times(1)).delete(cliente);
-    }
-
-    @Test
-    @DisplayName("Test para eliminar un cliente que no existe")
-    public void testDeleteNotFound() {
-        when(clienteRepository.findById(1)).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> clienteService.delete(1));
-    }
+		assertThrows(EntityNotFoundException.class, () -> clienteService.delete(1));
+	}
 }

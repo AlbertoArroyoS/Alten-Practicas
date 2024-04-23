@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.Autor;
@@ -27,6 +28,13 @@ import com.alten.practica.service.impl.AutorServiceImpl;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
+/**
+ * Clase para probar los métodos de la clase AutorService
+ * 
+ * @see com.alten.practica.service.impl.AutorServiceImpl
+ * 
+ */
+@SpringBootTest
 public class TestAutorService {
 
 	@Mock
@@ -206,17 +214,19 @@ public class TestAutorService {
 	@DisplayName("Test para buscar por nombre")
 	@Test
 	public void testFindByName() {
-	    String nombre = "Alberto";
-	    String apellidos = "Arroyo";
+		String nombre = "Alberto";
+		String apellidos = "Arroyo";
 
-	    // Simular un Optional vacío, ya que no se encontró ningún autor con los nombres y apellidos dados
-	    when(autorRepository.findByNombreAndApellidos(nombre, apellidos)).thenReturn(Optional.empty());
+		// Simular un Optional vacío, ya que no se encontró ningún autor con los nombres
+		// y apellidos dados
+		when(autorRepository.findByNombreAndApellidos(nombre, apellidos)).thenReturn(Optional.empty());
 
-	    // Ahora, puedes ejecutar el método que estás probando sin preocuparte por lanzar una IllegalStateException
-	    Optional<AutorDTO> result = autorService.findByName(nombre, apellidos);
+		// Ahora, puedes ejecutar el método que estás probando sin preocuparte por
+		// lanzar una IllegalStateException
+		Optional<AutorDTO> result = autorService.findByName(nombre, apellidos);
 
-	    // Verificar que el Optional devuelto esté vacío
-	    assertFalse(result.isPresent());
+		// Verificar que el Optional devuelto esté vacío
+		assertFalse(result.isPresent());
 	}
 
 }
