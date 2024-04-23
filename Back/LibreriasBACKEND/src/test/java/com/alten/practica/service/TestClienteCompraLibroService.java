@@ -66,17 +66,17 @@ public class TestClienteCompraLibroService {
 	@Test
 	public void testSave() {
 		ClienteCompraLibroDTORequest dtoRequest = new ClienteCompraLibroDTORequest();
-		dtoRequest.setIdCliente(1);
-		dtoRequest.setIdLibro(1);
-		Calendar calendar = Calendar.getInstance();
-		java.util.Date utilDate = calendar.getTime();
-		java.sql.Date fechaDeHoy = new java.sql.Date(utilDate.getTime());
-		dtoRequest.setFechaCompra(fechaDeHoy);
-		dtoRequest.setPrecio(25.50);
+        dtoRequest.setIdCliente(1);
+        dtoRequest.setIdLibro(1);       
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date utilDate = calendar.getTime();
+        java.sql.Date fechaDeHoy = new java.sql.Date(utilDate.getTime());
+        dtoRequest.setFechaCompra(fechaDeHoy);
+        dtoRequest.setPrecio(25.50);
 		Cliente cliente = new Cliente();
-		cliente.setId(1);
-		Libro libro = new Libro();
-		libro.setId(1);
+        cliente.setId(1);
+        Libro libro = new Libro();
+        libro.setId(1);
 
 		when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
 		when(libroRepository.findById(1)).thenReturn(Optional.of(libro));
@@ -135,56 +135,51 @@ public class TestClienteCompraLibroService {
 	@DisplayName("Test para actualizar una compra de libro")
 	@Test
 	public void testUpdate() {
-		// Crear el DTORequest con los datos necesarios
-		ClienteCompraLibroDTORequest dtoRequest = new ClienteCompraLibroDTORequest();
-		dtoRequest.setIdCliente(1);
-		dtoRequest.setIdLibro(1);
-		Calendar calendar = Calendar.getInstance();
-		java.util.Date utilDate = calendar.getTime();
-		java.sql.Date fechaDeHoy = new java.sql.Date(utilDate.getTime());
-		dtoRequest.setFechaCompra(fechaDeHoy);
-		dtoRequest.setPrecio(25.50);
+	    // Crear el DTORequest con los datos necesarios
+	    ClienteCompraLibroDTORequest dtoRequest = new ClienteCompraLibroDTORequest();
+	    dtoRequest.setIdCliente(1);
+	    dtoRequest.setIdLibro(1);
+	    Calendar calendar = Calendar.getInstance();
+	    java.util.Date utilDate = calendar.getTime();
+	    java.sql.Date fechaDeHoy = new java.sql.Date(utilDate.getTime());
+	    dtoRequest.setFechaCompra(fechaDeHoy);
+	    dtoRequest.setPrecio(25.50);
+	    
+	    // Simular los objetos Cliente y Libro
+	    Cliente cliente = new Cliente();
+	    cliente.setId(1);
+	    cliente.setNombre("Juan");
+	    cliente.setApellidos("Pérez");
+	    Libro libro = new Libro();
+	    libro.setId(1);
+	    libro.setTitulo("El Quijote");
 
-		// Simular los objetos Cliente y Libro
-		Cliente cliente = new Cliente();
-		cliente.setId(1);
-		cliente.setNombre("Juan");
-		cliente.setApellidos("Pérez");
-		Libro libro = new Libro();
-		libro.setId(1);
-		libro.setTitulo("El Quijote");
+	 // Configurar el comportamiento simulado para el método findById() del repositorio clienteRepository
+	    when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
+	    
+	    // Configurar el comportamiento simulado para el método findById() del repositorio libroRepository
+	    when(libroRepository.findById(1)).thenReturn(Optional.of(libro));
 
-		// Configurar el comportamiento simulado para el método findById() del
-		// repositorio clienteRepository
-		when(clienteRepository.findById(1)).thenReturn(Optional.of(cliente));
+	    // Configurar el comportamiento simulado para el método findById() del repositorio clienteCompraLibroRepository
+	    ClienteCompraLibro clienteCompraLibro = new ClienteCompraLibro();
+	    clienteCompraLibro.setId(1);
+	    when(clienteCompraLibroRepository.findById(1)).thenReturn(Optional.of(clienteCompraLibro));
 
-		// Configurar el comportamiento simulado para el método findById() del
-		// repositorio libroRepository
-		when(libroRepository.findById(1)).thenReturn(Optional.of(libro));
+	    // Configurar el comportamiento simulado para el método save() del repositorio clienteCompraLibroRepository
+	    when(clienteCompraLibroRepository.save(any(ClienteCompraLibro.class))).thenReturn(clienteCompraLibro);
 
-		// Configurar el comportamiento simulado para el método findById() del
-		// repositorio clienteCompraLibroRepository
-		ClienteCompraLibro clienteCompraLibro = new ClienteCompraLibro();
-		clienteCompraLibro.setId(1);
-		when(clienteCompraLibroRepository.findById(1)).thenReturn(Optional.of(clienteCompraLibro));
+	    // Configurar el comportamiento simulado para el método createHrefFromResource() de libreriaUtil
+	    HrefEntityDTO expectedHrefEntityDTO = new HrefEntityDTO();
+	    when(libreriaUtil.createHrefFromResource(1, LibreriaResource.CLIENTECOMPRALIBRO)).thenReturn(expectedHrefEntityDTO);
 
-		// Configurar el comportamiento simulado para el método save() del repositorio
-		// clienteCompraLibroRepository
-		when(clienteCompraLibroRepository.save(any(ClienteCompraLibro.class))).thenReturn(clienteCompraLibro);
+	    // Ejecutar el método que se está probando
+	    HrefEntityDTO result = clienteCompraLibroService.update(dtoRequest, 1);
 
-		// Configurar el comportamiento simulado para el método createHrefFromResource()
-		// de libreriaUtil
-		HrefEntityDTO expectedHrefEntityDTO = new HrefEntityDTO();
-		when(libreriaUtil.createHrefFromResource(1, LibreriaResource.CLIENTECOMPRALIBRO))
-				.thenReturn(expectedHrefEntityDTO);
-
-		// Ejecutar el método que se está probando
-		HrefEntityDTO result = clienteCompraLibroService.update(dtoRequest, 1);
-
-		// Verificar que el resultado sea el esperado
-		assertEquals(expectedHrefEntityDTO, result);
-
+	    // Verificar que el resultado sea el esperado
+	    assertEquals(expectedHrefEntityDTO, result);
 	}
+
+
 
 	@DisplayName("Test para eliminar una compra de libro")
 	@Test
