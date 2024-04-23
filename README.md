@@ -46,6 +46,10 @@ Inicialmente tendremos el siguiente diagrama entidad relacion:
 
 ![Imagen](imgReadme/Relaciones.png)
 
+Diagrama E/R Tablas
+
+![Imagen](imgReadme/DiagramaClases.png)
+
 Diagrama de clases
 
 ![Imagen](imgReadme/DiagramaClases.png)
