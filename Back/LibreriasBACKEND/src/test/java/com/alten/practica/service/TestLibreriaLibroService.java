@@ -2,6 +2,7 @@ package com.alten.practica.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -9,10 +10,12 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.alten.practica.errorhandler.HrefEntityDTO;
@@ -29,6 +32,13 @@ import com.alten.practica.service.impl.LibreriaLibroServiceImpl;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
+/**
+ * Clase que implementa la interfaz LibreriaLibroService
+ * 
+ * @see com.alten.practica.service.ILibreriaLibroService
+ * 
+ * 
+ */
 @SpringBootTest
 public class TestLibreriaLibroService {
 
@@ -49,6 +59,16 @@ public class TestLibreriaLibroService {
     
     @InjectMocks
     LibreriaLibroServiceImpl libreriaLibroService;
+    
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        resetMocks();
+    }
+
+    private void resetMocks() {
+        reset(libreriaLibroRepository, libreriaRepository, libroRepository, libreriaLibroMapper, libreriaUtil);
+    }
 
     @Test
     @DisplayName("Test para guardar una nueva relación entre librería y libro")
