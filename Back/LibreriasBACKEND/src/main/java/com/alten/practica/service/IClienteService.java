@@ -6,6 +6,10 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.ClienteDTO;
 import com.alten.practica.modelo.entidad.dto.request.ClienteDTORequest;
 
+/**
+ * Interfaz que define los metodos de la clase ClienteService
+ * 
+ */
 public interface IClienteService {
 
 	// Metodo para guardar un autor

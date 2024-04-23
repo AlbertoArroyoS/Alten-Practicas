@@ -34,68 +34,93 @@ public class LibreriaServiceImpl implements ILibreriaService {
 	// inyeccion por constructor del repositorio de la libreria
 	@Autowired
 	ILibreriaRepository libreriaRepository;
-	
+
 	@Autowired
 	ILibreriaMapper libreriaMapper;
 	@Autowired
 	LibreriaUtil libreriaUtil;
 
-	// Metodo para convertir de entidad a dto. Ya no se necesita, realizar el mapeo con MapStruct
+	// Metodo para convertir de entidad a dto. Ya no se necesita, realizar el mapeo
+	// con MapStruct
 
 	/*
-	public LibreriaDTO convertirBeanADTO(Libreria bean) {
-		return LibreriaDTO.builder().id(bean.getId()).nombreLibreria(bean.getNombreLibreria())
-				.nombreDueno(bean.getNombreDueno()).direccion(bean.getDireccion()).ciudad(bean.getCiudad()).build();
+	 * public LibreriaDTO convertirBeanADTO(Libreria bean) { return
+	 * LibreriaDTO.builder().id(bean.getId()).nombreLibreria(bean.getNombreLibreria(
+	 * )) .nombreDueno(bean.getNombreDueno()).direccion(bean.getDireccion()).ciudad(
+	 * bean.getCiudad()).build();
+	 * 
+	 * }
+	 */
 
-	}*/
-
+	/**
+	 * Guarda una nueva librería en la base de datos.
+	 * 
+	 * @param dto Los datos de la librería a guardar.
+	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso de
+	 *         la librería creada.
+	 * @throws EntityExistsException Si ya existe una librería con el mismo nombre.
+	 */
 	@Override
 	public HrefEntityDTO save(LibreriaDTORequest dto) {
-		
-		libreriaRepository.findByNombreLibreria(dto.getNombreLibreria())
-                .ifPresent(libreria -> {
-                    throw new EntityExistsException(String.format("La libreria %s ya existe", dto.getNombreLibreria()));
-                });
-		
+
+		libreriaRepository.findByNombreLibreria(dto.getNombreLibreria()).ifPresent(libreria -> {
+			throw new EntityExistsException(String.format("La libreria %s ya existe", dto.getNombreLibreria()));
+		});
+
 		Libreria libreria = this.libreriaRepository.save(this.libreriaMapper.toBean(dto));
-		
+
 		return libreriaUtil.createHrefFromResource(libreria.getId(), LibreriaResource.LIBRERIA);
 
-		
 		/*
-		 * Forma vieja
-		Libreria libreria = new Libreria();
-		libreria.setNombreLibreria(dto.getNombreLibreria());
-		libreria.setNombreDueno(dto.getNombreDueno());
-		libreria.setDireccion(dto.getDireccion());
-		libreria.setCiudad(dto.getCiudad());
-		return this.libreriaRepository.save(libreria).getId();*/
+		 * Forma vieja Libreria libreria = new Libreria();
+		 * libreria.setNombreLibreria(dto.getNombreLibreria());
+		 * libreria.setNombreDueno(dto.getNombreDueno());
+		 * libreria.setDireccion(dto.getDireccion());
+		 * libreria.setCiudad(dto.getCiudad()); return
+		 * this.libreriaRepository.save(libreria).getId();
+		 */
 
 	}
-	@Transactional (readOnly = true)
+
+	/**
+	 * Busca una librería por su ID en la base de datos.
+	 * 
+	 * @param id El ID de la librería a buscar.
+	 * @return Un objeto {@code LibreriaDTO} que representa la librería encontrada.
+	 * @throws EntityNotFoundException Si no se encuentra ninguna librería con el ID
+	 *                                 proporcionado.
+	 */
+	@Transactional(readOnly = true)
 	@Override
 	public LibreriaDTO findById(int id) {
+
+		Libreria libreria = libreriaRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("La libreria con id %s no existe", id)));
+
+		return libreriaMapper.toDTO(libreria);
+
 		/*
-		 * Libreria bean = this.libreriaRepository.findById(id).get(); LibreriaDTO
-		 * libreriaDTO = new LibreriaDTO(); libreriaDTO.setId(bean.getId());
+		 * Forma vieja Libreria bean = this.libreriaRepository.findById(id).get();
+		 * LibreriaDTO libreriaDTO = new LibreriaDTO(); libreriaDTO.setId(bean.getId());
 		 * libreriaDTO.setNombre(bean.getNombreLibreria()); return libreriaDTO;
 		 */
 		/*
-		Libreria bean = this.libreriaRepository.findById(id).orElse(null); // Utiliza orElse(null) para evitar
-																			// NullPointerException
-
-		if (bean != null) {
-			return libreriaMapper.toDTO(bean); // Utiliza el método convertirBeanADTO para convertir el bean a DTO
-		} else {
-			return null; // Devuelve null si el bean no se encuentra en la base de datos
-		}*/
-		
-		Libreria libreria = libreriaRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("La libreria con id %s no existe", id)));
-			
-		return libreriaMapper.toDTO(libreria);
+		 * Libreria bean = this.libreriaRepository.findById(id).orElse(null); // Utiliza
+		 * orElse(null) para evitar // NullPointerException
+		 * 
+		 * if (bean != null) { return libreriaMapper.toDTO(bean); // Utiliza el método
+		 * convertirBeanADTO para convertir el bean a DTO } else { return null; //
+		 * Devuelve null si el bean no se encuentra en la base de datos }
+		 */
 	}
-	@Transactional (readOnly = true)
+
+	/**
+	 * Obtiene una lista de todas las librerías en la base de datos.
+	 * 
+	 * @return Una lista de objetos {@code LibreriaDTO} que representan todas las
+	 *         librerías en la base de datos.
+	 */
+	@Transactional(readOnly = true)
 	@Override
 	public List<LibreriaDTO> findAll() {
 		List<Libreria> lista = this.libreriaRepository.findAll();
@@ -112,60 +137,73 @@ public class LibreriaServiceImpl implements ILibreriaService {
 		 * convertirBeanADTO(bean) .collect(Collectors.toList());
 		 */
 		//
-		return lista.stream()
-	            .map(libreria -> libreriaMapper.toDTO(libreria))
-	            .collect(Collectors.toList());
+		return lista.stream().map(libreria -> libreriaMapper.toDTO(libreria)).collect(Collectors.toList());
 
 	}
 
+	/**
+	 * Actualiza los datos de una librería existente en la base de datos.
+	 * 
+	 * @param dto Los nuevos datos de la librería.
+	 * @param id  El ID de la librería a actualizar.
+	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso de
+	 *         la librería actualizada.
+	 * @throws EntityNotFoundException Si no se encuentra ninguna librería con el ID
+	 *                                 proporcionado, o si ya existe una librería
+	 *                                 con el mismo nombre que la nueva.
+	 */
 	@Override
 	public HrefEntityDTO update(LibreriaDTORequest dto, int id) {
-		
-		Libreria libreria = libreriaRepository.findById(id)
-	            .orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
-	    libreria.setId(id);
-		
-	 // Comprobar si existen duplicados antes de actualizar
-	    List<Libreria> libreriasDuplicados = libreriaRepository.findByNombreLibreria(dto.getNombreLibreria())
-	            .stream()
-	            .filter(a -> a.getId() != id) // Excluir el autor actual de la comprobación de duplicados
-	            .collect(Collectors.toList());
 
-	    if (!libreriasDuplicados.isEmpty()) {
-	        throw new IllegalStateException("La libreria con el nombre '" + dto.getNombreLibreria() +  "' ya existe");
-	    }
-	    
-	    libreria.setNombreLibreria(dto.getNombreLibreria());
-	    libreria.setNombreDueno(dto.getNombreDueno());
-	    libreria.setDireccion(dto.getDireccion());
-	    libreria.setCiudad(dto.getCiudad());
-	    libreria.setEmail(dto.getEmail());
-	    
-	    Libreria libreriaActualizada = libreriaRepository.save(libreria);
-	    return libreriaUtil.createHrefFromResource(libreriaActualizada.getId(), LibreriaResource.LIBRERIA);
-		
+		Libreria libreria = libreriaRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
+		libreria.setId(id);
+
+		// Comprobar si existen duplicados antes de actualizar
+		List<Libreria> libreriasDuplicados = libreriaRepository.findByNombreLibreria(dto.getNombreLibreria()).stream()
+				.filter(a -> a.getId() != id) // Excluir el autor actual de la comprobación de duplicados
+				.collect(Collectors.toList());
+
+		if (!libreriasDuplicados.isEmpty()) {
+			throw new IllegalStateException("La libreria con el nombre '" + dto.getNombreLibreria() + "' ya existe");
+		}
+
+		libreria.setNombreLibreria(dto.getNombreLibreria());
+		libreria.setNombreDueno(dto.getNombreDueno());
+		libreria.setDireccion(dto.getDireccion());
+		libreria.setCiudad(dto.getCiudad());
+		libreria.setEmail(dto.getEmail());
+
+		Libreria libreriaActualizada = libreriaRepository.save(libreria);
+		return libreriaUtil.createHrefFromResource(libreriaActualizada.getId(), LibreriaResource.LIBRERIA);
+
 		/*
-		 * Forma vieja
-		Libreria bean = this.libreriaRepository.findById(id).get();
-		bean.setId(id);
-		bean.setNombreLibreria(dto.getNombreLibreria());
-		bean.setNombreDueno(dto.getNombreDueno());
-		bean.setDireccion(dto.getDireccion());
-		bean.setCiudad(dto.getCiudad());
-		return this.libreriaRepository.save(bean).getId();*/
+		 * Forma vieja Libreria bean = this.libreriaRepository.findById(id).get();
+		 * bean.setId(id); bean.setNombreLibreria(dto.getNombreLibreria());
+		 * bean.setNombreDueno(dto.getNombreDueno());
+		 * bean.setDireccion(dto.getDireccion()); bean.setCiudad(dto.getCiudad());
+		 * return this.libreriaRepository.save(bean).getId();
+		 */
 	}
 
+	/**
+	 * Elimina una librería de la base de datos.
+	 * 
+	 * @param id El ID de la librería a eliminar.
+	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso de
+	 *         la librería eliminada.
+	 * @throws EntityNotFoundException Si no se encuentra ninguna librería con el ID
+	 *                                 proporcionado.
+	 */
 	@Override
 	public HrefEntityDTO delete(int id) {
-		
+
 		Libreria libreria = libreriaRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("La libreria con id %s no existe", id)));
-		
+
 		this.libreriaRepository.delete(libreria);
-		
+
 		return libreriaUtil.createHrefFromResource(libreria.getId(), LibreriaResource.LIBRERIA);
-		
-		
 
 	}
 

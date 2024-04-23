@@ -9,10 +9,15 @@ import org.springframework.stereotype.Repository;
 
 import com.alten.practica.modelo.entidad.Cliente;
 
+/**
+ * Interfaz que extiende de JpaRepository, para realizar operaciones con la base
+ * de datos para la entidad Cliente
+ * 
+ */
 @Repository
-public interface IClienteRepository extends JpaRepository<Cliente, Integer>{
-	
-	//Metodo para buscar por nombre
+public interface IClienteRepository extends JpaRepository<Cliente, Integer> {
+
+	// Metodo para buscar por nombre
 	@Query("SELECT a FROM Cliente a WHERE a.nombre = :nombre AND a.apellidos = :apellidos")
 	Optional<Cliente> findByNombreAndApellidos(@Param("nombre") String nombre, @Param("apellidos") String apellidos);
 

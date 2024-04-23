@@ -15,15 +15,18 @@ import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
  * @Builder: indica que se va a utilizar el patron builder para crear la entidad
  * @Mapping: indica el mapeo de los atributos de la entidad a los atributos del DTO
  */
-@Mapper (builder = @Builder(disableBuilder = true))
+@Mapper(builder = @Builder(disableBuilder = true))
 public interface IAutorMapper {
-	
-	//proceso de mappeo de la entidad a DTO, ya que los atributos del DTO no coinciden con los de la entidad
-	//source: atributo de la entidad, target: atributo del DTO, expression: expresion para realizar el mapeo
+
+	// proceso de mappeo de la entidad a DTO, ya que los atributos del DTO no
+	// coinciden con los de la entidad
+	// source: atributo de la entidad, target: atributo del DTO, expression:
+	// expresion para realizar el mapeo
 	@Mapping(target = "nombre", expression = "java(autor.getNombre() + \" \" + autor.getApellidos())")
 	public AutorDTO toDTO(Autor autor);
-	
-	//proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo convertimos a entidad
+
+	// proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo
+	// convertimos a entidad
 	public Autor toBean(AutorDTORequest dto);
 
 }

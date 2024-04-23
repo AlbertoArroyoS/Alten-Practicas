@@ -6,6 +6,10 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.LibreriaLibroDTO;
 import com.alten.practica.modelo.entidad.dto.request.LibreriaLibroDTORequest;
 
+/**
+ * Interfaz que define los metodos de la clase LibreriaLibroService
+ * 
+ */
 public interface ILibreriaLibroService {
 
 	// Metodo para guardar un autor

@@ -9,6 +9,10 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.LibroDTO;
 import com.alten.practica.modelo.entidad.dto.request.LibroDTORequest;
 
+/**
+ * Interfaz que define los metodos de la clase LibroService
+ * 
+ */
 public interface ILibroService {
 
 	// Metodo para guardar un libro

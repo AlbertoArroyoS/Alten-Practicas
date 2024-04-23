@@ -7,6 +7,12 @@ import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
 import com.alten.practica.modelo.entidad.dto.request.LibreriaDTORequest;
 
+/*
+ * Interfaz que se encarga de realizar el mapeo de la entidad a DTO y viceversa
+ * 
+ * @Mapper: indica que es una interfaz de mapeo
+ * @Builder: indica que se va a utilizar el patron builder para crear la entidad
+ */
 @Mapper(builder = @Builder(disableBuilder = true))
 public interface ILibreriaMapper {
 

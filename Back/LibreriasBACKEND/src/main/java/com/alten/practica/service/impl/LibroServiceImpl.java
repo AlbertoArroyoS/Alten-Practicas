@@ -23,6 +23,10 @@ import com.alten.practica.service.ILibroService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
+/*
+ * Clase que implementa la interfaz LibroService
+ * @see com.alten.practica.service.ILibroService
+ */
 @Transactional
 @Service
 public class LibroServiceImpl implements ILibroService {
@@ -48,29 +52,17 @@ public class LibroServiceImpl implements ILibroService {
 	 * libro.getPrecio()).build(); }
 	 */
 
+	/**
+	 * Guarda un nuevo libro en la base de datos.
+	 * 
+	 * @param dto Los datos del libro a guardar.
+	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
+	 *         libro creado.
+	 * @throws IllegalStateException Si ya existe un libro con el mismo título.
+	 */
 	@Override
 	public HrefEntityDTO save(LibroDTORequest dto) {
-		/*
-		 * // Buscar el autor en la base de datos Autor autor =
-		 * autorRepository.findByNombreAndApellidos(dto.getNombreAutor(),
-		 * dto.getApellidosAutor());
-		 * 
-		 * // Verificar si el autor existe if (autor == null) { // Si el autor no
-		 * existe, crear un nuevo autor autor = new Autor();
-		 * autor.setNombre(dto.getNombreAutor());
-		 * autor.setApellidos(dto.getApellidosAutor()); autor =
-		 * autorRepository.save(autor); // Guardar el autor y obtener su ID }
-		 */
-		/*
-		 * // Comprobar si el libro ya existe Libro libroExistente =
-		 * libroRepository.findByTituloAndAutor(dto.getTitulo(), autor);
-		 * 
-		 * // Verificar si el libro ya existe if (libroExistente != null) { // Si el
-		 * libro ya existe, puedes manejar el caso aquí, por ejemplo, lanzar una
-		 * excepción o devolver null return null; // Devolver null indicando que el
-		 * libro ya existe }
-		 */
-		
+
 		// Verificar si el libro ya existe
 		Optional<Libro> libroExistente = libroRepository.findByTitulo(dto.getTitulo());
 		if (libroExistente.isPresent()) {
@@ -104,24 +96,52 @@ public class LibroServiceImpl implements ILibroService {
 		libro.setEditorial(dto.getEditorial());
 		libro.setDescripcion(dto.getDescripcion());
 
-		
-
 		// Guardar el libro en la base de datos
 		libro = libroRepository.save(libro);
 
 		// Devolver el DTO adecuado
 		return libreriaUtil.createHrefFromResource(libro.getId(), LibreriaResource.LIBRO);
 
+		/*
+		 * Forma vieja // Buscar el autor en la base de datos Autor autor =
+		 * autorRepository.findByNombreAndApellidos(dto.getNombreAutor(),
+		 * dto.getApellidosAutor());
+		 * 
+		 * // Verificar si el autor existe if (autor == null) { // Si el autor no
+		 * existe, crear un nuevo autor autor = new Autor();
+		 * autor.setNombre(dto.getNombreAutor());
+		 * autor.setApellidos(dto.getApellidosAutor()); autor =
+		 * autorRepository.save(autor); // Guardar el autor y obtener su ID }
+		 */
+		/*
+		 * // Comprobar si el libro ya existe Libro libroExistente =
+		 * libroRepository.findByTituloAndAutor(dto.getTitulo(), autor);
+		 * 
+		 * // Verificar si el libro ya existe if (libroExistente != null) { // Si el
+		 * libro ya existe, puedes manejar el caso aquí, por ejemplo, lanzar una
+		 * excepción o devolver null return null; // Devolver null indicando que el
+		 * libro ya existe }
+		 */
+
 	}
 
-	// **** no funciona correctamente, usar save ****
+	// **** usar save ****
 	@Override
 	public int saveLibroSQL(LibroDTORequest dto) {
 		libroRepository.guardarLibroSQL(dto.getTitulo(), dto.getNombreAutor(), dto.getApellidosAutor(), dto.getGenero(),
 				dto.getPaginas(), dto.getEditorial(), dto.getDescripcion());
 		return 0;
 	}
-	@Transactional (readOnly = true)
+
+	/**
+	 * Busca un libro por su ID en la base de datos.
+	 * 
+	 * @param id El ID del libro a buscar.
+	 * @return Un objeto {@code LibroDTO} que representa el libro encontrado.
+	 * @throws EntityNotFoundException Si no se encuentra ningún libro con el ID
+	 *                                 proporcionado.
+	 */
+	@Transactional(readOnly = true)
 	@Override
 	public LibroDTO findById(int id) {
 
@@ -149,13 +169,24 @@ public class LibroServiceImpl implements ILibroService {
 		 */
 
 	}
-	@Transactional (readOnly = true)
+
+	/**
+	 * Obtiene una lista de todos los libros en la base de datos.
+	 * 
+	 * @return Una lista de objetos {@code LibroDTO} que representan todos los
+	 *         libros en la base de datos.
+	 */
+	@Transactional(readOnly = true)
 	@Override
 	public List<LibroDTO> findAll() {
 		List<Libro> lista = this.libroRepository.findAll();
+
+		return lista.stream().map(libro -> libroMapper.toDTO(libro)).collect(Collectors.toList());
+
 		/*
-		 * List<LibroDTO> listaDTO = new ArrayList<>(); for (Libro bean : lista) {
-		 * LibroDTO libroDTO = new LibroDTO(); libroDTO.setTitulo(bean.getTitulo());
+		 * Forma vieja List<LibroDTO> listaDTO = new ArrayList<>(); for (Libro bean :
+		 * lista) { LibroDTO libroDTO = new LibroDTO();
+		 * libroDTO.setTitulo(bean.getTitulo());
 		 * libroDTO.setNombreAutor(bean.getAutor().getNombre());
 		 * libroDTO.setApellidosAutor(bean.getAutor().getApellidos());
 		 * libroDTO.setGenero(bean.getGenero()); libroDTO.setPaginas(bean.getPaginas());
@@ -165,15 +196,22 @@ public class LibroServiceImpl implements ILibroService {
 		 * listaDTO;
 		 */
 
-		return lista.stream().map(libro -> libroMapper.toDTO(libro)).collect(Collectors.toList());
-
 	}
 
+	/**
+	 * Actualiza los datos de un libro existente en la base de datos.
+	 * 
+	 * @param dto Los nuevos datos del libro.
+	 * @param id  El ID del libro a actualizar.
+	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
+	 *         libro actualizado.
+	 * @throws EntityNotFoundException Si no se encuentra ningún libro con el ID
+	 *                                 proporcionado.
+	 */
 	@Override
 	public HrefEntityDTO update(LibroDTORequest dto, int id) {
 		Libro libro = libroRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El libro con id %s no existe", id)));
-
 
 		libro.setTitulo(dto.getTitulo());
 		libro.setGenero(dto.getGenero());
@@ -183,6 +221,15 @@ public class LibroServiceImpl implements ILibroService {
 		return libreriaUtil.createHrefFromResource(libroRepository.save(libro).getId(), LibreriaResource.LIBRO);
 	}
 
+	/**
+	 * Elimina un libro de la base de datos.
+	 * 
+	 * @param id El ID del libro a eliminar.
+	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
+	 *         libro eliminado.
+	 * @throws EntityNotFoundException Si no se encuentra ningún libro con el ID
+	 *                                 proporcionado.
+	 */
 	@Override
 	public HrefEntityDTO delete(int id) {
 		Libro libro = libroRepository.findById(id)
@@ -191,7 +238,17 @@ public class LibroServiceImpl implements ILibroService {
 		this.libroRepository.deleteById(libro.getId());
 		return libreriaUtil.createHrefFromResource(libro.getId(), LibreriaResource.LIBRO);
 	}
-	@Transactional (readOnly = true)
+
+	/**
+	 * Busca libros por título en la base de datos y devuelve una página de
+	 * resultados.
+	 * 
+	 * @param title    El título del libro a buscar.
+	 * @param pageable La información de paginación para la consulta.
+	 * @return Una página de objetos {@code LibroDTO} que representan los libros
+	 *         encontrados.
+	 */
+	@Transactional(readOnly = true)
 	@Override
 	public Page<LibroDTO> findByTitle(String title, Pageable pageable) {
 		Page<Libro> listaPages = this.libroRepository.buscarKeyWordSQL(title, pageable);
@@ -199,15 +256,13 @@ public class LibroServiceImpl implements ILibroService {
 
 	}
 
+	/**
+	 * Obtiene el ID de un autor por su nombre completo.
+	 * 
+	 * @param nombreCompleto El nombre completo del autor.
+	 * @return El ID del autor si existe, de lo contrario, devuelve -1.
+	 */
 	public int obtenerIdAutor(String nombreCompleto) {
-		/*
-		 * // Buscar el autor por su nombre y apellidos en el repositorio de autores
-		 * Autor autor = autorRepository.findByNombreAndApellidos(nombre, apellidos);
-		 * 
-		 * // Verificar si el autor existe if (autor != null) { // Si existe, devolver
-		 * su ID return autor.getId(); } else { // Si el autor no existe, devolver -1 o
-		 * manejar el caso según tus necesidades return -1; }
-		 */
 
 		List<Autor> autor = autorRepository.buscarKeyWordSQL(nombreCompleto);
 
@@ -218,6 +273,7 @@ public class LibroServiceImpl implements ILibroService {
 
 		// Obtener el ID del primer autor en la lista
 		return autor.get(0).getId();
+
 	}
 
 }

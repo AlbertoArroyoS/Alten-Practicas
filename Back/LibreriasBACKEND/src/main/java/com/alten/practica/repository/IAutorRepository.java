@@ -17,21 +17,20 @@ import com.alten.practica.modelo.entidad.Autor;
  * 
  */
 @Repository
-public interface IAutorRepository extends JpaRepository<Autor, Integer>{
-	
-	//LLAMADA A PROCEDIMIENTOS ALMACENADOS
-	
-	//Busqueda de autores por nombre, usando un procedimiento almacenado, la funcion fn_buscar_autor de la base de datos
-	@Query(value = LibreriaConstant.SP_SEARCH_AUTOR, nativeQuery = true , countQuery = LibreriaConstant.SP_SEARCH_CONTAR_AUTORES)
+public interface IAutorRepository extends JpaRepository<Autor, Integer> {
+
+	// LLAMADA A PROCEDIMIENTOS ALMACENADOS
+
+	// Busqueda de autores por nombre, usando un procedimiento almacenado, la
+	// funcion fn_buscar_autor de la base de datos
+	@Query(value = LibreriaConstant.SP_SEARCH_AUTOR, nativeQuery = true, countQuery = LibreriaConstant.SP_SEARCH_CONTAR_AUTORES)
 	public List<Autor> buscarKeyWordSQL(String nombre);
-	
+
 	@Query(value = LibreriaConstant.SP_NUEVO_AUTOR, nativeQuery = true)
 	public Autor nuevoAutorSQL(String nombre, String apellidos);
-	
-	//Metodo para buscar por nombre
+
+	// Metodo para buscar por nombre
 	@Query("SELECT a FROM Autor a WHERE a.nombre = :nombre AND a.apellidos = :apellidos")
 	Optional<Autor> findByNombreAndApellidos(@Param("nombre") String nombre, @Param("apellidos") String apellidos);
-
-	
 
 }

@@ -6,6 +6,10 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
 import com.alten.practica.modelo.entidad.dto.request.LibreriaDTORequest;
 
+/**
+ * Interfaz que define los metodos de la clase LibreriaService
+ * 
+ */
 public interface ILibreriaService {
 
 	// Metodo para guardar una libreria
@@ -16,7 +20,7 @@ public interface ILibreriaService {
 
 	// Metodo para listar todas las librerias
 	public List<LibreriaDTO> findAll();
-	
+
 	// Metodo para actualizar una libreria
 	public HrefEntityDTO update(LibreriaDTORequest dto, int id);
 

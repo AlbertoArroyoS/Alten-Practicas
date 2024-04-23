@@ -7,6 +7,10 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.AutorDTO;
 import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
 
+/**
+ * Interfaz que define los metodos de la clase AutorService
+ * 
+ */
 public interface IAutorService {
 
 	// Metodo para guardar un autor
@@ -33,8 +37,8 @@ public interface IAutorService {
 
 	// Metodo para obtener id del autor
 	public int obtenerIdAutor(String nombreCompleto);
-	
-	//Metodo para buscar por nombre
+
+	// Metodo para buscar por nombre
 	public Optional<AutorDTO> findByName(String nombre, String apellidos);
 
 }

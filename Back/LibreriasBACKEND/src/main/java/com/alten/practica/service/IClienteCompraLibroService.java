@@ -6,6 +6,10 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.ClienteCompraLibroDTO;
 import com.alten.practica.modelo.entidad.dto.request.ClienteCompraLibroDTORequest;
 
+/**
+ * Interfaz que define los metodos de la clase ClienteCompraLibroService
+ * 
+ */
 public interface IClienteCompraLibroService {
 
 	// Metodo para guardar un autor
