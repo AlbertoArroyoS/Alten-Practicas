@@ -1,4 +1,9 @@
 package com.alten.practica.controlador;
+/*
+ * Clase de pruebas para el controlador REST de la librería.
+ * Se encarga de realizar pruebas unitarias sobre los métodos del controlador.
+ * @see com.alten.practica.servicio.ILibreriaService
+ */
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -15,109 +20,104 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.alten.practica.errorhandler.HrefEntityDTO;
-import com.alten.practica.modelo.entidad.dto.ClienteDTO;
-import com.alten.practica.modelo.entidad.dto.request.ClienteDTORequest;
-import com.alten.practica.service.IClienteService;
+import com.alten.practica.modelo.entidad.dto.LibreriaDTO;
+import com.alten.practica.modelo.entidad.dto.request.LibreriaDTORequest;
+import com.alten.practica.service.ILibreriaService;
 
-/*
- * Clase de test para el controlador de Cliente
- * Se realizan pruebas unitarias para los métodos del controlador de Cliente
- * @see com.alten.practica.controlador.ClienteControlador
- */
 @SpringBootTest
-class TestClienteControlador {
+public class TestLibreriaControlador {
 
 	@Autowired
-	private ClienteControlador clienteControlador;
+	private LibreriaController libreriaController;
 
 	@MockBean
-	private IClienteService clienteService;
+	private ILibreriaService libreriaService;
 
-	@DisplayName("Test para el método findAll")
+	@DisplayName("Test para probar el método findAll()")
 	@Test
 	void testFindAll() {
 		// Preparar los datos de prueba
-		ClienteDTO clienteDTO = new ClienteDTO();
-		clienteDTO.setId(1);
-		clienteDTO.setNombre("Nombre de prueba");
+		LibreriaDTO libreriaDTO = new LibreriaDTO();
+		libreriaDTO.setId(1);
+		libreriaDTO.setNombreLibreria("Nombre de prueba");
 
-		List<ClienteDTO> clienteDTOList = Collections.singletonList(clienteDTO);
+		List<LibreriaDTO> libreriaDTOList = Collections.singletonList(libreriaDTO);
 
 		// Simular el comportamiento del servicio
-		when(clienteService.findAll()).thenReturn(clienteDTOList);
+		when(libreriaService.findAll()).thenReturn(libreriaDTOList);
 
 		// Ejecutar el método del controlador
-		ResponseEntity<List<ClienteDTO>> responseEntity = clienteControlador.findAll();
+		ResponseEntity<List<LibreriaDTO>> responseEntity = libreriaController.findAll();
 
 		// Verificar el resultado
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(clienteDTOList, responseEntity.getBody());
+		assertEquals(libreriaDTOList, responseEntity.getBody());
 	}
 
-	@DisplayName("Test para el método findById")
+	@DisplayName("Test para probar el método findById()")
 	@Test
 	void testFindById() {
 		// Preparar los datos de prueba
 		int id = 1;
-		ClienteDTO clienteDTO = new ClienteDTO();
-		clienteDTO.setId(id);
-		clienteDTO.setNombre("Nombre de prueba");
+		LibreriaDTO libreriaDTO = new LibreriaDTO();
+		libreriaDTO.setId(id);
+		libreriaDTO.setNombreLibreria("Nombre de prueba");
 
 		// Simular el comportamiento del servicio
-		when(clienteService.findById(id)).thenReturn(clienteDTO);
+		when(libreriaService.findById(id)).thenReturn(libreriaDTO);
 
 		// Ejecutar el método del controlador
-		ResponseEntity<ClienteDTO> responseEntity = clienteControlador.findById(id);
+		ResponseEntity<LibreriaDTO> responseEntity = libreriaController.findById(id);
 
 		// Verificar el resultado
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(clienteDTO, responseEntity.getBody());
+		assertEquals(libreriaDTO, responseEntity.getBody());
 	}
 
-	@DisplayName("Test para el método save")
+	@DisplayName("Test para probar el método save()")
 	@Test
 	void testSave() {
 		// Preparar los datos de prueba
-		ClienteDTORequest clienteDTORequest = new ClienteDTORequest();
-		clienteDTORequest.setNombre("Nombre de prueba");
+		LibreriaDTORequest libreriaDTORequest = new LibreriaDTORequest();
+		libreriaDTORequest.setNombreLibreria("Nombre de prueba");
 
 		HrefEntityDTO hrefEntityDTO = new HrefEntityDTO();
 		hrefEntityDTO.setId(1);
 
 		// Simular el comportamiento del servicio
-		when(clienteService.save(clienteDTORequest)).thenReturn(hrefEntityDTO);
+		when(libreriaService.save(libreriaDTORequest)).thenReturn(hrefEntityDTO);
 
 		// Ejecutar el método del controlador
-		ResponseEntity<HrefEntityDTO> responseEntity = clienteControlador.save(clienteDTORequest);
+		ResponseEntity<HrefEntityDTO> responseEntity = libreriaController.save(libreriaDTORequest);
 
 		// Verificar el resultado
 		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 		assertEquals(hrefEntityDTO, responseEntity.getBody());
 	}
 
-	@DisplayName("Test para el método update")
+	@DisplayName("Test para probar el método update()")
 	@Test
 	void testUpdate() {
 		// Preparar los datos de prueba
 		int id = 1;
-		ClienteDTORequest clienteDTORequest = new ClienteDTORequest();
-		clienteDTORequest.setNombre("Nombre de prueba");
+		LibreriaDTORequest libreriaDTORequest = new LibreriaDTORequest();
+		libreriaDTORequest.setNombreLibreria("Nombre de prueba");
 
 		HrefEntityDTO hrefEntityDTO = new HrefEntityDTO();
 		hrefEntityDTO.setId(id);
 
 		// Simular el comportamiento del servicio
-		when(clienteService.update(clienteDTORequest, id)).thenReturn(hrefEntityDTO);
+		when(libreriaService.update(libreriaDTORequest, id)).thenReturn(hrefEntityDTO);
 
 		// Ejecutar el método del controlador
-		ResponseEntity<HrefEntityDTO> responseEntity = clienteControlador.update(clienteDTORequest, id);
+		ResponseEntity<HrefEntityDTO> responseEntity = libreriaController.update(libreriaDTORequest, id);
 
 		// Verificar el resultado
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(hrefEntityDTO, responseEntity.getBody());
 	}
 
-	@DisplayName("Test para el método delete")
+	@DisplayName("Test para probar el método delete()")
 	@Test
 	void testDelete() {
 		// Preparar los datos de prueba
@@ -126,13 +126,14 @@ class TestClienteControlador {
 		hrefEntityDTO.setId(id);
 
 		// Simular el comportamiento del servicio
-		when(clienteService.delete(id)).thenReturn(hrefEntityDTO);
+		when(libreriaService.delete(id)).thenReturn(hrefEntityDTO);
 
 		// Ejecutar el método del controlador
-		ResponseEntity<HrefEntityDTO> responseEntity = clienteControlador.delete(id);
+		ResponseEntity<HrefEntityDTO> responseEntity = libreriaController.delete(id);
 
 		// Verificar el resultado
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(hrefEntityDTO, responseEntity.getBody());
 	}
+
 }

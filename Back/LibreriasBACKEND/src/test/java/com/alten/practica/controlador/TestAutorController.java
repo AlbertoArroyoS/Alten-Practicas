@@ -18,6 +18,7 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.AutorDTO;
 import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
 import com.alten.practica.service.IAutorService;
+
 /*
  * Clase de test para el controlador de Autor
  * Se realizan pruebas unitarias para los métodos del controlador de Autor
@@ -25,134 +26,137 @@ import com.alten.practica.service.IAutorService;
  */
 @SpringBootTest
 public class TestAutorController {
-	
+
 	@InjectMocks
-    private AutorController autorController;
+	private AutorController autorController;
 
-    @Mock
-    private IAutorService autorService;
+	@Mock
+	private IAutorService autorService;
 
-    @DisplayName("Test para el método buscarKeyWord del controlador de Autor")
-    @Test
-    public void testBuscarKeyWordSQL() {
-        // Preparar los datos de prueba
-        String keyword = "keyword";
-        AutorDTO autorDTO = new AutorDTO();
-        autorDTO.setId(1);
-        autorDTO.setNombre("Nombre");
-        
-        List<AutorDTO> autorDTOList = Collections.singletonList(autorDTO);
+	@DisplayName("Test para el método buscarKeyWord del controlador de Autor")
+	@Test
+	public void testBuscarKeyWordSQL() {
+		// Preparar los datos de prueba
+		String keyword = "keyword";
+		AutorDTO autorDTO = new AutorDTO();
+		autorDTO.setId(1);
+		autorDTO.setNombre("Nombre");
 
-        // Simular el comportamiento del servicio
-        when(autorService.buscarKeyWordSQL(keyword)).thenReturn(autorDTOList);
+		List<AutorDTO> autorDTOList = Collections.singletonList(autorDTO);
 
-        // Ejecutar el método del controlador
-        ResponseEntity<List<AutorDTO>> responseEntity = autorController.buscarKeyWordSQL(keyword);
+		// Simular el comportamiento del servicio
+		when(autorService.buscarKeyWordSQL(keyword)).thenReturn(autorDTOList);
 
-        // Verificar el resultado
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(autorDTOList, responseEntity.getBody());
-    }
-    @DisplayName("Test para el método findById del controlador de Autor")
-    @Test
-    public void testFindById() {
-        // Preparar los datos de prueba
-        int id = 1;
-        AutorDTO autorDTO = new AutorDTO();
-        autorDTO.setId(id);
-        autorDTO.setNombre("Nombre");
+		// Ejecutar el método del controlador
+		ResponseEntity<List<AutorDTO>> responseEntity = autorController.buscarKeyWordSQL(keyword);
 
-        // Simular el comportamiento del servicio
-        when(autorService.findById(id)).thenReturn(autorDTO);
+		// Verificar el resultado
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(autorDTOList, responseEntity.getBody());
+	}
 
-        // Ejecutar el método del controlador
-        ResponseEntity<AutorDTO> responseEntity = autorController.findById(id);
+	@DisplayName("Test para el método findById del controlador de Autor")
+	@Test
+	public void testFindById() {
+		// Preparar los datos de prueba
+		int id = 1;
+		AutorDTO autorDTO = new AutorDTO();
+		autorDTO.setId(id);
+		autorDTO.setNombre("Nombre");
 
-        // Verificar el resultado
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(autorDTO, responseEntity.getBody());
-    }
-    
-    @DisplayName("Test para el método findAll del controlador de Autor")
-    @Test
-    public void testFindAll() {
-        // Preparar los datos de prueba
-        AutorDTO autorDTO = new AutorDTO();
-        autorDTO.setId(1);
-        autorDTO.setNombre("Nombre");
-        List<AutorDTO> autorDTOList = Collections.singletonList(autorDTO);
+		// Simular el comportamiento del servicio
+		when(autorService.findById(id)).thenReturn(autorDTO);
 
-        // Simular el comportamiento del servicio
-        when(autorService.findAll()).thenReturn(autorDTOList);
+		// Ejecutar el método del controlador
+		ResponseEntity<AutorDTO> responseEntity = autorController.findById(id);
 
-        // Ejecutar el método del controlador
-        ResponseEntity<List<AutorDTO>> responseEntity = autorController.findAll();
+		// Verificar el resultado
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(autorDTO, responseEntity.getBody());
+	}
 
-        // Verificar el resultado
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(autorDTOList, responseEntity.getBody());
-    }
-    @DisplayName("Test para el método save del controlador de Autor")
-    @Test
-    public void testSave() {
-        // Preparar los datos de prueba
-        AutorDTORequest autorDTORequest = new AutorDTORequest();
-        autorDTORequest.setNombre("Nombre");
-        autorDTORequest.setApellidos("Apellidos");
+	@DisplayName("Test para el método findAll del controlador de Autor")
+	@Test
+	public void testFindAll() {
+		// Preparar los datos de prueba
+		AutorDTO autorDTO = new AutorDTO();
+		autorDTO.setId(1);
+		autorDTO.setNombre("Nombre");
+		List<AutorDTO> autorDTOList = Collections.singletonList(autorDTO);
 
-        HrefEntityDTO hrefEntityDTO = new HrefEntityDTO();
-        hrefEntityDTO.setId(1);
+		// Simular el comportamiento del servicio
+		when(autorService.findAll()).thenReturn(autorDTOList);
 
-        // Simular el comportamiento del servicio
-        when(autorService.save(autorDTORequest)).thenReturn(hrefEntityDTO);
+		// Ejecutar el método del controlador
+		ResponseEntity<List<AutorDTO>> responseEntity = autorController.findAll();
 
-        // Ejecutar el método del controlador
-        ResponseEntity<HrefEntityDTO> responseEntity = autorController.save(autorDTORequest);
+		// Verificar el resultado
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(autorDTOList, responseEntity.getBody());
+	}
 
-        // Verificar el resultado
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(hrefEntityDTO, responseEntity.getBody());
-    }
-    @DisplayName("Test para el método delete del controlador de Autor")
-    @Test
-    public void testDelete() {
-        // Preparar los datos de prueba
-        int id = 1;
-        HrefEntityDTO hrefEntityDTO = new HrefEntityDTO();
-        hrefEntityDTO.setId(id);
+	@DisplayName("Test para el método save del controlador de Autor")
+	@Test
+	public void testSave() {
+		// Preparar los datos de prueba
+		AutorDTORequest autorDTORequest = new AutorDTORequest();
+		autorDTORequest.setNombre("Nombre");
+		autorDTORequest.setApellidos("Apellidos");
 
-        // Simular el comportamiento del servicio
-        when(autorService.delete(id)).thenReturn(hrefEntityDTO);
+		HrefEntityDTO hrefEntityDTO = new HrefEntityDTO();
+		hrefEntityDTO.setId(1);
 
-        // Ejecutar el método del controlador
-        ResponseEntity<HrefEntityDTO> responseEntity = autorController.delete(id);
+		// Simular el comportamiento del servicio
+		when(autorService.save(autorDTORequest)).thenReturn(hrefEntityDTO);
 
-        // Verificar el resultado
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(hrefEntityDTO, responseEntity.getBody());
-    }
-    @DisplayName("Test para el método update del controlador de Autor")
-    @Test
-    public void testUpdate() {
-        // Preparar los datos de prueba
-        int id = 1;
-        AutorDTORequest autorDTORequest = new AutorDTORequest();
-        autorDTORequest.setNombre("Nombre");
-        autorDTORequest.setApellidos("Apellidos");
+		// Ejecutar el método del controlador
+		ResponseEntity<HrefEntityDTO> responseEntity = autorController.save(autorDTORequest);
 
-        HrefEntityDTO hrefEntityDTO = new HrefEntityDTO();
-        hrefEntityDTO.setId(id);
+		// Verificar el resultado
+		assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+		assertEquals(hrefEntityDTO, responseEntity.getBody());
+	}
 
-        // Simular el comportamiento del servicio
-        when(autorService.update(autorDTORequest, id)).thenReturn(hrefEntityDTO);
+	@DisplayName("Test para el método delete del controlador de Autor")
+	@Test
+	public void testDelete() {
+		// Preparar los datos de prueba
+		int id = 1;
+		HrefEntityDTO hrefEntityDTO = new HrefEntityDTO();
+		hrefEntityDTO.setId(id);
 
-        // Ejecutar el método del controlador
-        ResponseEntity<HrefEntityDTO> responseEntity = autorController.update(autorDTORequest, id);
+		// Simular el comportamiento del servicio
+		when(autorService.delete(id)).thenReturn(hrefEntityDTO);
 
-        // Verificar el resultado
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(hrefEntityDTO, responseEntity.getBody());
-    }
+		// Ejecutar el método del controlador
+		ResponseEntity<HrefEntityDTO> responseEntity = autorController.delete(id);
 
+		// Verificar el resultado
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(hrefEntityDTO, responseEntity.getBody());
+	}
+
+	@DisplayName("Test para el método update del controlador de Autor")
+	@Test
+	public void testUpdate() {
+		// Preparar los datos de prueba
+		int id = 1;
+		AutorDTORequest autorDTORequest = new AutorDTORequest();
+		autorDTORequest.setNombre("Nombre");
+		autorDTORequest.setApellidos("Apellidos");
+
+		HrefEntityDTO hrefEntityDTO = new HrefEntityDTO();
+		hrefEntityDTO.setId(id);
+
+		// Simular el comportamiento del servicio
+		when(autorService.update(autorDTORequest, id)).thenReturn(hrefEntityDTO);
+
+		// Ejecutar el método del controlador
+		ResponseEntity<HrefEntityDTO> responseEntity = autorController.update(autorDTORequest, id);
+
+		// Verificar el resultado
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(hrefEntityDTO, responseEntity.getBody());
+	}
 
 }
