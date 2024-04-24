@@ -1,0 +1,15 @@
+En cmd
+
+//Instalar la version 15 de Angular
+npm i -g @angular/cli@15.2.11
+
+//Instalar las dependencias despues de clonar el repo
+npm install
+
+//Abrir proyecto en Visual Studio
+code .
+
+//Ejecutar el proyecto
+npm start
+
+
