@@ -10,6 +10,21 @@ npm install
 code .
 
 //Ejecutar el proyecto
-npm start
+npm run start
+
+//Ayuda de los comandos disponibles
+ng --help
+
+//Listar la ayuda de las cosas que podemos crear
+ng g --help
+
+//Crear modulos con enrutamiento
+ng g m nombreModulo --routing
+ 
+//Crear modulos sin enrutamiento
+ng g m nombreModulo
+
+//Crear layouts
+ng g c nombreModulo/layout/nombreLayout
 
 
