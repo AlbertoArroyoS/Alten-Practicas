@@ -27,4 +27,6 @@ ng g m nombreModulo
 //Crear layouts
 ng g c nombreModulo/layout/nombreLayout
 
+//que todos los componentes se rendericen en esta parte del gtml
+<router-outlet></router-outlet>
 
