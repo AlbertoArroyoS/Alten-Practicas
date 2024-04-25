@@ -7,17 +7,20 @@ import { BookComponent } from './pages/book/book.component';
 
 const routes: Routes = [
   //el children lo utilizo para derfinir las rutas secundarias
-  {path: '', component : BookCatalogLayoutComponent, children : [
-    {path: 'book', component: BookComponent},
-    //{path: '', redirectTo: 'book', pathMatch: 'full'},
-    {path: 'author', component: AuthorComponent},
-    {path: 'book-shop', component: BookshopComponent}
-  ]
+  {
+    path: '',
+    component: BookCatalogLayoutComponent,
+    children: [
+      { path: 'book', component: BookComponent },
+      //{path: '', redirectTo: 'book', pathMatch: 'full'},
+      { path: 'author', component: AuthorComponent },
+      { path: 'book-shop', component: BookshopComponent },
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class BookCatalogRoutingModule { }
+export class BookCatalogRoutingModule {}
