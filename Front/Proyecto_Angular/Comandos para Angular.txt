@@ -27,6 +27,10 @@ ng g m nombreModulo
 //Crear layouts
 ng g c nombreModulo/layout/nombreLayout
 
+//salir de la compilacion para cargar de nuevo el run
+crontrol+C
+ng serve -o
+
 //que todos los componentes se rendericen en esta parte del gtml
 <router-outlet></router-outlet>
 
