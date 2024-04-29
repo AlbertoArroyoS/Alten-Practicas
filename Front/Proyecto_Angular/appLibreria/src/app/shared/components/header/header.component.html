@@ -4,27 +4,27 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" style="cursor: pointer;">
       <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" (click)="goToBook()">Libros</a>
+        <a class="nav-link" (click)="goToBook()">Libros</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" (click)="goToBookShop()">Librerias</a>
+        <a class="nav-link" (click)="goToBookShop()">Librerias</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" (click)="goToAutor()">Autores</a>
+        <a class="nav-link" (click)="goToAuthor()">Autores</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Administrar
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Libros</a>
-          <a class="dropdown-item" href="#">Librerias</a>
-          <a class="dropdown-item" href="#">Autorres</a>
+          <a class="dropdown-item" href="#" (click)="goToAdminBook()">Libros</a>
+          <a class="dropdown-item" href="#" (click)="goToAdminBookShop()">Librerias</a>
+          <a class="dropdown-item" href="#" (click)="goToAdminAuthor()">Autores</a>
         </div>
         
       </li>

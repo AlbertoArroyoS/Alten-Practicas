@@ -16,6 +16,31 @@ export class HeaderComponent {
 
   }
 
-  pu
+  public goToBook(): void {
+    this.router.navigate(['book-catalog/book']);
+    
+  }
+
+  public goToBookShop(): void {
+    this.router.navigate(['book-catalog/book-shop']);
+  }
+
+  public goToAuthor(): void {
+    this.router.navigate(['book-catalog/author']);
+  }
+
+  public goToAdminBook(): void {
+    this.router.navigate(['book-catalog/author']);
+  }
+
+  public goToAdminBookShop(): void {
+    this.router.navigate(['book-catalog/author']);
+  }
+
+  public goToAdminAuthor(): void {
+    this.router.navigate(['book-catalog/author']);
+  }
+
+
 
 }

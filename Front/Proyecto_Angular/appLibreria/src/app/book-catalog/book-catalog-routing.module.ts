@@ -11,10 +11,10 @@ const routes: Routes = [
     path: '',
     component: BookCatalogLayoutComponent,
     children: [
-      { path: 'book', component: BookComponent },
+      { path: 'book', component: BookComponent , title: 'Libro'},
       //{path: '', redirectTo: 'book', pathMatch: 'full'},
-      { path: 'author', component: AuthorComponent },
-      { path: 'book-shop', component: BookshopComponent },
+      { path: 'author', component: AuthorComponent, title: 'Autor'},
+      { path: 'book-shop', component: BookshopComponent, title: 'Librería'},
     ],
   },
 ];

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-book',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./book.component.scss']
 })
 export class BookComponent {
+
 
 }
