@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-author',
@@ -13,8 +13,8 @@ export class AddAuthorComponent implements OnInit{
   constructor(private form: FormBuilder) { 
 
     this.formularioAutor = this.form.group({
-      nombre: new FormControl('',[]),
-      apellidos: new FormControl('',[]),
+      nombre: new FormControl('',[Validators.required]),
+      apellidos: new FormControl('',[Validators.required]),
     });
 
   }
