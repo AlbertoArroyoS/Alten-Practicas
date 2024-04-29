@@ -17,7 +17,10 @@ import { BookshopComponent } from './pages/bookshop/bookshop.component';
   ],
   imports: [
     CommonModule,
-    BookCatalogRoutingModule
+    BookCatalogRoutingModule,
+  ],
+  exports: [
+    AuthorComponent
   ]
 })
 export class BookCatalogModule { }
