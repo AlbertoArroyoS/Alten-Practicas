@@ -3,9 +3,11 @@
     <div class="row mt-3">
         <div class="col">
           <input type="text" class="form-control" formControlName="nombre" placeholder="Nombre" aria-label="First name">
+          <p *ngIf="formularioAutor.get('nombre')?.errors?.['required']" class="text-danger">El campo nombre es requerido</p>
         </div>
         <div class="col">
           <input type="text" class="form-control" formControlName="apellidos" placeholder="Apellidos" aria-label="Last name">
+          <p *ngIf="formularioAutor.get('apellidos')?.errors?.['required']" class="text-danger">El campo apellidos es requerido</p>
         </div>
     </div>
     
