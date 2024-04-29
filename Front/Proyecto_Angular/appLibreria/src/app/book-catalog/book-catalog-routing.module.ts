@@ -4,6 +4,7 @@ import { BookCatalogLayoutComponent } from './layout/book-catalog-layout/book-ca
 import { BookshopComponent } from './pages/bookshop/bookshop.component';
 import { AuthorComponent } from './pages/author/author.component';
 import { BookComponent } from './pages/book/book.component';
+import { AddAuthorComponent } from './component/add-author/add-author.component';
 
 const routes: Routes = [
   //el children lo utilizo para derfinir las rutas secundarias
@@ -15,6 +16,7 @@ const routes: Routes = [
       //{path: '', redirectTo: 'book', pathMatch: 'full'},
       { path: 'author', component: AuthorComponent, title: 'Autor'},
       { path: 'book-shop', component: BookshopComponent, title: 'Librería'},
+      { path: 'add-author', component: AddAuthorComponent, title: 'Agregar Autor'}
     ],
   },
 ];
