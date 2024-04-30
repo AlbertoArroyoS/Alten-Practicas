@@ -13,51 +13,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * el control sobre los recursos de diferentes orígenes. Los valores de configuración
  * son inyectados desde el archivo de propiedades `application-dev.yml`.
  */
-@Configuration
 @EnableWebMvc
+@Configuration
 public class WebConfig implements WebMvcConfigurer {
+	
 
-    /**
-     * Ruta para la configuración CORS.
-     */
     @Value("${cors.mapping}")
     private String MAPPING;
 
-    /**
-     * Orígenes permitidos para las peticiones CORS.
-     */
     @Value("${cors.allowed-origins}")
     private String[] ORIGINS;
 
-    /**
-     * Métodos HTTP permitidos para las peticiones CORS.
-     */
+
     @Value("${cors.allowed-methods}")
     private String[] METHODS;
 
-    /**
-     * Cabeceras permitidas en las peticiones CORS.
-     */
+
     @Value("${cors.allowed-headers}")
     private String[] HEADERS;
 
-    /**
-     * Configura los parámetros CORS para la aplicación.
-     * 
-     * Define las rutas, métodos, orígenes y cabeceras permitidas, así como
-     * el tiempo máximo de duración de la caché para los resultados de la comprobación
-     * previa de CORS y la política de credenciales.
-     * 
-     * @param registry el registro CORS donde se añadirán las configuraciones.
-     */
-  /*  @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-                .allowedHeaders("*")
-                .maxAge(3600);
-    }*/
+
     
     @Override
     public void addCorsMappings(CorsRegistry registry) {

@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AuthorsService {
 
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/autores';
+  private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/autores/autor';
 
   constructor(
     private HttpClient: HttpClient
@@ -20,6 +21,6 @@ export class AuthorsService {
   }
 
   public addAuthor(author: any): Observable<any> {
-    return this.HttpClient.post(this.API_SERVER, author);
+    return this.HttpClient.post(this.API_SERVER2, author);
   }
 }
