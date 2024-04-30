@@ -36,6 +36,12 @@ springdoc:
      path: /api-docs
   packagesToScan: com.alten.practica.controlador
   
+cors:
+  mapping: "/**"
+  allowed-origins: http://localhost:4200, http://localhost:80
+  allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
+  allowed-headers: "*"
+  
   
  ## CONFIGURACION DE LOS LOGS
 ##logging:
@@ -49,10 +55,4 @@ springdoc:
     ##total-size-cap: 100MB
     
 ## CORS ORIGIN
-cors:
-  mapping: "/**"
-  allowed-origins: http://localhost:4200, http://localhost:80
-  allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
-  allowed-headers: "*"
 
-    

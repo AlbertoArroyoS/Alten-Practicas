@@ -50,6 +50,15 @@ public class WebConfig implements WebMvcConfigurer {
      * 
      * @param registry el registro CORS donde se añadirán las configuraciones.
      */
+  /*  @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+                .allowedHeaders("*")
+                .maxAge(3600);
+    }*/
+    
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping(MAPPING)

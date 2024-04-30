@@ -38,8 +38,11 @@ export class AddAuthorComponent implements OnInit {
   }
 
   addAuthor() {
-    console.log(this.formularioAutor.value);
-    alert('Autor añadido');
+    this.authorsService.addAuthor(this.formularioAutor.value).subscribe(resp => {    
+      //this.autores= resp;
+    }, error => {
+      console.error(error);
+    });
   }
 
 }

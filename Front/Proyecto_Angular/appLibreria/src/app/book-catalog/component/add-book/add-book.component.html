@@ -12,9 +12,10 @@
                     <option value="1">Fantasía</option>
                     <option value="2">Infantil</option>
                     <option value="3">Poesía</option>
-                    <option value="1">Ciencia ficción</option>
-                    <option value="2">Misterio</option>
-                    <option value="3">Romance</option>
+                    <option value="4">Ciencia ficción</option>
+                    <option value="5">Misterio</option>
+                    <option value="6">Romance</option>
+                    <option value="7">Otros</option>
                 </select>
                 <p *ngIf="formularioLibro.get('genero')?.errors?.['required']" class="text-danger">El campo genero es requerido</p>
                 <input type="number" class="form-control" formControlName="paginas" placeholder="Páginas" aria-label="Paginas">
@@ -29,10 +30,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="selectAutor">Autor</label>
+            <label for="selectAutor">Autores que ya están en la base de datos</label>
             <select id="selectAutor" name="autor" formControlName="autor" class="form-control">
                 <option disabled selected>Selecciona un autor</option>
-                <option *ngFor="let item of autores" [value]="item.nombre">{{ item.nombre }}</option>
+                <option *ngFor="let item of autores" [ngValue]="item.nombre">{{ item.nombre }}</option>
             </select>
         </div>
         
