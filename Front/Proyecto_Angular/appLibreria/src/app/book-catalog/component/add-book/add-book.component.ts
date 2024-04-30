@@ -17,8 +17,12 @@ export class AddBookComponent {
     public booksService: BooksService,
   ) { 
     this.formularioLibro = this.fb.group({
-      nombre: new FormControl('', [Validators.required]),
-      apellidos: new FormControl('', [Validators.required]),
+      titulo: new FormControl('', [Validators.required]),
+      autor: ['', Validators.required],
+      genero: new FormControl('', [Validators.required]),
+      paginas: new FormControl('', [Validators.required]),
+      editorial: new FormControl('', [Validators.required]),
+      descripcion: new FormControl('', [Validators.required])
     });
   }
 
@@ -30,15 +34,16 @@ export class AddBookComponent {
     });
     */
 
+    //Metodo para obtener los autores que hay en la base de datos y poder seleccionarlos en el formulario
     this.booksService.getAllAuthors().subscribe(resp => {    
       this.autores= resp;
-      console.log(resp);
+      //console.log(resp);
     }, error => {
       console.error(error);
     });
   }
 
-  addAuthor() {
+  addBook() {
     console.log(this.formularioLibro.value);
     alert('Autor añadido');
   }

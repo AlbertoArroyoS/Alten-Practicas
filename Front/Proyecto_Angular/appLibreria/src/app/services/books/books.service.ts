@@ -15,6 +15,6 @@ export class BooksService {
 
 
   public getAllAuthors(): Observable<any> {
-    return this.HttpClient.get(this.API_SERVER + 'authors');
+    return this.HttpClient.get(this.API_SERVER);
   }
 }

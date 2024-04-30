@@ -32,7 +32,6 @@ export class AddAuthorComponent implements OnInit {
     /*
     this.authorsService.getAllAuthors().subscribe(resp => {    
       this.autores= resp;
-      console.log(resp);
     }, error => {
       console.error(error);
     });*/
