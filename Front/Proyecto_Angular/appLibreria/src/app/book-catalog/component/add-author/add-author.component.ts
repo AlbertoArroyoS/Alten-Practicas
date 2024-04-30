@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {AuthorsService} from 'src/app/services/authors/authors.service';
 
 @Component({
   selector: 'app-add-author',
@@ -10,9 +11,12 @@ export class AddAuthorComponent implements OnInit{
 
   formularioAutor: FormGroup;
 
-  constructor(private form: FormBuilder) { 
+  constructor(
+    public fb: FormBuilder,
+    public authorsService: AuthorsService,
+  ) { 
 
-    this.formularioAutor = this.form.group({
+    this.formularioAutor = this.fb.group({
       nombre: new FormControl('',[Validators.required]),
       apellidos: new FormControl('',[Validators.required]),
     });
@@ -20,6 +24,11 @@ export class AddAuthorComponent implements OnInit{
   }
 
   ngOnInit(): void {
+/*
+    this.formularioAutor = this.fb.group({
+      nombre: ['',Validators.required],
+      apellidos: ['',Validators.required],
+    })*/
     
   }
 

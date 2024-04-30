@@ -34,3 +34,6 @@ ng serve -o
 //que todos los componentes se rendericen en esta parte del gtml
 <router-outlet></router-outlet>
 
+
+//crear servicios
+ng g s services/books/books
