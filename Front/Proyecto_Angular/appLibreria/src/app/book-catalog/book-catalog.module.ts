@@ -10,6 +10,7 @@ import { AuthorComponent } from './pages/author/author.component';
 import { BookshopComponent } from './pages/bookshop/bookshop.component';
 import { AddAuthorComponent } from './component/add-author/add-author.component';
 import { AddBookComponent } from './component/add-book/add-book.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AddBookComponent } from './component/add-book/add-book.component';
     BookCatalogRoutingModule,
     ReactiveFormsModule, 
     FormsModule,
+    HttpClientModule
   ],
   exports: [
     AuthorComponent

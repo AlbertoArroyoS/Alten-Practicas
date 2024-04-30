@@ -2,9 +2,9 @@ package com.alten.practica;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -24,5 +24,15 @@ public class LibreriasBackendApplication {
 				.description("API para gestionar librerias")
 				.contact(new io.swagger.v3.oas.models.info.Contact().email("albertoarroyo@hotmail.es"))
 				.version("1.0"));
+	}
+	//Configuracion de CORS para permitir peticiones desde el frontend
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("http://localhost:4200").allowedMethods("*").allowedHeaders("*");
+			}
+		};
 	}
 }
