@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 export class BooksService {
 
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/libros';
-  private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/libros/libro';
+  //private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/libros/libro';
+  private SEARCH_ENDPOINT = 'autor?key_word=';
 
   constructor(
     private httpClient: HttpClient
@@ -24,5 +25,11 @@ export class BooksService {
   public getBookById(bookId: number): Observable<any> {
     const url = `${this.API_SERVER}/${bookId.toString()}`; // Convertir bookId a string
     return this.httpClient.get(url); 
+  }
+
+  // Método para buscar libros por palabra clave
+  public searchBooksByKeyword(keyword: string, page: number = 0, size: number = 10, field: string = 'titulo', order: number = 1): Observable<any> {
+    const url = `${this.API_SERVER}/${this.SEARCH_ENDPOINT}?key_word=${keyword}&page=${page}&size=${size}&field=${field}&order=${order}`;
+    return this.httpClient.get(url);
   }
 }

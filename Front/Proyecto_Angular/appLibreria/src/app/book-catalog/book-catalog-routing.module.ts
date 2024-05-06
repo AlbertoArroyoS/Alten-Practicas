@@ -7,6 +7,7 @@ import { BookComponent } from './pages/book/book.component';
 import { AddAuthorComponent } from './component/add-author/add-author.component';
 import { AddBookComponent } from './component/add-book/add-book.component';
 import { ListAuthorComponent } from './component/list-author/list-author.component';
+import { ListBookComponent } from './component/list-book/list-book.component';
 
 const routes: Routes = [
   //el children lo utilizo para derfinir las rutas secundarias
@@ -20,7 +21,8 @@ const routes: Routes = [
       { path: 'book-shop', component: BookshopComponent, title: 'Librería'},
       { path: 'author/add-author', component: AddAuthorComponent, title: 'Agregar Autor'},
       { path: 'book/add-book', component: AddBookComponent, title: 'Agregar libro'},
-      { path : 'author/list-author', component: ListAuthorComponent, title: 'Lista de autores'}
+      { path : 'author/list-author', component: ListAuthorComponent, title: 'Lista de autores'},
+      { path : 'book/list-book', component: ListBookComponent, title: 'Lista de libros'}
     ],
   },
 ];

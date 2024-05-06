@@ -99,34 +99,33 @@ returns table (
     genero varchar,
     paginas int,
     editorial varchar,
-    descripcion varchar,
-    precio double precision
+    descripcion varchar
 )
 as 
 $$
 begin
     return query (
         SELECT
-		    ta.id_libro,
-		    ta.titulo ,
-		    ta.id_autor,
-		    dbo.autores.nombre AS nombre_autor,
-		    dbo.autores.apellidos as apellidos_autor,
-		    ta.genero,
-		    ta.paginas,
-		    ta.editorial,
-		    ta.descripcion,
-		    ta.precio 
-		FROM
-		    dbo.libros ta
-		JOIN
-		    dbo.autores ON ta.id_autor = dbo.autores.id_autor
-		WHERE
-		    replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower(in_key_word)), chr(32), '') || '%'
+            ta.id_libro,
+            ta.titulo ,
+            ta.id_autor,
+            dbo.autores.nombre AS nombre_autor,
+            dbo.autores.apellidos as apellidos_autor,
+            ta.genero,
+            ta.paginas,
+            ta.editorial,
+            ta.descripcion
+        FROM
+            dbo.libros ta
+        JOIN
+            dbo.autores ON ta.id_autor = dbo.autores.id_autor
+        WHERE
+            replace(dbo.fn_pre_format_cadena(lower(ta.titulo)), chr(32), '') LIKE '%' || replace(dbo.fn_pre_format_cadena(lower(in_key_word)), chr(32), '') || '%'
     );
 end;
 $$
 language 'plpgsql';
+
 
 
 ----------------------------------------------------------------------

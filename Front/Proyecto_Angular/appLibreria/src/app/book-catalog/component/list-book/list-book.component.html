@@ -1,0 +1,66 @@
+<br>
+<div class="container ">
+    <div class="row">
+      <span>
+        <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{ title }}</a>
+      </span>  
+    </div>
+    <br>
+    <div>
+      <div class="input-group mb-3">
+        <input #keywordInput type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button (click)="buscarLibros(keywordInput.value)" class="btn btn-outline-secondary" type="button">Buscar</button>
+        </div>
+      </div>
+    </div>
+  
+  
+  </div>
+  
+  
+  <div class="container ">
+      <h1>Tabla de libros</h1>
+      <table class="table table-primary table-hover shadow">
+          <thead>
+            <tr class="table-success">
+              <th scope="col">id</th>
+              <th scope="col">Título</th>
+              <th scope="col">Nombre autor</th>
+              <th scope="col">Apellidos autor</th>
+              <th scope="col">Género</th>
+              <th scope="col">Páginas</th>
+              <th scope="col">Editorial</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Opción</th>
+          
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of books">
+              <th scope="row">{{ item.id }}</th>
+              <td>{{item.titulo}}</td>
+              <td>{{item.nombreAutor}}</td>
+              <td>{{item.apellidosAutor}}</td>
+              <td>{{item.genero}}</td>
+              <td>{{item.paginas}}</td>
+              <td>{{item.editorial}}</td>
+              <td>{{item.descripcion}}</td>
+
+              <td>
+                <button type="button" class="btn btn-danger">Ver libro</button>
+              </td>
+  
+            </tr>
+          </tbody>
+      </table>
+      <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+          </ul>
+        </nav>
+  </div>
