@@ -1,5 +1,6 @@
 import { Title } from '@angular/platform-browser';
-import { Component , OnInit} from '@angular/core';
+import { Component , OnInit, inject} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-author',
@@ -7,16 +8,27 @@ import { Component , OnInit} from '@angular/core';
   styleUrls: ['./author.component.scss']
 })
 export class AuthorComponent {
-  public title!: string;
-  autores: any;
+  //inyectamos dependencias
 
-  
-  ngOnInit(): void {
+  private router: Router = inject(Router);
 
-    this.title = 'Lista de autores';
-
+  constructor() { 
 
   }
+  public goToAuthor(): void {
+    this.router.navigate(['book-catalog/author']);
+    
+  }
+
+  public goToAuthorList(): void {
+    this.router.navigate(['book-catalog/author/list-author']);
+  }
+
+  public goAddAuthor(): void {
+    this.router.navigate(['book-catalog/author/add-author']);
+  }
+
+
 
 }
 
