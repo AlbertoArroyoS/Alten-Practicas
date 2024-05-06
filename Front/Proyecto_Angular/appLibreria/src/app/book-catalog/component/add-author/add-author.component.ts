@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthorsService } from 'src/app/services/authors/authors.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-author',
@@ -13,11 +14,14 @@ import { AuthorsService } from 'src/app/services/authors/authors.service';
   styleUrls: ['./add-author.component.scss'],
 })
 export class AddAuthorComponent implements OnInit {
-  formularioAutor: FormGroup;
-  autores: any;
-  guardadoExitoso: boolean = false;
+  formularioAutor: FormGroup; // Define el formulario Reactivo de Angular
+  autores: any; // Variable para almacenar la lista de autores
+  guardadoExitoso: boolean = false; // Variable para controlar si el guardado fue exitoso
+  alertaConflicto: boolean = false; // Variable para controlar si hay un conflicto en el guardado
+  warningMessage: string = ''; // Variable para almacenar el mensaje de advertencia
 
   constructor(public fb: FormBuilder, public authorsService: AuthorsService) {
+    // Inicializa el formulario con campos vacíos y validaciones
     this.formularioAutor = this.fb.group({
       nombre: new FormControl('', [Validators.required]),
       apellidos: new FormControl('', [Validators.required]),
@@ -25,38 +29,38 @@ export class AddAuthorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*
-    this.formularioAutor = this.fb.group({
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
-    });
-    */
-    /*
-    this.authorsService.getAllAuthors().subscribe(resp => {    
-      this.autores= resp;
-    }, error => {
-      console.error(error);
-    });*/
+    // Método de Angular que se ejecuta al inicializar el componente
   }
 
   addAuthor() {
+    // Método para agregar un autor
     this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
       (resp) => {
-        // Resetear el formulario una vez que se ha añadido el autor
-        this.formularioAutor.reset();
-        this.autores = resp;
-  
-        // Activar la variable guardadoExitoso para mostrar la alerta de Bootstrap
-        this.guardadoExitoso = true;
-  
-        // Desactivar la variable después de unos segundos para ocultar la alerta
+        // Si se añade el autor correctamente:
+        this.formularioAutor.reset(); // Resetea el formulario
+        this.autores = resp; // Actualiza la lista de autores
+        this.showWarningAlert('Autor guardado correctamente'); // Muestra una alerta de éxito
         setTimeout(() => {
-          this.guardadoExitoso = false;
-        }, 3000); // Ocultar la alerta después de 3 segundos
+          this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
+        }, 3000);
       },
-      (error) => {
-        console.error(error);
+      (error: HttpErrorResponse) => {
+        // Si hay un error al añadir el autor:
+        if (error.status === 409) {
+          // Si el error es un conflicto (409):
+          console.error('Error: Conflicto al guardar el autor'); // Muestra un mensaje de error en la consola
+          this.showWarningAlert('Conflicto al guardar el autor. Ya existe un autor con esos datos.'); // Muestra una alerta de conflicto
+        } else {
+          // Si es otro tipo de error:
+          console.error(error); // Muestra el error en la consola
+        }
       }
     );
+  }
+
+  showWarningAlert(message: string) {
+    // Método para mostrar una alerta de advertencia
+    this.warningMessage = message; // Asigna el mensaje de advertencia
+    this.alertaConflicto = true; // Activa la alerta de advertencia
   }
 }
