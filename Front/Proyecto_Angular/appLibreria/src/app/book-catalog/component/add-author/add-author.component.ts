@@ -39,6 +39,7 @@ export class AddAuthorComponent implements OnInit {
       (resp) => {
         // Si se añade el autor correctamente:
         this.formularioAutor.reset(); // Resetea el formulario
+       // this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
         this.autores = resp; // Actualiza la lista de autores
         this.showSuccessAlert('Autor guardado correctamente'); // Muestra una alerta de éxito
         setTimeout(() => {

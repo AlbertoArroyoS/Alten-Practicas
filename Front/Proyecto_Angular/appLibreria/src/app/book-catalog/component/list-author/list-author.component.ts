@@ -7,15 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./list-author.component.scss'],
 })
 export class ListAuthorComponent {
-  
+
   public title!: string;
   autores: any;
 
-  constructor(public AuthorsService: AuthorsService) {}
+  constructor(public authorsService: AuthorsService) {}
 
   ngOnInit(): void {
     this.title = 'Lista de autores';
-    this.AuthorsService.getAllAuthors().subscribe(
+    this.authorsService.getAllAuthors().subscribe(
       (resp) => {
         this.autores = resp;
       },

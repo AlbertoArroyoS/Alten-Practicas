@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthorsService } from 'src/app/services/authors/authors.service';
 import {BooksService} from 'src/app/services/books/books.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class AddBookComponent {
   constructor(
     public fb: FormBuilder,
     public booksService: BooksService,
+    public authorsService: AuthorsService
   ) { 
     this.formularioLibro = this.fb.group({
       titulo: new FormControl('', [Validators.required]),
@@ -35,7 +37,7 @@ export class AddBookComponent {
     */
 
     //Metodo para obtener los autores que hay en la base de datos y poder seleccionarlos en el formulario
-    this.booksService.getAllAuthors().subscribe(resp => {    
+    this.authorsService.getAllAuthors().subscribe(resp => {    
       this.autores= resp;
       //console.log(resp);
     }, error => {

@@ -32,28 +32,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Miguel de Cervantes</td>
+            <tr *ngFor="let item of autores">
+              <th scope="row">{{ item.id }}</th>
+              <td>{{item.nombre}}</td>
               <td>
                   <button type="button" class="btn btn-danger">Ver libros</button>
               </td>
   
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Gabriel García Marquez</td>
-              <td>
-                  <button type="button" class="btn btn-danger">Ver libros</button>
-              </td>
-  
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td >Oscar Wilde </td>
-              <td>
-                  <button type="button" class="btn btn-danger">Ver libros</button>
-              </td>
             </tr>
           </tbody>
       </table>
