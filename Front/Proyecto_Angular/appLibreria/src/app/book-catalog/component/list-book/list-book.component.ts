@@ -11,6 +11,8 @@ export class ListBookComponent {
 
   public title!: string;
   books: any;
+  tableData: any; // Variable para controlar qué conjunto de datos usar en la tabla
+
 
   constructor(
     public booksService: BooksService
@@ -23,10 +25,11 @@ export class ListBookComponent {
   }
 
   cargarTablaLibros() {
-    // Llamar al servicio para obtener la lista de autores
+    // Llamar al servicio para obtener la lista de libros
     this.booksService.getAllBooks().subscribe(
       (response) => {
-        this.books = response; // Asignar los autores obtenidos a la variable del componente
+        this.books = response;
+        this.tableData = this.books; // Asignar los libros obtenidos al conjunto de datos de la tabla
       },
       (error) => {
         console.error('Error al cargar la tabla de libros:', error);
@@ -40,19 +43,22 @@ export class ListBookComponent {
   }
 
   buscarLibros(keyword: string) {
-    // Llamar al servicio para buscar autores por palabra clave
+    // Llamar al servicio para buscar libros por palabra clave
     this.booksService.searchBooksByKeyword(keyword).subscribe(
       (response) => {
-        this.books = response; // Actualizar la lista de autores con los resultados de la búsqueda
+        this.books = response;
+        //Cuando busco por keyWord, la respuesta viene en un objeto con la propiedad content que es un array de libros
+        this.tableData = this.books.content; // Cambiar al conjunto de datos de la búsqueda
       },
       (error) => {
-        console.error('Error al buscar autores:', error);
+        console.error('Error al buscar libros:', error);
       }
     );
   }
-
-
-
-
-
 }
+
+
+
+
+
+
