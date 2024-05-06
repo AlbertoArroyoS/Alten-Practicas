@@ -15,6 +15,7 @@ import { AuthorsService } from 'src/app/services/authors/authors.service';
 export class AddAuthorComponent implements OnInit {
   formularioAutor: FormGroup;
   autores: any;
+  guardadoExitoso: boolean = false;
 
   constructor(public fb: FormBuilder, public authorsService: AuthorsService) {
     this.formularioAutor = this.fb.group({
@@ -41,7 +42,17 @@ export class AddAuthorComponent implements OnInit {
   addAuthor() {
     this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
       (resp) => {
+        // Resetear el formulario una vez que se ha añadido el autor
+        this.formularioAutor.reset();
         this.autores = resp;
+  
+        // Activar la variable guardadoExitoso para mostrar la alerta de Bootstrap
+        this.guardadoExitoso = true;
+  
+        // Desactivar la variable después de unos segundos para ocultar la alerta
+        setTimeout(() => {
+          this.guardadoExitoso = false;
+        }, 3000); // Ocultar la alerta después de 3 segundos
       },
       (error) => {
         console.error(error);
