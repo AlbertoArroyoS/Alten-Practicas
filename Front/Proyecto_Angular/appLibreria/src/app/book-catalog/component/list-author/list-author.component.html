@@ -1,19 +1,18 @@
+<br>
 <div class="container ">
     <div class="row">
       <span>
-        <a href="javascript:void(0)" >{{title}}</a>
+        <a href="javascript:void(0)" (click)="recargarTablaAutores()">{{ title }}</a>
       </span>  
     </div>
+    <br>
     <div>
       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="basic-addon2">
+        <input #keywordInput type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="basic-addon2">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">Buscar</button>
+          <button (click)="buscarAutores(keywordInput.value)" class="btn btn-outline-secondary" type="button">Buscar</button>
         </div>
       </div>
-      
-  
-  
     </div>
   
   
@@ -36,7 +35,7 @@
               <th scope="row">{{ item.id }}</th>
               <td>{{item.nombre}}</td>
               <td>
-                  <button type="button" class="btn btn-danger">Ver libros</button>
+                <button (click)="obtenerLibroPorId(item.id)" type="button" class="btn btn-danger">Ver libros</button>
               </td>
   
             </tr>
