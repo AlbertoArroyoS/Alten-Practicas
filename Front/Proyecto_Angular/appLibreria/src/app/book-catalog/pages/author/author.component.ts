@@ -8,8 +8,9 @@ import { Component , OnInit} from '@angular/core';
 })
 export class AuthorComponent {
   public title!: string;
+  autores: any;
 
-
+  
   ngOnInit(): void {
 
     this.title = 'Lista de autores';

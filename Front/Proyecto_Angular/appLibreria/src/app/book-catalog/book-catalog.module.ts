@@ -11,6 +11,7 @@ import { BookshopComponent } from './pages/bookshop/bookshop.component';
 import { AddAuthorComponent } from './component/add-author/add-author.component';
 import { AddBookComponent } from './component/add-book/add-book.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ListAuthorComponent } from './component/list-author/list-author.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     BookshopComponent,
     AddAuthorComponent,
     AddBookComponent,
+    ListAuthorComponent,
   ],
   imports: [
     CommonModule,
