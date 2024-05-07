@@ -24,6 +24,7 @@ export class ListAuthorComponent {
   modificarAutor: boolean = false; // Controla si se está modificando un autor
   nombreAutorEditar: string = ''; // Nombre del autor que se está editando
 <<<<<<< HEAD
+<<<<<<< HEAD
   mostrarBotonGuardar: boolean = true; // Controla la visibilidad del botón de guardar
   //variables para paginacion
   currentPage: number = 0;
@@ -31,6 +32,10 @@ export class ListAuthorComponent {
   field: string = 'id';
   order: number = 1;
   page: number = 0;
+=======
+  public mostrarBotonGuardar: boolean = true;
+
+>>>>>>> parent of bee81c7 (warnings configurados)
 =======
   public mostrarBotonGuardar: boolean = true;
 
@@ -196,12 +201,16 @@ export class ListAuthorComponent {
     // Método para mostrar una alerta de advertencia
     this.warningMessage = message; // Establece el mensaje de advertencia
 <<<<<<< HEAD
+<<<<<<< HEAD
     this.alertaConflicto = true; // Activa la alerta de advertencia
 
     // Desactiva la alerta de advertencia después de 3 segundos
     setTimeout(() => {
       this.alertaConflicto = false;
     }, 3000);
+=======
+    //this.alertaConflicto = true; // Activa la alerta de advertencia
+>>>>>>> parent of bee81c7 (warnings configurados)
 =======
     //this.alertaConflicto = true; // Activa la alerta de advertencia
 >>>>>>> parent of bee81c7 (warnings configurados)
