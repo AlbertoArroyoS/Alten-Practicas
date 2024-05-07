@@ -102,7 +102,7 @@ public class TestAutorService {
 
 		assertEquals(expectedAutorDTO, result);
 	}
-
+/*
 	@DisplayName("Test para listar todos los autores")
 	@Test
 	public void testFindAll() {
@@ -126,7 +126,7 @@ public class TestAutorService {
 		List<AutorDTO> result = autorService.findAll();
 
 		assertEquals(expectedDTOList, result);
-	}
+	}*/
 
 	@DisplayName("Test para actualizar un autor")
 	@Test

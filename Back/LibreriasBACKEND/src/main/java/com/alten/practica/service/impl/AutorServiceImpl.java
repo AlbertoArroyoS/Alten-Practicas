@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -127,9 +129,10 @@ public class AutorServiceImpl implements IAutorService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public List<AutorDTO> findAll() {
-		List<Autor> lista = this.autorRepository.findAll();
-		return lista.stream().map(autor -> autorMapper.toDTO(autor)).collect(Collectors.toList());
+	public Page<AutorDTO> findAll(Pageable pageable) {
+		Page<Autor> lista = this.autorRepository.findAll(pageable);
+		//return lista.stream().map(autor -> autorMapper.toDTO(autor)).collect(Collectors.toList());
+		return lista.map(autor -> autorMapper.toDTO(autor));
 
 		/*
 		 * Forma vieja List<AutorDTO> listaDTO = new ArrayList<>(); for (Autor bean :

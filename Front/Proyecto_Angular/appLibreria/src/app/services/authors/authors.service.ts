@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams  } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,11 @@ export class AuthorsService {
     private httpClient: HttpClient
   ) { }
 
-  public getAllAuthors(): Observable<any> {
-    return this.httpClient.get(this.API_SERVER);
+  public getAllAuthors (): Observable<any> {
+    // Construir los parámetros de la solicitud HTT
+      return this.httpClient.get(this.API_SERVER);
   }
+
 
   public addAuthor(author: any): Observable<any> {
     return this.httpClient.post(this.API_SERVER2, author);
@@ -38,5 +40,6 @@ export class AuthorsService {
     const url = `${this.API_SERVER2}/${authorId}`;
     return this.httpClient.put(url, authorData);
   }
+  
 
 }

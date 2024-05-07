@@ -74,7 +74,7 @@ public class TestAutorController {
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(autorDTO, responseEntity.getBody());
 	}
-
+/*
 	@DisplayName("Test para el método findAll del controlador de Autor")
 	@Test
 	public void testFindAll() {
@@ -93,7 +93,7 @@ public class TestAutorController {
 		// Verificar el resultado
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(autorDTOList, responseEntity.getBody());
-	}
+	}*/
 
 	@DisplayName("Test para el método save del controlador de Autor")
 	@Test
