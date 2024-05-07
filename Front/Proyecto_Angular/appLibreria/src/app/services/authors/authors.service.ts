@@ -34,4 +34,9 @@ export class AuthorsService {
     return this.httpClient.delete(url);
   }
 
+  public updateAuthor(authorId: number, authorData: any): Observable<any> {
+    const url = `${this.API_SERVER2}/${authorId}`;
+    return this.httpClient.put(url, authorData);
+  }
+
 }

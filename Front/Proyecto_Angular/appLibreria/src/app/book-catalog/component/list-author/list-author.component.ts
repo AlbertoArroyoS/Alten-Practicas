@@ -21,6 +21,10 @@ export class ListAuthorComponent {
   botonNuevoAutorVisible: boolean = false; // Controla la visibilidad del botón de nuevo autor
   eliminadoExitoso: boolean = false; 
   successAlert: string = ''; // Mensaje de éxito al eliminar un autor
+  modificarAutor: boolean = false; // Controla si se está modificando un autor
+  nombreAutorEditar: string = ''; // Nombre del autor que se está editando
+  public mostrarBotonGuardar: boolean = true;
+
 
   constructor(
     public authorsService: AuthorsService,
@@ -29,6 +33,7 @@ export class ListAuthorComponent {
   ) {
     // Inicializa el formulario con campos vacíos y validaciones
     this.formularioAutor = this.fb.group({
+      id : [''],
       nombre: new FormControl('', [Validators.required]),
       apellidos: new FormControl('', [Validators.required]),
     });
@@ -132,7 +137,39 @@ export class ListAuthorComponent {
     );
   }
 
+  editarAutor(autor: any) {
+    this.botonNuevoAutorVisible = true;
+    this.modificarAutor = true;
+    this.nombreAutorEditar = autor.nombre;
+    this.mostrarBotonGuardar = false;
+    // Asignamos el id del autor que queremos editar
+    this.formularioAutor.patchValue({
+      id: autor.id
+    });
+  }
 
+  actualizarAutor() {
+    const idControl = this.formularioAutor.get('id');
+    if (idControl) {
+      const autorId = idControl.value;
+      this.authorsService.updateAuthor(autorId, this.formularioAutor.value).subscribe(
+        (resp) => {
+          this.botonNuevoAutorVisible = false;
+          this.formularioAutor.reset(); // Resetea el formulario
+          this.autores = resp; // Actualiza la lista de autores
+          this.showSuccessAlert('Autor actualizado correctamente'); // Muestra una alerta de éxito
+          setTimeout(() => {
+            this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
+          }, 3000);
+          this.cargarTablaAutores();
+        },
+        (error: HttpErrorResponse) => {
+          // Manejar errores aquí
+        }
+      );
+    }
+  }
+  
 
 
   //******************************** */
@@ -151,6 +188,7 @@ export class ListAuthorComponent {
 
   botonNuevoAutor(){
     this.botonNuevoAutorVisible = !this.botonNuevoAutorVisible;
+    this.modificarAutor = false;
   }
 }
 
