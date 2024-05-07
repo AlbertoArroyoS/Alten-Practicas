@@ -3,6 +3,7 @@ package com.alten.practica.controlador;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.AutorDTO;
+import com.alten.practica.modelo.entidad.dto.PageableDTO;
 import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
 import com.alten.practica.service.IAutorService;
+import com.alten.practica.util.LibreriaUtil;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +51,9 @@ public class AutorController {
 	// Inyectamos el servicio
 	@Autowired
 	private IAutorService autorService;
+	
+	@Autowired
+	LibreriaUtil libreriaUtil;
 
 	/**
 	 * Busca autores utilizando una palabra clave. Este método procesa solicitudes
@@ -116,20 +122,17 @@ public class AutorController {
 	 *         un estado HTTP 200 (OK),
 	 */
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
-	public ResponseEntity<List<AutorDTO>> findAll() {
+	public Page<AutorDTO> findAll(PageableDTO pageable) {
+		return this.autorService.findAll(this.libreriaUtil.getPageable(pageable,"id_autor"));	}
+	
+	
+	/*
+	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
+    public ResponseEntity<Page<AutorDTO>> findAll(PageableDTO pageable) {
+        Page<AutorDTO> autoresPage = autorService.findAll(pageable);
+        return ResponseEntity.ok().body(autoresPage);
+    }*/
 
-		return new ResponseEntity<>(this.autorService.findAll(), HttpStatus.OK); // 200 OK
-		/*
-		 * //return this.autorService.findAll(); try { List<AutorDTO> lista =
-		 * this.autorService.findAll(); if (lista.isEmpty()) { return new
-		 * ResponseEntity<>(lista, HttpStatus.NOT_FOUND); // 404 NOT FOUND } else {
-		 * return new ResponseEntity<>(lista, HttpStatus.OK); // 200 OK } } catch
-		 * (Exception e) { return new
-		 * ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // 500 INTERNAL SERVER
-		 * ERROR }
-		 */
-
-	}
 
 	/**
 	 * Crea un nuevo autor en la base de datos.
