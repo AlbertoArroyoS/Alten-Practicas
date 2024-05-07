@@ -86,6 +86,7 @@ export class ListAuthorComponent {
     this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
       (resp) => {
         // Si se añade el autor correctamente:
+        this.botonNuevoAutorVisible = false;
         this.guardadoExitoso = true;
         this.formularioAutor.reset(); // Resetea el formulario
         this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
