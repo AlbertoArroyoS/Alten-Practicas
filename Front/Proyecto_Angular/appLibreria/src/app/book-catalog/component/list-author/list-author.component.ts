@@ -113,9 +113,9 @@ export class ListAuthorComponent {
       }
     );
   }
-  eliminarAutor(id: number) {
+  eliminarAutor(autor: any) {
     // Método para eliminar un autor
-    this.authorsService.deleteAuthorById(id).subscribe(
+    this.authorsService.deleteAuthorById(autor.id).subscribe(
       (resp) => {
         // Si se elimina el autor correctamente:
         this.eliminadoExitoso = true;
