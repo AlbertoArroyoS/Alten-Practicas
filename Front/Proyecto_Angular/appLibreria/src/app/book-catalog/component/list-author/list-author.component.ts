@@ -15,8 +15,8 @@ export class ListAuthorComponent {
   book: any;
   guardadoExitoso: boolean = false; // Controla si el guardado fue exitoso
   alertaConflicto: boolean = false; // Controla si hay un conflicto en el guardado
-  successMessage: string = ''; // Mensaje de éxito
-  warningMessage: string = ''; // Mensaje de advertencia
+  successMessage: string = 'Autor guardado correctamente'; // Mensaje de éxito
+  warningMessage: string = 'Conflicto al guardar el autor. El autor ya existe.'; // Mensaje de advertencia
   formularioAutor: FormGroup; // Formulario para agregar autores
   botonNuevoAutorVisible: boolean = false; // Controla la visibilidad del botón de nuevo autor
 
@@ -97,7 +97,7 @@ export class ListAuthorComponent {
         if (error.status === 409) {
           // Si el error es un conflicto (409):
           console.error('Error: Conflicto al guardar el autor'); // Muestra un mensaje de error en la consola
-          this.showWarningAlert('Conflicto al guardar el autor'); // Muestra una alerta de advertencia
+          this.showWarningAlert('Conflicto al guardar el autor. El autor ya existe.'); // Muestra una alerta de advertencia
           setTimeout(() => {
             this.alertaConflicto = false; // Desactiva la alerta de éxito después de 3 segundos
           }, 3000);

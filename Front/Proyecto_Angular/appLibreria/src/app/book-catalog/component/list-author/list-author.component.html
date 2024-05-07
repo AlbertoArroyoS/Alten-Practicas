@@ -50,18 +50,18 @@
       </div>
 
       <div class="mt-3">
-        <button type="submit" class="btn btn-primary">Añadir autor</button>
+        <button type="submit" class="btn btn-primary" [disabled]="formularioAutor.invalid">Añadir autor</button>
       </div>
     </form>
 
     <br />
 
     <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
-      {{ successMessage }}
+      Autor guardado correctamente
     </div>
 
     <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
-      {{ warningMessage }}
+      Conflicto al guardar el autor. El autor ya existe.
     </div>
   </div>
 

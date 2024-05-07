@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class BooksService {
 
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/libros';
-  //private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/libros/libro';
+  private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/libros/libro';
   private SEARCH_ENDPOINT = 'libro'; 
 
   constructor(

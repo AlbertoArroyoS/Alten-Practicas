@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AuthorsService {
 
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/autores';
+  private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/autores/autor';
   private SEARCH_ENDPOINT = 'autor?key_word=';
 
   constructor(
@@ -20,7 +21,7 @@ export class AuthorsService {
   }
 
   public addAuthor(author: any): Observable<any> {
-    return this.httpClient.post(this.API_SERVER, author);
+    return this.httpClient.post(this.API_SERVER2, author);
   }
 
   public searchAuthorsByKeyword(keyword: string): Observable<any> {
