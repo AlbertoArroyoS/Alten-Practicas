@@ -1,6 +1,8 @@
 import { BooksService } from 'src/app/services/books/books.service';
 import { AuthorsService } from './../../../services/authors/authors.service';
 import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-list-author',
@@ -11,11 +13,24 @@ export class ListAuthorComponent {
   public title!: string;
   autores: any;
   book: any;
+  guardadoExitoso: boolean = false; // Controla si el guardado fue exitoso
+  alertaConflicto: boolean = false; // Controla si hay un conflicto en el guardado
+  successMessage: string = ''; // Mensaje de éxito
+  warningMessage: string = ''; // Mensaje de advertencia
+  formularioAutor: FormGroup; // Formulario para agregar autores
+  botonNuevoAutorVisible: boolean = false; // Controla la visibilidad del botón de nuevo autor
 
   constructor(
     public authorsService: AuthorsService,
-    private booksService: BooksService
-  ) {}
+    private booksService: BooksService,
+    public fb: FormBuilder
+  ) {
+    // Inicializa el formulario con campos vacíos y validaciones
+    this.formularioAutor = this.fb.group({
+      nombre: new FormControl('', [Validators.required]),
+      apellidos: new FormControl('', [Validators.required]),
+    });
+  }
 
   ngOnInit(): void {
     this.title = 'Lista de autores';
@@ -62,4 +77,53 @@ export class ListAuthorComponent {
       }
     );
   }
+
+  //Añadir un nuevo autor
+  addAuthor() {
+    // Método para agregar un autor
+    this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
+      (resp) => {
+        // Si se añade el autor correctamente:
+        this.formularioAutor.reset(); // Resetea el formulario
+       // this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
+        this.autores = resp; // Actualiza la lista de autores
+        this.showSuccessAlert('Autor guardado correctamente'); // Muestra una alerta de éxito
+        setTimeout(() => {
+          this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
+        }, 3000);
+      },
+      (error: HttpErrorResponse) => {
+        // Si hay un error al añadir el autor:
+        if (error.status === 409) {
+          // Si el error es un conflicto (409):
+          console.error('Error: Conflicto al guardar el autor'); // Muestra un mensaje de error en la consola
+          this.showWarningAlert('Conflicto al guardar el autor'); // Muestra una alerta de advertencia
+          setTimeout(() => {
+            this.alertaConflicto = false; // Desactiva la alerta de éxito después de 3 segundos
+          }, 3000);
+        } else {
+          // Si es otro tipo de error:
+          console.error(error); // Muestra el error en la consola
+        }
+      }
+    );
+  }
+
+  showSuccessAlert(message: string) {
+    // Método para mostrar una alerta de éxito
+    this.successMessage = message; // Establece el mensaje de éxito
+    this.guardadoExitoso = true; // Activa la alerta de éxito
+  }
+
+  showWarningAlert(message: string) {
+    // Método para mostrar una alerta de advertencia
+    this.warningMessage = message; // Establece el mensaje de advertencia
+    this.alertaConflicto = true; // Activa la alerta de advertencia
+  }
+
+  botonNuevoAutor(){
+    this.botonNuevoAutorVisible = !this.botonNuevoAutorVisible;
+  }
 }
+
+

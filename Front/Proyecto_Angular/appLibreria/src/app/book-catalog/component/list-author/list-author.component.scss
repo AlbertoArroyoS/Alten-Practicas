@@ -1,0 +1,15 @@
+.EncabezadoTabla {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Para alinear el botón a la parte superior */
+    margin-top: 30px;
+  }
+  
+  .EncabezadoTabla h1 {
+    flex-grow: 1; /* El encabezado se expandirá para ocupar el espacio disponible */
+    margin-right: auto; /* Empuja el encabezado a la izquierda tanto como sea posible */
+  }
+
+  .container {
+    
+  }
