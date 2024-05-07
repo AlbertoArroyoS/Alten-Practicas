@@ -1,12 +1,7 @@
 import { BooksService } from 'src/app/services/books/books.service';
 import { AuthorsService } from './../../../services/authors/authors.service';
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -24,10 +19,11 @@ export class ListAuthorComponent {
   warningMessage: string = 'Conflicto al guardar el autor. El autor ya existe.'; // Mensaje de advertencia
   formularioAutor: FormGroup; // Formulario para agregar autores
   botonNuevoAutorVisible: boolean = false; // Controla la visibilidad del botón de nuevo autor
-  eliminadoExitoso: boolean = false;
+  eliminadoExitoso: boolean = false; 
   successAlert: string = ''; // Mensaje de éxito al eliminar un autor
   modificarAutor: boolean = false; // Controla si se está modificando un autor
   nombreAutorEditar: string = ''; // Nombre del autor que se está editando
+<<<<<<< HEAD
   mostrarBotonGuardar: boolean = true; // Controla la visibilidad del botón de guardar
   //variables para paginacion
   currentPage: number = 0;
@@ -35,6 +31,10 @@ export class ListAuthorComponent {
   field: string = 'id';
   order: number = 1;
   page: number = 0;
+=======
+  public mostrarBotonGuardar: boolean = true;
+
+>>>>>>> parent of bee81c7 (warnings configurados)
 
   constructor(
     public authorsService: AuthorsService,
@@ -43,7 +43,7 @@ export class ListAuthorComponent {
   ) {
     // Inicializa el formulario con campos vacíos y validaciones
     this.formularioAutor = this.fb.group({
-      id: [''],
+      id : [''],
       nombre: new FormControl('', [Validators.required]),
       apellidos: new FormControl('', [Validators.required]),
     });
@@ -65,8 +65,6 @@ export class ListAuthorComponent {
       },
       (error) => {
         console.error('Error al cargar la tabla de autores:', error);
-        this.alertaConflicto = true;
-        this.showWarningAlert('Conflicto al cargar la tabla de autores.');
       }
     );
   }
@@ -84,8 +82,6 @@ export class ListAuthorComponent {
       },
       (error) => {
         console.error('Error al buscar autores:', error);
-        this.alertaConflicto = true;
-        this.showWarningAlert('Conflicto al buscar el autor.');
       }
     );
   }
@@ -97,8 +93,6 @@ export class ListAuthorComponent {
       },
       (error) => {
         console.error('Error al obtener el libro:', error);
-        this.alertaConflicto = true;
-        this.showWarningAlert('Conflicto al obtener el autor.');
       }
     );
   }
@@ -124,22 +118,18 @@ export class ListAuthorComponent {
         if (error.status === 409) {
           // Si el error es un conflicto (409):
           console.error('Error: Conflicto al guardar el autor'); // Muestra un mensaje de error en la consola
-          this.showWarningAlert(
-            'Conflicto al guardar el autor. El autor ya existe.'
-          ); // Muestra una alerta de advertencia
+          this.showWarningAlert('Conflicto al guardar el autor. El autor ya existe.'); // Muestra una alerta de advertencia
           setTimeout(() => {
             this.alertaConflicto = false; // Desactiva la alerta de éxito después de 3 segundos
           }, 3000);
         } else {
           // Si es otro tipo de error:
           console.error(error); // Muestra el error en la consola
-          this.alertaConflicto = true;
-          this.showWarningAlert('Conflicto al guardar el autor.');
         }
       }
     );
   }
-
+  
   eliminarAutor(autor: any) {
     // Método para eliminar un autor
     this.authorsService.deleteAuthorById(autor.id).subscribe(
@@ -155,8 +145,6 @@ export class ListAuthorComponent {
       (error) => {
         // Si hay un error al eliminar el autor:
         console.error('Error al eliminar el autor:', error); // Muestra el error en la consola
-        this.alertaConflicto = true;
-        this.showWarningAlert('Conflicto al eliminar el autor.');
       }
     );
   }
@@ -168,7 +156,7 @@ export class ListAuthorComponent {
     this.mostrarBotonGuardar = false;
     // Asignamos el id del autor que queremos editar
     this.formularioAutor.patchValue({
-      id: autor.id,
+      id: autor.id
     });
   }
 
@@ -176,28 +164,25 @@ export class ListAuthorComponent {
     const idControl = this.formularioAutor.get('id');
     if (idControl) {
       const autorId = idControl.value;
-      this.authorsService
-        .updateAuthor(autorId, this.formularioAutor.value)
-        .subscribe(
-          (resp) => {
-            this.botonNuevoAutorVisible = false;
-            this.formularioAutor.reset(); // Resetea el formulario
-            this.autores = resp; // Actualiza la lista de autores
-            this.showSuccessAlert('Autor actualizado correctamente'); // Muestra una alerta de éxito
-            setTimeout(() => {
-              this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
-            }, 3000);
-            this.cargarTablaAutores();
-          },
-          (error: HttpErrorResponse) => {
-            this.alertaConflicto = true;
-            this.showWarningAlert(
-              'Conflicto al guardar el autor. El autor ya existe.'
-            );
-          }
-        );
+      this.authorsService.updateAuthor(autorId, this.formularioAutor.value).subscribe(
+        (resp) => {
+          this.botonNuevoAutorVisible = false;
+          this.formularioAutor.reset(); // Resetea el formulario
+          this.autores = resp; // Actualiza la lista de autores
+          this.showSuccessAlert('Autor actualizado correctamente'); // Muestra una alerta de éxito
+          setTimeout(() => {
+            this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
+          }, 3000);
+          this.cargarTablaAutores();
+        },
+        (error: HttpErrorResponse) => {
+          // Manejar errores aquí
+        }
+      );
     }
   }
+  
+
 
   //******************************** */
 
@@ -210,19 +195,21 @@ export class ListAuthorComponent {
   showWarningAlert(message: string) {
     // Método para mostrar una alerta de advertencia
     this.warningMessage = message; // Establece el mensaje de advertencia
+<<<<<<< HEAD
     this.alertaConflicto = true; // Activa la alerta de advertencia
 
     // Desactiva la alerta de advertencia después de 3 segundos
     setTimeout(() => {
       this.alertaConflicto = false;
     }, 3000);
+=======
+    //this.alertaConflicto = true; // Activa la alerta de advertencia
+>>>>>>> parent of bee81c7 (warnings configurados)
   }
 
-  botonNuevoAutor() {
+  botonNuevoAutor(){
     this.botonNuevoAutorVisible = !this.botonNuevoAutorVisible;
-    this.mostrarBotonGuardar = true;
     this.modificarAutor = false;
-    this.alertaConflicto = false;
   }
 
   //total paginas
@@ -233,3 +220,5 @@ export class ListAuthorComponent {
 
  
 }
+
+
