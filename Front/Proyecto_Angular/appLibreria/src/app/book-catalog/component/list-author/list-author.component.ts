@@ -28,7 +28,13 @@ export class ListAuthorComponent {
   successAlert: string = ''; // Mensaje de éxito al eliminar un autor
   modificarAutor: boolean = false; // Controla si se está modificando un autor
   nombreAutorEditar: string = ''; // Nombre del autor que se está editando
-  mostrarBotonGuardar: boolean = true;
+  mostrarBotonGuardar: boolean = true; // Controla la visibilidad del botón de guardar
+  //variables para paginacion
+  currentPage: number = 0;
+  pageSize: number = 10;
+  field: string = 'id';
+  order: number = 1;
+  page: number = 0;
 
   constructor(
     public authorsService: AuthorsService,
@@ -49,9 +55,11 @@ export class ListAuthorComponent {
     this.cargarTablaAutores();
   }
 
-  cargarTablaAutores(page: number = 0, size: number = 10, field: string = 'id', order: number = 1) {
+  cargarTablaAutores(
+
+  ) {
     // Llamar al servicio para obtener la lista de autores con los parámetros de paginación y ordenamiento
-    this.authorsService.getAllAuthors(page, size, field, order).subscribe(
+    this.authorsService.getAllAuthors().subscribe(
       (response) => {
         this.autores = response.content; // Asignar los autores obtenidos a la variable del componente
       },
@@ -203,7 +211,7 @@ export class ListAuthorComponent {
     // Método para mostrar una alerta de advertencia
     this.warningMessage = message; // Establece el mensaje de advertencia
     this.alertaConflicto = true; // Activa la alerta de advertencia
-  
+
     // Desactiva la alerta de advertencia después de 3 segundos
     setTimeout(() => {
       this.alertaConflicto = false;
@@ -216,4 +224,12 @@ export class ListAuthorComponent {
     this.modificarAutor = false;
     this.alertaConflicto = false;
   }
+
+  //total paginas
+  // En tu componente TypeScript
+  getArrayOfPageNumbers(totalPages: number): number[] {
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+ 
 }

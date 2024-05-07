@@ -1,11 +1,17 @@
 package com.alten.practica.controlador;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.AutorDTO;
-import com.alten.practica.modelo.entidad.dto.PageableDTO;
 import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
 import com.alten.practica.service.IAutorService;
 import com.alten.practica.util.LibreriaUtil;
@@ -122,8 +127,37 @@ public class AutorController {
 	 *         un estado HTTP 200 (OK),
 	 */
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
+	public ResponseEntity<Page<AutorDTO>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
+		Page<AutorDTO> page = autorService
+				.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+		
+		model.addAttribute("page", page);
+		var totalPages = page.getTotalPages();
+		var currentPage = page.getNumber();
+		
+		var start = Math.max(1, currentPage);
+		var end = Math.min(currentPage + 5, totalPages);
+		
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = new ArrayList<>();
+			for (int i = start; i <= end; i++) {
+				pageNumbers.add(i);
+			}
+			
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+		
+		
+		List<Integer> pageSizeOptions = Arrays.asList(10,20, 50, 100);
+		model.addAttribute("pageSizeOptions", pageSizeOptions);
+		
+		return new ResponseEntity<>(page, HttpStatus.OK);
+		//return "index";
+	}
+	/*
 	public Page<AutorDTO> findAll(PageableDTO pageable) {
-		return this.autorService.findAll(this.libreriaUtil.getPageable(pageable,"id_autor"));	}
+		return this.autorService.findAll(this.libreriaUtil.getPageable(pageable,"id_autor"));	
+	}*/
 	
 	
 	/*

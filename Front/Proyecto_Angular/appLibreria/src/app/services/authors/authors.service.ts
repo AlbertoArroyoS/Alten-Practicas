@@ -16,15 +16,9 @@ export class AuthorsService {
     private httpClient: HttpClient
   ) { }
 
-  public getAllAuthors(page: number = 0, size: number = 5, field: string = 'id', order: number = 1): Observable<any> {
-    // Construir los parámetros de la solicitud HTTP
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString())
-      .set('field', field)
-      .set('order', order.toString());
-
-      return this.httpClient.get(this.API_SERVER, { params });
+  public getAllAuthors (): Observable<any> {
+    // Construir los parámetros de la solicitud HTT
+      return this.httpClient.get(this.API_SERVER);
   }
 
 
@@ -46,5 +40,6 @@ export class AuthorsService {
     const url = `${this.API_SERVER2}/${authorId}`;
     return this.httpClient.put(url, authorData);
   }
+  
 
 }

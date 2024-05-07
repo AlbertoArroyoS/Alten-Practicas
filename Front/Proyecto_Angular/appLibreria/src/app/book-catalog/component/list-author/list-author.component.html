@@ -1,3 +1,4 @@
+<html xmlns:th="http://www.thymeleaf.org">
 <br />
 <div class="container">
   <div class="row">
@@ -159,3 +160,46 @@
     </tbody>
   </table>
 </div>
+<p>
+  Mostrando <span th:text="${page.size}"></span> de <span th:text="${page.totalElements}"></span> registros 
+ </p>
+ <nav aria-label="Page navigation"
+   class="d-flex justify-content-between">
+   <div>
+     <select id="pageSize" name="size" class="form-control" onchange="changePageSize()">
+       <option th:each="size : ${pageSizeOptions}" th:value="${size}"
+         th:text="${size}" th:selected="${page.size == size}"></option>
+     </select>
+   </div>
+   <ul class="pagination mb-0">
+     <li class="page-item"
+       th:classappend="${page.first} ? 'disabled' : ''"><a
+       class="page-link" th:href="@{'?page=0&size=' + ${page.size}}">Primera</a>
+     </li>
+     
+     <li class="page-item"
+       th:classappend="${page.first} ? 'disabled' : ''"><a
+       class="page-link" th:with="prevPage=${page.number - 1}"
+       th:href="@{'?page=' + ${prevPage} + '&size=' + ${page.size}}">Ant</a>
+     </li>
+     
+     <li class="page-item" th:each="i : ${pageNumbers}"
+       th:classappend="${i == page.number + 1} ? 'active' : ''"><a
+       class="page-link" th:with="pageNum=${i - 1}"
+       th:href="@{'?page=' + ${pageNum} + '&size=' + ${page.size}}"
+       th:text="${i}"></a>
+     </li>
+     
+     <li class="page-item"
+       th:classappend="${page.last} ? 'disabled' : ''"><a
+       class="page-link" th:with="nextPage=${page.number + 1}"
+       th:href="@{'?page=' + ${nextPage} + '&size=' + ${page.size}}">Sig</a>
+       
+     <li class="page-item"
+       th:classappend="${page.last} ? 'disabled' : ''"><a
+       class="page-link" th:with="lastPage=${page.totalPages - 1}"
+       th:href="@{'?page=' + ${lastPage} + '&size=' + ${page.size}}">Última</a>
+     </li> 
+   </ul>
+ </nav>
+
