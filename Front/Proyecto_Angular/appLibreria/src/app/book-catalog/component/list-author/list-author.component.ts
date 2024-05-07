@@ -89,13 +89,12 @@ export class ListAuthorComponent {
         this.botonNuevoAutorVisible = false;
         this.guardadoExitoso = true;
         this.formularioAutor.reset(); // Resetea el formulario
-        this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
-        this.autores = resp; // Actualiza la lista de autores
-        this.recargarTablaAutores(); // Recarga la tabla de autores
         this.showSuccessAlert('Autor guardado correctamente'); // Muestra una alerta de éxito
         setTimeout(() => {
           this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
         }, 3000);
+        // Recarga la tabla de autores después de agregar un nuevo autor
+        this.cargarTablaAutores();
       },
       (error: HttpErrorResponse) => {
         // Si hay un error al añadir el autor:
@@ -113,6 +112,7 @@ export class ListAuthorComponent {
       }
     );
   }
+  
   eliminarAutor(autor: any) {
     // Método para eliminar un autor
     this.authorsService.deleteAuthorById(autor.id).subscribe(
