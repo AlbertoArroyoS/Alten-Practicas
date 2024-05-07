@@ -29,4 +29,9 @@ export class AuthorsService {
     return this.httpClient.get(url);
   }
 
+  public deleteAuthorById(authorId: number): Observable<any> {
+    const url = `${this.API_SERVER2}/${authorId.toString()}`; // Convertir authorId a string
+    return this.httpClient.delete(url);
+  }
+
 }

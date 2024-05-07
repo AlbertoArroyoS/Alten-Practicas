@@ -19,6 +19,8 @@ export class ListAuthorComponent {
   warningMessage: string = 'Conflicto al guardar el autor. El autor ya existe.'; // Mensaje de advertencia
   formularioAutor: FormGroup; // Formulario para agregar autores
   botonNuevoAutorVisible: boolean = false; // Controla la visibilidad del botón de nuevo autor
+  eliminadoExitoso: boolean = false; 
+  successAlert: string = ''; // Mensaje de éxito al eliminar un autor
 
   constructor(
     public authorsService: AuthorsService,
@@ -84,6 +86,7 @@ export class ListAuthorComponent {
     this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
       (resp) => {
         // Si se añade el autor correctamente:
+        this.guardadoExitoso = true;
         this.formularioAutor.reset(); // Resetea el formulario
         this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
         this.autores = resp; // Actualiza la lista de autores
@@ -109,17 +112,40 @@ export class ListAuthorComponent {
       }
     );
   }
+  eliminarAutor(id: number) {
+    // Método para eliminar un autor
+    this.authorsService.deleteAuthorById(id).subscribe(
+      (resp) => {
+        // Si se elimina el autor correctamente:
+        this.eliminadoExitoso = true;
+        this.recargarTablaAutores(); // Recarga la tabla de autores
+        this.showSuccessAlert('Autor eliminado correctamente'); // Muestra una alerta de éxito
+        setTimeout(() => {
+          this.eliminadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
+        }, 3000);
+      },
+      (error) => {
+        // Si hay un error al eliminar el autor:
+        console.error('Error al eliminar el autor:', error); // Muestra el error en la consola
+      }
+    );
+  }
+
+
+
+
+  //******************************** */
 
   showSuccessAlert(message: string) {
     // Método para mostrar una alerta de éxito
     this.successMessage = message; // Establece el mensaje de éxito
-    this.guardadoExitoso = true; // Activa la alerta de éxito
+    //this.guardadoExitoso = true; // Activa la alerta de éxito
   }
 
   showWarningAlert(message: string) {
     // Método para mostrar una alerta de advertencia
     this.warningMessage = message; // Establece el mensaje de advertencia
-    this.alertaConflicto = true; // Activa la alerta de advertencia
+    //this.alertaConflicto = true; // Activa la alerta de advertencia
   }
 
   botonNuevoAutor(){

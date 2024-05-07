@@ -16,7 +16,7 @@
       *ngIf="botonNuevoAutorVisible"
     >
       <div class="row mt-3">
-        <h1>Añadir un nuevo autor</h1>
+        <h1>Datos autor</h1>
         <div class="col">
           <input
             type="text"
@@ -96,6 +96,9 @@
 </div>
 
 <div class="container">
+  <div class="alert alert-success" role="alert" *ngIf="eliminadoExitoso">
+    Autor eliminado correctamente
+  </div>
   <div class="EncabezadoTabla">
     <h1>Tabla de autores</h1>
     <button (click)="botonNuevoAutor()" type="button" class="btn btn-dark">
@@ -103,7 +106,7 @@
     </button>
   </div>
 
-  <table class="table table-primary table-hover shadow bordeSolido">
+  <table class="table table-primary table-hover shadow">
     <thead>
       <tr class="table-success">
         <th scope="col">id</th>
@@ -114,7 +117,7 @@
     <tbody>
       <tr *ngFor="let item of autores">
         <th scope="row">{{ item.id }}</th>
-        <td>{{ item.nombre }}</td>
+        <td >{{ item.nombre }}</td>
         <td class="acciones">
           <button
             (click)="obtenerLibroPorId(item.id)"
@@ -131,7 +134,7 @@
             Editar autor
           </button>
           <button
-            (click)="obtenerLibroPorId(item.id)"
+            (click)="eliminarAutor(item.id)"
             type="button"
             class="btn btn-danger"
           >
