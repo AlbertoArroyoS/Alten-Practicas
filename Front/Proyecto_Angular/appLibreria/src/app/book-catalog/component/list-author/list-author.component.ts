@@ -79,14 +79,15 @@ export class ListAuthorComponent {
   }
 
   //Añadir un nuevo autor
-  addAuthor() {
+  guardarAutor() {
     // Método para agregar un autor
     this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
       (resp) => {
         // Si se añade el autor correctamente:
         this.formularioAutor.reset(); // Resetea el formulario
-       // this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
+        this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
         this.autores = resp; // Actualiza la lista de autores
+        this.recargarTablaAutores(); // Recarga la tabla de autores
         this.showSuccessAlert('Autor guardado correctamente'); // Muestra una alerta de éxito
         setTimeout(() => {
           this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
