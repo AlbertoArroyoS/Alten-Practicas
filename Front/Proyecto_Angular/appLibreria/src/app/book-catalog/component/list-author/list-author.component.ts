@@ -49,11 +49,11 @@ export class ListAuthorComponent {
     this.cargarTablaAutores();
   }
 
-  cargarTablaAutores() {
-    // Llamar al servicio para obtener la lista de autores
-    this.authorsService.getAllAuthors().subscribe(
+  cargarTablaAutores(page: number = 0, size: number = 10, field: string = 'id', order: number = 1) {
+    // Llamar al servicio para obtener la lista de autores con los parámetros de paginación y ordenamiento
+    this.authorsService.getAllAuthors(page, size, field, order).subscribe(
       (response) => {
-        this.autores = response; // Asignar los autores obtenidos a la variable del componente
+        this.autores = response.content; // Asignar los autores obtenidos a la variable del componente
       },
       (error) => {
         console.error('Error al cargar la tabla de autores:', error);

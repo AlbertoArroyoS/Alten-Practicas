@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams  } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,17 @@ export class AuthorsService {
     private httpClient: HttpClient
   ) { }
 
-  public getAllAuthors(): Observable<any> {
-    return this.httpClient.get(this.API_SERVER);
+  public getAllAuthors(page: number = 0, size: number = 5, field: string = 'id', order: number = 1): Observable<any> {
+    // Construir los parámetros de la solicitud HTTP
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('field', field)
+      .set('order', order.toString());
+
+      return this.httpClient.get(this.API_SERVER, { params });
   }
+
 
   public addAuthor(author: any): Observable<any> {
     return this.httpClient.post(this.API_SERVER2, author);
