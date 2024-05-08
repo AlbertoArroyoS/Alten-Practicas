@@ -127,7 +127,7 @@ public class AutorController {
 	 *         un estado HTTP 200 (OK),
 	 */
 	@GetMapping(LibreriaConstant.RESOURCE_AUTORES)
-	public ResponseEntity<Page<AutorDTO>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
+	public ResponseEntity<Page<AutorDTO>> findAll(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
 		Page<AutorDTO> page = autorService
 				.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 		
