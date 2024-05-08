@@ -1,4 +1,36 @@
-.formularioRegistro{
-    padding-left: 10%;
-    padding-right: 20%;
-}
+**{
+    border: 1px solid rgb(249, 5, 5); /* Borde sólido para celdas de la tabla */ 
+  }
+
+  .EncabezadoTabla {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Para alinear el botón a la parte superior */
+    margin-top: 30px;
+  }
+  
+  .EncabezadoTabla h1 {
+    flex-grow: 1; /* El encabezado se expandirá para ocupar el espacio disponible */
+    margin-right: auto; /* Empuja el encabezado a la izquierda tanto como sea posible */
+  }
+
+  .acciones {
+    //display: flex;
+    //justify-content: center;
+  }
+  
+  .acciones button {
+    margin-left: 5px; /* Añade un pequeño espacio entre los botones */
+  }
+  tr{
+    text-align: center;
+    
+  }
+
+  table td:nth-child(2) {
+    font-size: 15px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
+    font-weight: bold; /* Texto en negrita para los resultados de la columna "Nombre" */
+  }
+
+
+

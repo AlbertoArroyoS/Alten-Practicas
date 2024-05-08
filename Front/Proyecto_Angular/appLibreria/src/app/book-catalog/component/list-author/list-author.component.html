@@ -7,7 +7,7 @@
       }}</a>
     </span>
   </div>
-<!-- formulario de registro -->
+  <!-- formulario de registro -->
   <div class="formularioRegistro">
     <form
       class="form-group"
@@ -19,8 +19,12 @@
         <h1>Datos autor</h1>
         <div *ngIf="modificarAutor">
           <h3>Modificar</h3>
-          <input type="text"
-          class="form-control" [value]="nombreAutorEditar" disabled>
+          <input
+            type="text"
+            class="form-control"
+            [value]="nombreAutorEditar"
+            disabled
+          />
         </div>
         <div class="col">
           <input
@@ -63,13 +67,9 @@
           Añadir autor
         </button>
       </div>
-      
     </form>
     <div class="mt-3" *ngIf="modificarAutor">
-      <button
-        (click)="actualizarAutor()"
-        [disabled]="formularioAutor.invalid"
-      >
+      <button (click)="actualizarAutor()" [disabled]="formularioAutor.invalid">
         Actualizar autor
       </button>
     </div>
@@ -81,7 +81,7 @@
     </div>
 
     <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
-      {{warningMessage}}
+      {{ warningMessage }}
     </div>
   </div>
 
@@ -131,7 +131,7 @@
     <tbody>
       <tr *ngFor="let item of autores">
         <th scope="row">{{ item.id }}</th>
-        <td >{{ item.nombre }}</td>
+        <td>{{ item.nombre }}</td>
         <td class="acciones">
           <button
             (click)="obtenerLibroPorId(item.id)"

@@ -192,6 +192,7 @@ export class ListAuthorComponent {
   }
 
   botonNuevoAutor() {
+    this.formularioAutor.reset();
     this.mostrarBotonGuardar = true;
     this.botonNuevoAutorVisible = !this.botonNuevoAutorVisible;
     this.modificarAutor = false;

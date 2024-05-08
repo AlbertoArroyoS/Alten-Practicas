@@ -1,35 +1,39 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { AuthorsService } from 'src/app/services/authors/authors.service';
 import { BooksService } from 'src/app/services/books/books.service';
 
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
-  styleUrls: ['./list-book.component.scss']
+  styleUrls: ['./list-book.component.scss'],
 })
 export class ListBookComponent {
-
   public title!: string;
   books: any;
   tableData: any; // Variable para controlar qué conjunto de datos usar en la tabla
   formularioLibro: FormGroup;
-  autores : any;
-
+  autores: any;
+  botonNuevoLibroVisible: boolean = false;
 
   constructor(
     public fb: FormBuilder,
     public booksService: BooksService,
     public authorsService: AuthorsService
-  ) { 
+  ) {
     this.formularioLibro = this.fb.group({
       titulo: new FormControl('', [Validators.required]),
       autor: ['', Validators.required],
       genero: new FormControl('', [Validators.required]),
       paginas: new FormControl('', [Validators.required]),
       editorial: new FormControl('', [Validators.required]),
-      descripcion: new FormControl('', [Validators.required])
+      descripcion: new FormControl('', [Validators.required]),
     });
   }
 
@@ -37,12 +41,15 @@ export class ListBookComponent {
     this.title = 'Lista de libros';
     // Realizar una carga inicial de la tabla de autores al inicializar el componente
     this.cargarTablaLibros();
-    this.authorsService.getAllAuthors().subscribe(resp => {    
-      this.autores= resp;
-      //console.log(resp);
-    }, error => {
-      console.error(error);
-    });
+    this.authorsService.getAllAuthors().subscribe(
+      (resp) => {
+        this.autores = resp;
+        //console.log(resp);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   cargarTablaLibros() {
@@ -76,14 +83,53 @@ export class ListBookComponent {
       }
     );
   }
-  addBook() {
+  guardarLibro() {
     console.log(this.formularioLibro.value);
     alert('Autor añadido');
   }
+
+  botonNuevoLibro() {
+    this.formularioLibro.reset();
+    this.botonNuevoLibroVisible = !this.botonNuevoLibroVisible;
+  }
+  obtenerLibroPorId(bookId: number) {
+    this.booksService.getBookById(bookId).subscribe(
+      (response) => {
+        this.books = response;
+      },
+      (error) => {
+        console.error('Error al obtener el libro:', error);
+        //this.alertaConflicto = true;
+        //this.showWarningAlert('Conflicto al obtener el autor.');
+      }
+    );
+  }
+
+  eliminarLibro(books: any) {
+    //this.authorsService.deleteAuthorById(book.id).subscribe(
+    /*
+        (resp) => {
+          this.eliminadoExitoso = true;
+          this.recargarTablaAutores();
+          this.showSuccessAlert('Autor eliminado correctamente');
+          setTimeout(() => {
+            this.eliminadoExitoso = false;
+          }, 3000);
+        },
+        (error) => {
+          console.error('Error al eliminar el autor:', error);
+          this.alertaConflicto = true;
+          this.showWarningAlert(
+            'Conflicto al eliminar el autor. El autor está asociado.'
+          );
+        }
+      );*/
+  }
+
+  editarLibro(book: any) {
+    console.log(book);
+  }
+
+
+
 }
-
-
-
-
-
-

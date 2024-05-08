@@ -8,7 +8,14 @@
       <!-- Inicio formulario de registro-->
   <div class="formularioRegistro">
     <h1 >Añadir un nuevo libro</h1>
-    <form class="form-group" (ngSubmit)="addBook()" [formGroup]="formularioLibro">
+    <form class="form-group" (ngSubmit)="guardarLibro()" [formGroup]="formularioLibro" *ngIf="botonNuevoLibroVisible">
+      <div class="form-group">
+        <label for="selectAutor">Autores que ya están en la base de datos</label>
+        <select id="selectAutor" name="autor" formControlName="autor" class="form-control">
+            <option disabled selected>Selecciona un autor</option>
+            <option *ngFor="let item of autores" [ngValue]="item.nombre">{{ item.nombre }}</option>
+        </select>
+    </div>
         <div class="row mt-3">
             <div>
             <input type="text" class="form-control" formControlName="titulo" placeholder="Título" aria-label="Titulo">
@@ -37,14 +44,6 @@
                 <textarea class="form-control" formControlName="descripcion" placeholder="Descripción" aria-label="Descripcion"></textarea>
             </div>
         </div>
-        <div class="form-group">
-            <label for="selectAutor">Autores que ya están en la base de datos</label>
-            <select id="selectAutor" name="autor" formControlName="autor" class="form-control">
-                <option disabled selected>Selecciona un autor</option>
-                <option *ngFor="let item of autores" [ngValue]="item.nombre">{{ item.nombre }}</option>
-            </select>
-        </div>
-        
 
         <div class="mt-3">
         <button type="submit" class="btn btn-primary">Añadir libro</button>
@@ -62,8 +61,14 @@
       </div>
     </div>
   </div>
-  <div class="container ">
+  <div class="container">
+    <div class="EncabezadoTabla">
       <h1>Tabla de libros</h1>
+      <button (click)="botonNuevoLibro()" type="button" class="btn btn-dark">
+        Nuevo autor
+      </button>
+    </div>
+    <div class="tablaLibros">
       <table class="table table-primary table-hover shadow">
           <thead>
             <tr class="table-success">
@@ -89,14 +94,35 @@
               <td>{{item.paginas}}</td>
               <td>{{item.editorial}}</td>
               <td>{{item.descripcion}}</td>
-
-              <td>
-                <button type="button" class="btn btn-danger">Ver libro</button>
+              <td class="acciones">
+                <button
+                  (click)="obtenerLibroPorId(item.id)"
+                  type="button"
+                  class="btn btn-success"
+                >
+                  Ver libro
+                </button>
+                <button
+                  (click)="editarLibro(item)"
+                  type="button"
+                  class="btn btn-warning"
+                >
+                  Editar autor
+                </button>
+                <button
+                  (click)="eliminarLibro(item)"
+                  type="button"
+                  class="btn btn-danger"
+                >
+                  Eliminar autor
+                </button>
               </td>
-  
             </tr>
           </tbody>
       </table>
+
+  </div>
+  
       <nav aria-label="Page navigation example">
           <ul class="pagination">
             <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
