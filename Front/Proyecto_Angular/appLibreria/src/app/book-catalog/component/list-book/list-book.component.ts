@@ -43,7 +43,7 @@ export class ListBookComponent {
     this.cargarTablaLibros();
     this.authorsService.getAllAuthors().subscribe(
       (resp) => {
-        this.autores = resp;
+        this.autores = resp.content;
         //console.log(resp);
       },
       (error) => {
