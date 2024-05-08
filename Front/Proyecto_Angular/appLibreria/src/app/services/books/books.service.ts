@@ -40,4 +40,7 @@ export class BooksService {
   }*/
 
   //http://localhost:8080/v1/app-libreria/libros/libro?key_word=cien&page=0&size=1&field=titulo&order=1
+  public addBook(book: any): Observable<any> {
+    return this.httpClient.post(this.API_SERVER2, book);
+  }
 }

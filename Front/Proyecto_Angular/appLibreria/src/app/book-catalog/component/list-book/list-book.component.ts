@@ -27,14 +27,17 @@ export class ListBookComponent {
     public booksService: BooksService,
     public authorsService: AuthorsService
   ) {
-    this.formularioLibro = this.fb.group({
-      titulo: new FormControl('', [Validators.required]),
-      autor: ['', Validators.required],
-      genero: new FormControl('', [Validators.required]),
-      paginas: new FormControl('', [Validators.required]),
-      editorial: new FormControl('', [Validators.required]),
-      descripcion: new FormControl('', [Validators.required]),
+    this.formularioLibro = new FormGroup({
+      titulo: new FormControl('', Validators.required),
+      nombreAutor: new FormControl('', Validators.required),
+      apellidosAutor: new FormControl('', Validators.required),
+      genero: new FormControl('', Validators.required),
+      paginas: new FormControl('', [Validators.required, Validators.min(1)]),
+      editorial: new FormControl('', Validators.required),
+      descripcion: new FormControl('', Validators.required),
+      precio: new FormControl('', [Validators.required, Validators.min(0)])
     });
+    
   }
 
   ngOnInit(): void {
@@ -84,9 +87,30 @@ export class ListBookComponent {
     );
   }
   guardarLibro() {
-    console.log(this.formularioLibro.value);
-    alert('Autor añadido');
+    if (this.formularioLibro.valid) {
+      this.booksService.addBook(this.formularioLibro.value).subscribe({
+        next: (resp) => {
+          console.log('Libro guardado:', resp);
+          this.botonNuevoLibroVisible = false;
+          this.recargarTablaLibros();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error al guardar el libro:', error);
+          // Agregar manejo de errores de interfaz de usuario aquí
+        }
+      });
+    } else {
+      console.error('El formulario no está completo');
+      // Mostrar un mensaje de error en la interfaz de usuario aquí
+      Object.keys(this.formularioLibro.controls).forEach(field => { // {1}
+        const control = this.formularioLibro.get(field);            // {2}
+        //control.markAsTouched({ onlySelf: true });                  // {3}
+      });
+    }
   }
+  
+  
+
 
   botonNuevoLibro() {
     this.formularioLibro.reset();
