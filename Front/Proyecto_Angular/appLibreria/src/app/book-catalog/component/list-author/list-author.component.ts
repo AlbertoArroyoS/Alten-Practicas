@@ -55,7 +55,7 @@ export class ListAuthorComponent {
   cargarTablaAutores() {
     this.authorsService.getAllAuthors().subscribe(
       (response) => {
-        this.autores = response;
+        this.autores = response.content;
       },
       (error) => {
         console.error('Error al cargar la tabla de autores:', error);
