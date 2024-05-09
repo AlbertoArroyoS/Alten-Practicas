@@ -29,7 +29,7 @@ export class BooksService {
   
   public getBookById(bookId: number): Observable<any> {
     const url = `${this.API_SERVER}/${bookId.toString()}`; // Convertir bookId a string
-    return this.httpClient.get(url); 
+    return this.httpClient.get(this.API_SERVER2+'/'+bookId.toString()); 
   }
 
   // Método para buscar libros por palabra clave

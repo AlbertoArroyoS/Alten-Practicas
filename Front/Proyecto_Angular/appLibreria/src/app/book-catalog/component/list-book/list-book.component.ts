@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -8,6 +8,9 @@ import {
 } from '@angular/forms';
 import { AuthorsService } from 'src/app/services/authors/authors.service';
 import { BooksService } from 'src/app/services/books/books.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; 
+//import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-list-book',
@@ -16,7 +19,7 @@ import { BooksService } from 'src/app/services/books/books.service';
 })
 export class ListBookComponent {
   public title!: string;
-  //books: any;
+  book: any;
   tableData: any; // Variable para controlar qué conjunto de datos usar en la tabla
   formularioLibro: FormGroup;
   autores: any;
@@ -26,11 +29,13 @@ export class ListBookComponent {
   currentPage: number = 0;
   pageSize: number = 10;
   paginacion: boolean = true;
+  @ViewChild('content', { static: true }) modalContent!: ElementRef;
 
   constructor(
     public fb: FormBuilder,
     public booksService: BooksService,
-    public authorsService: AuthorsService
+    public authorsService: AuthorsService,
+    private modalService: NgbModal
   ) {
     this.formularioLibro = new FormGroup({
       titulo: new FormControl('', Validators.required),
@@ -39,8 +44,7 @@ export class ListBookComponent {
       genero: new FormControl('', Validators.required),
       paginas: new FormControl('', [Validators.required, Validators.min(1)]),
       editorial: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required),
-      precio: new FormControl('', [Validators.required, Validators.min(0)])
+      descripcion: new FormControl('', Validators.required)
     });
     
   }
@@ -106,17 +110,28 @@ export class ListBookComponent {
     this.formularioLibro.reset();
     this.botonNuevoLibroVisible = !this.botonNuevoLibroVisible;
   }
+
+
   obtenerLibroPorId(bookId: number) {
-    this.booksService.getBookById(bookId).subscribe(
-      (response) => {
-        this.books = response;
-      },
-      (error) => {
-        console.error('Error al obtener el libro:', error);
-        //this.alertaConflicto = true;
-        //this.showWarningAlert('Conflicto al obtener el autor.');
-      }
-    );
+  this.booksService.getBookById(bookId).subscribe(
+    (response) => {
+      this.book = response; // Asigna el libro obtenido a una variable local
+      this.openModal(this.book); // Llama al método openModal con el libro
+    },
+    (error) => {
+      console.error('Error al obtener el libro:', error);
+      // Manejar errores aquí
+    }
+  );
+  }
+
+  openModal(book: any) {
+    this.book = book; // Asigna el libro a la variable de la clase para que esté disponible en el template
+    this.modalService.open(this.modalContent, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      // Manejar el resultado si es necesario
+    }, (reason) => {
+      // Manejar el cierre del modal si es necesario
+    });
   }
 
   eliminarLibro(books: any) {
@@ -154,6 +169,10 @@ export class ListBookComponent {
     this.pageSize = size;
     this.cargarTablaLibros(0, size);
   }
+
+  
+
+  
 
 
 

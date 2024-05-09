@@ -47,13 +47,6 @@
             <div>
                 <textarea class="form-control" formControlName="descripcion" placeholder="Descripción" aria-label="Descripcion"></textarea>
             </div>
-            <div>
-              <label for="precio">Precio</label>
-              <input type="number" class="form-control" formControlName="precio" placeholder="Precio" aria-label="Precio" min="0">
-              <p *ngIf="formularioLibro.get('precio')?.errors?.['required']" class="text-danger">El campo precio es requerido</p>
-              <p *ngIf="formularioLibro.get('precio')?.errors?.['min']" class="text-danger">El precio debe ser mayor o igual a 0</p>
-          </div>
-          
         </div>
 
         <div class="mt-3">
@@ -88,9 +81,7 @@
               <th scope="col">Nombre autor</th>
               <th scope="col">Apellidos autor</th>
               <th scope="col">Género</th>
-              <th scope="col">Páginas</th>
               <th scope="col">Editorial</th>
-              <th scope="col">Descripción</th>
               <th scope="col">Opción</th>
           
             </tr>
@@ -102,9 +93,7 @@
               <td>{{item.nombreAutor}}</td>
               <td>{{item.apellidosAutor}}</td>
               <td>{{item.genero}}</td>
-              <td>{{item.paginas}}</td>
               <td>{{item.editorial}}</td>
-              <td>{{item.descripcion}}</td>
               <td class="acciones">
                 <button
                   (click)="obtenerLibroPorId(item.id)"
@@ -176,3 +165,24 @@
     </select>
   </div>
   
+
+  <!-- ng-template con la referencia local 'content' que contiene el modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Detalles del Libro</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" >
+    <p><strong>Título:</strong> {{ book?.titulo }}</p>
+    <p><strong>Autor:</strong> {{book.nombreAutor}} {{book.apellidosAutor}}</p>
+    <p><strong>Género:</strong> {{book.genero}}</p>
+    <p><strong>Páginas:</strong> {{book.paginas}}</p>
+    <p><strong>Editorial:</strong> {{book.editorial}}</p>
+    <p><strong>Descripción:</strong> {{book.descripcion}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</ng-template>
