@@ -44,15 +44,7 @@ export class ListBookComponent {
     this.title = 'Lista de libros';
     // Realizar una carga inicial de la tabla de autores al inicializar el componente
     this.cargarTablaLibros();
-    this.authorsService.getAllAuthors().subscribe(
-      (resp) => {
-        this.autores = resp.content;
-        //console.log(resp);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    
   }
 
   cargarTablaLibros() {

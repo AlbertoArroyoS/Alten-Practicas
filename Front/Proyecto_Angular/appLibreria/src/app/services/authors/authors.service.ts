@@ -16,9 +16,14 @@ export class AuthorsService {
     private httpClient: HttpClient
   ) { }
 
-  public getAllAuthors (): Observable<any> {
+  public getAllAuthors (page: number, size: number): Observable<any> {
     // Construir los parámetros de la solicitud HTT
-      return this.httpClient.get(this.API_SERVER);
+      //return this.httpClient.get(this.API_SERVER);
+      let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get(`${this.API_SERVER}`, { params: params });
   }
 
 

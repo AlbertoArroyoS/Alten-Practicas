@@ -16,7 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ListAuthorComponent {
   public title!: string;
-  autores: any;
+  //autores: any;
   book: any;
   guardadoExitoso: boolean = false;
   alertaConflicto: boolean = false;
@@ -29,11 +29,11 @@ export class ListAuthorComponent {
   modificarAutor: boolean = false;
   nombreAutorEditar: string = '';
   mostrarBotonGuardar: boolean = true;
+  autores!: any[];
+  totalPaginas?: number[];
   currentPage: number = 0;
   pageSize: number = 10;
-  field: string = 'id';
-  order: number = 1;
-  page: number = 0;
+  paginacion: boolean = true;
 
   constructor(
     public authorsService: AuthorsService,
@@ -49,28 +49,28 @@ export class ListAuthorComponent {
 
   ngOnInit(): void {
     this.title = 'Lista de autores';
-    this.cargarTablaAutores();
+    this.cargarTablaAutores(0, 10);
   }
 
-  cargarTablaAutores() {
-    this.authorsService.getAllAuthors().subscribe(
-      (response) => {
-        this.autores = response.content;
-      },
-      (error) => {
-        console.error('Error al cargar la tabla de autores:', error);
-      }
-    );
+  cargarTablaAutores(page: number, size: number) {
+
+    this.authorsService.getAllAuthors(page, size).subscribe(data => {
+      this.autores = data.content;
+      this.totalPaginas = Array.from({length: data.totalPages}, (_, i) => i + 1);
+      this.currentPage = data.number;
+    });
   }
 
-  recargarTablaAutores() {
-    this.cargarTablaAutores();
+  recargarTablaAutores(): void {
+    this.cargarTablaAutores(this.currentPage, this.pageSize);  // Reutiliza la página actual y el tamaño de página
+    this.paginacion = true;
   }
 
   buscarAutores(keyword: string) {
     this.authorsService.searchAuthorsByKeyword(keyword).subscribe(
       (response) => {
         this.autores = response;
+        this.paginacion = false;
       },
       (error) => {
         console.error('Error al buscar autores:', error);
@@ -103,7 +103,7 @@ export class ListAuthorComponent {
         setTimeout(() => {
           this.guardadoExitoso = false;
         }, 3000);
-        this.cargarTablaAutores();
+        this.recargarTablaAutores();
       },
       (error: HttpErrorResponse) => {
         if (error.status === 409) {
@@ -169,7 +169,7 @@ export class ListAuthorComponent {
             setTimeout(() => {
               this.guardadoExitoso = false;
             }, 3000);
-            this.cargarTablaAutores();
+            this.recargarTablaAutores();
           },
           (error: HttpErrorResponse) => {
             this.alertaConflicto = true;
@@ -202,5 +202,16 @@ export class ListAuthorComponent {
 
   getArrayOfPageNumbers(totalPages: number): number[] {
     return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  changePage(pageNumber: number): void {
+    this.cargarTablaAutores(pageNumber, this.pageSize);
+  }
+
+  changePageSize(event: Event): void {
+    const element = event.target as HTMLSelectElement; // Asignación de tipo
+    const size = Number(element.value); // Conversión de string a número
+    this.pageSize = size;
+    this.cargarTablaAutores(0, size);
   }
 }

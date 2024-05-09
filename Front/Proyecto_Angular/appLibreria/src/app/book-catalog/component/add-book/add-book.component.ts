@@ -37,12 +37,13 @@ export class AddBookComponent {
     */
 
     //Metodo para obtener los autores que hay en la base de datos y poder seleccionarlos en el formulario
+    /*
     this.authorsService.getAllAuthors().subscribe(resp => {    
       this.autores= resp;
       //console.log(resp);
     }, error => {
       console.error(error);
-    });
+    });*/
   }
 
   addBook() {
