@@ -30,6 +30,8 @@ export class ListBookComponent {
   pageSize: number = 10;
   paginacion: boolean = true;
   @ViewChild('content', { static: true }) modalContent!: ElementRef;
+  modificarLibro: boolean = false;
+  mostrarBotonGuardar: boolean = true;
 
   constructor(
     public fb: FormBuilder,
@@ -37,14 +39,15 @@ export class ListBookComponent {
     public authorsService: AuthorsService,
     private modalService: NgbModal
   ) {
-    this.formularioLibro = new FormGroup({
+    this.formularioLibro = this.fb.group({
+      id: [''],
       titulo: new FormControl('', Validators.required),
       nombreAutor: new FormControl('', Validators.required),
       apellidosAutor: new FormControl('', Validators.required),
       genero: new FormControl('', Validators.required),
       paginas: new FormControl('', [Validators.required, Validators.min(1)]),
       editorial: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required)
+      descripcion: new FormControl('', Validators.required),
     });
     
   }
@@ -116,7 +119,7 @@ export class ListBookComponent {
   this.booksService.getBookById(bookId).subscribe(
     (response) => {
       this.book = response; // Asigna el libro obtenido a una variable local
-      this.openModal(this.book); // Llama al método openModal con el libro
+      this.abrirModal(this.book); // Llama al método openModal con el libro
     },
     (error) => {
       console.error('Error al obtener el libro:', error);
@@ -125,7 +128,7 @@ export class ListBookComponent {
   );
   }
 
-  openModal(book: any) {
+  abrirModal(book: any) {
     this.book = book; // Asigna el libro a la variable de la clase para que esté disponible en el template
     this.modalService.open(this.modalContent, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       // Manejar el resultado si es necesario
@@ -156,7 +159,44 @@ export class ListBookComponent {
   }
 
   editarLibro(book: any) {
-    console.log(book);
+    this.botonNuevoLibroVisible = true;
+    this.modificarLibro = true;
+    //this.nombreLibroEditar = libro.titulo;
+    this.mostrarBotonGuardar = false;
+    this.formularioLibro.patchValue({
+      id: book.id,
+      titulo: book.titulo,
+      nombreAutor: book.nombreAutor,
+      apellidosAutor: book.apellidosAutor,
+      genero: book.genero,
+      paginas: book.paginas,
+      editorial: book.editorial,
+      descripcion: book.descripcion,
+    });
+  }
+
+  actualizarAutor() {
+    const idControl = this.formularioLibro.get('id');
+    if (idControl) {
+      const libroId = idControl.value;
+      this.booksService.updateBook(libroId, this.formularioLibro.value).subscribe(
+        (resp) => {
+          this.botonNuevoLibroVisible = false;
+          this.formularioLibro.reset();
+          const index = this.books.findIndex(a => a.id === libroId);
+          if (index !== -1) this.books[index] = resp; // Actualiza solo el autor modificado
+          //this.showSuccessAlert('Autor actualizado correctamente');
+          setTimeout(() => {
+           // this.guardadoExitoso = false;
+          }, 3000);
+          this.recargarTablaLibros();
+        },
+        (error: HttpErrorResponse) => {
+         // this.alertaConflicto = true;
+         // this.showWarningAlert('Conflicto al guardar el autor. El autor ya existe.');
+        }
+      );      
+    }
   }
 
   changePage(pageNumber: number): void {

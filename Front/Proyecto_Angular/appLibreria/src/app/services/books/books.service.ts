@@ -48,4 +48,9 @@ export class BooksService {
   public addBook(book: any): Observable<any> {
     return this.httpClient.post(this.API_SERVER2, book);
   }
+
+  public updateBook(bookId: number, bookData: any): Observable<any> {
+    const url = `${this.API_SERVER2}/${bookId}`;
+    return this.httpClient.put(url, bookData);
+  }
 }
