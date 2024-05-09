@@ -23,5 +23,6 @@ public class AutorDTO implements Serializable {
 	private static final long serialVersionUID = 144219358491494626L;
 	private int id;
 	private String nombre;
+	private String apellidos;
 
 }

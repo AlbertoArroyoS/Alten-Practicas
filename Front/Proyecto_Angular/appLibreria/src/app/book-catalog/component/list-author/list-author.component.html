@@ -19,12 +19,7 @@
         <h1>Datos autor</h1>
         <div *ngIf="modificarAutor">
           <h3>Modificar</h3>
-          <input
-            type="text"
-            class="form-control"
-            [value]="nombreAutorEditar"
-            disabled
-          />
+  
         </div>
         <div class="col">
           <input
@@ -125,6 +120,7 @@
       <tr class="table-success">
         <th scope="col">id</th>
         <th scope="col">Nombre</th>
+        <th scope="col">Apellidos</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -132,6 +128,7 @@
       <tr *ngFor="let item of autores">
         <th scope="row">{{ item.id }}</th>
         <td>{{ item.nombre }}</td>
+        <td>{{ item.apellidos }}</td>
         <td class="acciones">
           <button
             (click)="obtenerLibroPorId(item.id)"

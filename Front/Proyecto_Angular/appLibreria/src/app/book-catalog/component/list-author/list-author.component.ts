@@ -149,6 +149,8 @@ export class ListAuthorComponent {
     this.mostrarBotonGuardar = false;
     this.formularioAutor.patchValue({
       id: autor.id,
+      nombre: autor.nombre,
+      apellidos: autor.apellidos,
     });
   }
 
