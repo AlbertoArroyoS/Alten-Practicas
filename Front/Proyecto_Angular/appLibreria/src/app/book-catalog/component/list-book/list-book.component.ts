@@ -16,11 +16,16 @@ import { BooksService } from 'src/app/services/books/books.service';
 })
 export class ListBookComponent {
   public title!: string;
-  books: any;
+  //books: any;
   tableData: any; // Variable para controlar qué conjunto de datos usar en la tabla
   formularioLibro: FormGroup;
   autores: any;
   botonNuevoLibroVisible: boolean = false;
+  books!: any[];
+  totalPaginas?: number[];
+  currentPage: number = 0;
+  pageSize: number = 10;
+  paginacion: boolean = true;
 
   constructor(
     public fb: FormBuilder,
@@ -43,40 +48,33 @@ export class ListBookComponent {
   ngOnInit(): void {
     this.title = 'Lista de libros';
     // Realizar una carga inicial de la tabla de autores al inicializar el componente
-    this.cargarTablaLibros();
+    this.cargarTablaLibros(0, 10);
     
   }
 
-  cargarTablaLibros() {
+  cargarTablaLibros(page: number, size: number) {
     // Llamar al servicio para obtener la lista de libros
-    this.booksService.getAllBooks().subscribe(
-      (response) => {
-        this.books = response;
-        this.tableData = this.books; // Asignar los libros obtenidos al conjunto de datos de la tabla
-      },
-      (error) => {
-        console.error('Error al cargar la tabla de libros:', error);
-      }
-    );
+    this.booksService.getAllBooks(page, size).subscribe(data => {
+      this.books = Array.isArray(data.content) ? data.content : [];
+      this.totalPaginas = Array.from({length: data.totalPages}, (_, i) => i + 1);
+      this.currentPage = data.number;
+    });
   }
 
   recargarTablaLibros() {
     // Llamar al método de cargar tabla de autores para volver a cargar los datos
-    this.cargarTablaLibros();
+    this.cargarTablaLibros(this.currentPage, this.pageSize);
+    this.paginacion = true;
   }
 
   buscarLibros(keyword: string) {
     // Llamar al servicio para buscar libros por palabra clave
-    this.booksService.searchBooksByKeyword(keyword).subscribe(
-      (response) => {
-        this.books = response;
+    this.booksService.searchBooksByKeyword(keyword).subscribe(data => {
+        this.books = Array.isArray(data.content) ? data.content : [];
         //Cuando busco por keyWord, la respuesta viene en un objeto con la propiedad content que es un array de libros
-        this.tableData = this.books.content; // Cambiar al conjunto de datos de la búsqueda
-      },
-      (error) => {
-        console.error('Error al buscar libros:', error);
-      }
-    );
+        this.tableData = this.books; // Cambiar al conjunto de datos de la búsqueda
+
+    });
   }
   guardarLibro() {
     if (this.formularioLibro.valid) {
@@ -144,6 +142,17 @@ export class ListBookComponent {
 
   editarLibro(book: any) {
     console.log(book);
+  }
+
+  changePage(pageNumber: number): void {
+    this.cargarTablaLibros(pageNumber, this.pageSize);
+  }
+
+  changePageSize(event: Event): void {
+    const element = event.target as HTMLSelectElement; // Asignación de tipo
+    const size = Number(element.value); // Conversión de string a número
+    this.pageSize = size;
+    this.cargarTablaLibros(0, size);
   }
 
 

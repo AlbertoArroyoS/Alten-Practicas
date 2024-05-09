@@ -96,7 +96,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of tableData">
+            <tr *ngFor="let item of books">
               <th scope="row">{{ item.id }}</th>
               <td>{{item.titulo}}</td>
               <td>{{item.nombreAutor}}</td>
@@ -134,13 +134,45 @@
 
   </div>
   
-      <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-          </ul>
-        </nav>
+  <div *ngIf="paginacion">
+    <ul *ngIf="totalPaginas && totalPaginas.length > 0" class="pagination">
+      <!-- Botón "Anterior" -->
+      <li [class.disabled]="currentPage <= 0">
+        <button
+          (click)="changePage(currentPage - 1)"
+          [disabled]="currentPage <= 0"
+          class="page-link"
+        >
+          Anterior
+        </button>
+      </li>
+  
+      <!-- Números de página -->
+      <li
+        *ngFor="let page of totalPaginas"
+        [class.active]="currentPage === page - 1"
+        class="page-item"
+      >
+        <a (click)="changePage(page - 1)" class="page-link">{{ page }}</a>
+      </li>
+  
+      <!-- Botón "Siguiente" -->
+      <li [class.disabled]="currentPage >= totalPaginas.length - 1">
+        <button
+          (click)="changePage(currentPage + 1)"
+          [disabled]="currentPage >= totalPaginas.length - 1"
+          class="page-link"
+        >
+          Siguiente
+        </button>
+      </li>
+    </ul>
+  
+    <!-- Template HTML -->
+    <select (change)="changePageSize($event)">
+      <option *ngFor="let size of [10, 20, 50, 100]" [value]="size">
+        {{ size }}
+      </option>
+    </select>
   </div>
+  

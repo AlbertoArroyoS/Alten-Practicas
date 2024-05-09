@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -16,8 +16,13 @@ export class BooksService {
   ) { }
 
 
-  public getAllBooks(): Observable<any> {
-    return this.httpClient.get(this.API_SERVER);
+  public getAllBooks(page: number, size: number): Observable<any> {
+    //return this.httpClient.get(this.API_SERVER);
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get(`${this.API_SERVER}`, { params: params });
   }
 
   // Método para obtener un libro por su ID
