@@ -1,7 +1,5 @@
 package com.alten.practica.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,7 +23,7 @@ public interface ILibroService {
 	public LibroDTO findById(int id);
 
 	// Metodo para listar todas los libros
-	public List<LibroDTO> findAll();
+	public Page<LibroDTO> findAll(Pageable pageable);
 
 	// Metodo para actualizar un libro
 	public HrefEntityDTO update(LibroDTORequest dto, int id);

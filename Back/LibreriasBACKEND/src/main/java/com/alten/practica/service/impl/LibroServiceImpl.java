@@ -2,7 +2,6 @@ package com.alten.practica.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -178,11 +177,10 @@ public class LibroServiceImpl implements ILibroService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public List<LibroDTO> findAll() {
-		List<Libro> lista = this.libroRepository.findAll();
+	public Page<LibroDTO> findAll(Pageable pageable) {
+		Page<Libro> lista = this.libroRepository.findAll(pageable);
 
-		return lista.stream().map(libro -> libroMapper.toDTO(libro)).collect(Collectors.toList());
-
+		return lista.map(libro -> libroMapper.toDTO(libro));
 		/*
 		 * Forma vieja List<LibroDTO> listaDTO = new ArrayList<>(); for (Libro bean :
 		 * lista) { LibroDTO libroDTO = new LibroDTO();

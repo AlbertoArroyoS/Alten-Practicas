@@ -1,11 +1,17 @@
 package com.alten.practica.controlador;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,8 +77,32 @@ public class LibroController {
 
 	// @GetMapping para listar todos las librerias de la base de datos
 	@GetMapping(LibreriaConstant.RESOURCE_LIBROS)
-	public ResponseEntity<List<LibroDTO>> findAll() {
-		return new ResponseEntity<>(this.libroService.findAll(), HttpStatus.OK); // 200 OK
+	public ResponseEntity<Page<LibroDTO>> findAll(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
+		//return new ResponseEntity<>(this.libroService.findAll(), HttpStatus.OK); // 200 OK
+		Page<LibroDTO> page = libroService
+				.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+		
+		model.addAttribute("page", page);
+		var totalPages = page.getTotalPages();
+		var currentPage = page.getNumber();
+		
+		var start = Math.max(1, currentPage);
+		var end = Math.min(currentPage + 5, totalPages);
+		
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = new ArrayList<>();
+			for (int i = start; i <= end; i++) {
+				pageNumbers.add(i);
+			}
+			
+			model.addAttribute("pageNumbers", pageNumbers);
+					
+		}
+		List<Integer> pageSizeOptions = Arrays.asList(10,20, 50, 100);
+		model.addAttribute("pageSizeOptions", pageSizeOptions);
+		
+		return new ResponseEntity<>(page, HttpStatus.OK);
+		
 	}
 
 	// GetMapping para listar 1 libreria por su id

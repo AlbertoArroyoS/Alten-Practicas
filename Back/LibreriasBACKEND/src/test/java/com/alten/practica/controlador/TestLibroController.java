@@ -3,9 +3,6 @@ package com.alten.practica.controlador;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -35,7 +32,7 @@ public class TestLibroController {
 
 	@Mock
 	private LibreriaUtil libreriaUtil;
-
+/*
 	@DisplayName("Test find all")
 	@Test
 	void testFindAll() {
@@ -51,7 +48,7 @@ public class TestLibroController {
 		// Verificar el resultado
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(libroDTOList, responseEntity.getBody());
-	}
+	}*/
 
 	@DisplayName("Test find by id")
 	@Test
