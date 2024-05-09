@@ -55,7 +55,7 @@ export class ListAuthorComponent {
   cargarTablaAutores(page: number, size: number) {
 
     this.authorsService.getAllAuthors(page, size).subscribe(data => {
-      this.autores = data.content;
+      this.autores = Array.isArray(data.content) ? data.content : [];
       this.totalPaginas = Array.from({length: data.totalPages}, (_, i) => i + 1);
       this.currentPage = data.number;
     });
@@ -69,7 +69,7 @@ export class ListAuthorComponent {
   buscarAutores(keyword: string) {
     this.authorsService.searchAuthorsByKeyword(keyword).subscribe(
       (response) => {
-        this.autores = response;
+        this.autores = Array.isArray(response) ? response : [];
         this.paginacion = false;
       },
       (error) => {
@@ -158,26 +158,23 @@ export class ListAuthorComponent {
     const idControl = this.formularioAutor.get('id');
     if (idControl) {
       const autorId = idControl.value;
-      this.authorsService
-        .updateAuthor(autorId, this.formularioAutor.value)
-        .subscribe(
-          (resp) => {
-            this.botonNuevoAutorVisible = false;
-            this.formularioAutor.reset();
-            this.autores = resp;
-            this.showSuccessAlert('Autor actualizado correctamente');
-            setTimeout(() => {
-              this.guardadoExitoso = false;
-            }, 3000);
-            this.recargarTablaAutores();
-          },
-          (error: HttpErrorResponse) => {
-            this.alertaConflicto = true;
-            this.showWarningAlert(
-              'Conflicto al guardar el autor. El autor ya existe.'
-            );
-          }
-        );
+      this.authorsService.updateAuthor(autorId, this.formularioAutor.value).subscribe(
+        (resp) => {
+          this.botonNuevoAutorVisible = false;
+          this.formularioAutor.reset();
+          const index = this.autores.findIndex(a => a.id === autorId);
+          if (index !== -1) this.autores[index] = resp; // Actualiza solo el autor modificado
+          this.showSuccessAlert('Autor actualizado correctamente');
+          setTimeout(() => {
+            this.guardadoExitoso = false;
+          }, 3000);
+          this.recargarTablaAutores();
+        },
+        (error: HttpErrorResponse) => {
+          this.alertaConflicto = true;
+          this.showWarningAlert('Conflicto al guardar el autor. El autor ya existe.');
+        }
+      );      
     }
   }
 
