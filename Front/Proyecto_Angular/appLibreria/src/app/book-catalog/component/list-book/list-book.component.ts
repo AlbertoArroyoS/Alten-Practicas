@@ -9,6 +9,7 @@ import {
 import { AuthorsService } from 'src/app/services/authors/authors.service';
 import { BooksService } from 'src/app/services/books/books.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 
 // Decorador del componente
 @Component({
@@ -19,6 +20,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // Clase del componente
 export class ListBookComponent {
   // Declaración de variables
+
+  protected subscription: Array<Subscription> = new Array(); // Array de suscripciones
   public title!: string;
   book: any;
   tableData: any; // Variable para controlar qué conjunto de datos usar en la tabla
@@ -67,17 +70,27 @@ export class ListBookComponent {
     this.cargarTablaLibros(0, 10);
   }
 
+  // Método que se ejecuta al destruir el componente y desuscribirse de las suscripciones
+  ngOnDestroy(): void {
+    // Desuscribirse de cada suscripción en el array de suscripciones
+    this.subscription.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
   // Método para cargar la tabla de libros
   cargarTablaLibros(page: number, size: number) {
-    // Llamar al servicio para obtener la lista de libros
-    this.booksService.getAllBooks(page, size).subscribe((data) => {
-      this.books = Array.isArray(data.content) ? data.content : [];
-      this.totalPaginas = Array.from(
-        { length: data.totalPages },
-        (_, i) => i + 1
-      );
-      this.currentPage = data.number;
-    });
+    this.subscription.push(
+      // Llamar al servicio para obtener la lista de libros
+      this.booksService.getAllBooks(page, size).subscribe((data) => {
+        this.books = Array.isArray(data.content) ? data.content : [];
+        this.totalPaginas = Array.from(
+          { length: data.totalPages },
+          (_, i) => i + 1
+        );
+        this.currentPage = data.number;
+      })
+    );
   }
 
   // Método para recargar la tabla de libros
@@ -89,31 +102,35 @@ export class ListBookComponent {
 
   // Método para buscar libros
   buscarLibros(keyword: string) {
-    // Llamar al servicio para buscar libros por palabra clave
-    this.booksService.searchBooksByKeyword(keyword).subscribe((data) => {
-      this.books = Array.isArray(data.content) ? data.content : [];
-      //Cuando busco por keyWord, la respuesta viene en un objeto con la propiedad content que es un array de libros
-      this.tableData = this.books; // Cambiar al conjunto de datos de la búsqueda
-    });
+    this.subscription.push(
+      // Llamar al servicio para buscar libros por palabra clave
+      this.booksService.searchBooksByKeyword(keyword).subscribe((data) => {
+        this.books = Array.isArray(data.content) ? data.content : [];
+        //Cuando busco por keyWord, la respuesta viene en un objeto con la propiedad content que es un array de libros
+        this.tableData = this.books; // Cambiar al conjunto de datos de la búsqueda
+      })
+    );
   }
 
   // Método para guardar un libro
   guardarLibro() {
     // Validar el formulario antes de enviarlo
     if (this.formularioLibro.valid) {
-      // Llamar al servicio para guardar el libro
-      this.booksService.addBook(this.formularioLibro.value).subscribe({
-        next: (resp) => {
-          console.log('Libro guardado:', resp);
-          this.botonNuevoLibroVisible = false;
-          this.recargarTablaLibros();
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error al guardar el libro:', error);
-          this.alertaConflicto = true;
-          this.showWarningAlert('Conflicto al guardar el libro.');
-        },
-      });
+      this.subscription.push(
+        // Llamar al servicio para guardar el libro
+        this.booksService.addBook(this.formularioLibro.value).subscribe({
+          next: (resp) => {
+            console.log('Libro guardado:', resp);
+            this.botonNuevoLibroVisible = false;
+            this.recargarTablaLibros();
+          },
+          error: (error: HttpErrorResponse) => {
+            console.error('Error al guardar el libro:', error);
+            this.alertaConflicto = true;
+            this.showWarningAlert('Conflicto al guardar el libro.');
+          },
+        })
+      );
     } else {
       console.error('El formulario no está completo');
       this.alertaConflicto = true;
@@ -134,16 +151,18 @@ export class ListBookComponent {
 
   // Método para obtener un libro por su ID
   obtenerLibroPorId(bookId: number) {
-    this.booksService.getBookById(bookId).subscribe(
-      (response) => {
-        this.book = response; // Asigna el libro obtenido a una variable local
-        this.abrirModal(this.book); // Llama al método openModal con el libro
-      },
-      (error) => {
-        console.error('Error al obtener el libro:', error);
-        this.alertaConflicto = true;
+    this.subscription.push(
+      this.booksService.getBookById(bookId).subscribe(
+        (response) => {
+          this.book = response; // Asigna el libro obtenido a una variable local
+          this.abrirModal(this.book); // Llama al método openModal con el libro
+        },
+        (error) => {
+          console.error('Error al obtener el libro:', error);
+          this.alertaConflicto = true;
           this.showWarningAlert('Conflicto al obtener el libro.');
-      }
+        }
+      )
     );
   }
 
@@ -185,49 +204,53 @@ export class ListBookComponent {
     const idControl = this.formularioLibro.get('id');
     if (idControl) {
       const libroId = idControl.value;
-      this.booksService
-        .updateBook(libroId, this.formularioLibro.value)
-        .subscribe(
-          (resp) => {
-            this.guardadoExitoso = true;
-            this.botonNuevoLibroVisible = false;
-            this.formularioLibro.reset();
-            const index = this.books.findIndex((a) => a.id === libroId);
-            if (index !== -1) this.books[index] = resp; // Actualiza solo el autor modificado
-            this.showSuccessAlert('Autor actualizado correctamente');
-            setTimeout(() => {
-              this.guardadoExitoso = false;
-            }, 3000);
-            this.recargarTablaLibros();
-          },
-          (error: HttpErrorResponse) => {
-            this.alertaConflicto = true;
-            this.showWarningAlert(
-              'Conflicto al actualizar el libro. El libro ya existe.'
-            );
-          }
-        );
+      this.subscription.push(
+        this.booksService
+          .updateBook(libroId, this.formularioLibro.value)
+          .subscribe(
+            (resp) => {
+              this.guardadoExitoso = true;
+              this.botonNuevoLibroVisible = false;
+              this.formularioLibro.reset();
+              const index = this.books.findIndex((a) => a.id === libroId);
+              if (index !== -1) this.books[index] = resp; // Actualiza solo el autor modificado
+              this.showSuccessAlert('Autor actualizado correctamente');
+              setTimeout(() => {
+                this.guardadoExitoso = false;
+              }, 3000);
+              this.recargarTablaLibros();
+            },
+            (error: HttpErrorResponse) => {
+              this.alertaConflicto = true;
+              this.showWarningAlert(
+                'Conflicto al actualizar el libro. El libro ya existe.'
+              );
+            }
+          )
+      );
     }
   }
 
   // Método para eliminar un libro
   eliminarLibro(books: any) {
-    this.booksService.deleteBookById(books.id).subscribe(
-      (resp) => {
-        this.eliminadoExitoso = true;
-        this.recargarTablaLibros();
-        this.showSuccessAlert('Libro eliminado correctamente');
-        setTimeout(() => {
-          this.eliminadoExitoso = false;
-        }, 3000);
-      },
-      (error) => {
-        console.error('Error al eliminar el libro:', error);
-        this.alertaConflicto = true;
-        this.showWarningAlert(
-          'Conflicto al eliminar el libro. El libro está asociado.'
-        );
-      }
+    this.subscription.push(
+      this.booksService.deleteBookById(books.id).subscribe(
+        (resp) => {
+          this.eliminadoExitoso = true;
+          this.recargarTablaLibros();
+          this.showSuccessAlert('Libro eliminado correctamente');
+          setTimeout(() => {
+            this.eliminadoExitoso = false;
+          }, 3000);
+        },
+        (error) => {
+          console.error('Error al eliminar el libro:', error);
+          this.alertaConflicto = true;
+          this.showWarningAlert(
+            'Conflicto al eliminar el libro. El libro está asociado.'
+          );
+        }
+      )
     );
   }
 
