@@ -1,6 +1,7 @@
 package com.alten.practica.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.ClienteCompraLibroDTO;
@@ -19,7 +20,7 @@ public interface IClienteCompraLibroService {
 	public ClienteCompraLibroDTO findById(int id);
 
 	// Metodo para listar todas los autores
-	public List<ClienteCompraLibroDTO> findAll();
+	public Page<ClienteCompraLibroDTO> findAll(Pageable pageable);
 
 	// Metodo para actualizar un autor
 	public HrefEntityDTO update(ClienteCompraLibroDTORequest dto, int id);

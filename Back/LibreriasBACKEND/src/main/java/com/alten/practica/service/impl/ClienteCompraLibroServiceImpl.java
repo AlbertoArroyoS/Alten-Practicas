@@ -1,9 +1,8 @@
 package com.alten.practica.service.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,10 +92,10 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public List<ClienteCompraLibroDTO> findAll() {
-		List<ClienteCompraLibro> lista = clienteCompraLibroRepository.findAll();
+	public Page<ClienteCompraLibroDTO> findAll(Pageable pageable) {
+		Page<ClienteCompraLibro> lista = clienteCompraLibroRepository.findAll(pageable);
 
-		return lista.stream().map(clienteCompraLibrosMapper::toDTO).collect(Collectors.toList());
+		return lista.map(clienteCompraLibrosMapper::toDTO);
 	}
 
 	/**

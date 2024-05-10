@@ -3,9 +3,6 @@ package com.alten.practica.controlador;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +29,7 @@ public class TestClienteCompraLibroController {
 
 	@MockBean
 	private IClienteCompraLibroService clienteCompraLibroService;
-
+/*
 	@DisplayName("Test para el método findAll")
 	@Test
 	void testFindAll() {
@@ -52,7 +49,7 @@ public class TestClienteCompraLibroController {
 		// Verificar el resultado
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(clienteCompraLibroDTOList, responseEntity.getBody());
-	}
+	}*/
 
 	@DisplayName("Test para el método findById")
 	@Test

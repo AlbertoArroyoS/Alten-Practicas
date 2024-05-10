@@ -72,6 +72,19 @@ export class ListBookShopComponent {
     
   }
 
+    // Método para cambiar la página de la tabla
+    changePage(pageNumber: number): void {
+      this.cargarTablaLibros(pageNumber, this.pageSize);
+    }
+  
+    // Método para cambiar el tamaño de la página de la tabla
+    changePageSize(event: Event): void {
+      const element = event.target as HTMLSelectElement; // Asignación de tipo
+      const size = Number(element.value); // Conversión de string a número
+      this.pageSize = size;
+      this.cargarTablaLibros(0, size);
+    }
+
 
 
 }

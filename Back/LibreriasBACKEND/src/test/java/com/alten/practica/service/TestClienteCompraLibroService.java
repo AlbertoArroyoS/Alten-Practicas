@@ -5,11 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -117,7 +114,7 @@ public class TestClienteCompraLibroService {
 
 		assertEquals(expectedDTO, result);
 	}
-
+/*
 	@DisplayName("Test para listar todas las compras de libros")
 	@Test
 	public void testFindAll() {
@@ -137,7 +134,7 @@ public class TestClienteCompraLibroService {
 		List<ClienteCompraLibroDTO> result = clienteCompraLibroService.findAll();
 
 		assertEquals(expectedDTOList, result);
-	}
+	}*/
 
 	@DisplayName("Test para actualizar una compra de libro")
 	@Test

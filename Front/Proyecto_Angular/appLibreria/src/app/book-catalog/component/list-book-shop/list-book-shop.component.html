@@ -1,40 +1,85 @@
-<!-- Tabla de libros en las librerías -->
-<div class="tablaLibros">
-  <table class="table table-primary table-hover shadow">
-    <thead>
-      <tr class="table-success">
-        <th scope="col">ID</th>
-        <th scope="col">Título del Libro</th>
-        <th scope="col">Nombre de la Librería</th>
-        <th scope="col">Cantidad Disponible</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Edición</th>
-        <th scope="col">Fecha de Publicación</th>
-        <th scope="col">Opción</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Lista de libros en las librerías -->
-      <tr *ngFor="let item of librosVenta">
-        <th scope="row">{{ item.id }}</th>
-        <td>{{ item.tituloLibro }}</td>
-        <td>{{ item.nombreLibreria }}</td>
-        <td>{{ item.cantidad }}</td>
-        <td>{{ item.precio | currency : "EUR" : "symbol" }}</td>
-        <td>{{ item.edicion }}</td>
-        <td>{{ item.fechaPublicacion }}</td>
-        <!-- Botones para ver, editar y eliminar libros en las librerías -->
-        <td class="acciones">
-          <button
-            (click)="comprarLibro(item.id)"
-            type="button"
-            class="btn btn-success"
-            [disabled]="item.cantidad < 1"
-          >
-            Comprar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <!-- Tabla de libros en las librerías -->
+  <div class="tablaLibros">
+    <table class="table table-primary table-hover shadow">
+      <thead>
+        <tr class="table-success">
+          <th scope="col">ID</th>
+          <th scope="col">Título del Libro</th>
+          <th scope="col">Nombre de la Librería</th>
+          <th scope="col">Cantidad Disponible</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Edición</th>
+          <th scope="col">Fecha de Publicación</th>
+          <th scope="col">Opción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Lista de libros en las librerías -->
+        <tr *ngFor="let item of librosVenta">
+          <th scope="row">{{ item.id }}</th>
+          <td>{{ item.tituloLibro }}</td>
+          <td>{{ item.nombreLibreria }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td>{{ item.precio | currency : "EUR" : "symbol" }}</td>
+          <td>{{ item.edicion }}</td>
+          <td>{{ item.fechaPublicacion }}</td>
+          <!-- Botones para ver, editar y eliminar libros en las librerías -->
+          <td class="acciones">
+            <button
+              (click)="comprarLibro(item.id)"
+              type="button"
+              class="btn btn-success"
+              [disabled]="item.cantidad < 1"
+            >
+              Comprar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Paginación -->
+  <div *ngIf="paginacion">
+    <ul *ngIf="totalPaginas && totalPaginas.length > 0" class="pagination">
+      <!-- Botón "Anterior" -->
+      <li [class.disabled]="currentPage <= 0">
+        <button
+          (click)="changePage(currentPage - 1)"
+          [disabled]="currentPage <= 0"
+          class="page-link"
+        >
+          Anterior
+        </button>
+      </li>
+
+      <!-- Números de página -->
+      <li
+        *ngFor="let page of totalPaginas"
+        [class.active]="currentPage === page - 1"
+        class="page-item"
+      >
+        <a (click)="changePage(page - 1)" class="page-link">{{ page }}</a>
+      </li>
+
+      <!-- Botón "Siguiente" -->
+      <li [class.disabled]="currentPage >= totalPaginas.length - 1">
+        <button
+          (click)="changePage(currentPage + 1)"
+          [disabled]="currentPage >= totalPaginas.length - 1"
+          class="page-link"
+        >
+          Siguiente
+        </button>
+      </li>
+    </ul>
+    <!-- Selector de tamaño de página -->
+    <select (change)="changePageSize($event)">
+      <option *ngFor="let size of [10, 20, 50, 100]" [value]="size">
+        {{ size }}
+      </option>
+    </select>
+  </div>
+
 </div>

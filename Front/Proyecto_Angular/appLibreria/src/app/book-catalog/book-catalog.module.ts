@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ListAuthorComponent } from './component/list-author/list-author.component';
 import { ListBookComponent } from './component/list-book/list-book.component';
 import { ListBookShopComponent } from './component/list-book-shop/list-book-shop.component';
+import { PurchaseComponent } from './pages/purchase/purchase.component';
+import { ListPurchaseComponent } from './component/list-purchase/list-purchase.component';
 
 
 @NgModule({
@@ -27,6 +29,8 @@ import { ListBookShopComponent } from './component/list-book-shop/list-book-shop
     ListAuthorComponent,
     ListBookComponent,
     ListBookShopComponent,
+    PurchaseComponent,
+    ListPurchaseComponent,
   ],
   imports: [
     CommonModule,
