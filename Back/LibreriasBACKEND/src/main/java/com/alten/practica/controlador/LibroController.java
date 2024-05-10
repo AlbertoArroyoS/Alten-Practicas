@@ -149,9 +149,7 @@ public class LibroController {
 	@DeleteMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
 	public ResponseEntity<HrefEntityDTO> delete(@PathVariable("id") int id) {
-		
-		this.libroService.delete(id);
-		
+			
 		return new ResponseEntity<HrefEntityDTO>(this.libroService.delete(id), HttpStatus.OK);	
 		/*
 		 * if (deletedId != -1) { return

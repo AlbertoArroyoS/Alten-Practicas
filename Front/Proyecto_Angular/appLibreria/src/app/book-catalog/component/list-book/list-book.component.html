@@ -1,24 +1,26 @@
-<br />
+<!-- Contenedor principal -->
 <div class="container">
   <div class="row">
+    <!-- Enlace para recargar la tabla de libros -->
     <span>
-      <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{
-        title
-      }}</a>
+      <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{ title }}</a>
     </span>
   </div>
-  <!-- Inicio formulario de registro-->
+  <!-- Formulario de registro de libros -->
   <div class="formularioRegistro">
+    <!-- El formulario se envía al método guardarLibro() y se valida con formularioLibro -->
     <form
       class="form-group"
       (ngSubmit)="guardarLibro()"
       [formGroup]="formularioLibro"
       *ngIf="botonNuevoLibroVisible"
     >
-      <div class="form-group">
+      <!-- Campos para el autor y título del libro -->
+      <div class="row mt-3">
         <h1>Añadir un nuevo libro</h1>
-        <label for="selectAutor">Selecciona un autor</label>
+        <!-- Campo para el nombre del autor -->
         <div>
+          <label for="nombreAutor">Nombre del autor</label>
           <input
             type="text"
             class="form-control"
@@ -26,6 +28,7 @@
             placeholder="Nombre autor"
             aria-label="NombreAutor"
           />
+          <!-- Mensaje de error si el campo nombre del autor está vacío -->
           <p
             *ngIf="formularioLibro.get('nombreAutor')?.errors?.['required']"
             class="text-danger"
@@ -33,7 +36,9 @@
             El campo nombre del autor es requerido
           </p>
         </div>
+        <!-- Campo para los apellidos del autor -->
         <div>
+          <label for="apellidosAutor">Apellidos del autor</label>
           <input
             type="text"
             class="form-control"
@@ -41,6 +46,7 @@
             placeholder="Apellidos Autor"
             aria-label="ApellidosAutor"
           />
+          <!-- Mensaje de error si el campo apellidos del autor está vacío -->
           <p
             *ngIf="formularioLibro.get('apellidosAutor')?.errors?.['required']"
             class="text-danger"
@@ -49,8 +55,11 @@
           </p>
         </div>
       </div>
+
+      <!-- Campo para el título del libro -->
       <div class="row mt-3">
         <div>
+          <label for="titulo">Título del libro</label>
           <input
             type="text"
             class="form-control"
@@ -58,6 +67,7 @@
             placeholder="Título"
             aria-label="Titulo"
           />
+          <!-- Mensaje de error si el campo título del libro está vacío -->
           <p
             *ngIf="formularioLibro.get('titulo')?.errors?.['required']"
             class="text-danger"
@@ -65,7 +75,9 @@
             El campo nombre es requerido
           </p>
         </div>
+        <!-- Campo para el género del libro -->
         <div>
+          <label for="genero">Género del libro</label>
           <select
             class="form-select form-select-sm"
             formControlName="genero"
@@ -80,12 +92,15 @@
             <option value="Romance">Romance</option>
             <option value="Otros">Otros</option>
           </select>
+          <!-- Mensaje de error si el campo género del libro está vacío -->
           <p
             *ngIf="formularioLibro.get('genero')?.errors?.['required']"
             class="text-danger"
           >
             El campo genero es requerido
           </p>
+          <!-- Campo para el número de páginas del libro -->
+          <label for="paginas">Páginas del libro</label>
           <input
             type="number"
             class="form-control"
@@ -93,6 +108,7 @@
             placeholder="Páginas"
             aria-label="Paginas"
           />
+          <!-- Mensaje de error si el campo páginas del libro está vacío -->
           <p
             *ngIf="formularioLibro.get('paginas')?.errors?.['required']"
             class="text-danger"
@@ -100,7 +116,9 @@
             El campo páginas es requerido
           </p>
         </div>
+        <!-- Campo para la editorial del libro -->
         <div>
+          <label for="editorial">Editorial del libro</label>
           <input
             type="text"
             class="form-control"
@@ -108,6 +126,7 @@
             placeholder="Editorial"
             aria-label="Editorial"
           />
+          <!-- Mensaje de error si el campo editorial del libro está vacío -->
           <p
             *ngIf="formularioLibro.get('editorial')?.errors?.['required']"
             class="text-danger"
@@ -115,7 +134,9 @@
             El campo editorial es requerido
           </p>
         </div>
+        <!-- Campo para la descripción del libro -->
         <div>
+          <label for="descripcion">Descripción del libro</label>
           <textarea
             class="form-control"
             formControlName="descripcion"
@@ -125,18 +146,30 @@
         </div>
       </div>
 
+      <!-- Botón para guardar un nuevo libro -->
       <div class="mt-3" *ngIf="mostrarBotonGuardar">
         <button type="submit" class="btn btn-primary">Añadir libro</button>
       </div>
     </form>
+    <!-- Botón para actualizar un libro existente -->
     <div class="mt-3" *ngIf="modificarLibro">
       <button (click)="actualizarAutor()" [disabled]="formularioLibro.invalid">
         Actualizar Libro
       </button>
     </div>
+
+    <!-- Mensajes de éxito y advertencia -->
+    <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
+      {{ successMessage }}
+    </div>
+
+    <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
+      {{ warningMessage }}
+    </div>
   </div>
-  <!-- Fin formulario de registro -->
+
   <br />
+  <!-- Campo de búsqueda de libros -->
   <div>
     <div class="input-group mb-3">
       <input
@@ -147,6 +180,7 @@
         aria-label="Buscar"
         aria-describedby="basic-addon2"
       />
+      <!-- Botón para buscar libros -->
       <div class="input-group-append">
         <button
           (click)="buscarLibros(keywordInput.value)"
@@ -159,13 +193,23 @@
     </div>
   </div>
 </div>
+
+<!-- Contenedor para la tabla de libros y mensajes de éxito -->
 <div class="container">
+  <!-- Mensaje de éxito al eliminar un libro -->
+  <div class="alert alert-success" role="alert" *ngIf="eliminadoExitoso">
+    Libro eliminado correctamente
+  </div>
+  <!-- Encabezado de la tabla de libros -->
   <div class="EncabezadoTabla">
     <h1>Tabla de libros</h1>
+    <!-- Botón para crear un nuevo libro -->
     <button (click)="botonNuevoLibro()" type="button" class="btn btn-dark">
       Nuevo libro
     </button>
   </div>
+
+  <!-- Tabla de libros -->
   <div class="tablaLibros">
     <table class="table table-primary table-hover shadow">
       <thead>
@@ -180,6 +224,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Lista de libros -->
         <tr *ngFor="let item of books">
           <th scope="row">{{ item.id }}</th>
           <td>{{ item.titulo }}</td>
@@ -187,6 +232,7 @@
           <td>{{ item.apellidosAutor }}</td>
           <td>{{ item.genero }}</td>
           <td>{{ item.editorial }}</td>
+          <!-- Botones para ver, editar y eliminar libros -->
           <td class="acciones">
             <button
               (click)="obtenerLibroPorId(item.id)"
@@ -200,14 +246,14 @@
               type="button"
               class="btn btn-warning"
             >
-              Editar autor
+              Editar libro
             </button>
             <button
               (click)="eliminarLibro(item)"
               type="button"
               class="btn btn-danger"
             >
-              Eliminar autor
+              Eliminar libro
             </button>
           </td>
         </tr>
@@ -215,6 +261,7 @@
     </table>
   </div>
 
+  <!-- Paginación -->
   <div *ngIf="paginacion">
     <ul *ngIf="totalPaginas && totalPaginas.length > 0" class="pagination">
       <!-- Botón "Anterior" -->
@@ -249,37 +296,37 @@
       </li>
     </ul>
 
-    <!-- Template HTML -->
+    <!-- Selector de tamaño de página -->
     <select (change)="changePageSize($event)">
       <option *ngFor="let size of [10, 20, 50, 100]" [value]="size">
         {{ size }}
       </option>
     </select>
   </div>
-
-  <!-- ng-template con la referencia local 'content' que contiene el modal -->
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Detalles del Libro</h4>
-    </div>
-    <div class="modal-body">
-      <p><strong>Título:</strong> {{ book?.titulo }}</p>
-      <p>
-        <strong>Autor:</strong> {{ book.nombreAutor }} {{ book.apellidosAutor }}
-      </p>
-      <p><strong>Género:</strong> {{ book.genero }}</p>
-      <p><strong>Páginas:</strong> {{ book.paginas }}</p>
-      <p><strong>Editorial:</strong> {{ book.editorial }}</p>
-      <p><strong>Descripción:</strong> {{ book.descripcion }}</p>
-    </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-outline-dark"
-        (click)="modal.close('Close click')"
-      >
-        Cerrar
-      </button>
-    </div>
-  </ng-template>
 </div>
+
+<!-- ng-template con la referencia local 'content' que contiene el modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Detalles del Libro</h4>
+  </div>
+  <div class="modal-body">
+    <p><strong>Título:</strong> {{ book?.titulo }}</p>
+    <p>
+      <strong>Autor:</strong> {{ book.nombreAutor }} {{ book.apellidosAutor }}
+    </p>
+    <p><strong>Género:</strong> {{ book.genero }}</p>
+    <p><strong>Páginas:</strong> {{ book.paginas }}</p>
+    <p><strong>Editorial:</strong> {{ book.editorial }}</p>
+    <p><strong>Descripción:</strong> {{ book.descripcion }}</p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Close click')"
+    >
+      Cerrar
+    </button>
+  </div>
+</ng-template>

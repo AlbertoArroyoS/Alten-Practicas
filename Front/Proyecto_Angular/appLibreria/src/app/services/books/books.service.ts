@@ -53,4 +53,9 @@ export class BooksService {
     const url = `${this.API_SERVER2}/${bookId}`;
     return this.httpClient.put(url, bookData);
   }
+
+  public deleteBookById(bookId: number): Observable<any> {
+    const url = `${this.API_SERVER2}/${bookId.toString()}`; // Convertir authorId a string
+    return this.httpClient.delete(url);
+  }
 }
