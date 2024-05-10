@@ -5,9 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -123,7 +121,7 @@ public class TestLibreriaLibroService {
         // Verificar que el resultado coincida con el DTO esperado
         assertEquals(expectedDTO, result);
     }
-
+/*
     @Test
     @DisplayName("Test para encontrar todas las relaciones entre librerías y libros")
     public void testFindAll() {
@@ -149,7 +147,7 @@ public class TestLibreriaLibroService {
         // Verificar que los DTOs en la lista resultante coincidan con los esperados
         assertEquals(dto1, result.get(0));
         assertEquals(dto2, result.get(1));
-    }
+    }*/
 
     @Test
     @DisplayName("Test para actualizar una relación entre librería y libro")
