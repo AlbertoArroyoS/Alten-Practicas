@@ -20,7 +20,6 @@ import { Subscription } from 'rxjs';
 // Clase del componente
 export class ListBookComponent {
   // Declaración de variables
-
   protected subscription: Array<Subscription> = new Array(); // Array de suscripciones
   public title!: string;
   book: any;

@@ -1,8 +1,8 @@
 package com.alten.practica.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,9 +93,9 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public List<LibreriaLibroDTO> findAll() {
-		List<LibreriaLibro> lista = libreriaLibroRepository.findAll();
-		return lista.stream().map(libreriaLibroMapper::toDTO).toList();
+	public Page<LibreriaLibroDTO> findAll(Pageable pageable) {
+		Page<LibreriaLibro> lista = libreriaLibroRepository.findAll(pageable);
+		return lista.map(libreriaLibroMapper::toDTO);
 	}
 
 	/**
