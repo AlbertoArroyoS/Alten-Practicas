@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthorsService } from 'src/app/services/authors/authors.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-author',
@@ -14,6 +15,9 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./add-author.component.scss'],
 })
 export class AddAuthorComponent implements OnInit {
+
+  protected subscription: Array<Subscription> = new Array();
+
   formularioAutor: FormGroup; // Formulario para agregar autores
   autores: any; // Lista de autores
   guardadoExitoso: boolean = false; // Controla si el guardado fue exitoso
@@ -35,32 +39,36 @@ export class AddAuthorComponent implements OnInit {
 
   addAuthor() {
     // Método para agregar un autor
-    this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
-      (resp) => {
-        // Si se añade el autor correctamente:
-        this.formularioAutor.reset(); // Resetea el formulario
-       // this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
-        this.autores = resp; // Actualiza la lista de autores
-        this.showSuccessAlert('Autor guardado correctamente'); // Muestra una alerta de éxito
-        setTimeout(() => {
-          this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
-        }, 3000);
-      },
-      (error: HttpErrorResponse) => {
-        // Si hay un error al añadir el autor:
-        if (error.status === 409) {
-          // Si el error es un conflicto (409):
-          console.error('Error: Conflicto al guardar el autor'); // Muestra un mensaje de error en la consola
-          this.showWarningAlert('Conflicto al guardar el autor'); // Muestra una alerta de advertencia
+    this.subscription.push(
+      this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
+        (resp) => {
+          // Si se añade el autor correctamente:
+          this.formularioAutor.reset(); // Resetea el formulario
+         // this.autores.push(resp); // Añade el autor a la lista de autores, simulando que se actualiza la lista de forma reactiva
+          this.autores = resp; // Actualiza la lista de autores
+          this.showSuccessAlert('Autor guardado correctamente'); // Muestra una alerta de éxito
           setTimeout(() => {
-            this.alertaConflicto = false; // Desactiva la alerta de éxito después de 3 segundos
+            this.guardadoExitoso = false; // Desactiva la alerta de éxito después de 3 segundos
           }, 3000);
-        } else {
-          // Si es otro tipo de error:
-          console.error(error); // Muestra el error en la consola
+        },
+        (error: HttpErrorResponse) => {
+          // Si hay un error al añadir el autor:
+          if (error.status === 409) {
+            // Si el error es un conflicto (409):
+            console.error('Error: Conflicto al guardar el autor'); // Muestra un mensaje de error en la consola
+            this.showWarningAlert('Conflicto al guardar el autor'); // Muestra una alerta de advertencia
+            setTimeout(() => {
+              this.alertaConflicto = false; // Desactiva la alerta de éxito después de 3 segundos
+            }, 3000);
+          } else {
+            // Si es otro tipo de error:
+            console.error(error); // Muestra el error en la consola
+          }
         }
-      }
+      )
+
     );
+    
   }
 
   showSuccessAlert(message: string) {

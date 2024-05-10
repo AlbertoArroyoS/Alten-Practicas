@@ -13,6 +13,7 @@ import { AddBookComponent } from './component/add-book/add-book.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ListAuthorComponent } from './component/list-author/list-author.component';
 import { ListBookComponent } from './component/list-book/list-book.component';
+import { ListBookShopComponent } from './component/list-book-shop/list-book-shop.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { ListBookComponent } from './component/list-book/list-book.component';
     AddBookComponent,
     ListAuthorComponent,
     ListBookComponent,
+    ListBookShopComponent,
   ],
   imports: [
     CommonModule,

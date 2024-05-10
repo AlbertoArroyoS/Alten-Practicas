@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 // Componente para listar autores
 @Component({
@@ -16,6 +17,8 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./list-author.component.scss'],
 })
 export class ListAuthorComponent {
+  protected subscription: Array<Subscription> = new Array(); // Array de suscripciones
+
   public title!: string; // Título de la página
   book: any; // Libro seleccionado
   guardadoExitoso: boolean = false; // Indica si el autor se guardó correctamente
@@ -54,17 +57,26 @@ export class ListAuthorComponent {
     this.title = 'Lista de autores';
     this.cargarTablaAutores(0, 10);
   }
+  // Método que se ejecuta al destruir el componente y desuscribirse de las suscripciones
+  ngOnDestroy(): void {
+    // Desuscribirse de cada suscripción en el array de suscripciones
+    this.subscription.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
 
   // Método para cargar la tabla de autores
   cargarTablaAutores(page: number, size: number) {
-    this.authorsService.getAllAuthors(page, size).subscribe((data) => {
-      this.autores = Array.isArray(data.content) ? data.content : [];
-      this.totalPaginas = Array.from(
-        { length: data.totalPages },
-        (_, i) => i + 1
-      );
-      this.currentPage = data.number;
-    });
+    this.subscription.push(
+      this.authorsService.getAllAuthors(page, size).subscribe((data) => {
+        this.autores = Array.isArray(data.content) ? data.content : [];
+        this.totalPaginas = Array.from(
+          { length: data.totalPages },
+          (_, i) => i + 1
+        );
+        this.currentPage = data.number;
+      })
+    );
   }
 
   // Método para recargar la tabla de autores
@@ -75,35 +87,40 @@ export class ListAuthorComponent {
 
   // Método para buscar autores por palabra clave
   buscarAutores(keyword: string) {
-    this.authorsService.searchAuthorsByKeyword(keyword).subscribe(
-      (response) => {
-        this.autores = Array.isArray(response) ? response : [];
-        this.paginacion = false;
-      },
-      (error) => {
-        console.error('Error al buscar autores:', error);
-        this.alertaConflicto = true;
-        this.showWarningAlert('Conflicto al buscar el autor.');
-      }
+    this.subscription.push(
+      this.authorsService.searchAuthorsByKeyword(keyword).subscribe(
+        (response) => {
+          this.autores = Array.isArray(response) ? response : [];
+          this.paginacion = false;
+        },
+        (error) => {
+          console.error('Error al buscar autores:', error);
+          this.alertaConflicto = true;
+          this.showWarningAlert('Conflicto al buscar el autor.');
+        }
+      )
     );
   }
 
   // Método para obtener un libro por su ID
   obtenerLibroPorId(bookId: number) {
-    this.booksService.getBookById(bookId).subscribe(
-      (response) => {
-        this.book = response;
-      },
-      (error) => {
-        console.error('Error al obtener el libro:', error);
-        this.alertaConflicto = true;
-        this.showWarningAlert('Conflicto al obtener el autor.');
-      }
+    this.subscription.push(
+      this.booksService.getBookById(bookId).subscribe(
+        (response) => {
+          this.book = response;
+        },
+        (error) => {
+          console.error('Error al obtener el libro:', error);
+          this.alertaConflicto = true;
+          this.showWarningAlert('Conflicto al obtener el autor.');
+        }
+      )
     );
   }
 
   // Método para guardar un autor
   guardarAutor() {
+    this.subscription.push();
     this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
       (resp) => {
         this.botonNuevoAutorVisible = false;
@@ -134,22 +151,24 @@ export class ListAuthorComponent {
 
   // Método para eliminar un autor
   eliminarAutor(autor: any) {
-    this.authorsService.deleteAuthorById(autor.id).subscribe(
-      (resp) => {
-        this.eliminadoExitoso = true;
-        this.recargarTablaAutores();
-        this.showSuccessAlert('Autor eliminado correctamente');
-        setTimeout(() => {
-          this.eliminadoExitoso = false;
-        }, 3000);
-      },
-      (error) => {
-        console.error('Error al eliminar el autor:', error);
-        this.alertaConflicto = true;
-        this.showWarningAlert(
-          'Conflicto al eliminar el autor. El autor está asociado.'
-        );
-      }
+    this.subscription.push(
+      this.authorsService.deleteAuthorById(autor.id).subscribe(
+        (resp) => {
+          this.eliminadoExitoso = true;
+          this.recargarTablaAutores();
+          this.showSuccessAlert('Autor eliminado correctamente');
+          setTimeout(() => {
+            this.eliminadoExitoso = false;
+          }, 3000);
+        },
+        (error) => {
+          console.error('Error al eliminar el autor:', error);
+          this.alertaConflicto = true;
+          this.showWarningAlert(
+            'Conflicto al eliminar el autor. El autor está asociado.'
+          );
+        }
+      )
     );
   }
 
@@ -171,28 +190,30 @@ export class ListAuthorComponent {
     const idControl = this.formularioAutor.get('id');
     if (idControl) {
       const autorId = idControl.value;
-      this.authorsService
-        .updateAuthor(autorId, this.formularioAutor.value)
-        .subscribe(
-          (resp) => {
-            this.guardadoExitoso = true;
-            this.botonNuevoAutorVisible = false;
-            this.formularioAutor.reset();
-            const index = this.autores.findIndex((a) => a.id === autorId);
-            if (index !== -1) this.autores[index] = resp;
-            this.showSuccessAlert('Autor actualizado correctamente');
-            setTimeout(() => {
-              this.guardadoExitoso = false;
-            }, 3000);
-            this.recargarTablaAutores();
-          },
-          (error: HttpErrorResponse) => {
-            this.alertaConflicto = true;
-            this.showWarningAlert(
-              'Conflicto al guardar el autor. El autor ya existe.'
-            );
-          }
-        );
+      this.subscription.push(
+        this.authorsService
+          .updateAuthor(autorId, this.formularioAutor.value)
+          .subscribe(
+            (resp) => {
+              this.guardadoExitoso = true;
+              this.botonNuevoAutorVisible = false;
+              this.formularioAutor.reset();
+              const index = this.autores.findIndex((a) => a.id === autorId);
+              if (index !== -1) this.autores[index] = resp;
+              this.showSuccessAlert('Autor actualizado correctamente');
+              setTimeout(() => {
+                this.guardadoExitoso = false;
+              }, 3000);
+              this.recargarTablaAutores();
+            },
+            (error: HttpErrorResponse) => {
+              this.alertaConflicto = true;
+              this.showWarningAlert(
+                'Conflicto al guardar el autor. El autor ya existe.'
+              );
+            }
+          )
+      );
     }
   }
 
