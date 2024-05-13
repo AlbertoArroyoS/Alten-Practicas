@@ -1,0 +1,17 @@
+/* styles.css o app.component.css */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .content-wrap {
+    flex: 1;
+  }
+  
+  footer, app-footer {
+    background-color: rgb(56, 2, 253);
+    width: 100%;
+    margin-top: 20px;
+  }
+  
