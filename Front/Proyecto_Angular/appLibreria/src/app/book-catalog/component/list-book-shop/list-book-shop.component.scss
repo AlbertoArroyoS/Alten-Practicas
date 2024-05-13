@@ -1,5 +1,5 @@
-** {
-  border: 1px solid rgb(249, 5, 5); /* Borde sólido para celdas de la tabla */
+**{
+  border: 1px solid rgb(249, 5, 5); /* Borde sólido para celdas de la tabla */ 
 }
 
 .EncabezadoTabla {
@@ -22,12 +22,19 @@
 .acciones button {
   margin-left: 5px; /* Añade un pequeño espacio entre los botones */
 }
-tr {
+tr{
   text-align: center;
+  
 }
 
 table td:nth-child(2) {
-  font-size: 15px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
+  font-size: 22px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
   font-weight: bold; /* Texto en negrita para los resultados de la columna "Nombre" */
 }
+
+table td:nth-child(3) {
+  font-size: 22px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
+  font-weight: bold; /* Texto en negrita para los resultados de la columna "Nombre" */
+}
+
 
