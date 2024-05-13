@@ -1,4 +1,4 @@
-**{
+*{
   border: 1px solid rgb(249, 5, 5); /* Borde sólido para celdas de la tabla */ 
 }
 
@@ -26,9 +26,10 @@ tr{
   text-align: center;
   
 }
-tablaLibros{
-  margin-top: 30px;
+.container {
+  margin-top: 30px; /* Espacio de 100px en la parte superior */
 }
+
 
 table td:nth-child(2) {
   font-size: 22px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
@@ -39,5 +40,3 @@ table td:nth-child(3) {
   font-size: 22px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
   font-weight: bold; /* Texto en negrita para los resultados de la columna "Nombre" */
 }
-
-
