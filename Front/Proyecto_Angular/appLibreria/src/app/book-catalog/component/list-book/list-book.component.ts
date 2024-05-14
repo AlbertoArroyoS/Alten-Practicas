@@ -119,19 +119,18 @@ export class ListBookComponent {
         // Llamar al servicio para guardar el libro
         this.booksService.addBook(this.formularioLibro.value).subscribe({
           next: (resp) => {
-            console.log('Libro guardado:', resp);
+            this.showSuccessAlert('Libro guardado correctamente');
             this.botonNuevoLibroVisible = false;
             this.recargarTablaLibros();
           },
           error: (error: HttpErrorResponse) => {
-            console.error('Error al guardar el libro:', error);
-            this.alertaConflicto = true;
+            //this.alertaConflicto = true;
             this.showWarningAlert('Conflicto al guardar el libro.');
           },
         })
       );
     } else {
-      console.error('El formulario no está completo');
+      this.formularioLibro.markAllAsTouched();
       this.alertaConflicto = true;
       this.showWarningAlert('El formulario no está completo');
       Object.keys(this.formularioLibro.controls).forEach((field) => {
@@ -157,8 +156,6 @@ export class ListBookComponent {
           this.abrirModal(this.book); // Llama al método openModal con el libro
         },
         (error) => {
-          console.error('Error al obtener el libro:', error);
-          this.alertaConflicto = true;
           this.showWarningAlert('Conflicto al obtener el libro.');
         }
       )
@@ -214,13 +211,9 @@ export class ListBookComponent {
               const index = this.books.findIndex((a) => a.id === libroId);
               if (index !== -1) this.books[index] = resp; // Actualiza solo el autor modificado
               this.showSuccessAlert('Autor actualizado correctamente');
-              setTimeout(() => {
-                this.guardadoExitoso = false;
-              }, 3000);
               this.recargarTablaLibros();
             },
             (error: HttpErrorResponse) => {
-              this.alertaConflicto = true;
               this.showWarningAlert(
                 'Conflicto al actualizar el libro. El libro ya existe.'
               );
@@ -235,16 +228,10 @@ export class ListBookComponent {
     this.subscription.push(
       this.booksService.deleteBookById(books.id).subscribe(
         (resp) => {
-          this.eliminadoExitoso = true;
           this.recargarTablaLibros();
           this.showSuccessAlert('Libro eliminado correctamente');
-          setTimeout(() => {
-            this.eliminadoExitoso = false;
-          }, 3000);
         },
         (error) => {
-          console.error('Error al eliminar el libro:', error);
-          this.alertaConflicto = true;
           this.showWarningAlert(
             'Conflicto al eliminar el libro. El libro está asociado.'
           );
@@ -268,7 +255,11 @@ export class ListBookComponent {
 
   // Método para mostrar una alerta de éxito
   showSuccessAlert(message: string) {
+    this.guardadoExitoso = true;
     this.successMessage = message;
+    setTimeout(() => {
+      this.guardadoExitoso = false;
+    }, 4000);
   }
 
   // Método para mostrar una alerta de advertencia

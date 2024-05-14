@@ -94,8 +94,6 @@ export class ListAuthorComponent {
           this.paginacion = false;
         },
         (error) => {
-          console.error('Error al buscar autores:', error);
-          this.alertaConflicto = true;
           this.showWarningAlert('Conflicto al buscar el autor.');
         }
       )
@@ -110,8 +108,6 @@ export class ListAuthorComponent {
           this.book = response;
         },
         (error) => {
-          console.error('Error al obtener el libro:', error);
-          this.alertaConflicto = true;
           this.showWarningAlert('Conflicto al obtener el autor.');
         }
       )
@@ -125,12 +121,8 @@ export class ListAuthorComponent {
       this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
         (resp) => {
           this.botonNuevoAutorVisible = false;
-          this.guardadoExitoso = true;
           this.formularioAutor.reset();
           this.showSuccessAlert('Autor guardado correctamente');
-          setTimeout(() => {
-            this.guardadoExitoso = false;
-          }, 3000);
           this.recargarTablaAutores();
         },
         (error: HttpErrorResponse) => {
@@ -138,12 +130,7 @@ export class ListAuthorComponent {
             this.showWarningAlert(
               'Conflicto al guardar el autor. El autor ya existe.'
             );
-            setTimeout(() => {
-              this.alertaConflicto = false;
-            }, 3000);
           } else {
-            console.error(error);
-            this.alertaConflicto = true;
             this.showWarningAlert('Conflicto al guardar el autor.');
           }
         }
@@ -160,16 +147,10 @@ export class ListAuthorComponent {
     this.subscription.push(
       this.authorsService.deleteAuthorById(autor.id).subscribe(
         (resp) => {
-          this.eliminadoExitoso = true;
           this.recargarTablaAutores();
           this.showSuccessAlert('Autor eliminado correctamente');
-          setTimeout(() => {
-            this.eliminadoExitoso = false;
-          }, 3000);
         },
         (error) => {
-          console.error('Error al eliminar el autor:', error);
-          this.alertaConflicto = true;
           this.showWarningAlert(
             'Conflicto al eliminar el autor. El autor está asociado.'
           );
@@ -201,19 +182,16 @@ export class ListAuthorComponent {
           .updateAuthor(autorId, this.formularioAutor.value)
           .subscribe(
             (resp) => {
+              this.modificarAutor = false;
               this.guardadoExitoso = true;
               this.botonNuevoAutorVisible = false;
               this.formularioAutor.reset();
               const index = this.autores.findIndex((a) => a.id === autorId);
               if (index !== -1) this.autores[index] = resp;
               this.showSuccessAlert('Autor actualizado correctamente');
-              setTimeout(() => {
-                this.guardadoExitoso = false;
-              }, 3000);
               this.recargarTablaAutores();
             },
             (error: HttpErrorResponse) => {
-              this.alertaConflicto = true;
               this.showWarningAlert(
                 'Conflicto al guardar el autor. El autor ya existe.'
               );
@@ -225,7 +203,11 @@ export class ListAuthorComponent {
 
   // Método para mostrar una alerta de éxito
   showSuccessAlert(message: string) {
+    this.guardadoExitoso = true;
     this.successMessage = message;
+    setTimeout(() => {
+      this.guardadoExitoso = false;
+    }, 4000);
   }
 
   // Método para mostrar una alerta de advertencia

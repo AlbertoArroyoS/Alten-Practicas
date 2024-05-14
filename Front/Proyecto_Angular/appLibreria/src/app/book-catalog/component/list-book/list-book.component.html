@@ -3,7 +3,9 @@
   <div class="row">
     <!-- Enlace para recargar la tabla de libros -->
     <span>
-      <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{ title }}</a>
+      <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{
+        title
+      }}</a>
     </span>
   </div>
   <!-- Formulario de registro de libros -->
@@ -29,12 +31,20 @@
             aria-label="NombreAutor"
           />
           <!-- Mensaje de error si el campo nombre del autor está vacío -->
-          <p
-            *ngIf="formularioLibro.get('nombreAutor')?.errors?.['required']"
+          <div
+            *ngIf="
+              formularioLibro.get('nombreAutor')?.invalid &&
+              (formularioLibro.get('nombreAutor')?.dirty ||
+                formularioLibro.get('nombreAutor')?.touched)
+            "
             class="text-danger"
           >
-            El campo nombre del autor es requerido
-          </p>
+            <div
+              *ngIf="formularioLibro.get('nombreAutor')?.errors?.['required']"
+            >
+              El campo nombre del autor es requerido
+            </div>
+          </div>
         </div>
         <!-- Campo para los apellidos del autor -->
         <div>
@@ -47,12 +57,20 @@
             aria-label="ApellidosAutor"
           />
           <!-- Mensaje de error si el campo apellidos del autor está vacío -->
-          <p
-            *ngIf="formularioLibro.get('apellidosAutor')?.errors?.['required']"
+          <div
+            *ngIf="
+              formularioLibro.get('apellidosAutor')?.invalid &&
+              (formularioLibro.get('apellidosAutor')?.dirty ||
+                formularioLibro.get('apellidosAutor')?.touched)
+            "
             class="text-danger"
           >
-            El campo apellido del autor es requerido
-          </p>
+            <div
+              *ngIf="formularioLibro.get('apellidosAutor')?.errors?.['required']"
+            >
+              El campo Apellido del autor es requerido
+            </div>
+          </div>
         </div>
       </div>
 
@@ -68,12 +86,18 @@
             aria-label="Titulo"
           />
           <!-- Mensaje de error si el campo título del libro está vacío -->
-          <p
-            *ngIf="formularioLibro.get('titulo')?.errors?.['required']"
+          <div
+            *ngIf="
+              formularioLibro.get('titulo')?.invalid &&
+              (formularioLibro.get('titulo')?.dirty ||
+                formularioLibro.get('titulo')?.touched)
+            "
             class="text-danger"
           >
-            El campo nombre es requerido
-          </p>
+            <div *ngIf="formularioLibro.get('titulo')?.errors?.['required']">
+              El campo Título es requerido
+            </div>
+          </div>
         </div>
         <!-- Campo para el género del libro -->
         <div>
@@ -93,12 +117,18 @@
             <option value="Otros">Otros</option>
           </select>
           <!-- Mensaje de error si el campo género del libro está vacío -->
-          <p
-            *ngIf="formularioLibro.get('genero')?.errors?.['required']"
+          <div
+            *ngIf="
+              formularioLibro.get('genero')?.invalid &&
+              (formularioLibro.get('genero')?.dirty ||
+                formularioLibro.get('genero')?.touched)
+            "
             class="text-danger"
           >
-            El campo genero es requerido
-          </p>
+            <div *ngIf="formularioLibro.get('genero')?.errors?.['required']">
+              El campo Género es requerido
+            </div>
+          </div>
           <!-- Campo para el número de páginas del libro -->
           <label for="paginas">Páginas del libro</label>
           <input
@@ -109,12 +139,18 @@
             aria-label="Paginas"
           />
           <!-- Mensaje de error si el campo páginas del libro está vacío -->
-          <p
-            *ngIf="formularioLibro.get('paginas')?.errors?.['required']"
+          <div
+            *ngIf="
+              formularioLibro.get('paginas')?.invalid &&
+              (formularioLibro.get('paginas')?.dirty ||
+                formularioLibro.get('paginas')?.touched)
+            "
             class="text-danger"
           >
-            El campo páginas es requerido
-          </p>
+            <div *ngIf="formularioLibro.get('paginas')?.errors?.['required']">
+              El campo Páginas es requerido
+            </div>
+          </div>
         </div>
         <!-- Campo para la editorial del libro -->
         <div>
@@ -127,12 +163,18 @@
             aria-label="Editorial"
           />
           <!-- Mensaje de error si el campo editorial del libro está vacío -->
-          <p
-            *ngIf="formularioLibro.get('editorial')?.errors?.['required']"
+          <div
+            *ngIf="
+              formularioLibro.get('editorial')?.invalid &&
+              (formularioLibro.get('editorial')?.dirty ||
+                formularioLibro.get('editorial')?.touched)
+            "
             class="text-danger"
           >
-            El campo editorial es requerido
-          </p>
+            <div *ngIf="formularioLibro.get('editorial')?.errors?.['required']">
+              El campo Editorial es requerido
+            </div>
+          </div>
         </div>
         <!-- Campo para la descripción del libro -->
         <div>
