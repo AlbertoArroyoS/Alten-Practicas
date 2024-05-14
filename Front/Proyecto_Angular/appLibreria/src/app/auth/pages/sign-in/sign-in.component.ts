@@ -28,7 +28,8 @@ export class SignInComponent {
       this.router.navigate(['/book-catalog']);
       this.loginForm.reset();
     } else {
-      alert('Formulario invalido');
+      this.loginForm.markAllAsTouched();
+      //alert('Formulario invalido');
     }
   }
 }
