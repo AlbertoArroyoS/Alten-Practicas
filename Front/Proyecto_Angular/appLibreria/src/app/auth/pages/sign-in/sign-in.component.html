@@ -19,7 +19,7 @@
                     </h4>
                   </div>
 
-                  <form>
+                  <form [formGroup]="loginForm">
                     <p>Inicio de sesión</p>
                     <br />
 
@@ -31,7 +31,8 @@
                         type="email"
                         id="form2Example11"
                         class="form-control"
-                        placeholder="Phone number or email address"
+                        placeholder="Email"
+                        formControlName="email"
                       />
                     </div>
 
@@ -43,6 +44,7 @@
                         type="password"
                         id="form2Example22"
                         class="form-control"
+                        formControlName="password"
                       />
                     </div>
 
@@ -51,9 +53,10 @@
                         data-mdb-button-init
                         data-mdb-ripple-init
                         class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-                        type="button"
+                        type="submit"
+                        (click)="login()"
                       >
-                        Log in
+                        Iniciar sesión
                       </button>
                     </div>
                   </form>
