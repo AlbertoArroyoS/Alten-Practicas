@@ -34,6 +34,24 @@
                         placeholder="Email"
                         formControlName="email"
                       />
+                      <!-- Mensaje de error si el campo email está vacío -->
+                      <div
+                        *ngIf="
+                          loginForm.get('email')?.invalid &&
+                          (loginForm.get('email')?.dirty ||
+                            loginForm.get('email')?.touched)
+                        "
+                        class="text-danger"
+                      >
+                        <div
+                          *ngIf="loginForm.get('email')?.errors?.['required']"
+                        >
+                          El Email es requerido.
+                        </div>
+                        <div *ngIf="loginForm.get('email')?.errors?.['email']">
+                          El Email debe tener un formato válido.
+                        </div>
+                      </div>
                     </div>
 
                     <div data-mdb-input-init class="form-outline mb-4">
@@ -46,6 +64,18 @@
                         class="form-control"
                         formControlName="password"
                       />
+                      <!-- Mensaje de error si el campo email está vacío -->
+                      <div
+                        *ngIf="
+                        loginForm.get('password')?.invalid &&
+                          (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
+                        "
+                        class="text-danger"
+                      >
+                        <div *ngIf="loginForm.get('password')?.errors?.['required']">
+                          El Password es requerido.
+                        </div>
+                      </div>
                     </div>
 
                     <div class="text-center pt-1 mb-5 pb-1">
