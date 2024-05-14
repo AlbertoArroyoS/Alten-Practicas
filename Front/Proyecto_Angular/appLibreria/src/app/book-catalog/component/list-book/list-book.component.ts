@@ -179,6 +179,8 @@ export class ListBookComponent {
 
   // Método para editar un libro
   editarLibro(book: any) {
+    // Desplazar al principio de la página
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.botonNuevoLibroVisible = true;
     this.modificarLibro = true;
     //this.nombreLibroEditar = libro.titulo;
@@ -207,10 +209,11 @@ export class ListBookComponent {
             (resp) => {
               this.guardadoExitoso = true;
               this.botonNuevoLibroVisible = false;
+              this.modificarLibro = false;
               this.formularioLibro.reset();
               const index = this.books.findIndex((a) => a.id === libroId);
               if (index !== -1) this.books[index] = resp; // Actualiza solo el autor modificado
-              this.showSuccessAlert('Autor actualizado correctamente');
+              this.showSuccessAlert('Libro actualizado correctamente');
               this.recargarTablaLibros();
             },
             (error: HttpErrorResponse) => {
@@ -228,6 +231,8 @@ export class ListBookComponent {
     this.subscription.push(
       this.booksService.deleteBookById(books.id).subscribe(
         (resp) => {
+          // Desplazar al principio de la página
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           this.recargarTablaLibros();
           this.showSuccessAlert('Libro eliminado correctamente');
         },

@@ -147,6 +147,8 @@ export class ListAuthorComponent {
     this.subscription.push(
       this.authorsService.deleteAuthorById(autor.id).subscribe(
         (resp) => {
+          // Desplazar al principio de la página
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           this.recargarTablaAutores();
           this.showSuccessAlert('Autor eliminado correctamente');
         },
@@ -161,6 +163,8 @@ export class ListAuthorComponent {
 
   // Método para editar un autor
   editarAutor(autor: any) {
+    // Desplazar al principio de la página
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.botonNuevoAutorVisible = true;
     this.modificarAutor = true;
     this.nombreAutorEditar = autor.nombre;
