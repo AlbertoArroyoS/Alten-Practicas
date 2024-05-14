@@ -41,6 +41,10 @@ export class HeaderComponent {
     this.router.navigate(['book-catalog/author']);
   }
 
+  public goToPurchases(): void {
+    this.router.navigate(['book-catalog/purchases']);
+  }
+
 
 
 }
