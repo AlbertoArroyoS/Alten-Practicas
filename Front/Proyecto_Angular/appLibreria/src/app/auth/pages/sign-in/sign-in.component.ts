@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class SignInComponent {
   loginForm: FormGroup;
+  loginError:string="";
 
   constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
@@ -25,13 +27,27 @@ export class SignInComponent {
 
   login() {
     if (this.loginForm.valid) {
-     this.loginService.login(this.loginForm.value);
-
-      this.router.navigate(['/book-catalog']);
-      this.loginForm.reset();
+      this.loginService.loginSpring(this.loginForm.value as LoginRequest).subscribe({
+        next: (userData) => {
+          console.log(userData);
+          // Redirigir y resetear el formulario aquí para asegurar que solo ocurra en caso de éxito
+          this.router.navigateByUrl('/book-catalog');
+          this.loginForm.reset();
+          // Desplazar al principio de la página
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+        error: (errorData) => {
+          console.error(errorData);
+          this.loginError = errorData;
+        },
+        complete: () => {
+          console.info("Login completo");
+        }
+      });
     } else {
       this.loginForm.markAllAsTouched();
       //alert('Formulario invalido');
     }
   }
+  
 }
