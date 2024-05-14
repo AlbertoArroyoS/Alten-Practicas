@@ -186,6 +186,8 @@ export class ListAuthorComponent {
           .updateAuthor(autorId, this.formularioAutor.value)
           .subscribe(
             (resp) => {
+              // Desplazar al principio de la página
+              window.scrollTo({ top: 0, behavior: 'smooth' });
               this.modificarAutor = false;
               this.guardadoExitoso = true;
               this.botonNuevoAutorVisible = false;

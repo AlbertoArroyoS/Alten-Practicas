@@ -198,7 +198,7 @@ export class ListBookComponent {
   }
 
   // Método para actualizar un autor
-  actualizarAutor() {
+  actualizarLibro() {
     const idControl = this.formularioLibro.get('id');
     if (idControl) {
       const libroId = idControl.value;
@@ -207,6 +207,8 @@ export class ListBookComponent {
           .updateBook(libroId, this.formularioLibro.value)
           .subscribe(
             (resp) => {
+              // Desplazar al principio de la página
+              window.scrollTo({ top: 0, behavior: 'smooth' });
               this.guardadoExitoso = true;
               this.botonNuevoLibroVisible = false;
               this.modificarLibro = false;
