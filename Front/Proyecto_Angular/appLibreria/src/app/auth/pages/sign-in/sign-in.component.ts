@@ -1,3 +1,4 @@
+import { LoginService } from './../../../services/auth/login.service';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 export class SignInComponent {
   loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
@@ -24,7 +25,8 @@ export class SignInComponent {
 
   login() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+     this.loginService.login(this.loginForm.value);
+
       this.router.navigate(['/book-catalog']);
       this.loginForm.reset();
     } else {
