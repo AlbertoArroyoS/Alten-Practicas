@@ -28,6 +28,11 @@ export class BookCatalogLayoutComponent {
       }
     })
   }
+  //Desuscribirse de los observables para evitar fugas de memoria
+  ngOnDestroy(): void {
+    this.loginService.currentUserData.unsubscribe();
+    this.loginService.currentUserLoginOn.unsubscribe();
+  }
 
 
 }
