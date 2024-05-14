@@ -120,33 +120,39 @@ export class ListAuthorComponent {
 
   // Método para guardar un autor
   guardarAutor() {
-    this.subscription.push();
-    this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
-      (resp) => {
-        this.botonNuevoAutorVisible = false;
-        this.guardadoExitoso = true;
-        this.formularioAutor.reset();
-        this.showSuccessAlert('Autor guardado correctamente');
-        setTimeout(() => {
-          this.guardadoExitoso = false;
-        }, 3000);
-        this.recargarTablaAutores();
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 409) {
-          this.showWarningAlert(
-            'Conflicto al guardar el autor. El autor ya existe.'
-          );
+    if (this.formularioAutor.valid) {
+      this.subscription.push();
+      this.authorsService.addAuthor(this.formularioAutor.value).subscribe(
+        (resp) => {
+          this.botonNuevoAutorVisible = false;
+          this.guardadoExitoso = true;
+          this.formularioAutor.reset();
+          this.showSuccessAlert('Autor guardado correctamente');
           setTimeout(() => {
-            this.alertaConflicto = false;
+            this.guardadoExitoso = false;
           }, 3000);
-        } else {
-          console.error(error);
-          this.alertaConflicto = true;
-          this.showWarningAlert('Conflicto al guardar el autor.');
+          this.recargarTablaAutores();
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 409) {
+            this.showWarningAlert(
+              'Conflicto al guardar el autor. El autor ya existe.'
+            );
+            setTimeout(() => {
+              this.alertaConflicto = false;
+            }, 3000);
+          } else {
+            console.error(error);
+            this.alertaConflicto = true;
+            this.showWarningAlert('Conflicto al guardar el autor.');
+          }
         }
-      }
-    );
+      );
+      this.formularioAutor.reset();
+    } else {
+      this.formularioAutor.markAllAsTouched();
+      //alert('Formulario invalido');
+    }
   }
 
   // Método para eliminar un autor
