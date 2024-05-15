@@ -40,6 +40,5 @@ public class ClienteDTORequest {
 
 	private String password;
 
-	private int nivelPermiso;
 
 }

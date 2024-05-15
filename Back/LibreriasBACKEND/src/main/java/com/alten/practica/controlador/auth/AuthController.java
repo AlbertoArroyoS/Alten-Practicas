@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.modelo.entidad.dto.AuthDTO;
 import com.alten.practica.modelo.entidad.dto.request.LoginDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.RegisterDTORequest;
-import com.alten.practica.service.auth.AuthService;
+import com.alten.practica.service.impl.AuthServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 	
-	private final AuthService authService;
+	private final AuthServiceImpl authService;
     
 	@PostMapping(value = "login")
     public ResponseEntity<AuthDTO> login(@RequestBody LoginDTORequest request)

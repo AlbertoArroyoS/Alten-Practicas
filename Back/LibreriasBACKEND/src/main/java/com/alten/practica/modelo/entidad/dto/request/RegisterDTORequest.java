@@ -22,5 +22,11 @@ public class RegisterDTORequest {
 	private String email;
 	
 	private String nombreLibreria;
+	
+	private String nombreDueno;
+	
+	private String direccion;
+	
+	private String ciudad;
 
 }

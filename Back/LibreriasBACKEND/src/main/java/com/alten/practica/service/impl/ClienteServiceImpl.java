@@ -111,7 +111,7 @@ public class ClienteServiceImpl implements IClienteService {
 		cpl.setApellidos(dto.getApellidos());
 		cpl.setEmail(dto.getEmail());
 		cpl.setPassword(dto.getPassword());
-		cpl.setNivelPermiso(dto.getNivelPermiso());
+
 		
 		return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
 

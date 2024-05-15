@@ -65,7 +65,7 @@ class TestClienteService {
 	@DisplayName("Test para guardar un nuevo cliente")
 	public void testSave() {
 
-		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password");
 		Cliente cliente = new Cliente();
 		cliente.setId(1);
 
@@ -84,7 +84,7 @@ class TestClienteService {
 	@Test
 	@DisplayName("Test para guardar un cliente con nombre y apellidos ya existentes")
 	public void testSaveExistingClient() {
-		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password");
 
 		when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.of(new Cliente()));
 
@@ -134,7 +134,7 @@ class TestClienteService {
 	@Test
 	@DisplayName("Test para actualizar un cliente")
 	public void testUpdate() {
-		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password");
 
 		when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.empty());
 		when(clienteRepository.findById(1)).thenReturn(Optional.of(new Cliente()));
@@ -154,7 +154,7 @@ class TestClienteService {
 	@Test
 	@DisplayName("Test para actualizar un cliente que no existe")
 	public void testUpdateNotFound() {
-		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password");
 
 		when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.empty());
 		when(clienteRepository.findById(1)).thenReturn(Optional.empty());
@@ -165,7 +165,7 @@ class TestClienteService {
 	@Test
 	@DisplayName("Test para actualizar un cliente con nombre y apellidos ya existentes")
 	public void testUpdateExistingClient() {
-		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password", 1);
+		ClienteDTORequest dtoRequest = new ClienteDTORequest("Alberto", "Arroyo", "aas@example.com", "password");
 
 		when(clienteRepository.findByNombreAndApellidos("Alberto", "Arroyo")).thenReturn(Optional.of(new Cliente()));
 
