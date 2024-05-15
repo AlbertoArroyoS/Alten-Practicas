@@ -49,15 +49,7 @@ public class Usuario implements UserDetails{
     @Column(name = "enabled")
     private byte enabled;
 
-    @Column(name = "nombre")
-	private String nombre;
-
-	@Column(name = "apellidos")
-	private String apellidos;
-
-	@Column(name = "email")
-	private String email;
-
+   
     @Enumerated(EnumType.STRING)
     private Role role;
 
