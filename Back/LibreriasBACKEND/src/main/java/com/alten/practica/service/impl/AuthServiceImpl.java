@@ -1,6 +1,7 @@
 package com.alten.practica.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.alten.practica.modelo.entidad.Cliente;
@@ -34,6 +35,8 @@ public class AuthServiceImpl implements IAuthService{
 
     @Autowired
     private JwtService jwtService; // Servicio para generar el token
+    
+    private final PasswordEncoder passwordEncoder;
 	
 	@Override
 	public AuthDTO login(LoginDTORequest request) {
@@ -64,7 +67,7 @@ public class AuthServiceImpl implements IAuthService{
         // Crear un nuevo Usuario y asignar Cliente y Libreria
         Usuario usuario = Usuario.builder()
                 .username(request.getUsername())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode( request.getPassword()))
                 .cliente(cliente)
                 .libreria(libreria)
                 .role(Role.USER)
