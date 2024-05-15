@@ -1,6 +1,9 @@
 package com.alten.practica.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,13 +39,21 @@ public class AuthServiceImpl implements IAuthService{
     @Autowired
     private JwtService jwtService; // Servicio para generar el token
     
+    
+    private final AuthenticationManager authenticationManager;
+    
     private final PasswordEncoder passwordEncoder;
 	
 	@Override
 	public AuthDTO login(LoginDTORequest request) {
-		//return AuthDTO.builder().token("token").build();
-		return null;
-	}
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        UserDetails user=usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
+        String token=jwtService.getToken(user);
+        return AuthDTO.builder()
+            .token(token)
+            .build();
+
+    }
 	
 	@Override
 	public AuthDTO register(RegisterDTORequest request) {
