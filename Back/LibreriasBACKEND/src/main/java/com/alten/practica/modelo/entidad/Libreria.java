@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,17 +39,11 @@ public class Libreria {
 	private int id;
 	@Column(name = "nombre_libreria")
 	private String nombreLibreria;
-	@Column(name = "nombre_dueno")
-	private String nombreDueno;
-	@Column(name = "direccion")
-	private String direccion;
-	@Column(name = "ciudad")
-	private String ciudad;
-	@Column(name = "nivel_permiso")
-	private int nivelPermiso;
-	@Column(name = "email")
-	private String email;
+	
 	@OneToMany(mappedBy = "libreria")
 	private List<LibreriaLibro> libreriaLibros;
+	
+	@OneToOne(mappedBy = "libreria")
+	private Usuario usuario;
 
 }

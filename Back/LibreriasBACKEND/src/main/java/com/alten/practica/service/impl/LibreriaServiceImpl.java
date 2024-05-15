@@ -169,10 +169,6 @@ public class LibreriaServiceImpl implements ILibreriaService {
 		}
 
 		libreria.setNombreLibreria(dto.getNombreLibreria());
-		libreria.setNombreDueno(dto.getNombreDueno());
-		libreria.setDireccion(dto.getDireccion());
-		libreria.setCiudad(dto.getCiudad());
-		libreria.setEmail(dto.getEmail());
 
 		Libreria libreriaActualizada = libreriaRepository.save(libreria);
 		return libreriaUtil.createHrefFromResource(libreriaActualizada.getId(), LibreriaResource.LIBRERIA);

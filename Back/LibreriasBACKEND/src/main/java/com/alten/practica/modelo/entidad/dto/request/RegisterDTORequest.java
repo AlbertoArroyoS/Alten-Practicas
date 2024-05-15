@@ -11,9 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegisterDTORequest {
 	
-    String username;
-    String password;
-    String firstname;
-    String lastname;
-    String country; 
+    private String username;
+
+    private String password;
+
+	private String nombre;
+
+	private String apellidos;
+
+	private String email;
+	
+	private String nombreLibreria;
+
 }
