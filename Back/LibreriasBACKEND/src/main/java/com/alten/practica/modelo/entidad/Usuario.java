@@ -25,66 +25,98 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//***********ESTA CLASE ES DE PRUEBA***********
-//Tabla de usuarios para poder loguearse
-
+/*
+ * Entidad de la base de datos que representa a un usuario.
+ * Implementa la interfaz UserDetails para integrarse con Spring Security.
+ * 
+ * @see lombok.Data
+ * @see lombok.Builder
+ * @see lombok.NoArgsConstructor
+ * @see lombok.AllArgsConstructor
+ * @see javax.persistence.Entity
+ * @see org.springframework.security.core.userdetails.UserDetails
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users", schema = "dbo", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
-public class Usuario implements UserDetails{
-	
+@Table(name = "users", schema = "dbo", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+public class Usuario implements UserDetails {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column(name = "username", nullable = false, unique = true)
-    private String username;
+	private String username;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+	@Column(name = "password", nullable = false)
+	private String password;
 
-    @Column(name = "enabled")
-    private byte enabled;
+	@Column(name = "enabled")
+	private byte enabled;
 
-   
-    @Enumerated(EnumType.STRING)
-    private Role role;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 
-    @OneToOne
-    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+	@OneToOne
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
 	private Cliente cliente;
-    
-    @OneToOne
-    @JoinColumn(name = "id_libreria", referencedColumnName = "id_libreria")
+
+	@OneToOne
+	@JoinColumn(name = "id_libreria", referencedColumnName = "id_libreria")
 	private Libreria libreria;
-    
-    //Devolver una lista con el rol del usuario
+
+	// Devolver una lista con el rol del usuario
+	/*
+	 * Método que devuelve una lista con los roles del usuario.
+	 * 
+	 * @return Lista de autoridades del usuario
+	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority((role.name())));
 	}
 
+	/*
+	 * Indica si la cuenta del usuario ha expirado.
+	 * 
+	 * @return true siempre, ya que no se maneja la expiración de cuentas
+	 */
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
+	/*
+	 * Indica si la cuenta del usuario está bloqueada.
+	 * 
+	 * @return true siempre, ya que no se maneja el bloqueo de cuentas
+	 */
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
+	/*
+	 * Indica si las credenciales del usuario han expirado.
+	 * 
+	 * @return true siempre, ya que no se maneja la expiración de credenciales
+	 */
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
+	/*
+	 * Indica si el usuario está habilitado.
+	 * 
+	 * @return true si el usuario está habilitado
+	 */
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub

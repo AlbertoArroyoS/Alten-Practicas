@@ -6,7 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/*
+ * Data Transfer Object (DTO) para manejar las solicitudes de inicio de sesión.
+ * Contiene el nombre de usuario y la contraseña.
+ * 
+ * @see lombok.Data
+ * @see lombok.Builder
+ * @see lombok.AllArgsConstructor
+ * @see lombok.NoArgsConstructor
+ */
 @Data
 @Builder
 @AllArgsConstructor

@@ -4,7 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/*
+ * Data Transfer Object (DTO) para manejar las solicitudes de registro.
+ * Contiene información del usuario y detalles de la librería.
+ * 
+ * @see lombok.Data
+ * @see lombok.Builder
+ * @see lombok.NoArgsConstructor
+ * @see lombok.AllArgsConstructor
+ */
 @Data
 @Builder
 @NoArgsConstructor

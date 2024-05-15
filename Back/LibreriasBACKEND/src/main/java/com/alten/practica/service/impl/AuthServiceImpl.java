@@ -22,41 +22,70 @@ import com.alten.practica.util.Role;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * Implementación del servicio de autenticación.
+ * Maneja la lógica para registrar y autenticar usuarios.
+ * 
+ * @see org.springframework.stereotype.Service
+ * @see lombok.RequiredArgsConstructor
+ * @see IAuthService
+ */
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements IAuthService{
-	
-	
-	@Autowired
+public class AuthServiceImpl implements IAuthService {
+
+    // Repositorio de usuarios para acceder a los datos de usuario
+    @Autowired
     private IUsuarioRepository usuarioRepository;
 
+    // Repositorio de clientes para acceder a los datos de cliente
     @Autowired
     private IClienteRepository clienteRepository;
 
+    // Repositorio de librerías para acceder a los datos de librería
     @Autowired
     private ILibreriaRepository libreriaRepository;
 
+    // Servicio para manejar la lógica de JWT
     @Autowired
-    private JwtService jwtService; // Servicio para generar el token
-    
-    
-    private final AuthenticationManager authenticationManager;
-    
-    private final PasswordEncoder passwordEncoder;
-	
-	@Override
-	public AuthDTO login(LoginDTORequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails user=usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
-        String token=jwtService.getToken(user);
-        return AuthDTO.builder()
-            .token(token)
-            .build();
+    private JwtService jwtService;
 
+    // Gestor de autenticación para autenticar usuarios
+    private final AuthenticationManager authenticationManager;
+
+    // Codificador de contraseñas para codificar contraseñas de usuario
+    private final PasswordEncoder passwordEncoder;
+
+    /*
+     * Autentica un usuario.
+     * 
+     * @param request Objeto LoginDTORequest que contiene las credenciales de inicio de sesión
+     * @return AuthDTO que contiene el token de autenticación
+     */
+    @Override
+    public AuthDTO login(LoginDTORequest request) {
+        // Autentica al usuario utilizando las credenciales proporcionadas
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+        // Busca los detalles del usuario en el repositorio
+        UserDetails user = usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
+
+        // Genera un token de autenticación para el usuario
+        String token = jwtService.getToken(user);
+
+        // Devuelve el DTO de autenticación con el token
+        return AuthDTO.builder().token(token).build();
     }
-	
-	@Override
-	public AuthDTO register(RegisterDTORequest request) {
+
+    /*
+     * Registra un nuevo usuario.
+     * 
+     * @param request Objeto RegisterDTORequest que contiene los datos de registro del usuario
+     * @return AuthDTO que contiene el token de autenticación
+     */
+    @Override
+    public AuthDTO register(RegisterDTORequest request) {
         // Crear y guardar un nuevo Cliente
         Cliente cliente = Cliente.builder()
                 .nombre(request.getNombre())
@@ -64,8 +93,8 @@ public class AuthServiceImpl implements IAuthService{
                 .email(request.getEmail())
                 .build();
         cliente = clienteRepository.save(cliente);
-        
-        // Crear y guardar una nueva Libreria
+
+        // Crear y guardar una nueva Librería
         Libreria libreria = Libreria.builder()
                 .nombreLibreria(request.getNombreLibreria())
                 .nombreDueno(request.getNombreDueno())
@@ -75,15 +104,15 @@ public class AuthServiceImpl implements IAuthService{
                 .build();
         libreria = libreriaRepository.save(libreria);
 
-        // Crear un nuevo Usuario y asignar Cliente y Libreria
+        // Crear un nuevo Usuario y asignar Cliente y Librería
         Usuario usuario = Usuario.builder()
                 .username(request.getUsername())
-                .password(passwordEncoder.encode( request.getPassword()))
+                .password(passwordEncoder.encode(request.getPassword()))
                 .cliente(cliente)
                 .libreria(libreria)
                 .role(Role.USER)
                 .build();
-        
+
         // Guardar el Usuario en la base de datos
         usuario = usuarioRepository.save(usuario);
 
@@ -91,11 +120,6 @@ public class AuthServiceImpl implements IAuthService{
         String token = jwtService.getToken(usuario);
 
         // Devolver el DTO de autenticación con el token
-        return AuthDTO.builder()
-                .token(token)
-                .build();
+        return AuthDTO.builder().token(token).build();
     }
-	
-	
-
 }
