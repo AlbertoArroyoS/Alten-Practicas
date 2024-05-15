@@ -39,6 +39,16 @@ public class Libreria {
 	private int id;
 	@Column(name = "nombre_libreria")
 	private String nombreLibreria;
+	@Column(name = "nombre_dueno")
+	private String nombreDueno;
+	@Column(name = "direccion")
+	private String direccion;
+	@Column(name = "ciudad")
+	private String ciudad;
+	@Column(name = "nivel_permiso")
+	private int nivelPermiso;
+	@Column(name = "email")
+	private String email;
 	
 	@OneToMany(mappedBy = "libreria")
 	private List<LibreriaLibro> libreriaLibros;

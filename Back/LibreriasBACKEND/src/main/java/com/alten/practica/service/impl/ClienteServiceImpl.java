@@ -107,7 +107,12 @@ public class ClienteServiceImpl implements IClienteService {
 		});
 		Cliente cpl = clienteRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
-
+		cpl.setNombre(dto.getNombre());
+		cpl.setApellidos(dto.getApellidos());
+		cpl.setEmail(dto.getEmail());
+		cpl.setPassword(dto.getPassword());
+		cpl.setNivelPermiso(dto.getNivelPermiso());
+		
 		return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
 
 	}

@@ -36,6 +36,16 @@ public class Cliente {
 	@Column(name = "id_cliente")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(name = "nombre")
+	private String nombre;
+	@Column(name = "apellidos")
+	private String apellidos;
+	@Column(name = "email")
+	private String email;
+	@Column(name = "password")
+	private String password;
+	@Column(name = "nivel_permiso")
+	private int nivelPermiso;
 
 	@OneToMany(mappedBy = "cliente")
 	private List<ClienteCompraLibro> listaCompras;

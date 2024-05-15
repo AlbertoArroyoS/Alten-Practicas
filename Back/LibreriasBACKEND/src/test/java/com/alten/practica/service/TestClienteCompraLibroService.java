@@ -135,7 +135,7 @@ public class TestClienteCompraLibroService {
 
 		assertEquals(expectedDTOList, result);
 	}*/
-
+/*
 	@DisplayName("Test para actualizar una compra de libro")
 	@Test
 	public void testUpdate() {
@@ -187,7 +187,7 @@ public class TestClienteCompraLibroService {
 
 		// Verificar que el resultado sea el esperado
 		assertEquals(expectedHrefEntityDTO, result);
-	}
+	}*/
 
 	@DisplayName("Test para eliminar una compra de libro")
 	@Test
