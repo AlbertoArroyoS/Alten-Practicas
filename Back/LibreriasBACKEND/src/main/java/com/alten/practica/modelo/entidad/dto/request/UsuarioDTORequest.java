@@ -20,14 +20,5 @@ public class UsuarioDTORequest {
 
 	private Role role;
 
-	private String nombre;
-
-	private String apellidos;	
-
-	private String nombreLibreria;
-
-	private String nombreDueno;
-
-	private String direccion;
 
 }
