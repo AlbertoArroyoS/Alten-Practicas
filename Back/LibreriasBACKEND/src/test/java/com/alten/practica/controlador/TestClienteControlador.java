@@ -28,7 +28,7 @@ import com.alten.practica.service.IClienteService;
 class TestClienteControlador {
 
 	@Autowired
-	private ClienteControlador clienteControlador;
+	private ClienteController clienteControlador;
 
 	@MockBean
 	private IClienteService clienteService;

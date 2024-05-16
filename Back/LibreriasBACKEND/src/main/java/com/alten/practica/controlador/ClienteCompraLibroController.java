@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j //para logs de lombok
 @RestController
 @RequestMapping(LibreriaConstant.RESOURCE_GENERIC)
-public class ClienteCompraLibroControlador {
+public class ClienteCompraLibroController {
 	
 	@Autowired
 	private IClienteCompraLibroService clienteLibroService;

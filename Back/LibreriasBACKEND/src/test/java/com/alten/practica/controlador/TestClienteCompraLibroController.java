@@ -19,13 +19,13 @@ import com.alten.practica.service.IClienteCompraLibroService;
 /**
  * Clase de prueba para el controlador de ClienteCompraLibro.
  * 
- * @see ClienteCompraLibroControlador
+ * @see ClienteCompraLibroController
  */
 @SpringBootTest
 public class TestClienteCompraLibroController {
 
 	@Autowired
-	private ClienteCompraLibroControlador clienteCompraLibroControlador;
+	private ClienteCompraLibroController clienteCompraLibroControlador;
 
 	@MockBean
 	private IClienteCompraLibroService clienteCompraLibroService;

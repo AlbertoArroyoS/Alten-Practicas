@@ -18,13 +18,13 @@ import com.alten.practica.service.ILibreriaLibroService;
 /**
  * Pruebas unitarias para el controlador de libros de librería.
  * 
- * @see LibreriaLibroControlador
+ * @see LibreriaLibroController
  */
 @SpringBootTest
 class TestLibreriaLibroControlador {
 
 	@InjectMocks
-	private LibreriaLibroControlador libreriaLibroController;
+	private LibreriaLibroController libreriaLibroController;
 
 	@Mock
 	private ILibreriaLibroService libreriaLibroService;
