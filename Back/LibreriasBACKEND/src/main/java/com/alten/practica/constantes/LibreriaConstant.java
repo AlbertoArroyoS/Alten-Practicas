@@ -59,6 +59,8 @@ public class LibreriaConstant {
 	public static final String RESOURCE_CLIENTE_COMPRA_LIBROS = "/compras";
 	public static final String RESOURCE_CLIENTE_COMPRA_LIBRO = "/compra";
 	public static final String RESOURCE_GENERIC_ID = "/{id}";
+	public static final String RESOURCE_USUARIOS = "/usuarios";
+	public static final String RESOURCE_USUARIO = "/usuario";
 
 	// =============================================================================================
 	// PATH DEL SISTEMA LIBRERIA FRONT END
