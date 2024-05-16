@@ -2,6 +2,7 @@ package com.alten.practica.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,7 +46,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 
                 // Configura las reglas de autorización de solicitudes
-                .authorizeHttpRequests(authRequest -> authRequest
+                .authorizeHttpRequests(authRequest -> 
+                	authRequest
+                	//Permitir solicitures get y options
+                	.requestMatchers(HttpMethod.GET).permitAll()
+                    .requestMatchers(HttpMethod.OPTIONS).permitAll()
                     // Permite todas las solicitudes a las rutas que comienzan con "/auth/"
                     .requestMatchers("/auth/**").permitAll()
                     // Requiere autenticación para cualquier otra solicitud

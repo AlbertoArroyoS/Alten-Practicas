@@ -4,6 +4,14 @@ import java.io.Serializable;
 
 import com.alten.practica.util.Role;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UsuarioDTO implements Serializable{
 	
 
