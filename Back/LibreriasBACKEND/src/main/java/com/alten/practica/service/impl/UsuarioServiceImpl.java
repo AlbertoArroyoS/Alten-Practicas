@@ -15,7 +15,6 @@ import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IUsuarioService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
-
 /**
  * Clase que implementa la interfaz IAutorService
  * 
@@ -33,6 +32,11 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	IUsuarioAdminMapper usuarioAdminMapper;
 	@Autowired
 	LibreriaUtil libreriaUtil;
+	// Servicio para manejar la lógica de JWT
+   // @Autowired
+    //AuthServiceImpl authService;
+    // Codificador de contraseñas para codificar contraseñas de usuario
+    //PasswordEncoder passwordEncoder =authService.passwordEncoder;
 
 	
 	/**
@@ -72,7 +76,15 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	@Override
 	public HrefEntityDTO save(UsuarioDTORequest dto) {
 		
-		Usuario usuario = this.usuarioRepository.save(this.usuarioAdminMapper.toBean(dto));
+		Usuario usuario = Usuario.builder()
+                .username(dto.getUsername())
+                //.password(passwordEncoder.encode(dto.getPassword()))
+                .role(dto.getRole())
+                .enabled((byte) 1)
+                .build();
+
+        // Guardar el Usuario en la base de datos
+        usuario = usuarioRepository.save(usuario);
 
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}

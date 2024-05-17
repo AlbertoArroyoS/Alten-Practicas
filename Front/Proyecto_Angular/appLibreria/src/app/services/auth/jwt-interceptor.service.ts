@@ -13,11 +13,11 @@ export class JwtInterceptorService implements HttpInterceptor {
 
   // El método intercept se llama automáticamente en cada solicitud HTTP
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Obtiene el token JWT del LoginService
-    let token: String = this.loginService.userToken;
+    // Obtiene el token JWT del LoginService usando el método getUserToken
+    const token: string | null = this.loginService.getUserToken();
 
     // Si el token no está vacío, clona la solicitud y añade el token en los encabezados
-    if (token != "") {
+    if (token) {
       req = req.clone({
         //settear el token en el encabezado de autorización
         setHeaders: {

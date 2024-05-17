@@ -2,29 +2,29 @@
 <p *ngIf="!userLoginOn">Usuario NO autenticado-user-details</p>
 <p *ngIf="userLoginOn">Usuario Autenticado-user-details</p>
 <div *ngIf="userLoginOn && userData?.role === 'USER'">
-    <p>Username: {{userData.username}}</p>
-    <p>ID Usuario: {{userData.idUsuario}}</p>
-    <p>Nombre: {{userData.nombre}}</p>
-    <p>Apellido: {{userData.apellidos}}</p>  
-    <p>Email: {{userData.email}}</p>   
-    <p>Enabled: {{userData.enabled}}</p>
-    <p>Role: {{userData.role}}</p>
-    <p>ID Cliente: {{userData.idCliente}}</p>
-    <p>ID Librería: {{userData.idLibreria}}</p>
-    <p>Nombre Librería: {{userData.nombreLibreria}}</p>
-    <p>Nombre Dueño: {{userData.nombreDueno}}</p>
-    <p>Dirección: {{userData.direccion}}</p>
-    <p>Ciudad: {{userData.ciudad}}</p>
+    <p>Username: {{userData?.username}}</p>
+    <p>ID Usuario: {{userData?.idUsuario}}</p>
+    <p>Nombre: {{userData?.nombre}}</p>
+    <p>Apellido: {{userData?.apellidos}}</p>  
+    <p>Email: {{userData?.email}}</p>   
+    <p>Enabled: {{userData?.enabled}}</p>
+    <p>Role: {{userData?.role}}</p>
+    <p>ID Cliente: {{userData?.idCliente}}</p>
+    <p>ID Librería: {{userData?.idLibreria}}</p>
+    <p>Nombre Librería: {{userData?.nombreLibreria}}</p>
+    <p>Nombre Dueño: {{userData?.nombreDueno}}</p>
+    <p>Dirección: {{userData?.direccion}}</p>
+    <p>Ciudad: {{userData?.ciudad}}</p>
     <button *ngIf="userLoginOn && !editMode" (click)="editMode=true"  class="btn btn-dark"><img
         src="https://cdn.icon-icons.com/icons2/1572/PNG/96/3592815-compose-create-edit-edit-file-office-pencil-writing_107734.png"
         width="8%" alt="editar" />Editar Datos Personales</button>
 </div>
 
 <div *ngIf="userLoginOn && userData?.role === 'ADMIN'">
-    <p>Username: {{userData.username}}</p>
-    <p>ID Usuario: {{userData.idUsuario}}</p>
-    <p>Enabled: {{userData.enabled}}</p>
-    <p>Role: {{userData.role}}</p>
+    <p>Username: {{userData?.username}}</p>
+    <p>ID Usuario: {{userData?.idUsuario}}</p>
+    <p>Enabled: {{userData?.enabled}}</p>
+    <p>Role: {{userData?.role}}</p>
 </div>
 
 <div *ngIf="userLoginOn && userData?.role === 'USER'">

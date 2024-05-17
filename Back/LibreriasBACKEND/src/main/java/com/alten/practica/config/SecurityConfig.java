@@ -31,6 +31,7 @@ public class SecurityConfig {
 
     // Proveedor de autenticación personalizado
     private final AuthenticationProvider authProvider;
+    
 
     /*
      * Define la cadena de filtros de seguridad y las reglas de configuración de seguridad.
@@ -51,7 +52,7 @@ public class SecurityConfig {
                 	//Permitir solicitures get y options
                 	.requestMatchers(HttpMethod.GET).permitAll()
                     .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                    //.requestMatchers(HttpMethod.POST).permitAll()
+                    .requestMatchers(HttpMethod.POST).permitAll()
                     // Permite todas las solicitudes a las rutas que comienzan con "/auth/"
                     .requestMatchers("/auth/**").permitAll()
                  // Permitir POST y PUT solo para usuarios con rol ADMIN

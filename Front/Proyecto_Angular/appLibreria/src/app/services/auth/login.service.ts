@@ -1,84 +1,103 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, tap, throwError,BehaviorSubject,map  } from 'rxjs';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
-import { UserRequest } from 'src/app/shared/model/request/userRequest';
-import { CookieService } from "ngx-cookie-service";
+import { CookieService } from 'ngx-cookie-service';
+import { AuthResponse } from 'src/app/shared/model/response/authResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  //declarar dos BehaviorSubject para el estado de la sesión y los datos del usuario, de inicio en falso
-  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  //informacion del usuario como la va a devolver la api, de inicio vacio
-  currentUserData: BehaviorSubject<String> =new BehaviorSubject<String>("");
-
-  // Variable local para almacenar los datos del usuario logueado
-  private user: UserRequest | null = null;
+  public currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // Cambiado a public
+  public currentUserData: BehaviorSubject<AuthResponse | null> = new BehaviorSubject<AuthResponse | null>(null); // Cambiado a public
 
   private API_SERVER = 'http://localhost:8080/auth/login';
 
-  constructor(private httpClient: HttpClient, private cookies: CookieService) {
-    //inicializar los BehaviorSubject con los valores de la sesión y los datos del usuario almacenados en el almacenamiento de sesión
-    this.currentUserLoginOn=new BehaviorSubject<boolean>(sessionStorage.getItem("token")!=null);
-    this.currentUserData=new BehaviorSubject<String>(sessionStorage.getItem("token") || "");   
-   }
+  // Variable local para almacenar los datos del usuario logueado
+  private user: AuthResponse | null = null;
 
-  loginSpring(credentials:LoginRequest):Observable<UserRequest>{
-    return this.httpClient.post<any>(this.API_SERVER, credentials).pipe(
-      tap( (userData) => { //tap es un operador que permite realizar acciones secundarias en el flujo de datos, mientras se mantiene el flujo de datos
-        //guardar el token en el almacenamiento de sesión
-        sessionStorage.setItem("token", userData.token);
-        //actualizar el estado de la sesión y los datos del usuario
-        this.currentUserData.next(userData);
-        //cambiar el estado de la sesión a verdadero
-        this.currentUserLoginOn.next(true);
+  constructor(private httpClient: HttpClient, private cookieService: CookieService) {
+    this.initializeUser();
+  }
+
+  // Método para inicializar el usuario desde sessionStorage
+  private initializeUser(): void {
+    const user = sessionStorage.getItem('user');
+    if (user) {
+      this.user = JSON.parse(user);
+      this.currentUserLoginOn.next(true);
+      this.currentUserData.next(this.user);
+    } else {
+      this.currentUserLoginOn.next(false);
+      this.currentUserData.next(null);
+    }
+  }
+
+  // Método para almacenar datos del usuario en sessionStorage
+  private storeUser(userData: AuthResponse): void {
+    sessionStorage.setItem('token', userData.token);
+    sessionStorage.setItem('idUsuario', userData.idUsuario.toString());
+    sessionStorage.setItem('username', userData.username);
+    sessionStorage.setItem('user', JSON.stringify(userData));
+    this.user = userData;
+    this.currentUserData.next(userData);
+    this.currentUserLoginOn.next(true);
+  }
+
+  loginSpring(credentials: LoginRequest): Observable<AuthResponse> {
+    return this.httpClient.post<AuthResponse>(this.API_SERVER, credentials).pipe(
+      tap((userData) => {
+        this.storeUser(userData);
       }),
-      //mapear el resultado de la respuesta para obtener el token
-      map((userData)=> userData.token),
       catchError(this.handleError)
     );
   }
-  //metodo para cerrar la sesión y eliminar el token del almacenamiento de sesión
-  logout():void{
-    sessionStorage.removeItem("token");
+
+  logout(): void {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('idUsuario');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('user');
     this.currentUserLoginOn.next(false);
+    this.currentUserData.next(null);
+    this.user = null;
   }
 
-
-  //metodo para manejar errores
-  private handleError(error:HttpErrorResponse){
-    if(error.status===0){
-      console.error('Se ha producio un error ', error.error);
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      console.error('Se ha producido un error:', error.error);
+    } else {
+      console.error('Backend retornó el código de estado', error.status, error.error);
     }
-    else{
-      console.error('Backend retornó el código de estado ', error.status, error.error);
-    }
-    return throwError(()=> new Error('Algo falló. Por favor intente nuevamente.'));
+    return throwError(() => new Error('Algo falló. Por favor intente nuevamente.'));
   }
-  //crear las propiedades para que los valores se los behaviorSubject se puedan suscribir
- //metodos para obtener los valores de los BehaviorSubject
-  get userData():Observable<String>{
+
+  // Métodos para obtener los valores de los BehaviorSubjects
+  get userData(): Observable<AuthResponse | null> {
     return this.currentUserData.asObservable();
   }
 
-  get userLoginOn(): Observable<boolean>{
+  get userLoginOn(): Observable<boolean> {
     return this.currentUserLoginOn.asObservable();
   }
 
-  get userToken():String{
-    return this.currentUserData.value;
+  // Métodos para acceder a la variable local del usuario
+  getUserToken(): string | null {
+    return this.user ? this.user.token : null;
   }
 
-  setToken(token: string) {
-    this.cookies.set("token", token);
-  }
-  getToken() {
-    return this.cookies.get("token");
+  getUserId(): number | null {
+    return this.user ? this.user.idUsuario : null;
   }
 
-  
+  getUserName(): string | null {
+    return this.user ? this.user.username : null;
+  }
 
-
+  // Método para obtener todo el objeto del usuario
+  getUser(): AuthResponse | null {
+    return this.user;
+  }
 }

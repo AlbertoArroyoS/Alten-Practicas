@@ -53,7 +53,7 @@ public class AuthServiceImpl implements IAuthService {
     private final AuthenticationManager authenticationManager;
 
     // Codificador de contraseñas para codificar contraseñas de usuario
-    private final PasswordEncoder passwordEncoder;
+    public final PasswordEncoder passwordEncoder;
 
     /*
      * Autentica un usuario.

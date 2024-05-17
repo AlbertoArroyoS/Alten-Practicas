@@ -1,26 +1,25 @@
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from './../../services/users/user.service';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from './../../services/users/user.service';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { UserRequest } from 'src/app/shared/model/request/userRequest';
-import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss']
 })
-export class UserDetailsComponent {
+export class UserDetailsComponent implements OnInit {
 
-  userLoginOn:boolean=false;
-  editMode:boolean=false;
-  userData!:UserRequest;
-  errorMessage:String="";
+  userLoginOn: boolean = false;
+  editMode: boolean = false;
+  userData?: UserRequest; // Nota: Cambiado a UserRequest
+  errorMessage: string = '';
   formularioUsuario: FormGroup;
   idControl!: number;
 
- constructor(
+  constructor(
     private userService: UserService,
     public fb: FormBuilder,
     private loginService: LoginService,
@@ -42,12 +41,34 @@ export class UserDetailsComponent {
       ciudad: new FormControl('', Validators.required),
     });
   }
+
   ngOnInit(): void {
-    // Simular obtener el ID del usuario logueado de algún servicio de autenticación
-    this.userService.getUser(4).subscribe({
+    this.loginService.userData.subscribe({
       next: (userData) => {
+        if (userData) {
+          this.loadUserData(userData.idUsuario);
+        }
+      }
+    });
+
+    this.loginService.userLoginOn.subscribe({
+      next: (userLoginOn) => {
+        this.userLoginOn = userLoginOn;
+      }
+    });
+
+    // Cargar datos del usuario si ya está logueado
+    const userId = this.loginService.getUserId();
+    if (userId) {
+      this.loadUserData(userId);
+    }
+  }
+
+  loadUserData(userId: number): void {
+    this.userService.getUser(userId).subscribe({
+      next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
         this.userData = userData;
-        this.idControl = this.userData?.idUsuario ?? 0;  // Asignar valor por defecto si es undefined
+        this.idControl = this.userData?.idUsuario ?? 0;
         this.formularioUsuario.patchValue(this.userData);
       },
       error: (errorData) => {
@@ -57,32 +78,19 @@ export class UserDetailsComponent {
         console.info("User Data ok");
       }
     });
-
-    this.loginService.userLoginOn.subscribe({
-      next: (userLoginOn) => {
-        this.userLoginOn = userLoginOn;
-      }
-    });
   }
 
-
-  saveUserDetailsData(){
-
-    if (this.formularioUsuario.valid)
-      {
-        if (this.idControl) {
-
-          this.userService.updateUser(this.idControl,this.formularioUsuario.value).subscribe({
-            next:() => {
-              this.editMode=false;
-              //this.userData=this.formularioUsuario.value as unknown as userData;
-              this.userData=this.formularioUsuario.value;
-            },
-            error:(errorData)=> console.error(errorData)
-          })
-  
-        }
-        
+  saveUserDetailsData() {
+    if (this.formularioUsuario.valid) {
+      if (this.idControl) {
+        this.userService.updateUser(this.idControl, this.formularioUsuario.value).subscribe({
+          next: () => {
+            this.editMode = false;
+            this.userData = this.formularioUsuario.value;
+          },
+          error: (errorData) => console.error(errorData)
+        });
       }
     }
+  }
 }
