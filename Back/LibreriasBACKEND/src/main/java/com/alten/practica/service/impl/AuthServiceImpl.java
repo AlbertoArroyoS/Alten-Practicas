@@ -111,6 +111,7 @@ public class AuthServiceImpl implements IAuthService {
                 .cliente(cliente)
                 .libreria(libreria)
                 .role(Role.USER)
+                .enabled((byte) 1)
                 .build();
 
         // Guardar el Usuario en la base de datos
