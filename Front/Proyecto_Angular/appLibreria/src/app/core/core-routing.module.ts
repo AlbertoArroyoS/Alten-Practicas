@@ -9,7 +9,8 @@ const routes: Routes = [
   {path : 'book-catalog',component: CorePrivateLayoutComponent, loadChildren: () => import('./../book-catalog/book-catalog.module').then(m => m.BookCatalogModule)},
   {path : 'report',component: CorePrivateLayoutComponent, loadChildren: () => import('./../report/report.module').then(m => m.ReportModule)},
   {path : 'security',component: CorePrivateLayoutComponent, loadChildren: () => import('./../security/security.module').then(m => m.SecurityModule)},
-  {path: 'dashboard', component: CorePrivateLayoutComponent, loadChildren: () => import('./../dashboard/dashboard.module').then(m => m.DashboardModule)}
+  {path: 'dashboard', component: CorePrivateLayoutComponent, loadChildren: () => import('./../dashboard/dashboard.module').then(m => m.DashboardModule)},
+  {path: 'user-details', component: CorePrivateLayoutComponent, loadChildren: () => import('./../user/user.module').then(m => m.UserModule)}
 
 ];
 

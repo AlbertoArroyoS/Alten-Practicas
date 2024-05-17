@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/auth/login.service';
 
 @Component({
   selector: 'app-nav',
@@ -9,12 +10,12 @@ import { Router } from '@angular/router';
 export class NavComponent {
 
   //inyectamos dependencias
+  userLoginOn:boolean=false;
+  
 
   private router: Router = inject(Router);
 
-  constructor() { 
-
-  }
+  constructor(private loginService:LoginService) { }
 
   public goToBook(): void {
     this.router.navigate(['book-catalog/book']);
@@ -44,6 +45,23 @@ export class NavComponent {
   public goToPurchases(): void {
     this.router.navigate(['book-catalog/purchases']);
   }
+
+  ngOnInit(): void {
+    this.loginService.currentUserLoginOn.subscribe(
+      {
+        next:(userLoginOn) => {
+          this.userLoginOn=userLoginOn;
+        }
+      }
+    )
+  }
+
+  logout()
+  {
+    this.loginService.logout();
+    this.router.navigate(['/inicio'])
+  }
+
 
 
 }

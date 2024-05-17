@@ -30,9 +30,7 @@ export class UserService {
 
   public updateUser(userId: number, userData: any): Observable<any> {
     const url = `${this.API_SERVER2}/${userId}`;
-    return this.httpClient.put(url, userData).pipe(
-      catchError(this.handleError)
-    )
+    return this.httpClient.put(url, userData);
   }
 
   private handleError(error:HttpErrorResponse){

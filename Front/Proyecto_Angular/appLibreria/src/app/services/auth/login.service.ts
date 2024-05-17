@@ -13,6 +13,9 @@ export class LoginService {
   //informacion del usuario como la va a devolver la api, de inicio vacio
   currentUserData: BehaviorSubject<String> =new BehaviorSubject<String>("");
 
+  // Variable local para almacenar los datos del usuario logueado
+  private user: UserRequest | null = null;
+
   private API_SERVER = 'http://localhost:8080/auth/login';
 
   constructor(private httpClient: HttpClient) {
@@ -66,5 +69,8 @@ export class LoginService {
   get userToken():String{
     return this.currentUserData.value;
   }
+
+  
+
 
 }
