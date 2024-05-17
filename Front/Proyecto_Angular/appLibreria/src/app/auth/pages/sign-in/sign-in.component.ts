@@ -20,9 +20,18 @@ export class SignInComponent {
 
   constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      //username: new FormControl('', [Validators.required, Validators.email]),
+      username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
     });
+  }
+
+  get username() {
+    return this.loginForm.controls['username'];
+  }
+
+  get password() {
+    return this.loginForm.controls['password'];
   }
 
   login() {

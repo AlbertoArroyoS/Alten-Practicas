@@ -1,6 +1,6 @@
 <p>user-details works!</p>
-<p *ngIf="!userLoginOn">Usuario NO autenticado</p>
-<p *ngIf="userLoginOn">Usuario Autenticado</p>
+<p *ngIf="!userLoginOn">Usuario NO autenticado-user-details</p>
+<p *ngIf="userLoginOn">Usuario Autenticado-user-details</p>
 <div *ngIf="userLoginOn && userData?.role === 'USER'">
     <p>Username: {{userData?.username}}</p>
     <p>ID Usuario: {{userData?.idUsuario}}</p>
