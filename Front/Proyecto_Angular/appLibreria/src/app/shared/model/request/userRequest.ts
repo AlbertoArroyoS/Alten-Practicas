@@ -13,5 +13,6 @@ export interface UserRequest {
   nombreDueno?: string;
   direccion?: string;
   email?: string;
+  ciudad?: string;
 
 }

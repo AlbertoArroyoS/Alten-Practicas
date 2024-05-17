@@ -23,6 +23,7 @@ public interface IUsuarioMapper {
     @Mapping(target = "nombreLibreria", source = "libreria.nombreLibreria")
     @Mapping(target = "nombreDueno", source = "libreria.nombreDueno")
     @Mapping(target = "direccion", source = "libreria.direccion")
+	@Mapping(target = "ciudad", source = "libreria.ciudad")
     UsuarioDTO toDTO(Usuario usuario);
 
 	// proceso de mappeo de DTORequest que es lo que nos manda el cliente, lo

@@ -40,6 +40,8 @@ public class UsuarioDTO implements Serializable{
 	private String direccion;
 	
 	private String email;
+	
+	private String ciudad;
 
 
 }
