@@ -12,6 +12,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptorService } from './services/auth/jwt-interceptor.service';
 import { ErrorInterceptorService } from './services/auth/error-interceptor.service';
+import { CookieService } from "ngx-cookie-service";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ErrorInterceptorService } from './services/auth/error-interceptor.servi
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},
-    {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptorService,multi:true}
+    {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptorService,multi:true},
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

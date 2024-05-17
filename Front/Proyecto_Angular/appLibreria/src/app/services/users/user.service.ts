@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { UserRequest } from 'src/app/shared/model/request/userRequest';
+import { CookieService } from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class UserService {
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/usuarios';
   private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/usuarios/usuario/';
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private cookies: CookieService) { }
 
   getUser(id:number):Observable<UserRequest>{
 
@@ -42,5 +43,6 @@ export class UserService {
     }
     return throwError(()=> new Error('Algo falló. Por favor intente nuevamente.'));
   }
+
 
 }

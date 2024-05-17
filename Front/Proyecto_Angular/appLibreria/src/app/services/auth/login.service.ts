@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, tap, throwError,BehaviorSubject,map  } from 'rxjs';
 import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
 import { UserRequest } from 'src/app/shared/model/request/userRequest';
+import { CookieService } from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class LoginService {
 
   private API_SERVER = 'http://localhost:8080/auth/login';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private cookies: CookieService) {
     //inicializar los BehaviorSubject con los valores de la sesión y los datos del usuario almacenados en el almacenamiento de sesión
     this.currentUserLoginOn=new BehaviorSubject<boolean>(sessionStorage.getItem("token")!=null);
     this.currentUserData=new BehaviorSubject<String>(sessionStorage.getItem("token") || "");   
@@ -68,6 +69,13 @@ export class LoginService {
 
   get userToken():String{
     return this.currentUserData.value;
+  }
+
+  setToken(token: string) {
+    this.cookies.set("token", token);
+  }
+  getToken() {
+    return this.cookies.get("token");
   }
 
   

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 /*
  * Data Transfer Object (DTO) para manejar la respuesta de autenticación.
  * Contiene el token de autenticación.
@@ -18,6 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthDTO {
-	
-    String token; 
+
+	private String token;
+	private Long idUsuario;
+	private String username;
 }

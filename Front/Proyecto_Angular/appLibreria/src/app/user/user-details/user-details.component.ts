@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/services/auth/login.service';
 import { UserRequest } from 'src/app/shared/model/request/userRequest';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
