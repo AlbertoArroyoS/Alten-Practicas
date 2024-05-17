@@ -11,7 +11,7 @@ export class LoginService {
   //declarar dos BehaviorSubject para el estado de la sesión y los datos del usuario, de inicio en falso
   currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   //informacion del usuario como la va a devolver la api, de inicio vacio
-  currentUserData: BehaviorSubject<UserRequest> =new BehaviorSubject<UserRequest>({id:0, email:''});
+  currentUserData: BehaviorSubject<UserRequest> =new BehaviorSubject<UserRequest>({idUsuario:0, username:''});
 
   constructor(private http: HttpClient) { }
 

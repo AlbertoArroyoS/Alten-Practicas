@@ -1,7 +1,17 @@
+import { Role } from '../Rol/Role';
+
 export interface UserRequest {
-    id:number;
-    name?:string;
-    lastName?:string;
-    email:string;
-    message?:string;
+  idUsuario: number;
+  username: string;
+  enabled?: number;
+  role?: Role;
+  idCliente?: number;
+  nombre?: string;
+  apellidos?: string;
+  idLibreria?: number;
+  nombreLibreria?: string;
+  nombreDueno?: string;
+  direccion?: string;
+  email?: string;
+
 }

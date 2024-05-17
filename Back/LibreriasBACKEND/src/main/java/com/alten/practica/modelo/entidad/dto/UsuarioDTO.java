@@ -38,6 +38,8 @@ public class UsuarioDTO implements Serializable{
 	private String nombreDueno;
 
 	private String direccion;
+	
+	private String email;
 
 
 }

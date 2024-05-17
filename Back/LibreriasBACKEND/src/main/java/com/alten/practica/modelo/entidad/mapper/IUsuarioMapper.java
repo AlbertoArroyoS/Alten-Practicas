@@ -18,6 +18,7 @@ public interface IUsuarioMapper {
     @Mapping(target = "idCliente", source = "cliente.id")
     @Mapping(target = "nombre", source = "cliente.nombre")
     @Mapping(target = "apellidos", source = "cliente.apellidos")
+	@Mapping(target = "email", source = "cliente.email")
     @Mapping(target = "idLibreria", source = "libreria.id")
     @Mapping(target = "nombreLibreria", source = "libreria.nombreLibreria")
     @Mapping(target = "nombreDueno", source = "libreria.nombreDueno")
