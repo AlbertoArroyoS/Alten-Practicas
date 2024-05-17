@@ -51,8 +51,12 @@ public class SecurityConfig {
                 	//Permitir solicitures get y options
                 	.requestMatchers(HttpMethod.GET).permitAll()
                     .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                    //.requestMatchers(HttpMethod.POST).permitAll()
                     // Permite todas las solicitudes a las rutas que comienzan con "/auth/"
                     .requestMatchers("/auth/**").permitAll()
+                 // Permitir POST y PUT solo para usuarios con rol ADMIN
+                    .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
                     // Requiere autenticación para cualquier otra solicitud
                     .anyRequest().authenticated())
                 

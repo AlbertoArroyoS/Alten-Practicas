@@ -1,7 +1,7 @@
 <p>user-details works!</p>
 <p *ngIf="!userLoginOn">Usuario NO autenticado</p>
 <p *ngIf="userLoginOn">Usuario Autenticado</p>
-<div *ngIf="userLoginOn">
+<div *ngIf="userLoginOn && userData?.role === 'USER'">
     <p>Username: {{userData?.username}}</p>
     <p>ID Usuario: {{userData?.idUsuario}}</p>
     <p>Nombre: {{userData?.nombre}}</p>
@@ -14,7 +14,8 @@
     <p>Nombre Librería: {{userData?.nombreLibreria}}</p>
     <p>Nombre Dueño: {{userData?.nombreDueno}}</p>
     <p>Dirección: {{userData?.direccion}}</p>
-    <p>Dirección: {{userData?.ciudad}}</p>
+    <p>Ciudad: {{userData?.ciudad}}</p>
 </div>
+
 
 

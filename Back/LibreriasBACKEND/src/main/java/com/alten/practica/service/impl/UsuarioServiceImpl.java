@@ -9,6 +9,7 @@ import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.Usuario;
 import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
+import com.alten.practica.modelo.entidad.mapper.IUsuarioAdminMapper;
 import com.alten.practica.modelo.entidad.mapper.IUsuarioMapper;
 import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IUsuarioService;
@@ -28,6 +29,8 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	IUsuarioRepository usuarioRepository;
 	@Autowired
 	IUsuarioMapper usuarioMapper;
+	@Autowired
+	IUsuarioAdminMapper usuarioAdminMapper;
 	@Autowired
 	LibreriaUtil libreriaUtil;
 
@@ -64,6 +67,14 @@ public class UsuarioServiceImpl implements IUsuarioService{
 
 	    // Guardar el usuario actualizado en el repositorio y crear un HrefEntityDTO
 	    return libreriaUtil.createHrefFromResource(usuarioRepository.save(usuario).getId(), LibreriaResource.USUARIO);
+	}
+
+	@Override
+	public HrefEntityDTO save(UsuarioDTORequest dto) {
+		
+		Usuario usuario = this.usuarioRepository.save(this.usuarioAdminMapper.toBean(dto));
+
+		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
 

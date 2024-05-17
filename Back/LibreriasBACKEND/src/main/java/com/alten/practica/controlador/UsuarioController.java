@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,12 @@ public class UsuarioController {
 		return new ResponseEntity<HrefEntityDTO>(this.usuarioService.update(dto, id), HttpStatus.OK);
 
 
+	}
+	
+	@PostMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO)
+	public ResponseEntity<HrefEntityDTO> save(@Valid @RequestBody UsuarioDTORequest dto) {
+
+		return new ResponseEntity<HrefEntityDTO>(this.usuarioService.save(dto), HttpStatus.CREATED);
 	}
 
 }
