@@ -17,5 +17,12 @@
     <p>Ciudad: {{userData?.ciudad}}</p>
 </div>
 
+<div *ngIf="userLoginOn && userData?.role === 'ADMIN'">
+    <p>Username: {{userData?.username}}</p>
+    <p>ID Usuario: {{userData?.idUsuario}}</p>
+    <p>Enabled: {{userData?.enabled}}</p>
+    <p>Role: {{userData?.role}}</p>
+</div>
+
 
 

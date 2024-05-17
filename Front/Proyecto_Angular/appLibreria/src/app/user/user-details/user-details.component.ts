@@ -17,7 +17,7 @@ export class UserDetailsComponent {
 
   constructor(private UserService:UserService) { 
 
-    this.UserService.getUser(4).subscribe({
+    this.UserService.getUser(8).subscribe({
       next: (userData) => {
         this.userData=userData;
       },
