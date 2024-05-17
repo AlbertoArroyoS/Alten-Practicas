@@ -31,7 +31,7 @@ export class SignInComponent {
         next: (userData) => {
           console.log(userData);
           // Redirigir y resetear el formulario aquí para asegurar que solo ocurra en caso de éxito
-          this.router.navigateByUrl('/book-catalog');
+          this.router.navigateByUrl('/dashboard');
           this.loginForm.reset();
           // Desplazar al principio de la página
           window.scrollTo({ top: 0, behavior: 'smooth' });

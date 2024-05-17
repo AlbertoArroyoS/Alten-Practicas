@@ -7,10 +7,13 @@ import { BookCatalogModule } from './book-catalog/book-catalog.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserModule } from './user/user.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -19,7 +22,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule, 
     FormsModule,
     BrowserAnimationsModule,
-    NgbModule
+    NgbModule,
+    UserModule,
+    DashboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
