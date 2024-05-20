@@ -82,7 +82,12 @@ public class AuthServiceImpl implements IAuthService {
 
 		// Devuelve el DTO de autenticación con el token
 		// Devuelve el DTO de autenticación con el token y los datos del usuario
-		return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername()).build();
+		return AuthDTO.builder()
+				.token(token)
+				.idUsuario((long) user.getId())
+				.username(user.getUsername())
+				.role(user.getRole().name())
+				.build();
 	}
 
 	/*

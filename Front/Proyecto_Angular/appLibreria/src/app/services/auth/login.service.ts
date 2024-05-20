@@ -24,6 +24,7 @@ export class LoginService {
    * Observable que expone los datos del usuario.
    */
   public user$: Observable<AuthResponse | null> = this.userSubject.asObservable();
+
   
   /**
    * Observable que indica si el usuario está logueado.
@@ -57,7 +58,10 @@ export class LoginService {
    */
   loginSpring(credentials: LoginRequest): Observable<AuthResponse> {
     return this.httpClient.post<AuthResponse>(this.API_SERVER, credentials).pipe(
-      tap((userData) => this.storeUser(userData)),
+      tap((userData) => {
+        this.storeUser(userData);
+        console.log('Usuario logueado:', userData); // Agrega este console.log para mostrar el usuario
+      }),
       catchError(this.handleError)
     );
   }
@@ -170,6 +174,11 @@ export class LoginService {
    * @returns Los datos del usuario o null si no está autenticado.
    */
   getUser(): AuthResponse | null {
+    return this.currentUser;
+  }
+
+  // Método para acceder al usuario completo públicamente si es necesario
+  public getCurrentUser(): AuthResponse | null {
     return this.currentUser;
   }
 }
