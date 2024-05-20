@@ -49,7 +49,7 @@ const routes: Routes = [
     loadChildren: () => import('../user/user.module').then(m => m.UserModule),
     canActivate: [AuthGuard],
     canLoad: [RoleGuard],
-    data: { allowedRoles: ['USER'] }
+    data: { allowedRoles: ['USER', 'ADMIN']  }
   }
 ];
 
