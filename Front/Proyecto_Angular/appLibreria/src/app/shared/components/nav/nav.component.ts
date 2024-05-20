@@ -19,7 +19,7 @@ export class NavComponent {
 
 
   public goToUser(): void {
-    this.router.navigate(['dashboard/']);
+    this.router.navigate(['user/']);
     
   }
 

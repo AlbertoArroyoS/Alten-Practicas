@@ -6,6 +6,7 @@ import { SecurityLayoutComponent } from './layout/security-layout/security-layou
 import { UserComponent } from './pages/user/user.component';
 import { RoleComponent } from './pages/role/role.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { UserModule } from '../user/user.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
   ],
   imports: [
     CommonModule,
-    SecurityRoutingModule
+    SecurityRoutingModule,
+    UserModule
   ]
 })
 export class SecurityModule { }

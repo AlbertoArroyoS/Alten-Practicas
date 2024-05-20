@@ -33,11 +33,12 @@
         <li *ngIf="!userLoginOn" class="nav-item">
           <a class="nav-link" routerLink="/sign-in">Iniciar Sesión</a>
         </li>
-        <li *ngIf="userLoginOn" class="nav-item">
-          <a class="nav-link" (click)="logout()">Cerrar Sesión</a>
-        </li>
+        
         <li *ngIf="userLoginOn" class="nav-item">
           <a class="nav-link" (click)="goToUser()">Usuario</a>
+        </li>
+        <li *ngIf="userLoginOn" class="nav-item">
+          <a class="nav-link" (click)="logout()">Cerrar Sesión</a>
         </li>
   
        

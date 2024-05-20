@@ -11,7 +11,7 @@ const routes: Routes = [
   {path : 'report',component: CorePrivateLayoutComponent, loadChildren: () => import('./../report/report.module').then(m => m.ReportModule), canActivate: [AuthGuard] },
   {path : 'security',component: CorePrivateLayoutComponent, loadChildren: () => import('./../security/security.module').then(m => m.SecurityModule), canActivate: [AuthGuard] },
   {path: 'dashboard', component: CorePrivateLayoutComponent, loadChildren: () => import('./../dashboard/dashboard.module').then(m => m.DashboardModule), canActivate: [AuthGuard] },
-  {path: 'user-details', component: CorePrivateLayoutComponent, loadChildren: () => import('./../user/user.module').then(m => m.UserModule), canActivate: [AuthGuard] },
+  {path: 'user', component: CorePrivateLayoutComponent, loadChildren: () => import('./../user/user.module').then(m => m.UserModule), canActivate: [AuthGuard] },
 
 ];
 
