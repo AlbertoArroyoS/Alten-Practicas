@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alten.practica.modelo.entidad.dto.AuthDTO;
 import com.alten.practica.modelo.entidad.dto.request.LoginDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.RegisterDTORequest;
+import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
 import com.alten.practica.service.impl.AuthServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class AuthController {
 
     // Servicio de autenticación que maneja la lógica de login y registro
     private final AuthServiceImpl authService;
+    
 
     /*
      * Endpoint para iniciar sesión.
@@ -49,5 +51,10 @@ public class AuthController {
     @PostMapping(value = "register")
     public ResponseEntity<AuthDTO> register(@RequestBody RegisterDTORequest request) {
         return ResponseEntity.ok(authService.register(request));
+    }
+    
+    @PostMapping(value = "register/admins")
+    public ResponseEntity<AuthDTO> registerAdmin(@RequestBody UsuarioDTORequest request) {
+        return ResponseEntity.ok(authService.registerAdmin(request));
     }
 }
