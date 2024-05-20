@@ -39,3 +39,8 @@ ng g c nombreModulo/layout/nombreLayout
 
 //crear servicios
 ng g s services/books/books
+
+//crear guardas
+ng generate guard guards/role --interactive
+**para login, can activate o can load
+**para roles

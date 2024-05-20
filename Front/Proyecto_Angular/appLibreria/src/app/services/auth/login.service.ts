@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { Observable, ReplaySubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
 import { AuthResponse } from 'src/app/shared/model/response/authResponse';
@@ -14,14 +14,16 @@ import { AuthResponse } from 'src/app/shared/model/response/authResponse';
 })
 export class LoginService {
   /**
-   * BehaviorSubject para mantener el estado del usuario logueado.
+   * ReplaySubject para mantener el estado del usuario logueado.
+   * Emitirá el último valor inmediatamente a cualquier suscriptor nuevo.
    */
-  public currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public currentUserLoginOn: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   
   /**
-   * BehaviorSubject para mantener los datos del usuario logueado.
+   * ReplaySubject para mantener los datos del usuario logueado.
+   * Emitirá el último valor inmediatamente a cualquier suscriptor nuevo.
    */
-  public currentUserData: BehaviorSubject<AuthResponse | null> = new BehaviorSubject<AuthResponse | null>(null);
+  public currentUserData: ReplaySubject<AuthResponse | null> = new ReplaySubject<AuthResponse | null>(1);
 
   /**
    * URL del servidor API.
@@ -58,13 +60,14 @@ export class LoginService {
   }
 
   /**
-   * Almacena los datos del usuario en sessionStorage y actualiza los BehaviorSubjects.
+   * Almacena los datos del usuario en sessionStorage y actualiza los ReplaySubjects.
    * @param userData Datos de autenticación del usuario.
    */
   private storeUser(userData: AuthResponse): void {
     sessionStorage.setItem('token', userData.token);
     sessionStorage.setItem('idUsuario', userData.idUsuario.toString());
     sessionStorage.setItem('username', userData.username);
+    sessionStorage.setItem('role', userData.role);
     sessionStorage.setItem('user', JSON.stringify(userData));
     this.user = userData;
     this.currentUserData.next(userData);
@@ -87,12 +90,13 @@ export class LoginService {
 
   /**
    * Realiza el logout del usuario eliminando los datos del usuario de sessionStorage
-   * y actualizando los BehaviorSubjects.
+   * y actualizando los ReplaySubjects.
    */
   logout(): void {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('idUsuario');
     sessionStorage.removeItem('username');
+    sessionStorage.removeItem('role');
     sessionStorage.removeItem('user');
     this.currentUserLoginOn.next(false);
     this.currentUserData.next(null);
@@ -151,6 +155,14 @@ export class LoginService {
    */
   getUserName(): string | null {
     return this.user ? this.user.username : null;
+  }
+
+  /**
+   * Obtiene el rol del usuario autenticado.
+   * @returns El rol del usuario o null si no está autenticado.
+   */
+  getUserRole(): string | null {
+    return this.user ? this.user.role : null;
   }
 
   /**

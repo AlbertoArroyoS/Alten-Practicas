@@ -1,5 +1,6 @@
-<p *ngIf="!userLoginOn">Usuario NO autenticado-dashboard</p>
-<p *ngIf="userLoginOn">Usuario Autenticado-dashboard</p>
+<!-- Usa el observable userLoginOn$ con el operador async -->
+<p *ngIf="!(userLoginOn$ | async)">Usuario NO autenticado-dashboard</p>
+<p *ngIf="userLoginOn$ | async">Usuario Autenticado-dashboard</p>
 
 <div class="card ">
     <div class="card-header">
