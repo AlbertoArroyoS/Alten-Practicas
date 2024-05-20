@@ -1,11 +1,6 @@
 import { LoginService } from './../../../services/auth/login.service';
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
 
@@ -15,17 +10,24 @@ import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent {
+  // Formulario de login
   loginForm: FormGroup;
-  loginError:string="";
+  // Mensaje de error de login
+  loginError: string = "";
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private loginService: LoginService
+  ) {
+    // Inicializa el formulario de login con validaciones
     this.loginForm = this.formBuilder.group({
-      //username: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
     });
   }
 
+  // Getters para acceder fácilmente a los controles del formulario
   get username() {
     return this.loginForm.controls['username'];
   }
@@ -34,29 +36,32 @@ export class SignInComponent {
     return this.loginForm.controls['password'];
   }
 
+  // Método de login
   login() {
     if (this.loginForm.valid) {
+      // Llama al servicio de login y maneja la respuesta
       this.loginService.loginSpring(this.loginForm.value as LoginRequest).subscribe({
         next: (userData) => {
-          console.log(userData);
-          // Redirigir y resetear el formulario aquí para asegurar que solo ocurra en caso de éxito
+          console.log('Login exitoso:', userData);
+          // Redirige al usuario a la página de dashboard después de un login exitoso
           this.router.navigateByUrl('/dashboard');
+          // Resetea el formulario
           this.loginForm.reset();
-          // Desplazar al principio de la página
+          // Desplaza al principio de la página
           window.scrollTo({ top: 0, behavior: 'smooth' });
         },
         error: (errorData) => {
-          console.error(errorData);
-          this.loginError = errorData;
+          console.error('Error de login:', errorData);
+          // Muestra un mensaje de error en caso de fallo de login
+          this.loginError = "Error al iniciar sesión. Por favor, inténtelo de nuevo.";
         },
         complete: () => {
           console.info("Login completo");
         }
       });
     } else {
+      // Marca todos los controles del formulario como tocados para mostrar los errores de validación
       this.loginForm.markAllAsTouched();
-      //alert('Formulario invalido');
     }
   }
-  
 }

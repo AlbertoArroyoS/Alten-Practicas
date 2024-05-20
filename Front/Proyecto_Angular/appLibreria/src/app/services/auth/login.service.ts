@@ -3,27 +3,29 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
-import { CookieService } from 'ngx-cookie-service';
 import { AuthResponse } from 'src/app/shared/model/response/authResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  public currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // Cambiado a public
-  public currentUserData: BehaviorSubject<AuthResponse | null> = new BehaviorSubject<AuthResponse | null>(null); // Cambiado a public
+  // BehaviorSubjects para mantener el estado del usuario logueado y sus datos
+  public currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public currentUserData: BehaviorSubject<AuthResponse | null> = new BehaviorSubject<AuthResponse | null>(null);
 
+  // URL del servidor API
   private API_SERVER = 'http://localhost:8080/auth/login';
 
   // Variable local para almacenar los datos del usuario logueado
   private user: AuthResponse | null = null;
 
-  constructor(private httpClient: HttpClient, private cookieService: CookieService) {
+  constructor(private httpClient: HttpClient) {
+    // Inicializa el usuario desde sessionStorage si está presente
     this.initializeUser();
   }
 
-  // Método para inicializar el usuario desde sessionStorage
   private initializeUser(): void {
+    // Verifica si hay datos del usuario en sessionStorage y los carga
     const user = sessionStorage.getItem('user');
     if (user) {
       this.user = JSON.parse(user);
@@ -35,8 +37,8 @@ export class LoginService {
     }
   }
 
-  // Método para almacenar datos del usuario en sessionStorage
   private storeUser(userData: AuthResponse): void {
+    // Almacena los datos del usuario en sessionStorage
     sessionStorage.setItem('token', userData.token);
     sessionStorage.setItem('idUsuario', userData.idUsuario.toString());
     sessionStorage.setItem('username', userData.username);
@@ -44,9 +46,11 @@ export class LoginService {
     this.user = userData;
     this.currentUserData.next(userData);
     this.currentUserLoginOn.next(true);
+    console.log('Usuario almacenado y autenticado:', userData);
   }
 
   loginSpring(credentials: LoginRequest): Observable<AuthResponse> {
+    // Llama a la API de login y almacena el usuario si el login es exitoso
     return this.httpClient.post<AuthResponse>(this.API_SERVER, credentials).pipe(
       tap((userData) => {
         this.storeUser(userData);
@@ -56,6 +60,7 @@ export class LoginService {
   }
 
   logout(): void {
+    // Elimina los datos del usuario de sessionStorage y actualiza el estado
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('idUsuario');
     sessionStorage.removeItem('username');

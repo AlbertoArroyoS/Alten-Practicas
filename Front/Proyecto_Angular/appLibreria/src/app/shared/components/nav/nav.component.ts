@@ -17,6 +17,12 @@ export class NavComponent {
 
   constructor(private loginService:LoginService) { }
 
+
+  public goToUser(): void {
+    this.router.navigate(['dashboard/']);
+    
+  }
+
   public goToBook(): void {
     this.router.navigate(['book-catalog/book']);
     
@@ -59,7 +65,7 @@ export class NavComponent {
   logout()
   {
     this.loginService.logout();
-    this.router.navigate(['/inicio'])
+    this.router.navigate(['/sign-in'])
   }
 
 

@@ -28,12 +28,17 @@
             <a class="dropdown-item" (click)="goToAdminBook()">Libros</a>
             <a class="dropdown-item" (click)="goToAdminBookShop()">Librerias</a>
             <a class="dropdown-item" (click)="goToAdminAuthor()">Autores</a>
-          </div>
-          
+          </div>   
+        </li>
+        <li *ngIf="!userLoginOn" class="nav-item">
+          <a class="nav-link" routerLink="/sign-in">Iniciar Sesión</a>
         </li>
         <li *ngIf="userLoginOn" class="nav-item">
-            <a class="nav-link" (click)="logout()">Cerrar Sesión</a>
-          </li>
+          <a class="nav-link" (click)="logout()">Cerrar Sesión</a>
+        </li>
+        <li *ngIf="userLoginOn" class="nav-item">
+          <a class="nav-link" (click)="goToUser()">Usuario</a>
+        </li>
   
        
   
