@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CorePublicLayoutComponent } from './layout/core-public-layout/core-public-layout.component';
 import { CorePrivateLayoutComponent } from './layout/core-private-layout/core-private-layout.component';
-import { AuthGuard } from '../auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
   //si el path esta vacio que se vaya al modulo autenticacion
