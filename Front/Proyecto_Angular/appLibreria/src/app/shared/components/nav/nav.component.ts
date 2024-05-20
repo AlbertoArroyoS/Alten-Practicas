@@ -68,6 +68,11 @@ export class NavComponent {
     this.router.navigate(['/sign-in'])
   }
 
+  login()
+  {
+    this.router.navigate(['/sign-in'])
+  }
+
 
 
 }

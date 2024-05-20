@@ -74,8 +74,11 @@ export class LoginService {
     this.removeUserFromSessionStorage();
     this.currentUser = null;
     this.userSubject.next(this.currentUser);
-    this.router.navigateByUrl('/login');
+    console.log('Usuario que sale:', this.currentUser)
+    console.log('Usuario que sale2:', this.userSubject)
+    //this.router.navigate(['/sign-in']);
   }
+  
 
   /**
    * Redirige al usuario al dashboard después del login exitoso.

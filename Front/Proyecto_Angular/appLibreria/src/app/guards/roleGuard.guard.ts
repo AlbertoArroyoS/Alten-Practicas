@@ -1,35 +1,45 @@
-import { Injectable } from '@angular/core';
-import { CanLoad, Route, UrlSegment, Router, UrlTree } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { map, catchError, take } from 'rxjs/operators';
+import { Injectable, OnDestroy } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
+import { Observable, of, Subject } from 'rxjs';
+import { map, catchError, takeUntil } from 'rxjs/operators';
 import { LoginService } from '../services/auth/login.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuard implements CanLoad {
+export class RoleGuard implements CanActivate, OnDestroy {
+  private destroy$ = new Subject<void>();
+
   constructor(private loginService: LoginService, private router: Router) {}
 
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    const allowedRoles = route.data?.['allowedRoles'];
+    const allowedRoles = route.data?.['allowedRoles'] ?? [];
 
     return this.loginService.user$.pipe(
-      take(1), // Toma solo el primer valor emitido para evitar múltiples suscripciones
+      takeUntil(this.destroy$),
       map(user => {
-        // Utiliza getUserRole() para obtener el rol del usuario
-        const userRole = this.loginService.getUserRole();
+        const userRole = user ? user.role : "";
+        console.log('******** Rol del usuario:', userRole);
         if (user && allowedRoles.includes(userRole)) {
-          return true; // Permite la carga del módulo si el usuario tiene el rol adecuado
+          return true;
         } else {
-          // Alerta al usuario y redirecciona si no tiene el rol necesario
           alert(`Acceso Denegado. Su rol actual es: ${userRole ? userRole : 'No Autenticado'}`);
-          return this.router.createUrlTree(['/unauthorized']); // Redirige a una página no autorizada
+          return this.router.createUrlTree(['/unauthorized']);
         }
       }),
-      catchError(() => of(this.router.createUrlTree(['/sign-in']))) // En caso de error, redirige al login
+      catchError(() => {
+        console.error('Error en la obtención del usuario o en la verificación del rol');
+        return of(this.router.createUrlTree(['/sign-in']));
+      })
     );
+  }
+
+  ngOnDestroy() {
+    console.log('RoleGuard destruido, cancelando suscripciones');
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

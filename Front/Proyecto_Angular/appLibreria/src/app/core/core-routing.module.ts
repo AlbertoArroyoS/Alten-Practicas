@@ -15,41 +15,36 @@ const routes: Routes = [
     path: 'book-catalog',
     component: CorePrivateLayoutComponent,
     loadChildren: () => import('../book-catalog/book-catalog.module').then(m => m.BookCatalogModule),
-    canActivate: [AuthGuard],
-    canLoad: [RoleGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { allowedRoles: ['USER'] } // Pasamos los roles esperados como datos
   },
   {
     path: 'report',
     component: CorePrivateLayoutComponent,
     loadChildren: () => import('../report/report.module').then(m => m.ReportModule),
-    canActivate: [AuthGuard],
-    canLoad: [RoleGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { allowedRoles: ['ADMIN'] }
   },
   {
     path: 'security',
     component: CorePrivateLayoutComponent,
     loadChildren: () => import('../security/security.module').then(m => m.SecurityModule),
-    canActivate: [AuthGuard],
-    canLoad: [RoleGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { allowedRoles: ['ADMIN'] }
   },
   {
     path: 'dashboard',
     component: CorePrivateLayoutComponent,
     loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [AuthGuard],
-    canLoad: [RoleGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { allowedRoles: ['USER', 'ADMIN'] }
   },
   {
     path: 'user',
     component: CorePrivateLayoutComponent,
     loadChildren: () => import('../user/user.module').then(m => m.UserModule),
-    canActivate: [AuthGuard],
-    canLoad: [RoleGuard],
-    data: { allowedRoles: ['USER', 'ADMIN']  }
+    canActivate: [AuthGuard, RoleGuard],
+    data: { allowedRoles: ['ADMIN']  }
   }
 ];
 
