@@ -1,7 +1,7 @@
 <p>user-details works!</p>
-<p *ngIf="!userLoginOn">Usuario NO autenticado-user-details</p>
-<p *ngIf="userLoginOn">Usuario Autenticado-user-details</p>
-<div *ngIf="userLoginOn && userData?.role === 'USER'">
+<p *ngIf="!userLoginOn$">Usuario NO autenticado-user-details</p>
+<p *ngIf="userLoginOn$">Usuario Autenticado-user-details</p>
+<div *ngIf="userLoginOn$ && userData?.role === 'USER'">
     <p>Username: {{userData?.username}}</p>
     <p>ID Usuario: {{userData?.idUsuario}}</p>
     <p>Nombre: {{userData?.nombre}}</p>
@@ -15,21 +15,21 @@
     <p>Nombre Dueño: {{userData?.nombreDueno}}</p>
     <p>Dirección: {{userData?.direccion}}</p>
     <p>Ciudad: {{userData?.ciudad}}</p>
-    <button *ngIf="userLoginOn && !editMode" (click)="editMode=true"  class="btn btn-dark"><img
+    <button *ngIf="userLoginOn$ && !editMode" (click)="editMode=true"  class="btn btn-dark"><img
         src="https://cdn.icon-icons.com/icons2/1572/PNG/96/3592815-compose-create-edit-edit-file-office-pencil-writing_107734.png"
         width="8%" alt="editar" />Editar Datos Personales</button>
 </div>
 
-<div *ngIf="userLoginOn && userData?.role === 'ADMIN'">
+<div *ngIf="userLoginOn$ && userData?.role === 'ADMIN'">
     <p>Username: {{userData?.username}}</p>
     <p>ID Usuario: {{userData?.idUsuario}}</p>
     <p>Enabled: {{userData?.enabled}}</p>
     <p>Role: {{userData?.role}}</p>
 </div>
 
-<div *ngIf="userLoginOn && userData?.role === 'USER'">
+<div *ngIf="userLoginOn$ && userData?.role === 'USER'">
 
-    <form *ngIf="userLoginOn && editMode" [formGroup]="formularioUsuario">
+    <form *ngIf="userLoginOn$ && editMode" [formGroup]="formularioUsuario">
         <div class="form-group row">
           <label for="inputUsername" class="col-sm-1 col-form-label">Username</label>
           <div class="col-sm-11">

@@ -53,7 +53,7 @@ export class NavComponent {
   }
 
   ngOnInit(): void {
-    this.loginService.currentUserLoginOn.subscribe(
+    this.loginService.userLoginOn$.subscribe(
       {
         next:(userLoginOn) => {
           this.userLoginOn=userLoginOn;

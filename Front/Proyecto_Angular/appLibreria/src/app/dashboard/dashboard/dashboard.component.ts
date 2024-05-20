@@ -11,12 +11,12 @@ import { AuthResponse } from 'src/app/shared/model/response/authResponse';
 export class DashboardComponent {
   // Observables para el estado de login y los datos del usuario
   userLoginOn$: Observable<boolean>;
-  userData$: Observable<AuthResponse | null>;
+  user$: Observable<AuthResponse | null>;
 
   // Inyecta el LoginService en el constructor
   constructor(private loginService: LoginService) {
     // Asigna los observables del LoginService a las propiedades del componente
-    this.userLoginOn$ = this.loginService.userLoginOn;
-    this.userData$ = this.loginService.userData;
+    this.userLoginOn$ = this.loginService.userLoginOn$;
+    this.user$ = this.loginService.user$;
   }
 }

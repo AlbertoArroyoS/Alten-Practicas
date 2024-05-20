@@ -1,9 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
 import { AuthResponse } from 'src/app/shared/model/response/authResponse';
+import { Router } from '@angular/router';
 
 /**
  * Servicio de autenticación que maneja el estado de autenticación del usuario,
@@ -14,16 +15,20 @@ import { AuthResponse } from 'src/app/shared/model/response/authResponse';
 })
 export class LoginService {
   /**
-   * ReplaySubject para mantener el estado del usuario logueado.
-   * Emitirá el último valor inmediatamente a cualquier suscriptor nuevo.
-   */
-  public currentUserLoginOn: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-  
-  /**
    * ReplaySubject para mantener los datos del usuario logueado.
    * Emitirá el último valor inmediatamente a cualquier suscriptor nuevo.
    */
-  public currentUserData: ReplaySubject<AuthResponse | null> = new ReplaySubject<AuthResponse | null>(1);
+  private userSubject: ReplaySubject<AuthResponse | null> = new ReplaySubject<AuthResponse | null>(1);
+  
+  /**
+   * Observable que expone los datos del usuario.
+   */
+  public user$: Observable<AuthResponse | null> = this.userSubject.asObservable();
+  
+  /**
+   * Observable que indica si el usuario está logueado.
+   */
+  public userLoginOn$: Observable<boolean> = this.user$.pipe(map(user => !!user));
 
   /**
    * URL del servidor API.
@@ -33,30 +38,46 @@ export class LoginService {
   /**
    * Variable local para almacenar los datos del usuario logueado.
    */
-  private user: AuthResponse | null = null;
+  private currentUser: AuthResponse | null = null;
 
   /**
    * Constructor que inyecta las dependencias necesarias.
    * @param httpClient HttpClient para realizar solicitudes HTTP.
+   * @param router Router para navegar después del login/logout.
    */
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     // Inicializa el usuario desde sessionStorage si está presente.
-    this.initializeUser();
+    this.loadUserFromSessionStorage();
   }
 
   /**
-   * Inicializa el usuario desde sessionStorage si los datos están presentes.
+   * Realiza la solicitud de login al servidor y almacena los datos del usuario si la autenticación es exitosa.
+   * @param credentials Credenciales de login del usuario.
+   * @returns Un Observable con la respuesta de autenticación.
    */
-  private initializeUser(): void {
-    const user = sessionStorage.getItem('user');
-    if (user) {
-      this.user = JSON.parse(user);
-      this.currentUserLoginOn.next(true);
-      this.currentUserData.next(this.user);
-    } else {
-      this.currentUserLoginOn.next(false);
-      this.currentUserData.next(null);
-    }
+  loginSpring(credentials: LoginRequest): Observable<AuthResponse> {
+    return this.httpClient.post<AuthResponse>(this.API_SERVER, credentials).pipe(
+      tap((userData) => this.storeUser(userData)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Realiza el logout del usuario eliminando los datos del usuario de sessionStorage
+   * y actualizando los ReplaySubjects.
+   */
+  logout(): void {
+    this.removeUserFromSessionStorage();
+    this.currentUser = null;
+    this.userSubject.next(this.currentUser);
+    this.router.navigateByUrl('/login');
+  }
+
+  /**
+   * Redirige al usuario al dashboard después del login exitoso.
+   */
+  private redirectToDashboard(): void {
+    this.router.navigateByUrl('/dashboard');
   }
 
   /**
@@ -69,38 +90,33 @@ export class LoginService {
     sessionStorage.setItem('username', userData.username);
     sessionStorage.setItem('role', userData.role);
     sessionStorage.setItem('user', JSON.stringify(userData));
-    this.user = userData;
-    this.currentUserData.next(userData);
-    this.currentUserLoginOn.next(true);
+    this.currentUser = userData;
+    this.userSubject.next(this.currentUser);
   }
 
   /**
-   * Realiza la solicitud de login al servidor y almacena los datos del usuario si la autenticación es exitosa.
-   * @param credentials Credenciales de login del usuario.
-   * @returns Un Observable con la respuesta de autenticación.
+   * Carga los datos del usuario desde sessionStorage si los datos están presentes.
    */
-  loginSpring(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(this.API_SERVER, credentials).pipe(
-      tap((userData) => {
-        this.storeUser(userData);
-      }),
-      catchError(this.handleError)
-    );
+  private loadUserFromSessionStorage(): void {
+    const user = sessionStorage.getItem('user');
+    if (user) {
+      this.currentUser = JSON.parse(user) as AuthResponse;
+      this.userSubject.next(this.currentUser);
+    } else {
+      this.currentUser = null;
+      this.userSubject.next(this.currentUser);
+    }
   }
 
   /**
-   * Realiza el logout del usuario eliminando los datos del usuario de sessionStorage
-   * y actualizando los ReplaySubjects.
+   * Elimina los datos del usuario de sessionStorage.
    */
-  logout(): void {
+  private removeUserFromSessionStorage(): void {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('idUsuario');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('role');
     sessionStorage.removeItem('user');
-    this.currentUserLoginOn.next(false);
-    this.currentUserData.next(null);
-    this.user = null;
   }
 
   /**
@@ -108,7 +124,7 @@ export class LoginService {
    * @param error El error HTTP.
    * @returns Un Observable que arroja un error.
    */
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.status === 0) {
       console.error('Se ha producido un error:', error.error);
     } else {
@@ -118,27 +134,11 @@ export class LoginService {
   }
 
   /**
-   * Obtiene los datos del usuario como un Observable.
-   * @returns Un Observable con los datos de autenticación del usuario.
-   */
-  get userData(): Observable<AuthResponse | null> {
-    return this.currentUserData.asObservable();
-  }
-
-  /**
-   * Obtiene el estado de login del usuario como un Observable.
-   * @returns Un Observable con el estado de autenticación del usuario.
-   */
-  get userLoginOn(): Observable<boolean> {
-    return this.currentUserLoginOn.asObservable();
-  }
-
-  /**
    * Obtiene el token del usuario autenticado.
    * @returns El token del usuario o null si no está autenticado.
    */
   getUserToken(): string | null {
-    return this.user ? this.user.token : null;
+    return this.currentUser ? this.currentUser.token : null;
   }
 
   /**
@@ -146,7 +146,7 @@ export class LoginService {
    * @returns El ID del usuario o null si no está autenticado.
    */
   getUserId(): number | null {
-    return this.user ? this.user.idUsuario : null;
+    return this.currentUser ? this.currentUser.idUsuario : null;
   }
 
   /**
@@ -154,7 +154,7 @@ export class LoginService {
    * @returns El nombre de usuario o null si no está autenticado.
    */
   getUserName(): string | null {
-    return this.user ? this.user.username : null;
+    return this.currentUser ? this.currentUser.username : null;
   }
 
   /**
@@ -162,7 +162,7 @@ export class LoginService {
    * @returns El rol del usuario o null si no está autenticado.
    */
   getUserRole(): string | null {
-    return this.user ? this.user.role : null;
+    return this.currentUser ? this.currentUser.role : null;
   }
 
   /**
@@ -170,6 +170,6 @@ export class LoginService {
    * @returns Los datos del usuario o null si no está autenticado.
    */
   getUser(): AuthResponse | null {
-    return this.user;
+    return this.currentUser;
   }
 }

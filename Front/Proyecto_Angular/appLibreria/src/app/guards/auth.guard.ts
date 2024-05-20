@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     //console.log('Intentando acceder a ruta:', state.url);
     
     // Verifica si el usuario está logueado utilizando un BehaviorSubject y dirige a la página de login si no lo está
-    return this.loginService.userLoginOn.pipe(
+    return this.loginService.userLoginOn$.pipe(
       map((isLoggedIn) => isLoggedIn || this.router.createUrlTree(['/sign-in']))
     );
   }
