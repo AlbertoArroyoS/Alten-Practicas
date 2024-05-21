@@ -12,5 +12,9 @@ import com.alten.practica.modelo.entidad.LibreriaLibro;
  */
 @Repository
 public interface ILibreriaLibroRepository extends JpaRepository<LibreriaLibro, Integer> {
+	
+	
 
+		
+	
 }

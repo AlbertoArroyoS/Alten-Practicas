@@ -168,5 +168,39 @@ public class ClienteCompraLibroController {
 		return new ResponseEntity<HrefEntityDTO>(this.clienteLibroService.delete(id), HttpStatus.OK);	
 
 	}
+	/*
+	 * Obtiene una lista de todas las compras de libros de un cliente en la base de
+	 * datos.
+	 */
+	@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO
+			+LibreriaConstant.RESOURCE_CLIENTE + LibreriaConstant.RESOURCE_GENERIC_ID )
+	public ResponseEntity<Page<ClienteCompraLibroDTO>> findByIdCliente(
+            @PathVariable("id") int id, 
+            @PageableDefault(size = 100, page = 0) Pageable pageable, 
+            Model model) {
+
+        Page<ClienteCompraLibroDTO> page = clienteLibroService.findByCliente(id, pageable);
+
+        model.addAttribute("page", page);
+        int totalPages = page.getTotalPages();
+        int currentPage = page.getNumber();
+
+        int start = Math.max(1, currentPage + 1);
+        int end = Math.min(currentPage + 5, totalPages);
+
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = new ArrayList<>();
+            for (int i = start; i <= end; i++) {
+                pageNumbers.add(i);
+            }
+
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        List<Integer> pageSizeOptions = Arrays.asList(10, 20, 50, 100);
+        model.addAttribute("pageSizeOptions", pageSizeOptions);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 
 }

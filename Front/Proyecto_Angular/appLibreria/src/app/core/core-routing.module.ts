@@ -37,6 +37,7 @@ const routes: Routes = [
     component: CorePrivateLayoutComponent,
     loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardModule),
     canActivate: [AuthGuard, RoleGuard],
+    canLoad: [RoleGuard],
     data: { allowedRoles: ['USER', 'ADMIN'] }
   },
   {
@@ -44,7 +45,7 @@ const routes: Routes = [
     component: CorePrivateLayoutComponent,
     loadChildren: () => import('../user/user.module').then(m => m.UserModule),
     canActivate: [AuthGuard, RoleGuard],
-    data: { allowedRoles: ['ADMIN']  }
+    data: { allowedRoles: ['USER', 'ADMIN']  }
   }
 ];
 

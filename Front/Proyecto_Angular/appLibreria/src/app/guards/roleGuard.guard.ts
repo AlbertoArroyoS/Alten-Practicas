@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree, CanLoad, Route, UrlSegment } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
 import { map, catchError, takeUntil } from 'rxjs/operators';
 import { LoginService } from '../services/auth/login.service';
@@ -7,15 +7,22 @@ import { LoginService } from '../services/auth/login.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleGuard implements CanActivate, OnDestroy {
+export class RoleGuard implements CanActivate, OnDestroy, CanLoad {
   private destroy$ = new Subject<void>();
 
   constructor(private loginService: LoginService, private router: Router) {}
+  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    return this.hasRole(route);
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
+    return this.hasRole(route);
+  }
+
+  private hasRole(route: ActivatedRouteSnapshot | Route) {
     const allowedRoles = route.data?.['allowedRoles'] ?? [];
 
     return this.loginService.user$.pipe(

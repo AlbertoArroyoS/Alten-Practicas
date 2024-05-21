@@ -19,7 +19,7 @@ public interface IClienteCompraLibroService {
 	// Metodo para buscar por id
 	public ClienteCompraLibroDTO findById(int id);
 
-	// Metodo para listar todas los autores
+	// Metodo para listar todas las compras de libros
 	public Page<ClienteCompraLibroDTO> findAll(Pageable pageable);
 
 	// Metodo para actualizar un autor
@@ -27,5 +27,8 @@ public interface IClienteCompraLibroService {
 
 	// Metodo para borrar un autor
 	public HrefEntityDTO delete(int id);
+	
+	//Metodo para listar las compras de un cliente
+	public Page<ClienteCompraLibroDTO> findByCliente(int idCliente, Pageable pageable);
 
 }

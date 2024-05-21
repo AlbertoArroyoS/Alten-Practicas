@@ -151,4 +151,18 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 
 	}
 
+	/**
+	 * Obtiene una lista de todas las compras de libros de un cliente en la base de
+	 * datos.
+	 * 
+	 * @param idCliente El ID del cliente cuyas compras de libros se quieren buscar.
+	 * @return Una lista de objetos {@code ClienteCompraLibroDTO} que representan
+	 *         las compras de libros del cliente en la base de datos.
+	 */
+	@Override
+    public Page<ClienteCompraLibroDTO> findByCliente(int idCliente, Pageable pageable) {
+        Page<ClienteCompraLibro> lista = clienteCompraLibroRepository.findByIdCliente(idCliente, pageable);
+        return lista.map(clienteCompraLibrosMapper::toDTO);
+    }
+
 }

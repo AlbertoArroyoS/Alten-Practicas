@@ -2,7 +2,11 @@ package com.alten.practica.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.alten.practica.modelo.entidad.Cliente;
@@ -20,5 +24,10 @@ public interface IClienteCompraLibroRepository extends JpaRepository<ClienteComp
 	public Optional<Libro> findLibroById(int id);
 
 	public Optional<Cliente> findClienteById(int id);
+	
+	
+	// Método para buscar libros comprados por un cliente con paginación
+	@Query("SELECT a FROM ClienteCompraLibro a WHERE a.cliente.id = :idCliente")
+    Page<ClienteCompraLibro> findByIdCliente(@Param("idCliente") int idCliente, Pageable pageable);
 
 }
