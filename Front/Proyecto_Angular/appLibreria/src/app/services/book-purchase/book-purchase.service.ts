@@ -23,4 +23,12 @@ export class BookPurchaseService {
 
     return this.httpClient.get(`${this.API_SERVER}`, { params: params });
   }
+
+  public getClientPurchases(idCliente: number, page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get(`${this.API_SERVER2}/cliente/${idCliente}`, { params: params });
+  }
 }

@@ -1,67 +1,78 @@
-import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { LoginService } from 'src/app/services/auth/login.service';
 import { BookPurchaseService } from 'src/app/services/book-purchase/book-purchase.service';
+import { AuthResponse } from 'src/app/shared/model/response/authResponse';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-purchase',
   templateUrl: './list-purchase.component.html',
   styleUrls: ['./list-purchase.component.scss']
 })
-export class ListPurchaseComponent {
+export class ListPurchaseComponent implements OnInit, OnDestroy {
 
-  protected subscription: Array<Subscription> = new Array(); // Array de suscripciones
+  protected subscription: Subscription = new Subscription(); // Gestión de suscripciones
   librosCompra!: any[];
   totalPaginas?: number[];
   currentPage: number = 0;
   pageSize: number = 10;
   paginacion: boolean = true;
-  public title!: string;
-  
+  public title: string = 'Libros Comprados';
+  userLoginOn$: Observable<boolean>;
+  user$: Observable<AuthResponse | null>;
+  errorMessage?: string;
+
   constructor(
     public librosCompradosService: BookPurchaseService,
-  ){
-
+    private loginService: LoginService
+  ) {
+    this.userLoginOn$ = this.loginService.userLoginOn$;
+    this.user$ = this.loginService.user$;
   }
 
-  // Método que se ejecuta al inicializar el componente
   ngOnInit(): void {
-    this.title = 'Libros a la venta';
-    // Realizar una carga inicial de la tabla de autores al inicializar el componente
-    this.cargarTablaLibros(0, 10);
-  }
-
-  // Método que se ejecuta al destruir el componente y desuscribirse de las suscripciones
-  ngOnDestroy(): void {
-    // Desuscribirse de cada suscripción en el array de suscripciones
-    this.subscription.forEach((subscription) => {
-      subscription.unsubscribe();
-    });
-  }
-
-  // Método para cargar la tabla de libros
-  cargarTablaLibros(page: number, size: number) {
-    this.subscription.push(
-      // Llamar al servicio para obtener la lista de libros
-      this.librosCompradosService.getAllBooksPurchases(page, size).subscribe((data) => {
-        this.librosCompra = Array.isArray(data.content) ? data.content : [];
-        this.totalPaginas = Array.from(
-          { length: data.totalPages },
-          (_, i) => i + 1
-        );
-        this.currentPage = data.number;
+    // Cargar las compras del cliente al inicializar el componente
+    this.subscription.add(
+      this.user$.pipe(
+        switchMap(userData => {
+          if (userData) {
+            return this.librosCompradosService.getClientPurchases(userData.idUsuario, this.currentPage, this.pageSize);
+          } else {
+            return [];
+          }
+        })
+      ).subscribe({
+        next: (data) => {
+          this.librosCompra = Array.isArray(data.content) ? data.content : [];
+          this.totalPaginas = Array.from(
+            { length: data.totalPages },
+            (_, i) => i + 1
+          );
+          this.currentPage = data.number;
+        },
+        error: (error) => {
+          this.errorMessage = 'Error al cargar las compras del cliente.';
+          console.error('Error fetching client purchases', error);
+        }
       })
     );
   }
 
-  // Método para recargar la tabla de libros
-  recargarTablaLibros() {
-    // Llamar al método de cargar tabla de autores para volver a cargar los datos
-    this.cargarTablaLibros(this.currentPage, this.pageSize);
+  ngOnDestroy(): void {
+    // Desuscribirse de todas las suscripciones
+    this.subscription.unsubscribe();
+  }
+
+  // Método para recargar la tabla de libros comprados
+  recargarTablaLibros(): void {
+    this.loadClientPurchases(this.currentPage, this.pageSize);
     this.paginacion = true;
   }
+
   // Método para cambiar la página de la tabla
   changePage(pageNumber: number): void {
-    this.cargarTablaLibros(pageNumber, this.pageSize);
+    this.loadClientPurchases(pageNumber, this.pageSize);
   }
 
   // Método para cambiar el tamaño de la página de la tabla
@@ -69,13 +80,52 @@ export class ListPurchaseComponent {
     const element = event.target as HTMLSelectElement; // Asignación de tipo
     const size = Number(element.value); // Conversión de string a número
     this.pageSize = size;
-    this.cargarTablaLibros(0, size);
+    this.loadClientPurchases(0, size);
   }
 
-
-  
-
-
-  
-
+  // Método para cargar las compras del cliente
+  private loadClientPurchases(page: number, size: number): void {
+    this.subscription.add(
+      this.user$.pipe(
+        switchMap(userData => {
+          if (userData) {
+            return this.librosCompradosService.getClientPurchases(userData.idUsuario, page, size);
+          } else {
+            return [];
+          }
+        })
+      ).subscribe({
+        next: (data) => {
+          this.librosCompra = Array.isArray(data.content) ? data.content : [];
+          this.totalPaginas = Array.from(
+            { length: data.totalPages },
+            (_, i) => i + 1
+          );
+          this.currentPage = data.number;
+        },
+        error: (error) => {
+          this.errorMessage = 'Error al cargar las compras del cliente.';
+          console.error('Error fetching client purchases', error);
+        }
+      })
+    );
+  }
+/*
+    //cargar todos los libros de todos los usuarios
+    cargarTablaLibros(page: number, size: number) {
+      this.subscription.push(
+        // Llamar al servicio para obtener la lista de libros
+        this.librosCompradosService.getAllBooksPurchases(page, size).subscribe((data) => {
+          this.librosCompra = Array.isArray(data.content) ? data.content : [];
+          this.totalPaginas = Array.from(
+            { length: data.totalPages },
+            (_, i) => i + 1
+          );
+          this.currentPage = data.number;
+        })
+      );
+    }*/
 }
+
+
+
