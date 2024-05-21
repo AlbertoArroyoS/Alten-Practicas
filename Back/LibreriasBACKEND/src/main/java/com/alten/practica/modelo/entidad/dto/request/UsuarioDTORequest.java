@@ -21,9 +21,6 @@ public class UsuarioDTORequest {
 	@Size(min = 2, max = 250, message = "El nombre de usuario debe tener entre 2 y 250 caracteres")
 	private String username;
 	
-	@NotNull(message = "La contraseña no puede ser nula")
-    @NotBlank(message = "La contraseña no puede estar vacía")
-    @Size(min = 6, max = 100, message = "La contraseña debe tener entre 6 y 100 caracteres")
     private String password;
 
 	private byte enabled;

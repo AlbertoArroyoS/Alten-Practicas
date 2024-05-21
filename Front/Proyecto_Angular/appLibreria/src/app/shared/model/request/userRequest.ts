@@ -3,6 +3,7 @@ import { Role } from '../Rol/Role';
 export interface UserRequest {
   idUsuario: number;
   username: string;
+  password: string;
   enabled: number;
   role: Role;
   idCliente: number;

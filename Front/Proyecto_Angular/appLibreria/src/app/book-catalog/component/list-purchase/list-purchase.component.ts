@@ -34,6 +34,7 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Cargar las compras del cliente al inicializar el componente
     this.subscription.add(
+      //switchMap para encadenar las suscripciones de user$ y librosCompradosService.getClientPurchases
       this.user$.pipe(
         switchMap(userData => {
           if (userData) {

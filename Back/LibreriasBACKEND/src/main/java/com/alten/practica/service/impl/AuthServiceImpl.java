@@ -1,18 +1,28 @@
 package com.alten.practica.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.alten.practica.errorhandler.EntityNotFoundException;
 import com.alten.practica.modelo.entidad.Cliente;
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.modelo.entidad.Usuario;
 import com.alten.practica.modelo.entidad.dto.AuthDTO;
+import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.LoginDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.RegisterDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
+import com.alten.practica.modelo.entidad.mapper.IUsuarioAdminMapper;
+import com.alten.practica.modelo.entidad.mapper.IUsuarioMapper;
 import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.repository.IUsuarioRepository;
@@ -57,6 +67,11 @@ public class AuthServiceImpl implements IAuthService {
 	@Autowired
 	LibreriaUtil libreriaUtil;
 
+	@Autowired
+	IUsuarioMapper usuarioMapper;
+	@Autowired
+	IUsuarioAdminMapper usuarioAdminMapper;
+
 	// Codificador de contraseñas para codificar contraseñas de usuario
 	public final PasswordEncoder passwordEncoder;
 
@@ -82,12 +97,8 @@ public class AuthServiceImpl implements IAuthService {
 
 		// Devuelve el DTO de autenticación con el token
 		// Devuelve el DTO de autenticación con el token y los datos del usuario
-		return AuthDTO.builder()
-				.token(token)
-				.idUsuario((long) user.getId())
-				.username(user.getUsername())
-				.role(user.getRole().name())
-				.build();
+		return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
+				.role(user.getRole().name()).build();
 	}
 
 	/*
@@ -129,11 +140,8 @@ public class AuthServiceImpl implements IAuthService {
 	@Override
 	public AuthDTO registerAdmin(UsuarioDTORequest dto) {
 
-		Usuario usuario = Usuario.builder()
-				.username(dto.getUsername())
-				.password(passwordEncoder.encode(dto.getPassword()))
-				.role(Role.ADMIN)
-				.enabled((byte) 1).build();
+		Usuario usuario = Usuario.builder().username(dto.getUsername())
+				.password(passwordEncoder.encode(dto.getPassword())).role(Role.ADMIN).enabled((byte) 1).build();
 
 		// Guardar el Usuario en la base de datos
 		usuario = usuarioRepository.save(usuario);
@@ -142,6 +150,79 @@ public class AuthServiceImpl implements IAuthService {
 		String token = jwtService.getToken(usuario);
 
 		return AuthDTO.builder().token(token).build();
+	}
+
+	@Override
+	public AuthDTO updateAdmin(UsuarioDTORequest dto, int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UsuarioDTO updateUser(RegisterDTORequest request, int id) {
+		// Crear y guardar un nuevo Cliente
+		clienteRepository.findByNombreAndApellidos(request.getNombre(), request.getApellidos()).ifPresent(a -> {
+			throw new IllegalStateException("Cliente con el nombre '" + request.getNombre() + "' y apellidos '"
+					+ request.getApellidos() + "' ya existe");
+		});
+		Cliente cpl = clienteRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
+		cpl.setNombre(request.getNombre());
+		cpl.setApellidos(request.getApellidos());
+		cpl.setEmail(request.getEmail());
+		cpl.setPassword(request.getPassword());
+		this.clienteRepository.save(cpl);
+
+		// Crear y guardar una nueva Librería
+		Libreria libreria = libreriaRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
+		libreria.setId(id);
+
+		// Comprobar si existen duplicados antes de actualizar
+		List<Libreria> libreriasDuplicados = libreriaRepository.findByNombreLibreria(request.getNombreLibreria())
+				.stream().filter(a -> a.getId() != id) // Excluir el autor actual de la comprobación de duplicados
+				.collect(Collectors.toList());
+
+		if (!libreriasDuplicados.isEmpty()) {
+			throw new IllegalStateException(
+					"La libreria con el nombre '" + request.getNombreLibreria() + "' ya existe");
+		}
+
+		libreria.setNombreLibreria(request.getNombreLibreria());
+		libreria.setNombreDueno(request.getNombreDueno());
+		libreria.setDireccion(request.getDireccion());
+		libreria.setCiudad(request.getCiudad());
+		libreria.setEmail(request.getEmail());
+		Libreria libreriaActualizada = libreriaRepository.save(libreria);
+
+		// Crear un nuevo Usuario y asignar Cliente y Librería
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
+
+		// Actualizar los campos del usuario con los valores del DTO
+		usuario.setUsername(request.getUsername());
+		usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+		// Guardar el Usuario en la base de datos
+		usuario = usuarioRepository.save(usuario);
+
+		// Generar un token de autenticación para el usuario
+		String token = jwtService.getToken(usuario);
+
+		// Devolver el DTO de autenticación con el token
+		return UsuarioDTO.builder().build();
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public UsuarioDTO findById(int id) {
+		Usuario usuario = usuarioRepository.findById(id).orElseThrow();
+		return usuarioMapper.toDTO(usuario);
+	}
+	@Transactional(readOnly = true)
+	@Override
+	public Page<UsuarioDTO> findAll(Pageable pageable) {
+		Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
+		return usuarios.map(usuario ->usuarioMapper.toDTO(usuario));
 	}
 
 }

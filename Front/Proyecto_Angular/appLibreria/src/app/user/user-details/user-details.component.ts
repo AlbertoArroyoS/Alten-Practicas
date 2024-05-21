@@ -36,6 +36,7 @@ export class UserDetailsComponent implements OnInit {
     this.formularioUsuario = this.fb.group({
       idUsuario: [''],
       username: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', Validators.required),
       nombre: new FormControl('', Validators.required),
       apellidos: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -80,7 +81,7 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getUser(userId).subscribe({
       next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
         this.userData = userData;
-        this.idControl = this.userData?.idUsuario ?? 0;
+        this.idControl = this.userData?.idUsuario;
         this.formularioUsuario.patchValue(this.userData);
       },
       error: (errorData) => {
