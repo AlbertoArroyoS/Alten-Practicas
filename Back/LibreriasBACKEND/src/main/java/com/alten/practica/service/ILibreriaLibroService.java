@@ -28,7 +28,7 @@ public interface ILibreriaLibroService {
 	// Metodo para borrar un autor
 	public HrefEntityDTO delete(int id);
 
-	void disminuirCantidadLibro(int idLibro, int idLibreria);
+	void disminuirCantidadLibro(int idLibreriaLibro);
 
 	Page<LibreriaLibroDTO> findByTituloContaining(String titulo, Pageable pageable);
 

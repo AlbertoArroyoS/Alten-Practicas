@@ -160,18 +160,19 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService {
      * @param idLibreria El ID de la librería.
      * @throws EntityNotFoundException Si no se encuentra la relación entre la librería y el libro.
      */
-    public void disminuirCantidadLibro(int idLibro, int idLibreria) {
-        LibreriaLibro libreriaLibro = libreriaLibroRepository.findByLibroIdAndLibreriaId(idLibro, idLibreria)
-            .orElseThrow(() -> new EntityNotFoundException(
-                String.format("No se encontró el libro con id %s en la librería con id %s", idLibro, idLibreria)));
+	@Transactional
+	@Override
+	public void disminuirCantidadLibro(int idLibreriaLibro) {
+	    LibreriaLibro libreriaLibro = libreriaLibroRepository.findById(idLibreriaLibro)
+	            .orElseThrow(() -> new EntityNotFoundException("No se encontró la relación entre librería y libro"));
 
-        if (libreriaLibro.getCantidad() > 0) {
-            libreriaLibro.setCantidad(libreriaLibro.getCantidad() - 1);
-            libreriaLibroRepository.save(libreriaLibro);
-        } else {
-            throw new IllegalStateException("La cantidad del libro no puede ser menor que 0");
-        }
-    }
+	    if (libreriaLibro.getCantidad() > 0) {
+	        libreriaLibro.setCantidad(libreriaLibro.getCantidad() - 1);
+	        libreriaLibroRepository.save(libreriaLibro);
+	    } else {
+	        throw new IllegalArgumentException("La cantidad del libro no puede ser menor a 0");
+	    }
+	}
     
     @Override
     @Transactional(readOnly = true)

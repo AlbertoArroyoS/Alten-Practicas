@@ -15,6 +15,7 @@ import com.alten.practica.modelo.entidad.Libro;
 import com.alten.practica.modelo.entidad.dto.ClienteCompraLibroDTO;
 import com.alten.practica.modelo.entidad.dto.request.ClienteCompraLibroDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IClienteCompraLibroMapper;
+import com.alten.practica.modelo.entidad.mapper.ILibreriaLibroMapper;
 import com.alten.practica.repository.IClienteCompraLibroRepository;
 import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.repository.ILibreriaRepository;
@@ -48,16 +49,10 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 	@Autowired
 	ILibreriaRepository libreriaRepository;
 
-	/**
-	 * Guarda una nueva compra de libro en la base de datos.
-	 * 
-	 * @param dto Los datos de la compra de libro a guardar.
-	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso de
-	 *         la compra de libro creada.
-	 * @throws EntityNotFoundException Si no se encuentra ningún cliente o libro con
-	 *                                 los IDs proporcionados.
-	 */
-	@Override
+	@Autowired
+    ILibreriaLibroMapper libreriaLibroMapper; // Inyectar el mapper
+
+    @Override
     public HrefEntityDTO save(ClienteCompraLibroDTORequest dto) {
         Cliente cli = clienteRepository.findById(dto.getIdCliente()).orElseThrow(
                 () -> new EntityNotFoundException(String.format("El cliente con id %s no existe", dto.getIdCliente())));
@@ -70,11 +65,14 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
         ClienteCompraLibro ccl = ClienteCompraLibro.builder().cliente(cli).libro(libro).libreria(libreria)
                 .fechaCompra(dto.getFechaCompra()).precio(dto.getPrecio()).build();
 
-        // Llama al servicio para disminuir la cantidad del libro en la librería
-        libreriaLibroService.disminuirCantidadLibro(dto.getIdLibro(), dto.getIdLibreria());
 
-        return libreriaUtil.createHrefFromResource(this.clienteCompraLibroRepository.save(ccl).getId(),
-                LibreriaResource.CLIENTECOMPRALIBRO);
+        ClienteCompraLibro savedEntity = this.clienteCompraLibroRepository.save(ccl);
+
+
+     // Llama al servicio para disminuir la cantidad del libro en la librería
+        libreriaLibroService.disminuirCantidadLibro(dto.getIdLibreriaLibro());
+
+        return libreriaUtil.createHrefFromResource(savedEntity.getId(), LibreriaResource.CLIENTECOMPRALIBRO);
     }
 
 
