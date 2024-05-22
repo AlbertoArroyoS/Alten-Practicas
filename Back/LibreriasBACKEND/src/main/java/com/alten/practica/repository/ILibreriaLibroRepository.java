@@ -1,6 +1,6 @@
 package com.alten.practica.repository;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,8 @@ import com.alten.practica.modelo.entidad.LibreriaLibro;
 @Repository
 public interface ILibreriaLibroRepository extends JpaRepository<LibreriaLibro, Integer> {
 	
-	List<LibreriaLibro> findByLibroId(int idLibro);
+    Optional<LibreriaLibro> findByLibroIdAndLibreriaId(int libroId, int libreriaId);
+
 	
 		
 }

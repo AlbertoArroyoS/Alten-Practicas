@@ -1,7 +1,5 @@
 package com.alten.practica.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -156,21 +154,23 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService {
 	}
 	
 	/**
-	 * Disminuye la cantidad de un libro en una librería específica.
-	 * 
-	 * @param idLibro El ID del libro cuya cantidad se debe disminuir.
-	 * @throws EntityNotFoundException Si no se encuentra ninguna relación con el ID
-	 *                                 proporcionado.
-	 */
-	@Override
-	public void disminuirCantidadLibro(int idLibro) {
-		List<LibreriaLibro> relaciones = libreriaLibroRepository.findByLibroId(idLibro);
-		for (LibreriaLibro relacion : relaciones) {
-			if (relacion.getCantidad() > 0) {
-				relacion.setCantidad(relacion.getCantidad() - 1);
-				libreriaLibroRepository.save(relacion);
-			}
-		}
-	}
+     * Disminuye la cantidad de un libro en una librería en 1.
+     * 
+     * @param idLibro    El ID del libro.
+     * @param idLibreria El ID de la librería.
+     * @throws EntityNotFoundException Si no se encuentra la relación entre la librería y el libro.
+     */
+    public void disminuirCantidadLibro(int idLibro, int idLibreria) {
+        LibreriaLibro libreriaLibro = libreriaLibroRepository.findByLibroIdAndLibreriaId(idLibro, idLibreria)
+            .orElseThrow(() -> new EntityNotFoundException(
+                String.format("No se encontró el libro con id %s en la librería con id %s", idLibro, idLibreria)));
+
+        if (libreriaLibro.getCantidad() > 0) {
+            libreriaLibro.setCantidad(libreriaLibro.getCantidad() - 1);
+            libreriaLibroRepository.save(libreriaLibro);
+        } else {
+            throw new IllegalStateException("La cantidad del libro no puede ser menor que 0");
+        }
+    }
 
 }

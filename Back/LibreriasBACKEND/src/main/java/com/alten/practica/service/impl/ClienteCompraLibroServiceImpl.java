@@ -58,25 +58,24 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 	 *                                 los IDs proporcionados.
 	 */
 	@Override
-	public HrefEntityDTO save(ClienteCompraLibroDTORequest dto) {
-		Cliente cli = clienteRepository.findById(dto.getIdCliente()).orElseThrow(
-				() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", dto.getIdCliente())));
-		Libro libro = libroRepository.findById(dto.getIdLibro()).orElseThrow(
-				() -> new EntityNotFoundException(String.format("El libro con id %s no existe", dto.getIdLibro())));
-		Libreria libreria = libreriaRepository.findById(dto.getIdLibreria())
-				.orElseThrow(() -> new EntityNotFoundException(
-						String.format("La librería con id %s no existe", dto.getIdLibreria())));
+    public HrefEntityDTO save(ClienteCompraLibroDTORequest dto) {
+        Cliente cli = clienteRepository.findById(dto.getIdCliente()).orElseThrow(
+                () -> new EntityNotFoundException(String.format("El cliente con id %s no existe", dto.getIdCliente())));
+        Libro libro = libroRepository.findById(dto.getIdLibro()).orElseThrow(
+                () -> new EntityNotFoundException(String.format("El libro con id %s no existe", dto.getIdLibro())));
+        Libreria libreria = libreriaRepository.findById(dto.getIdLibreria())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("La librería con id %s no existe", dto.getIdLibreria())));
 
-		ClienteCompraLibro ccl = ClienteCompraLibro.builder().cliente(cli).libro(libro).libreria(libreria)
-				.fechaCompra(dto.getFechaCompra()).precio(dto.getPrecio()).build();
+        ClienteCompraLibro ccl = ClienteCompraLibro.builder().cliente(cli).libro(libro).libreria(libreria)
+                .fechaCompra(dto.getFechaCompra()).precio(dto.getPrecio()).build();
 
-		// Llama al servicio para disminuir la cantidad del libro en la librería
-		//libreriaLibroService.disminuirCantidadLibro(dto.getIdLibro());
+        // Llama al servicio para disminuir la cantidad del libro en la librería
+        libreriaLibroService.disminuirCantidadLibro(dto.getIdLibro(), dto.getIdLibreria());
 
-		return libreriaUtil.createHrefFromResource(this.clienteCompraLibroRepository.save(ccl).getId(),
-				LibreriaResource.CLIENTECOMPRALIBRO);
-
-	}
+        return libreriaUtil.createHrefFromResource(this.clienteCompraLibroRepository.save(ccl).getId(),
+                LibreriaResource.CLIENTECOMPRALIBRO);
+    }
 
 
 	/**

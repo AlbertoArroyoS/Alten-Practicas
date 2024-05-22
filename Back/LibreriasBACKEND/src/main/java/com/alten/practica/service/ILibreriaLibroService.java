@@ -28,6 +28,6 @@ public interface ILibreriaLibroService {
 	// Metodo para borrar un autor
 	public HrefEntityDTO delete(int id);
 
-	void disminuirCantidadLibro(int idLibro);
+	void disminuirCantidadLibro(int idLibro, int idLibreria);
 
 }
