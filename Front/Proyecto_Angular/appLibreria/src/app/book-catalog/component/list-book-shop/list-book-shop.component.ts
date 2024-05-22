@@ -101,10 +101,19 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
     this.paginacion = true;
   }
 
+  // Método para formatear la fecha actual en formato dd-MM-yyyy
+  private obtenerFechaActual(): string {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
   // Método para comprar un libro
   comprarLibro(idLibro: number, precio: number): void {
     if (this.idCliente) {
-      const fechaCompra = new Date().toISOString().slice(0, 10); // Obtiene la fecha actual en formato YYYY-MM-DD
+      const fechaCompra = this.obtenerFechaActual(); // Obtiene la fecha actual formateada
       const purchaseData = {
         fechaCompra: fechaCompra,
         precio: precio,
