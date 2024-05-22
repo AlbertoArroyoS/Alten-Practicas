@@ -45,7 +45,7 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
         next: (userData) => {
           if (userData) {
             this.loadUserData(userData.idUsuario);
-            console.log('User Data:', userData);          
+            //console.log('User Data:', userData);          
           }
         },
         error: (error) => {
@@ -72,17 +72,17 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
     this.userService.getUser(userId).subscribe({
       next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
         this.idUsuario = userData.idUsuario;
-        console.log('ID Usuario:', this.idUsuario);
+        //console.log('ID Usuario:', this.idUsuario);
         this.idCliente = userData.idCliente;
-        console.log('ID Cliente:', this.idCliente);
+        //console.log('ID Cliente:', this.idCliente);
         this.idLibreria = userData.idLibreria;
-        console.log('ID Libreria:', this.idLibreria);
+        //console.log('ID Libreria:', this.idLibreria);
       },
       error: (errorData) => {
         this.errorMessage = errorData;
       },
       complete: () => {
-        console.info("User Data ok");
+        //console.info("User Data ok");
       }
     });
   }

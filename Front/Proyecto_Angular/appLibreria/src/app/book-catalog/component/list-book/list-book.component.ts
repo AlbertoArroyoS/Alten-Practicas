@@ -127,18 +127,18 @@ export class ListBookComponent implements OnInit, OnDestroy {
       next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
         this.userData = userData;
         this.idUsuario = this.userData.idUsuario;
-        console.log('ID Usuario:', this.idUsuario);
+        //console.log('ID Usuario:', this.idUsuario);
         this.idCliente = this.userData.idCliente;
-        console.log('ID Cliente:', this.idCliente);
+        //console.log('ID Cliente:', this.idCliente);
         this.idLibreria = this.userData.idLibreria;
-        console.log('ID Libreria:', this.idLibreria);
+        //console.log('ID Libreria:', this.idLibreria);
         // Aquí puedes utilizar los datos del usuario para otras operaciones, si es necesario
       },
       error: (errorData) => {
         this.errorMessage = errorData;
       },
       complete: () => {
-        console.info("User Data ok");
+        //console.info("User Data ok");
       }
     });
   }
