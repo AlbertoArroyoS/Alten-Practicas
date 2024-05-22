@@ -29,6 +29,7 @@ public class ClienteCompraLibroDTO implements Serializable {
 
 	private int id;
 	private int idCliente;
+	private int idLibreria;
 	private String nombreCliente;
 	private String apellidosCliente;
 	private int idLibro;

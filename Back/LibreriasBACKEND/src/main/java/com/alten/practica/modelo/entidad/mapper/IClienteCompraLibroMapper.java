@@ -20,6 +20,7 @@ public interface IClienteCompraLibroMapper {
 
 	@Mapping(target = "id", source = "id")
 	@Mapping(target = "idCliente", source = "cliente.id")
+	@Mapping(target = "idLibreria", source = "libreria.id")
 	@Mapping(target = "nombreCliente", source = "cliente.nombre")
 	@Mapping(target = "apellidosCliente", source = "cliente.apellidos")
 	@Mapping(target = "idLibro", source = "libro.id")

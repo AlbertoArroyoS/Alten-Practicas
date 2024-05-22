@@ -1,5 +1,7 @@
 package com.alten.practica.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -151,6 +153,24 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService {
 		this.libreriaLibroRepository.delete(cpl);
 		return libreriaUtil.createHrefFromResource(cpl.getId(), LibreriaResource.LIBRERIALIBRO);
 
+	}
+	
+	/**
+	 * Disminuye la cantidad de un libro en una librería específica.
+	 * 
+	 * @param idLibro El ID del libro cuya cantidad se debe disminuir.
+	 * @throws EntityNotFoundException Si no se encuentra ninguna relación con el ID
+	 *                                 proporcionado.
+	 */
+	@Override
+	public void disminuirCantidadLibro(int idLibro) {
+		List<LibreriaLibro> relaciones = libreriaLibroRepository.findByLibroId(idLibro);
+		for (LibreriaLibro relacion : relaciones) {
+			if (relacion.getCantidad() > 0) {
+				relacion.setCantidad(relacion.getCantidad() - 1);
+				libreriaLibroRepository.save(relacion);
+			}
+		}
 	}
 
 }

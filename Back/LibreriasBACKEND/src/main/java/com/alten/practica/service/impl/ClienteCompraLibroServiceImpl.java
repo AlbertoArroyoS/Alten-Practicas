@@ -10,14 +10,17 @@ import com.alten.practica.errorhandler.EntityNotFoundException;
 import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.Cliente;
 import com.alten.practica.modelo.entidad.ClienteCompraLibro;
+import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.modelo.entidad.Libro;
 import com.alten.practica.modelo.entidad.dto.ClienteCompraLibroDTO;
 import com.alten.practica.modelo.entidad.dto.request.ClienteCompraLibroDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IClienteCompraLibroMapper;
 import com.alten.practica.repository.IClienteCompraLibroRepository;
 import com.alten.practica.repository.IClienteRepository;
+import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.repository.ILibroRepository;
 import com.alten.practica.service.IClienteCompraLibroService;
+import com.alten.practica.service.ILibreriaLibroService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
@@ -40,6 +43,10 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 	IClienteRepository clienteRepository;
 	@Autowired
 	ILibroRepository libroRepository;
+	@Autowired
+	ILibreriaLibroService libreriaLibroService; // Inyectar el servicio de LibreriaLibro
+	@Autowired
+	ILibreriaRepository libreriaRepository;
 
 	/**
 	 * Guarda una nueva compra de libro en la base de datos.
@@ -56,14 +63,21 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
 				() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", dto.getIdCliente())));
 		Libro libro = libroRepository.findById(dto.getIdLibro()).orElseThrow(
 				() -> new EntityNotFoundException(String.format("El libro con id %s no existe", dto.getIdLibro())));
+		Libreria libreria = libreriaRepository.findById(dto.getIdLibreria())
+				.orElseThrow(() -> new EntityNotFoundException(
+						String.format("La librería con id %s no existe", dto.getIdLibreria())));
 
-		ClienteCompraLibro ccl = ClienteCompraLibro.builder().cliente(cli).libro(libro)
+		ClienteCompraLibro ccl = ClienteCompraLibro.builder().cliente(cli).libro(libro).libreria(libreria)
 				.fechaCompra(dto.getFechaCompra()).precio(dto.getPrecio()).build();
+
+		// Llama al servicio para disminuir la cantidad del libro en la librería
+		//libreriaLibroService.disminuirCantidadLibro(dto.getIdLibro());
 
 		return libreriaUtil.createHrefFromResource(this.clienteCompraLibroRepository.save(ccl).getId(),
 				LibreriaResource.CLIENTECOMPRALIBRO);
 
 	}
+
 
 	/**
 	 * Busca una compra de libro por su ID en la base de datos.

@@ -28,6 +28,9 @@ public class ClienteCompraLibroDTORequest {
 
 	@NotNull(message = "El id no puede ser nulo")
 	private int idCliente;
+	
+	@NotNull(message = "El id no puede ser nulo")
+	private int idLibreria;
 
 	@NotNull(message = "El id no puede ser nulo")
 	private int idLibro;

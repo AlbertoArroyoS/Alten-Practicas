@@ -55,5 +55,7 @@ public class Libreria {
 	
 	@OneToOne(mappedBy = "libreria")
 	private Usuario usuario;
-
+	
+	@OneToMany(mappedBy = "libreria")
+	private List<ClienteCompraLibro> listaComprasLibrerias;
 }

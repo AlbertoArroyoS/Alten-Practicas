@@ -43,6 +43,10 @@ public class ClienteCompraLibro {
 	@ManyToOne
 	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
 	private Cliente cliente;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_libreria", referencedColumnName = "id_libreria")
+	private Libreria libreria;
 
 	@ManyToOne
 	@JoinColumn(name = "id_libro", referencedColumnName = "id_libro")
