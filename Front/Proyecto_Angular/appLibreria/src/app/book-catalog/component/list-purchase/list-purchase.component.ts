@@ -39,6 +39,7 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
         switchMap(userData => {
           if (userData) {
             this.userIdLibreria = userData.idLibreria; // Asignar el idLibreria del usuario
+            console.log('ID Libreria:', userData.idLibreria);
             return this.librosCompradosService.getClientPurchases(userData.idUsuario, this.currentPage, this.pageSize);
           } else {
             return [];

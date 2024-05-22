@@ -25,13 +25,13 @@
           <td>{{ item.precio | currency : "EUR" : "symbol" }}</td>
           <td>{{ item.edicion }}</td>
           <td>{{ item.fechaPublicacion }}</td>
-          <!-- Botones para ver, editar y eliminar libros en las librerías -->
+          <!-- Botón para comprar el libro -->
           <td class="acciones">
             <button
               (click)="comprarLibro(item.id)"
               type="button"
               class="btn btn-success"
-              [disabled]="item.cantidad < 1"
+              [disabled]="item.cantidad < 1 || item.idLibreria === idLibreria"
             >
               Comprar
             </button>
@@ -82,5 +82,4 @@
       </option>
     </select>
   </div>
-
 </div>
