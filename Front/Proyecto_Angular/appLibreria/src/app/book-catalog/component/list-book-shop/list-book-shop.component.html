@@ -5,8 +5,8 @@
     <table class="table table-primary table-hover shadow">
       <thead>
         <tr class="table-success">
-          <th scope="col">ID</th>
-          <th scope="col">Título del Libro</th>
+          <th scope="col" class="sortable" (click)="sortTable('id')">ID</th>
+          <th scope="col" class="sortable" (click)="sortTable('tituloLibro')">Título del Libro</th>
           <th scope="col">Nombre de la Librería</th>
           <th scope="col">Cantidad Disponible</th>
           <th scope="col">Precio</th>

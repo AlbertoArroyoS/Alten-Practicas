@@ -28,6 +28,7 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
   idUsuario!: number;
   idCliente!: number;
   idLibreria!: number;
+  sortDirection = true; // true = ascendente, false = descendente
 
   constructor(
     public ventaLibroService: BookShopService,
@@ -150,5 +151,21 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
     const size = Number(element.value);
     this.pageSize = size;
     this.cargarTablaLibros(0, size);
+  }
+
+  // Método para ordenar la tabla
+  sortTable(column: string): void {
+    this.sortDirection = !this.sortDirection;
+    const direction = this.sortDirection ? 1 : -1;
+
+    this.librosVenta.sort((a, b) => {
+      if (a[column] < b[column]) {
+        return -1 * direction;
+      } else if (a[column] > b[column]) {
+        return 1 * direction;
+      } else {
+        return 0;
+      }
+    });
   }
 }

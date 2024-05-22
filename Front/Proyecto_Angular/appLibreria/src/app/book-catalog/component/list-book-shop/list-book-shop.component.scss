@@ -40,3 +40,7 @@ table td:nth-child(3) {
   font-size: 22px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
   font-weight: bold; /* Texto en negrita para los resultados de la columna "Nombre" */
 }
+
+.sortable {
+  cursor: pointer;
+}
