@@ -83,3 +83,16 @@
     </select>
   </div>
 </div>
+
+<!-- Modal de confirmación -->
+<ng-template #confirmationModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Compra realizada</h4>
+  </div>
+  <div class="modal-body">
+    <p>La compra se ha realizado exitosamente.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('Ok click')">Aceptar</button>
+  </div>
+</ng-template>

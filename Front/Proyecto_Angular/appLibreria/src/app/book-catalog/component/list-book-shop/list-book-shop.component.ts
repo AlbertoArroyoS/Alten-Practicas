@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { BookShopService } from 'src/app/services/book-shop/book-shop.service';
 import { BookPurchaseService } from 'src/app/services/book-purchase/book-purchase.service';
@@ -30,11 +31,14 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
   idLibreria!: number;
   sortDirection = true; // true = ascendente, false = descendente
 
+  @ViewChild('confirmationModal') confirmationModal!: TemplateRef<any>;
+
   constructor(
     public ventaLibroService: BookShopService,
     private loginService: LoginService,
     private userService: UserService,
-    private bookPurchaseService: BookPurchaseService // Inyecta el servicio de compra de libros
+    private bookPurchaseService: BookPurchaseService, // Inyecta el servicio de compra de libros
+    private modalService: NgbModal // Inyecta el servicio de modal
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
     this.user$ = this.loginService.user$;
@@ -127,6 +131,7 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
         this.bookPurchaseService.purchaseBook(purchaseData).subscribe({
           next: (response) => {
             console.log('Compra realizada:', response);
+            this.modalService.open(this.confirmationModal); // Abre el modal de confirmación
             this.recargarTablaLibros();
           },
           error: (error: HttpErrorResponse) => {
