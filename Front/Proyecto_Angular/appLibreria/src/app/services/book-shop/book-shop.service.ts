@@ -32,9 +32,10 @@ export class BookShopService {
     return this.httpClient.post(this.API_SERVER2, book, { headers: headers });
   }
 
-  public searchBooksByTitle(title: string, page: number, size: number): Observable<any> {
-    let params = new HttpParams().set('title', title).set('page', page.toString()).set('size', size.toString());
-    return this.httpClient.get(`${this.API_SERVER}/search`, { params: params });
+  // Método para buscar libros por título
+  public searchBooksByTitle(titulo: string, page: number, size: number): Observable<any> {
+    let params = new HttpParams().set('titulo', titulo).set('page', page.toString()).set('size', size.toString());
+    return this.httpClient.get(`${this.API_SERVER2}`, { params: params });
   }
 
 
