@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { BookPurchaseService } from 'src/app/services/book-purchase/book-purchase.service';
+import { UserService } from 'src/app/services/users/user.service';
 import { AuthResponse } from 'src/app/shared/model/response/authResponse';
-import { switchMap } from 'rxjs/operators';
+import { UserRequest } from 'src/app/shared/model/request/userRequest';
 
 @Component({
   selector: 'app-list-purchase',
@@ -23,48 +25,66 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
   user$: Observable<AuthResponse | null>;
   errorMessage?: string;
   userIdLibreria?: number; // Añadir la propiedad para el idLibreria del usuario
+  idUsuario!: number;
+  idCliente!: number;
+  idLibreria!: number;
 
   constructor(
     public librosCompradosService: BookPurchaseService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private userService: UserService
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
     this.user$ = this.loginService.user$;
   }
 
   ngOnInit(): void {
-    // Cargar las compras del cliente al inicializar el componente
+    // Suscribirse a los datos del usuario
     this.subscription.add(
-      this.user$.pipe(
-        switchMap(userData => {
+      this.user$.subscribe({
+        next: (userData) => {
           if (userData) {
-            this.userIdLibreria = userData.idLibreria; // Asignar el idLibreria del usuario
-            console.log('ID Libreria:', userData.idLibreria);
-            return this.librosCompradosService.getClientPurchases(userData.idUsuario, this.currentPage, this.pageSize);
-          } else {
-            return [];
+            this.loadUserData(userData.idUsuario);
+            console.log('User Data:', userData);          
           }
-        })
-      ).subscribe({
-        next: (data) => {
-          this.librosCompra = Array.isArray(data.content) ? data.content : [];
-          this.totalPaginas = Array.from(
-            { length: data.totalPages },
-            (_, i) => i + 1
-          );
-          this.currentPage = data.number;
         },
         error: (error) => {
-          this.errorMessage = 'Error al cargar las compras del cliente.';
-          console.error('Error fetching client purchases', error);
+          this.errorMessage = 'Error al cargar datos del usuario.';
+          console.error(error);
         }
       })
     );
+
+    // Realizar una carga inicial de las compras del cliente al inicializar el componente
+    this.loadClientPurchases(this.currentPage, this.pageSize);
   }
 
   ngOnDestroy(): void {
     // Desuscribirse de todas las suscripciones
     this.subscription.unsubscribe();
+  }
+
+  /**
+   * Carga los datos del usuario desde el servicio de usuario.
+   * @param userId El ID del usuario.
+   */
+  loadUserData(userId: number): void {
+    this.userService.getUser(userId).subscribe({
+      next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
+        this.idUsuario = userData.idUsuario;
+        console.log('ID Usuario:', this.idUsuario);
+        this.idCliente = userData.idCliente;
+        console.log('ID Cliente:', this.idCliente);
+        this.idLibreria = userData.idLibreria;
+        console.log('ID Libreria:', this.idLibreria);
+      },
+      error: (errorData) => {
+        this.errorMessage = errorData;
+      },
+      complete: () => {
+        console.info("User Data ok");
+      }
+    });
   }
 
   // Método para recargar la tabla de libros comprados
@@ -114,6 +134,7 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
     );
   }
 }
+
 
 /*
     //cargar todos los libros de todos los usuarios
