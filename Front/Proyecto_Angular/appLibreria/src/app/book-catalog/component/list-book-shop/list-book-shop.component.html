@@ -28,7 +28,7 @@
           <!-- Botón para comprar el libro -->
           <td class="acciones">
             <button
-              (click)="comprarLibro(item.idLibro, item.precio)"
+              (click)="comprarLibro(item.idLibro, item.precio, item.idLibreria)"
               type="button"
               class="btn btn-success"
               [disabled]="item.cantidad < 1 || item.idLibreria === idLibreria"

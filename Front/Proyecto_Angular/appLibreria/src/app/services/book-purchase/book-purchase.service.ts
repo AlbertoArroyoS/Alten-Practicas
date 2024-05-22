@@ -31,7 +31,7 @@ export class BookPurchaseService {
     return this.httpClient.get(`${this.API_SERVER2}/cliente/${idCliente}`, { params: params });
   }
 
-  public purchaseBook(purchaseData: { fechaCompra: string, precio: number, idCliente: number, idLibro: number }): Observable<any> {
+  public purchaseBook(purchaseData: { fechaCompra: string, precio: number, idCliente: number, idLibro: number, idLibreria: number }): Observable<any> {
     return this.httpClient.post(`${this.API_SERVER2}`, purchaseData);
   }
 }

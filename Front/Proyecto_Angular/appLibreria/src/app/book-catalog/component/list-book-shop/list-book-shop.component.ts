@@ -111,14 +111,15 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
   }
 
   // Método para comprar un libro
-  comprarLibro(idLibro: number, precio: number): void {
+  comprarLibro(idLibro: number, precio: number, idLibreria: number): void {
     if (this.idCliente) {
       const fechaCompra = this.obtenerFechaActual(); // Obtiene la fecha actual formateada
       const purchaseData = {
         fechaCompra: fechaCompra,
         precio: precio,
         idCliente: this.idCliente,
-        idLibro: idLibro
+        idLibro: idLibro,
+        idLibreria: idLibreria
       };
 
       this.subscription.add(
