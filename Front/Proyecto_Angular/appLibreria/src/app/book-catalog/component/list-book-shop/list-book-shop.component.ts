@@ -1,11 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { BookShopService } from 'src/app/services/book-shop/book-shop.service';
+import { BookPurchaseService } from 'src/app/services/book-purchase/book-purchase.service';
 import { UserService } from 'src/app/services/users/user.service';
 import { AuthResponse } from 'src/app/shared/model/response/authResponse';
 import { UserRequest } from 'src/app/shared/model/request/userRequest';
@@ -35,6 +33,7 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
     public ventaLibroService: BookShopService,
     private loginService: LoginService,
     private userService: UserService,
+    private bookPurchaseService: BookPurchaseService // Inyecta el servicio de compra de libros
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
     this.user$ = this.loginService.user$;
@@ -73,17 +72,11 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
       next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
         this.userData = userData;
         this.idUsuario = this.userData.idUsuario;
-        //console.log('ID Usuario:', this.idUsuario);
         this.idCliente = this.userData.idCliente;
-        //console.log('ID Cliente:', this.idCliente);
         this.idLibreria = this.userData.idLibreria;
-        //console.log('ID Libreria:', this.idLibreria);
       },
       error: (errorData) => {
         this.errorMessage = errorData;
-      },
-      complete: () => {
-        //console.info("User Data ok");
       }
     });
   }
@@ -91,7 +84,6 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
   // Método para cargar la tabla de libros
   cargarTablaLibros(page: number, size: number): void {
     this.subscription.add(
-      // Llamar al servicio para obtener la lista de libros
       this.ventaLibroService.getAllBooksShell(page, size).subscribe((data) => {
         this.librosVenta = Array.isArray(data.content) ? data.content : [];
         this.totalPaginas = Array.from(
@@ -99,21 +91,42 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
           (_, i) => i + 1
         );
         this.currentPage = data.number;
-        //console.log('Libros Venta:', this.librosVenta);
       })
     );
   }
 
   // Método para recargar la tabla de libros
   recargarTablaLibros(): void {
-    // Llamar al método de cargar tabla de libros para volver a cargar los datos
     this.cargarTablaLibros(this.currentPage, this.pageSize);
     this.paginacion = true;
   }
 
-  // Método para comprar un libro (pendiente de implementación)
-  comprarLibro(id: number): void {
-    // Lógica para comprar el libro
+  // Método para comprar un libro
+  comprarLibro(idLibro: number, precio: number): void {
+    if (this.idCliente) {
+      const fechaCompra = new Date().toISOString().slice(0, 10); // Obtiene la fecha actual en formato YYYY-MM-DD
+      const purchaseData = {
+        fechaCompra: fechaCompra,
+        precio: precio,
+        idCliente: this.idCliente,
+        idLibro: idLibro
+      };
+
+      this.subscription.add(
+        this.bookPurchaseService.purchaseBook(purchaseData).subscribe({
+          next: (response) => {
+            console.log('Compra realizada:', response);
+            this.recargarTablaLibros();
+          },
+          error: (error: HttpErrorResponse) => {
+            this.errorMessage = 'Error al realizar la compra.';
+            console.error('Error purchasing book', error);
+          }
+        })
+      );
+    } else {
+      this.errorMessage = 'No se pudo obtener el ID del cliente.';
+    }
   }
 
   // Método para cambiar la página de la tabla
@@ -123,8 +136,8 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
 
   // Método para cambiar el tamaño de la página de la tabla
   changePageSize(event: Event): void {
-    const element = event.target as HTMLSelectElement; // Asignación de tipo
-    const size = Number(element.value); // Conversión de string a número
+    const element = event.target as HTMLSelectElement;
+    const size = Number(element.value);
     this.pageSize = size;
     this.cargarTablaLibros(0, size);
   }
