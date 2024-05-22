@@ -1,5 +1,3 @@
-
-
 <div class="container">
   <div class="row">
     <!-- Enlace para recargar la tabla de libros -->
@@ -32,7 +30,7 @@
       </div>
     </div>
   </div>
-  
+
   <h1>Libros a la venta</h1>
   <!-- Tabla de libros en las librerías -->
   <div class="tablaLibros">
@@ -76,7 +74,14 @@
           <!-- Botón para comprar el libro -->
           <td class="acciones">
             <button
-              (click)="comprarLibro(item.idLibro, item.precio, item.idLibreria)"
+              (click)="
+                comprarLibro(
+                  item.idLibro,
+                  item.precio,
+                  item.idLibreria,
+                  item.id
+                )
+              "
               type="button"
               class="btn btn-success"
               [disabled]="item.cantidad < 1 || item.idLibreria === idLibreria"

@@ -117,7 +117,7 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
   }
 
   // Método para comprar un libro
-  comprarLibro(idLibro: number, precio: number, idLibreria: number): void {
+  comprarLibro(idLibro: number, precio: number, idLibreria: number, idLibreriaLibro: number): void {
     if (this.idCliente) {
       const fechaCompra = this.obtenerFechaActual(); // Obtiene la fecha actual formateada
       const purchaseData = {
@@ -125,7 +125,8 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
         precio: precio,
         idCliente: this.idCliente,
         idLibro: idLibro,
-        idLibreria: idLibreria
+        idLibreria: idLibreria,
+        idLibreriaLibro: idLibreriaLibro
       };
 
       this.subscription.add(

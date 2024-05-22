@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -31,7 +31,10 @@ export class BookPurchaseService {
     return this.httpClient.get(`${this.API_SERVER2}/cliente/${idCliente}`, { params: params });
   }
 
-  public purchaseBook(purchaseData: { fechaCompra: string, precio: number, idCliente: number, idLibro: number, idLibreria: number }): Observable<any> {
-    return this.httpClient.post(`${this.API_SERVER2}`, purchaseData);
+  public purchaseBook(purchaseData: { fechaCompra: string, precio: number, idCliente: number, idLibro: number, idLibreria: number, idLibreriaLibro: number }): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.post(this.API_SERVER2, purchaseData, { headers: headers });
   }
 }
