@@ -208,7 +208,7 @@ public class AuthServiceImpl implements IAuthService {
 		// Generar un token de autenticación para el usuario
 		String token = jwtService.getToken(usuario);
 
-		// Devolver el DTO de autenticación con el token
+		// Devolver el DTO de autenticación 
 		return UsuarioDTO.builder().build();
 	}
 

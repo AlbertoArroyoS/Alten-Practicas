@@ -283,6 +283,13 @@
             >
               Ver libro
             </button>
+            <button 
+              (click)="openAddBookModal(item.id)"
+              type="button"
+              class="btn btn-success"
+            >
+              Vender libro
+            </button>
             <button
               (click)="editarLibro(item)"
               type="button"
@@ -372,3 +379,39 @@
     </button>
   </div>
 </ng-template>
+
+<!-- ng-template con la referencia local 'addBook' que contiene el modal para añadir libros -->
+
+<ng-template #addBookModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Agregar Libro a Librería</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="addBookForm">
+      <div class="form-group">
+        <label for="cantidad">Cantidad</label>
+        <input type="number" id="cantidad" formControlName="cantidad" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="precio">Precio</label>
+        <input type="number" id="precio" formControlName="precio" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="edicion">Edición</label>
+        <input type="number" id="edicion" formControlName="edicion" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="fechaPublicacion">Fecha de Publicación</label>
+        <input type="text" id="fechaPublicacion" formControlName="fechaPublicacion" class="form-control" placeholder="dd-MM-yyyy" required>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="confirmAddBook(modal)">Agregar</button>
+  </div>
+</ng-template>
+

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BookToShopLibrary } from 'src/app/shared/model/request/bookToShopLibrary';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,13 @@ export class BookShopService {
       .set('size', size.toString());
 
     return this.httpClient.get(`${this.API_SERVER}`, { params: params });
+  }
+
+  public addBookToLibrary(book: BookToShopLibrary): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.post(this.API_SERVER2, book, { headers: headers });
   }
 
 

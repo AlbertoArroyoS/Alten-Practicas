@@ -58,4 +58,5 @@ export class BooksService {
     const url = `${this.API_SERVER2}/${bookId.toString()}`; // Convertir authorId a string
     return this.httpClient.delete(url);
   }
+  
 }
