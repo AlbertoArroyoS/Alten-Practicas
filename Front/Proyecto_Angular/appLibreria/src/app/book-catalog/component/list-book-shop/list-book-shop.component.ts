@@ -1,7 +1,8 @@
+// list-book-shop.component.ts
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { BookShopService } from 'src/app/services/book-shop/book-shop.service';
 import { BookPurchaseService } from 'src/app/services/book-purchase/book-purchase.service';
@@ -172,5 +173,25 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
         return 0;
       }
     });
+  }
+
+  // Método para buscar libros por título
+  buscarLibrosPorTitulo(titulo: string): void {
+    this.subscription.add(
+      this.ventaLibroService.searchBooksByTitle(titulo, this.currentPage, this.pageSize).subscribe({
+        next: (data) => {
+          this.librosVenta = Array.isArray(data.content) ? data.content : [];
+          this.totalPaginas = Array.from(
+            { length: data.totalPages },
+            (_, i) => i + 1
+          );
+          this.currentPage = data.number;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.errorMessage = 'Error al buscar los libros.';
+          console.error('Error searching books', error);
+        }
+      })
+    );
   }
 }

@@ -172,5 +172,12 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService {
             throw new IllegalStateException("La cantidad del libro no puede ser menor que 0");
         }
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Page<LibreriaLibroDTO> findByTituloContaining(String titulo, Pageable pageable) {
+        Page<LibreriaLibro> lista = libreriaLibroRepository.findByTituloContainingNative(titulo, pageable);
+        return lista.map(libreriaLibroMapper::toDTO);
+    }
 
 }

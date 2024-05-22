@@ -1,12 +1,60 @@
+
+
 <div class="container">
+  <div class="row">
+    <!-- Enlace para recargar la tabla de libros -->
+    <span>
+      <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{
+        title
+      }}</a>
+    </span>
+  </div>
+  <div>
+    <div class="input-group mb-3">
+      <input
+        #keywordInput
+        type="text"
+        class="form-control"
+        placeholder="Buscar..."
+        aria-label="Buscar"
+        aria-describedby="basic-addon2"
+        #searchInput
+      />
+      <!-- Botón para buscar libros -->
+      <div class="input-group-append">
+        <button
+          (click)="buscarLibrosPorTitulo(searchInput.value)"
+          class="btn btn-outline-secondary"
+          type="button"
+        >
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>
+  
   <h1>Libros a la venta</h1>
   <!-- Tabla de libros en las librerías -->
   <div class="tablaLibros">
     <table class="table table-primary table-hover shadow">
       <thead>
         <tr class="table-success">
-          <th scope="col" class="sortable" (click)="sortTable('id')">ID</th>
-          <th scope="col" class="sortable" (click)="sortTable('tituloLibro')">Título del Libro</th>
+          <th
+            scope="col"
+            class="sortable"
+            (click)="sortTable('id')"
+            style="cursor: pointer"
+          >
+            ID
+          </th>
+          <th
+            scope="col"
+            class="sortable"
+            (click)="sortTable('tituloLibro')"
+            style="cursor: pointer"
+          >
+            Título del Libro
+          </th>
           <th scope="col">Nombre de la Librería</th>
           <th scope="col">Cantidad Disponible</th>
           <th scope="col">Precio</th>
@@ -40,7 +88,7 @@
       </tbody>
     </table>
   </div>
-  
+
   <!-- Paginación -->
   <div *ngIf="paginacion">
     <ul *ngIf="totalPaginas && totalPaginas.length > 0" class="pagination">
@@ -93,6 +141,12 @@
     <p>La compra se ha realizado exitosamente.</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="modal.close('Ok click')">Aceptar</button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('Ok click')"
+    >
+      Aceptar
+    </button>
   </div>
 </ng-template>

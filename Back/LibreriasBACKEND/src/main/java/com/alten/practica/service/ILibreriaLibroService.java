@@ -30,4 +30,6 @@ public interface ILibreriaLibroService {
 
 	void disminuirCantidadLibro(int idLibro, int idLibreria);
 
+	Page<LibreriaLibroDTO> findByTituloContaining(String titulo, Pageable pageable);
+
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alten.practica.constantes.LibreriaConstant;
@@ -178,5 +179,10 @@ public class LibreriaLibroController {
 		return new ResponseEntity<HrefEntityDTO>(this.libreriaLibroService.delete(id), HttpStatus.OK);
 
 	}
+	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA_LIBRO)
+    public ResponseEntity<Page<LibreriaLibroDTO>> searchBooksByTitle(@RequestParam String titulo, Pageable pageable) {
+        Page<LibreriaLibroDTO> libros = libreriaLibroService.findByTituloContaining(titulo, pageable);
+        return ResponseEntity.ok(libros);
+    }
 
 }
