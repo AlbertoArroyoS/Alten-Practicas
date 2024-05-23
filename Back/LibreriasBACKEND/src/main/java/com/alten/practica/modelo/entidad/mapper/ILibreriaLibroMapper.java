@@ -28,6 +28,8 @@ public interface ILibreriaLibroMapper {
 	@Mapping(target = "precio", source = "precio")
 	@Mapping(target = "edicion", source = "edicion")
 	@Mapping(target = "fechaPublicacion", source = "fechaPublicacion")
+	@Mapping(target = "nombreAutor", source = "libro.autor.nombre")
+	@Mapping(target = "apellidosAutor", source = "libro.autor.apellidos")
 	LibreriaLibroDTO toDTO(LibreriaLibro libreriaLibro);
 
 	// Mapeo desde DTORequest a Entidad

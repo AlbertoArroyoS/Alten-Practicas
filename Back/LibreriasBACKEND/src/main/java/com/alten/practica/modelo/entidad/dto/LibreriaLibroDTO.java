@@ -35,6 +35,8 @@ public class LibreriaLibroDTO implements Serializable {
 	private int cantidad;
 	private double precio;
 	private int edicion;
+	private String nombreAutor;
+	private String apellidosAutor;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date fechaPublicacion;
