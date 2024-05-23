@@ -273,5 +273,11 @@ public class LibroServiceImpl implements ILibroService {
 		return autor.get(0).getId();
 
 	}
+	
+	@Override
+    public Page<LibroDTO> findByAuthorId(int authorId, Pageable pageable) {
+        Page<Libro> libros = libroRepository.findByAutorId(authorId, pageable);
+        return libros.map(libroMapper::toDTO);
+    }
 
 }

@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 // Componente para listar autores
 @Component({
@@ -42,7 +43,8 @@ export class ListAuthorComponent {
   constructor(
     public authorsService: AuthorsService, // Servicio de autores
     private booksService: BooksService, // Servicio de libros
-    public fb: FormBuilder // FormBuilder para crear formularios reactivos
+    public fb: FormBuilder, // FormBuilder para crear formularios reactivos
+    private router: Router // Router para navegar entre páginas
   ) {
     // Inicialización del formulario
     this.formularioAutor = this.fb.group({

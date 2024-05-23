@@ -33,5 +33,8 @@ public interface ILibroService {
 
 	// Metodo para buscar por key_word, por palabra clave
 	public Page<LibroDTO> findByTitle(String title, Pageable pageable);
+	
+	//Metodo para buscar por el id del autor
+    public Page<LibroDTO> findByAuthorId(int authorId, Pageable pageable);
 
 }
