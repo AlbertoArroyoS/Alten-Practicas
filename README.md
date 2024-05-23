@@ -28,9 +28,8 @@ y podran ver los libros que ponen a la venta otros usuarios.
 A través de la web podran acceder 3 tipos de usuarios:
 
 
-- Cliente: Podrá comprar y consultar los libros que están disponibles.
-- Libreria: Podrá dar de alta, baja, modificar libros disponibles.
-- Administrador: Podrá dar de baja usuarios cliente y libreria.
+- Usuarios: Podrá comprar y consultar los libros que están disponibles.
+- Administrador: Podrá dar de alta/baja usuarios y consultar todos los usuarios.
 
 
 
