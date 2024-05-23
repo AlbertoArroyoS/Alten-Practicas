@@ -1,6 +1,6 @@
 <ng-container *ngIf="true">
-  <section class="h-100 gradient-form" style="background-color: #eee">
-    <div class="container py-5 h-100">
+  <section class="h-100 gradient-form">
+    <div class="container h-100 d-flex flex-column justify-content-center">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-xl-10">
           <div class="card rounded-3 text-black">
@@ -37,18 +37,18 @@
                       <!-- Mensaje de error si el campo email está vacío -->
                       <div
                         *ngIf="
-                          loginForm.get('email')?.invalid &&
-                          (loginForm.get('email')?.dirty ||
-                            loginForm.get('email')?.touched)
+                          loginForm.get('username')?.invalid &&
+                          (loginForm.get('username')?.dirty ||
+                            loginForm.get('username')?.touched)
                         "
                         class="text-danger"
                       >
                         <div
-                          *ngIf="loginForm.get('email')?.errors?.['required']"
+                          *ngIf="loginForm.get('username')?.errors?.['required']"
                         >
                           El Email es requerido.
                         </div>
-                        <div *ngIf="loginForm.get('email')?.errors?.['email']">
+                        <div *ngIf="loginForm.get('username')?.errors?.['email']">
                           El Email debe tener un formato válido.
                         </div>
                       </div>
@@ -64,7 +64,7 @@
                         class="form-control"
                         formControlName="password"
                       />
-                      <!-- Mensaje de error si el campo email está vacío -->
+                      <!-- Mensaje de error si el campo password está vacío -->
                       <div
                         *ngIf="
                         loginForm.get('password')?.invalid &&
