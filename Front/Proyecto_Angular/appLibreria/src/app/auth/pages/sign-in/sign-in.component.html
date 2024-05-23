@@ -54,20 +54,24 @@
                       </div>
                     </div>
 
-                    <div data-mdb-input-init class="form-outline mb-4">
-                      <label class="form-label" for="form2Example22"
-                        >Contraseña</label
-                      >
+                    <div data-mdb-input-init class="form-outline mb-4 position-relative">
+                      <label class="form-label" for="form2Example22">Contraseña</label>
                       <input
-                        type="password"
+                        [type]="passwordFieldType"
                         id="form2Example22"
                         class="form-control"
                         formControlName="password"
                       />
+                      <i
+                        class="bi"
+                        [ngClass]="passwordFieldType === 'password' ? 'bi-eye' : 'bi-eye-slash'"
+                        (click)="togglePasswordVisibility()"
+                        style="position: absolute; right: 10px; top: 35px; cursor: pointer;"
+                      ></i>
                       <!-- Mensaje de error si el campo password está vacío -->
                       <div
                         *ngIf="
-                        loginForm.get('password')?.invalid &&
+                          loginForm.get('password')?.invalid &&
                           (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
                         "
                         class="text-danger"
@@ -117,3 +121,17 @@
     </div>
   </section>
 </ng-container>
+
+
+<script type="text/javascript"> 
+
+  function mostrar(){
+    var tipo = document.getElementById("form2Example22");
+    if(tipo.type == "password"){
+      tipo.type = "text";
+    }else{
+      tipo.type = "password";
+    }
+  }
+</script>
+  

@@ -12,6 +12,7 @@ import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
 export class SignInComponent {
   loginForm: FormGroup;
   loginError: string = "";
+  passwordFieldType: string = 'password';
 
   constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
@@ -48,5 +49,9 @@ export class SignInComponent {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  togglePasswordVisibility() {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   }
 }
