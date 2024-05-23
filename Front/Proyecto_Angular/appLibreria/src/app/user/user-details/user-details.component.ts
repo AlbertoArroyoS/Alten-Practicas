@@ -88,7 +88,7 @@ export class UserDetailsComponent implements OnInit {
         this.errorMessage = errorData;
       },
       complete: () => {
-        console.info("User Data ok");
+        //console.info("User Data ok");
       }
     });
   }
