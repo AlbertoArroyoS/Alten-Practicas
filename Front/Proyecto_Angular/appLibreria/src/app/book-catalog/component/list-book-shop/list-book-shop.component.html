@@ -1,10 +1,8 @@
 <div class="container">
   <div class="row">
     <!-- Enlace para recargar la tabla de libros -->
-    <span>
-      <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{
-        title
-      }}</a>
+    <span class="enlaceLista">
+      <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{ title }}</a>
     </span>
   </div>
   <div>
@@ -34,9 +32,9 @@
   <h1>Libros a la venta</h1>
   <!-- Tabla de libros en las librerías -->
   <div class="tablaLibros">
-    <table class="table table-primary table-hover shadow">
+    <table class="table table-striped table-hover shadow">
       <thead>
-        <tr class="table-success">
+        <tr class="table-primary">
           <th
             scope="col"
             class="sortable"
@@ -51,7 +49,7 @@
             (click)="sortTable('tituloLibro')"
             style="cursor: pointer"
           >
-            Título del Libro
+            Título
           </th>
           <th
             scope="col"
@@ -59,7 +57,7 @@
             (click)="sortTable('tituloLibro')"
             style="cursor: pointer"
           >
-            Nombre autor
+            Autor
           </th>
           <th
             scope="col"
@@ -67,13 +65,13 @@
             (click)="sortTable('tituloLibro')"
             style="cursor: pointer"
           >
-            Apellidos autor
+            Apellidos
           </th>
-          <th scope="col">Nombre de la Librería</th>
-          <th scope="col">Cantidad Disponible</th>
+          <th scope="col">Librería</th>
+          <th scope="col">Cantidad</th>
           <th scope="col">Precio</th>
           <th scope="col">Edición</th>
-          <th scope="col">Fecha de Publicación</th>
+          <th scope="col">Publicación</th>
           <th scope="col">Opción</th>
         </tr>
       </thead>
