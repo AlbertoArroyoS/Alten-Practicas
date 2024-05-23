@@ -163,9 +163,9 @@ public class LibroController {
 	/*
 	 * Metodo para mostar los libros de un autor por su id
 	 */
-	 @GetMapping("/autor/{authorId}")
-	    public Page<LibroDTO> getBooksByAuthorId(@PathVariable int authorId, Pageable pageable) {
-	        return libroService.findByAuthorId(authorId, pageable);
-	    }
-
+	@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_AUTOR
+			+ LibreriaConstant.RESOURCE_AUTOR_ID)
+    public Page<LibroDTO> getBooksByAuthorId(@PathVariable int authorId, Pageable pageable) {
+        return libroService.findByAuthorId(authorId, pageable);
+    }
 }
