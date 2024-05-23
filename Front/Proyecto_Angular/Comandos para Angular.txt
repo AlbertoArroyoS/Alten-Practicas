@@ -7,7 +7,7 @@ npm i -g @angular/cli@15.2.11
 npm install
 
 //Abrir proyecto en Visual Studio
-code .
+code .1337
 
 //Ejecutar el proyecto
 npm run start
