@@ -103,9 +103,9 @@ export class ListAuthorComponent {
   }
 
   // Método para obtener un libro por su ID
-  obtenerLibroPorId(bookId: number) {
+  obtenerLibroPorId(idAutor: number) {
     this.subscription.push(
-      this.booksService.getBookById(bookId).subscribe(
+      this.booksService.getBookById(idAutor).subscribe(
         (response) => {
           this.book = response;
         },
@@ -114,6 +114,10 @@ export class ListAuthorComponent {
         }
       )
     );
+  }
+  // Método para cargar los libros por autor
+  obtenerLibrosPorIdAutor(authorId: number): void {
+    this.router.navigate(['book-catalog/list-book/author/', authorId]);
   }
 
   // Método para guardar un autor

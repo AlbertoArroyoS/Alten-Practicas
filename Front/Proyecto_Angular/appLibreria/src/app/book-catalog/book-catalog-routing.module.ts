@@ -22,7 +22,9 @@ const routes: Routes = [
       { path: 'book/add-book', component: AddBookComponent, title: 'Agregar libro' },
       { path: 'author/list-author', component: ListAuthorComponent, title: 'Lista de autores' },
       { path: 'book/list-book', component: ListBookComponent, title: 'Lista de libros' },
-      { path: 'purchases', component: ListPurchaseComponent, title: 'Lista de compras' }
+      { path: 'purchases', component: ListPurchaseComponent, title: 'Lista de compras' },
+      { path: 'list-book/author/:authorId', component: ListBookComponent , title: 'Libros del autor' }, // Ruta con parámetro
+
     ]
   }
 ];

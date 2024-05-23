@@ -58,5 +58,24 @@ export class BooksService {
     const url = `${this.API_SERVER2}/${bookId.toString()}`; // Convertir authorId a string
     return this.httpClient.delete(url);
   }
-  
+/*
+  public getBooksByAuthor(authorId: number): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.API_SERVER}/autor/${authorId}`);
+  }*/
+
+  public getBooksByAuthor(authorId: number, page: number, size: number): Observable<any> {
+    //return this.httpClient.get(this.API_SERVER);
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get(`${this.API_SERVER}/autor/${authorId}`, { params: params });
+  }
+
+/*
+  getBooksByAuthor(authorId: number): Observable<any[]> {
+    return this.httpClient.get<any>(`${this.API_SERVER}/author/${authorId}`).pipe(
+      map(response => response.content || []) //content de lo que me devuelve spring
+    );
+  }*/
 }

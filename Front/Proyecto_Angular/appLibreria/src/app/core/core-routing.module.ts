@@ -47,7 +47,9 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { allowedRoles: ['USER', 'ADMIN']  }
   }
+
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

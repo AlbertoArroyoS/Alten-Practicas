@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -33,7 +34,7 @@ export class ListBookComponent implements OnInit, OnDestroy {
   paginacion: boolean = true;
   autores: any;
   botonNuevoLibroVisible: boolean = false;
-  books!: any[];
+  books: any[] = []; // Inicializa como array
   modificarLibro: boolean = false;
   mostrarBotonGuardar: boolean = true;
   alertaConflicto: boolean = false;
@@ -48,6 +49,7 @@ export class ListBookComponent implements OnInit, OnDestroy {
   idUsuario!: number;
   idCliente!: number;
   idLibreria!: number;
+  private routeSub!: Subscription;// Suscripción a la ruta activa
 
   // Referencias a elementos del DOM
   @ViewChild('content', { static: true }) modalContent!: ElementRef;
@@ -67,6 +69,7 @@ export class ListBookComponent implements OnInit, OnDestroy {
     private bookShopService: BookShopService,
     private loginService: LoginService, // Inyectar AuthService
     private userService: UserService,
+    private route: ActivatedRoute
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
     this.user$ = this.loginService.user$;
@@ -90,12 +93,23 @@ export class ListBookComponent implements OnInit, OnDestroy {
       edicion: ['', [Validators.required, Validators.min(1)]],
       fechaPublicacion: ['', [Validators.required, Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/)]]
     });
+
+    // Suscribirse a los parámetros de la ruta
+    this.routeSub = this.route.params.subscribe(params => {
+      const authorId = params['authorId'];
+      if (authorId) {
+        this.loadBooksByAuthor(authorId);
+        console.log('****Author ID:', authorId);
+      }else {
+        this.loadBooks();
+      }
+    });
   }
 
   // Método que se ejecuta al inicializar el componente
   ngOnInit(): void {
     // Cargar libros al iniciar
-    this.loadBooks();
+    //this.loadBooks();
     
     // Suscribirse a los datos del usuario
     this.subscription.add(
@@ -354,6 +368,51 @@ confirmAddBook(modal: NgbModalRef): void {
   }
 }
 
+// Método para cargar los libros por autor
+private loadBooksByAuthor(authorId: number): void {
+  this.subscription.add(
+    this.booksService.getBooksByAuthor(authorId, this.currentPage, this.pageSize).subscribe({
+      next: (data) => {
+        console.log('****Data:', data); // Para verificar los datos recibidos
+        this.books = Array.isArray(data.content) ? data.content : [];
+        console.log('****Books:', this.books); // Para verificar que los libros se están asignando
+        this.totalPaginas = Array.from(
+          { length: data.totalPages },
+          (_, i) => i + 1
+        );
+        this.currentPage = data.number;
+        this.paginacion = data.totalPages > 1;
+      },
+      error: (error) => {
+        this.errorMessage = 'Error al cargar la lista de libros.';
+        console.error('Error fetching books', error);
+      }
+    })
+  );
+
+
+  /*
+  private loadBooks(): void {
+    this.subscription.add(
+      this.booksService.getAllBooks(this.currentPage, this.pageSize).subscribe({
+        next: (data) => {
+          this.books = Array.isArray(data.content) ? data.content : [];
+          this.totalPaginas = Array.from(
+            { length: data.totalPages },
+            (_, i) => i + 1
+          );
+          this.currentPage = data.number;
+        },
+        error: (error) => {
+          this.errorMessage = 'Error al cargar la lista de libros.';
+          console.error('Error fetching books', error);
+        }
+      })
+    );
+  }
+
+  );*/
+}
   // Método para mostrar una alerta de éxito
   showSuccessAlert(message: string): void {
     this.guardadoExitoso = true;
