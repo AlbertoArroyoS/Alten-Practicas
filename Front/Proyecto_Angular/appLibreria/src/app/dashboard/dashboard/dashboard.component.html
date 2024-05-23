@@ -1,12 +1,14 @@
-<!-- Usa el observable userLoginOn$ con el operador async -->
-<p *ngIf="!(userLoginOn$ | async)">Usuario NO autenticado-dashboard</p>
-<p *ngIf="userLoginOn$ | async">Usuario Autenticado-dashboard</p>
 
-<div *ngIf="userLoginOn$" class="card " >
-    <div class="card-header">
-        Datos Personales
+
+<div class="container mt-5 " >
+    <div class="jumbotron text-center gradient-custom-2">
+      <h1 class="display-4">Bienvenido al mercadillo de libros</h1>
+      <h1 class="display-4">del Colegio Ángel Andrade</h1>
+      <p class="lead">Descubre tu próxima lectura favorita</p>
+      <p class="lead">Vende los libros que ya no quieres.</p>
+      <hr class="my-4">
+      <p>Explora nuestras colecciones</p>
+      <a class="btn btn-primary btn-lg" href="/book-catalog/book-shop" role="button">Ver Libros</a>
     </div>
-    <div class="card-body m-0">
-        <app-user-details></app-user-details>
 </div>
-
+  

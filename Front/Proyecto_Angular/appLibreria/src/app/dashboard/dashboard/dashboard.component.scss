@@ -1,3 +1,97 @@
-div {
-    margin: 15px;
-}
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Jumbotron */
+  .jumbotron {
+    background-color: #065db4;
+
+    color: #fff;
+    padding: 40px 20px;
+    border-radius: 10px;
+  }
+  
+  .jumbotron .btn {
+    margin-top: 20px;
+  }
+  
+  /* Cards */
+  .card {
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #343a40;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  .card .btn {
+    margin-top: 10px;
+  }
+  
+  /* Ofertas especiales */
+  h2 {
+    font-size: 2rem;
+    color: #343a40;
+    margin-bottom: 20px;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+
+  
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #6a11cb;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(
+      to right,
+      rgba(106, 17, 203, 1),
+      rgba(37, 117, 252, 1)
+    );
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(
+      to right,
+      rgba(106, 17, 203, 1),
+      rgba(37, 117, 252, 1)
+    );
+  }
+  
