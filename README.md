@@ -20,19 +20,16 @@ Realizada por:
 
 ## Práctica Alberto: 
 
-La idea del proyecto es una pagina web de venta de libros de segunda mano. Libros
+La idea del proyecto es una pagina web de venta de libros de segunda mano para un colegio. Libros
 particulares o exclusivos. Donde los usuarios pueden poner a la venta sus librerias
 y podran ver los libros que ponen a la venta otros usuarios.
-Estamos en una epoca que el coleccionismo está cada vez mas cotizado y hay mucho mercado 
-de libros de segunda mano, libros exclusivos, ediciones limitadas, etc.
 
 
 A través de la web podran acceder 3 tipos de usuarios:
 
 
-- Cliente: Podrá comprar y consultar los libros que están disponibles.
-- Libreria: Podrá dar de alta, baja, modificar libros disponibles.
-- Administrador: Podrá dar de baja usuarios cliente y libreria.
+- Usuarios: Podrá comprar y consultar los libros que están disponibles.
+- Administrador: Podrá dar de alta/baja usuarios y consultar todos los usuarios.
 
 
 
