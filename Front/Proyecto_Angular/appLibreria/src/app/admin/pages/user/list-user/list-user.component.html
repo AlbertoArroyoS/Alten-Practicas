@@ -1,1 +1,45 @@
 <p>list-user works!</p>
+<!-- Contenedor principal -->
+<div class="container">
+  <div class="row">
+    <!-- Enlace para recargar la tabla de usuarios -->
+    <span>
+      <a href="javascript:void(0)" (click)="recargarTablaUsuarios()">{{
+        title
+      }}</a>
+    </span>
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <div class="EncabezadoTabla">
+    <h1>Tabla de usuarios</h1>
+    <button (click)="botonNuevoUsuario()" type="button" class="btn btn-dark">
+      Nuevo usuario
+    </button>
+  </div>
+
+  <div class="tablaUsuarios">
+    <table class="table table-striped table-hover shadow">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">id</th>
+          <th scope="col">Username</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellidos</th>
+          <th scope="col">Email</th>
+          <th scope="col">Ciudad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of usuarios">
+          <th scope="row">{{ item.idUsuario }}</th>
+          <td>{{ item.username }}</td>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.apellidos }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.ciudad }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

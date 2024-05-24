@@ -13,6 +13,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptorService } from './services/auth/jwt-interceptor.service';
 import { ErrorInterceptorService } from './services/auth/error-interceptor.service';
 import { CookieService } from "ngx-cookie-service";
+import { AdminModule } from './admin/admin.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { CookieService } from "ngx-cookie-service";
     BrowserAnimationsModule,
     NgbModule,
     UserModule,
-    DashboardModule
+    DashboardModule,
+    AdminModule
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},
