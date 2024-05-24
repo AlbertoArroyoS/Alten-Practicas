@@ -34,7 +34,7 @@ export class RoleGuard implements CanActivate, OnDestroy, CanLoad {
           return true;
         } else {
           alert(`Acceso Denegado. Su rol actual es: ${userRole ? userRole : 'No Autenticado'}`);
-          return this.router.createUrlTree(['/unauthorized']);
+          return this.router.createUrlTree(['/dasboard']);
         }
       }),
       catchError(() => {
