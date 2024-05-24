@@ -19,7 +19,7 @@ const routes: Routes = [
     data: { allowedRoles: ['USER'] } // Pasamos los roles esperados como datos
   },
   {
-    path: 'security',
+    path: 'admin',
     component: CorePrivateLayoutComponent,
     loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule),
     canActivate: [AuthGuard, RoleGuard],
