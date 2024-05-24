@@ -34,7 +34,7 @@ export class UserService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    return this.httpClient.get<any>(this.API_SERVER+"/usuario", { params }).pipe(
+    return this.httpClient.get<any>(this.API_SERVER2+"/user", { params }).pipe(
       catchError(this.handleError)
     );
   }
@@ -43,7 +43,7 @@ export class UserService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    return this.httpClient.get<any>(this.API_SERVER+"/admin", { params }).pipe(
+    return this.httpClient.get<any>(this.API_SERVER2+"/admin", { params }).pipe(
       catchError(this.handleError)
     );
   }

@@ -33,8 +33,6 @@ export class ListUserComponent implements OnInit, OnDestroy {
   userData?: UserRequest;
   errorMessage?: string;
 
-  formularioUsuario: FormGroup;
-
   @ViewChild('content', { static: true }) modalContent!: ElementRef;
 
   constructor(
@@ -45,19 +43,10 @@ export class ListUserComponent implements OnInit, OnDestroy {
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
     this.user$ = this.loginService.user$;
-
-    this.formularioUsuario = this.fb.group({
-      idUsuario: [''],
-      username: new FormControl('', Validators.required),
-      nombre: new FormControl('', Validators.required),
-      apellidos: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      ciudad: new FormControl('', Validators.required),
-    });
   }
 
   ngOnInit(): void {
-    this.recargarTablaUsuarios();
+    this.loadUsuarios();
   }
 
   ngOnDestroy(): void {
@@ -78,6 +67,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
             (_, i) => i + 1
           );
           this.currentPage = data.number;
+          console.log('Usuarios', data);
         },
         error: (error) => {
           this.errorMessage = 'Error al cargar la lista de usuarios.';
@@ -87,9 +77,9 @@ export class ListUserComponent implements OnInit, OnDestroy {
     );
   }
 
-  buscarUsuarios(keyword: string) {
+  private loadAdmins(): void {
     this.subscription.add(
-      this.userService.searchUsersByKeyword(keyword).subscribe({
+      this.userService.getAllAdmins(this.currentPage, this.pageSize).subscribe({
         next: (data) => {
           this.usuarios = Array.isArray(data.content) ? data.content : [];
           this.totalPaginas = Array.from(
@@ -99,90 +89,8 @@ export class ListUserComponent implements OnInit, OnDestroy {
           this.currentPage = data.number;
         },
         error: (error) => {
-          this.errorMessage = 'Error al buscar usuarios.';
-          console.error('Error searching users', error);
-        }
-      })
-    );
-  }
-
-
-
-  guardarUsuario(): void {
-    if (this.formularioUsuario.valid) {
-      this.subscription.add(
-        this.userService.addUser(this.formularioUsuario.value).subscribe({
-          next: (resp) => {
-            this.showSuccessAlert('Usuario guardado correctamente');
-            this.botonNuevoUsuarioVisible = false;
-            this.recargarTablaUsuarios();
-          },
-          error: (error) => {
-            this.showWarningAlert('Conflicto al guardar el usuario.');
-          },
-        })
-      );
-    } else {
-      this.formularioUsuario.markAllAsTouched();
-      this.showWarningAlert('El formulario no está completo');
-    }
-  }
-
-  botonNuevoUsuario(): void {
-    this.formularioUsuario.reset();
-    this.botonNuevoUsuarioVisible = !this.botonNuevoUsuarioVisible;
-  }
-
-  editarUsuario(user: any): void {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    this.botonNuevoUsuarioVisible = true;
-    this.modificarUsuario = true;
-    this.mostrarBotonGuardar = false;
-    this.formularioUsuario.patchValue({
-      idUsuario: user.idUsuario,
-      username: user.username,
-      nombre: user.nombre,
-      apellidos: user.apellidos,
-      email: user.email,
-      ciudad: user.ciudad,
-    });
-  }
-
-  actualizarUsuario(): void {
-    const idControl = this.formularioUsuario.get('idUsuario');
-    if (idControl) {
-      const userId = idControl.value;
-      this.subscription.add(
-        this.userService.updateUser(userId, this.formularioUsuario.value).subscribe({
-          next: (resp) => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            this.guardadoExitoso = true;
-            this.botonNuevoUsuarioVisible = false;
-            this.modificarUsuario = false;
-            this.formularioUsuario.reset();
-            const index = this.usuarios.findIndex((u) => u.idUsuario === userId);
-            if (index !== -1) this.usuarios[index] = resp;
-            this.showSuccessAlert('Usuario actualizado correctamente');
-            this.recargarTablaUsuarios();
-          },
-          error: (error) => {
-            this.showWarningAlert('Conflicto al actualizar el usuario.');
-          }
-        })
-      );
-    }
-  }
-
-  eliminarUsuario(user: any): void {
-    this.subscription.add(
-      this.userService.deleteUserById(user.idUsuario).subscribe({
-        next: (resp) => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          this.recargarTablaUsuarios();
-          this.showSuccessAlert('Usuario eliminado correctamente');
-        },
-        error: (error) => {
-          this.showWarningAlert('Conflicto al eliminar el usuario.');
+          this.errorMessage = 'Error al cargar la lista de usuarios.';
+          console.error('Error fetching users', error);
         }
       })
     );

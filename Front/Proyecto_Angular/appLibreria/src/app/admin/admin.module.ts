@@ -14,7 +14,9 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
   
     AddUserComponent,
        AddAdminComponent,
-       AdminUserComponent
+       AdminUserComponent,
+      ListUserComponent,
+
   ],
   imports: [
     CommonModule,
