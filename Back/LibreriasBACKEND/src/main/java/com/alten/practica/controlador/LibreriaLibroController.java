@@ -193,5 +193,14 @@ public class LibreriaLibroController {
     public Page<LibreriaLibroDTO> getBooksByAuthorId(@PathVariable int idLibreria, Pageable pageable) {
         return libreriaLibroService.findByLibraryId(idLibreria, pageable);
     }
+	
+	/*
+	 * Metodo para mostar los libros a la venta menos los del usuario logueado
+     */
+	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA +"/not"
+			+ LibreriaConstant.RESOURCE_LIBRERIA_ID)
+    public Page<LibreriaLibroDTO> findByLibraryNotId(@PathVariable int idLibreria, Pageable pageable) {
+        return libreriaLibroService.findByLibraryNotId(idLibreria, pageable);
+    }
 
 }

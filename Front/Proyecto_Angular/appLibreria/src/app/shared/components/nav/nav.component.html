@@ -12,16 +12,6 @@
       <li class="nav-item">
         <a class="nav-link" (click)="goToPurchases()">Libros comprados</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Administrar
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" (click)="goToAdminBook()">Libros</a>
-          <a class="dropdown-item" (click)="goToAdminBookShop()">Librerias</a>
-          <a class="dropdown-item" (click)="goToAdminAuthor()">Autores</a>
-        </div>
-      </li>
       <li class="nav-item">
         <a class="nav-link" (click)="goToAuthor()">Autores</a>
       </li>
@@ -32,6 +22,16 @@
     <ul class="navbar-nav ms-auto" style="cursor: pointer;">
       <li *ngIf="userLoginOn" class="nav-item">
         <a class="nav-link" (click)="goToUser()">Usuario</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Administrar
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" (click)="goToAdminBook()">Libros</a>
+          <a class="dropdown-item" (click)="goToAdminBookShop()">Librerias</a>
+          <a class="dropdown-item" (click)="goToAdminAuthor()">Autores</a>
+        </div>
       </li>
       <li *ngIf="!userLoginOn" class="nav-item">
         <a class="nav-link" (click)="login()">Iniciar Sesión</a>

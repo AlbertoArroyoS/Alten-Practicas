@@ -7,7 +7,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/db_libreria_Alten?currentSchema=dbo
     username: postgres
     password: root
-    
+
   jpa:
     open-in-view: false
     hibernate:
@@ -19,30 +19,33 @@ spring:
           validation:
             mode: none
       persistence:
-      unit-name: PracticasAlten
-      
-      
+        unit-name: PracticasAlten
+
   application:
     name: librerias-alten
   jmx:
     default-domain: ${spring.application.name}
-    
+
+  jackson:
+    time-zone: UTC
+    date-format: dd-MM-yyyy'T'HH:mm:ss.SSSXXX
 
 springdoc:
   swagger-ui:
-     enabled: true
-     path: /swagger-ui.html  
+    enabled: true
+    path: /swagger-ui.html  
   api-docs:
-     path: /api-docs
+    path: /api-docs
   packagesToScan: com.alten.practica.controlador
-  
+
 cors:
   mapping: "/**"
-  allowed-origins: http://localhost:4200, http://localhost:80
+  allowed-origins: "http://localhost:4200, http://localhost:80"
   allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
   allowed-headers: "*"
-  
-  
+
+
+ 
  ## CONFIGURACION DE LOS LOGS
 ##logging:
   ##level:

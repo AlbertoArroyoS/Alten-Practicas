@@ -34,6 +34,8 @@ public interface ILibreriaLibroService {
 	
 	//Metodo para buscar por el id del autor
     public Page<LibreriaLibroDTO> findByLibraryId(int idLibreria, Pageable pageable);
+    
+    public Page<LibreriaLibroDTO> findByLibraryNotId(int idLibreria, Pageable pageable);
 
 
 }

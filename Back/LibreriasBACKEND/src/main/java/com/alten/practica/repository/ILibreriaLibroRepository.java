@@ -29,6 +29,9 @@ public interface ILibreriaLibroRepository extends JpaRepository<LibreriaLibro, I
     
     @Query("SELECT l FROM LibreriaLibro l WHERE l.libreria.id = :libraryId")
     Page<LibreriaLibro> findByLibraryId(@Param("libraryId") int libraryId, Pageable pageable);
+    
+    @Query("SELECT l FROM LibreriaLibro l WHERE l.libreria.id != :libraryId")
+    Page<LibreriaLibro> findByLibraryIdNot(@Param("libraryId") int libraryId, Pageable pageable);
    
     
 }

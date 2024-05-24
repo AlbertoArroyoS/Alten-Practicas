@@ -47,5 +47,12 @@ export class BookShopService {
     return this.httpClient.get(`${this.API_SERVER}/libreria/${libraryId}`, { params: params });
   }
 
+  getBooksExcludingLibreria(idLibreria: number, page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.httpClient.get<any>(`${this.API_SERVER}/libreria/not/${idLibreria}`, { params: params });
+  }
+
 
 }
