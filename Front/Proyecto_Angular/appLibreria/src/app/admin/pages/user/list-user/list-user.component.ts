@@ -67,7 +67,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
             (_, i) => i + 1
           );
           this.currentPage = data.number;
-          console.log('Usuarios', data);
+          //console.log('Usuarios', data);
         },
         error: (error) => {
           this.errorMessage = 'Error al cargar la lista de usuarios.';

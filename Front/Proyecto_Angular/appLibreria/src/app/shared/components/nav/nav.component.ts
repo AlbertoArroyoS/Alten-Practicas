@@ -36,8 +36,8 @@ export class NavComponent {
     this.router.navigate(['book-catalog/author']);
   }
 
-  public goToAdminBook(): void {
-    this.router.navigate(['book-catalog/author']);
+  public goToListUsers(): void {
+    this.router.navigate(['admin/list-user']);
   }
 
   public goToAdminBookShop(): void {
