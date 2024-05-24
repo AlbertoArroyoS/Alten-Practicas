@@ -1,6 +1,8 @@
 package com.alten.practica.controlador;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.UsuarioAdminDTO;
 import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
 import com.alten.practica.service.IUsuarioService;
@@ -55,5 +58,22 @@ public class UsuarioController {
 
 		return new ResponseEntity<HrefEntityDTO>(this.usuarioService.save(dto), HttpStatus.CREATED);
 	}
+	
+	/*
+	 * Metodo para mostar los libros a la venta menos los del usuario logueado
+     */
+	@GetMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO
+			+ "/user")
+    public Page<UsuarioDTO> findAllUser(Pageable pageable) {
+		
+        return usuarioService.findAllUser(pageable);
+    }
+	
+	@GetMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO
+			+ "/admin")
+    public Page<UsuarioAdminDTO> findAllAdmin(Pageable pageable) {
+		
+        return usuarioService.findAllAdmin(pageable);
+    }
 
 }

@@ -1,6 +1,10 @@
 package com.alten.practica.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.alten.practica.errorhandler.HrefEntityDTO;
+import com.alten.practica.modelo.entidad.dto.UsuarioAdminDTO;
 import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
 
@@ -20,5 +24,11 @@ public interface IUsuarioService {
 
 	// Metodo para guardar un autor
 	public HrefEntityDTO save(@Valid UsuarioDTORequest dto);
+		
+	public Page<UsuarioDTO> findAllUser(Pageable pageable);
+	
+	public Page<UsuarioAdminDTO> findAllAdmin(Pageable pageable);
+	
+	
 
 }

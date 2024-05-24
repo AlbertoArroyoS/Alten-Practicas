@@ -1,12 +1,15 @@
 package com.alten.practica.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alten.practica.errorhandler.EntityNotFoundException;
 import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.Usuario;
+import com.alten.practica.modelo.entidad.dto.UsuarioAdminDTO;
 import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IUsuarioAdminMapper;
@@ -87,6 +90,18 @@ public class UsuarioServiceImpl implements IUsuarioService{
         usuario = usuarioRepository.save(usuario);
 
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+	}
+
+	@Override
+	public Page<UsuarioDTO> findAllUser(Pageable pageable) {
+		Page<Usuario> usuario = usuarioRepository.findUsers(pageable);
+        return usuario.map(usuarioMapper::toDTO);
+	}
+
+	@Override
+	public Page<UsuarioAdminDTO> findAllAdmin(Pageable pageable) {
+		Page<Usuario> usuario = usuarioRepository.findAdmins(pageable);
+        return usuario.map(usuarioAdminMapper::toDTO);
 	}
 
 

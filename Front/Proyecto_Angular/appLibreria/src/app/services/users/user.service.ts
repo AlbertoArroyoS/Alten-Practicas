@@ -21,11 +21,29 @@ export class UserService {
     );
   }
 
-  getAllUsers(page: number, size: number): Observable<any> {
+  getAll(page: number, size: number): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
     return this.httpClient.get<any>(this.API_SERVER, { params }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getAllUsers(page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.httpClient.get<any>(this.API_SERVER+"/usuario", { params }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getAllAdmins(page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.httpClient.get<any>(this.API_SERVER+"/admin", { params }).pipe(
       catchError(this.handleError)
     );
   }
