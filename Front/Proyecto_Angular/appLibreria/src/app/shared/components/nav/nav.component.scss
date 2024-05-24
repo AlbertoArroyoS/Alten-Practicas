@@ -6,3 +6,15 @@
 .navbar-brand{
     margin-left: 15px;
 }
+
+.custom-dropdown-menu {
+    background-color:  rgba(106, 17, 203, 1);; /* Cambia este color al que prefieras */
+  }
+  
+.custom-dropdown-menu .dropdown-item {
+    color: white; /* Cambia el color del texto si es necesario */
+  }
+  
+.custom-dropdown-menu .dropdown-item:hover {
+    background-color: darkviolet; /* Cambia el color de fondo cuando se pasa el cursor */
+  }

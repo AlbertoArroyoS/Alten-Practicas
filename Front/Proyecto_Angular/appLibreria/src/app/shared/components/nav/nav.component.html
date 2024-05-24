@@ -27,10 +27,10 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Administrar
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" (click)="goToAdminBook()">Libros</a>
-          <a class="dropdown-item" (click)="goToAdminBookShop()">Librerias</a>
-          <a class="dropdown-item" (click)="goToAdminAuthor()">Autores</a>
+        <div class="dropdown-menu custom-dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" (click)="goToAdminBook()">Lista usuarios</a>
+          <a class="dropdown-item" (click)="goToAdminBookShop()">Nuevo Usuario</a>
+          <a class="dropdown-item" (click)="goToAdminAuthor()">Nuevo Administrador</a>
         </div>
       </li>
       <li *ngIf="!userLoginOn" class="nav-item">

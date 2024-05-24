@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SecurityLayoutComponent } from './security-layout.component';
+import { ListUserComponent } from './list-user.component';
 
-describe('SecurityLayoutComponent', () => {
-  let component: SecurityLayoutComponent;
-  let fixture: ComponentFixture<SecurityLayoutComponent>;
+describe('ListUserComponent', () => {
+  let component: ListUserComponent;
+  let fixture: ComponentFixture<ListUserComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SecurityLayoutComponent ]
+      declarations: [ ListUserComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SecurityLayoutComponent);
+    fixture = TestBed.createComponent(ListUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

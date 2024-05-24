@@ -19,16 +19,9 @@ const routes: Routes = [
     data: { allowedRoles: ['USER'] } // Pasamos los roles esperados como datos
   },
   {
-    path: 'report',
-    component: CorePrivateLayoutComponent,
-    loadChildren: () => import('../report/report.module').then(m => m.ReportModule),
-    canActivate: [AuthGuard, RoleGuard],
-    data: { allowedRoles: ['ADMIN'] }
-  },
-  {
     path: 'security',
     component: CorePrivateLayoutComponent,
-    loadChildren: () => import('../security/security.module').then(m => m.SecurityModule),
+    loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule),
     canActivate: [AuthGuard, RoleGuard],
     data: { allowedRoles: ['ADMIN'] }
   },
