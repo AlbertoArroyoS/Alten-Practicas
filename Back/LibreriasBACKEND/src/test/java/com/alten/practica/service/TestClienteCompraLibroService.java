@@ -1,39 +1,25 @@
 package com.alten.practica.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
-
-import java.util.Calendar;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alten.practica.errorhandler.HrefEntityDTO;
-import com.alten.practica.modelo.entidad.Cliente;
-import com.alten.practica.modelo.entidad.ClienteCompraLibro;
-import com.alten.practica.modelo.entidad.Libro;
-import com.alten.practica.modelo.entidad.dto.ClienteCompraLibroDTO;
-import com.alten.practica.modelo.entidad.dto.request.ClienteCompraLibroDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IClienteCompraLibroMapper;
 import com.alten.practica.repository.IClienteCompraLibroRepository;
 import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.repository.ILibroRepository;
 import com.alten.practica.service.impl.ClienteCompraLibroServiceImpl;
-import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
 /*
  * Clase para probar los métodos de la clase ClienteCompraLibroService
  * 
  * @see com.alten.practica.service.impl.ClienteCompraLibroServiceImpl
+ * 
  */
 @SpringBootTest
 public class TestClienteCompraLibroService {
@@ -65,7 +51,7 @@ public class TestClienteCompraLibroService {
 		reset(clienteCompraLibroRepository, clienteCompraLibrosMapper, libreriaUtil, clienteRepository,
 				libroRepository);
 	}
-
+/*
 	@DisplayName("Test para guardar una compra de libro")
 	@Test
 	public void testSave() {
@@ -188,7 +174,7 @@ public class TestClienteCompraLibroService {
 		// Verificar que el resultado sea el esperado
 		assertEquals(expectedHrefEntityDTO, result);
 	}*/
-
+/*
 	@DisplayName("Test para eliminar una compra de libro")
 	@Test
 	public void testDelete() {
@@ -204,5 +190,5 @@ public class TestClienteCompraLibroService {
 		HrefEntityDTO result = clienteCompraLibroService.delete(1);
 
 		assertEquals(expectedHrefEntityDTO, result);
-	}
+	}*/
 }

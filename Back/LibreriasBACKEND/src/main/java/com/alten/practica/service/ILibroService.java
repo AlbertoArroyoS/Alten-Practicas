@@ -35,6 +35,6 @@ public interface ILibroService {
 	public Page<LibroDTO> findByTitle(String title, Pageable pageable);
 	
 	//Metodo para buscar por el id del autor
-    public Page<LibroDTO> findByAuthorId(int authorId, Pageable pageable);
+    public Page<LibroDTO> findByAuthorId(int idAutor, Pageable pageable);
 
 }

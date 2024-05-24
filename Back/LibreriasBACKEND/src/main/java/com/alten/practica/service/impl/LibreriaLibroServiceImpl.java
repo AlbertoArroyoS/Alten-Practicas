@@ -181,4 +181,10 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService {
         return lista.map(libreriaLibroMapper::toDTO);
     }
 
+	@Override
+	public Page<LibreriaLibroDTO> findByLibraryId(int idLibreria, Pageable pageable) {
+		Page<LibreriaLibro> libros = libreriaLibroRepository.findByLibraryId(idLibreria, pageable);
+        return libros.map(libreriaLibroMapper::toDTO);
+	}
+
 }

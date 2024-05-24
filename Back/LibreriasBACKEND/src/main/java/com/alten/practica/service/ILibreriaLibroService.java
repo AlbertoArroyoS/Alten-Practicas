@@ -31,5 +31,9 @@ public interface ILibreriaLibroService {
 	void disminuirCantidadLibro(int idLibreriaLibro);
 
 	Page<LibreriaLibroDTO> findByTituloContaining(String titulo, Pageable pageable);
+	
+	//Metodo para buscar por el id del autor
+    public Page<LibreriaLibroDTO> findByLibraryId(int idLibreria, Pageable pageable);
+
 
 }

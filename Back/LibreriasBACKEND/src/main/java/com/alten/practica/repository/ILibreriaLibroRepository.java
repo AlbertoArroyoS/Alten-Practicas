@@ -25,4 +25,10 @@ public interface ILibreriaLibroRepository extends JpaRepository<LibreriaLibro, I
             countQuery = "SELECT count(ll.id_libreria_libro) FROM libreria_libro ll JOIN libros l ON ll.id_libro = l.id_libro WHERE LOWER(l.titulo) LIKE LOWER(CONCAT('%', :titulo, '%'))", 
             nativeQuery = true)
      Page<LibreriaLibro> findByTituloContainingNative(@Param("titulo") String titulo, Pageable pageable);
- }
+    
+    
+    @Query("SELECT l FROM LibreriaLibro l WHERE l.libreria.id = :libraryId")
+    Page<LibreriaLibro> findByLibraryId(@Param("libraryId") int libraryId, Pageable pageable);
+   
+    
+}

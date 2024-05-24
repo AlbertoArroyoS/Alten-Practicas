@@ -38,5 +38,14 @@ export class BookShopService {
     return this.httpClient.get(`${this.API_SERVER2}`, { params: params });
   }
 
+  public getBooksByIdLibreria(libraryId: number, page: number, size: number): Observable<any> {
+    //return this.httpClient.get(this.API_SERVER);
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get(`${this.API_SERVER}/libreria/${libraryId}`, { params: params });
+  }
+
 
 }

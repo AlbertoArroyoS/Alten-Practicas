@@ -101,6 +101,29 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Nueva función para cargar libros por idCliente
+  cargarLibrosPorLibreria(): void {
+    this.subscription.add(
+      this.ventaLibroService.getBooksByIdLibreria(this.idLibreria, this.currentPage, this.pageSize).subscribe({
+        next: (data) => {
+          console.log('****Data:', data); // Para verificar los datos recibidos
+          this.librosVenta = Array.isArray(data.content) ? data.content : [];
+          console.log('****Books:', this.librosVenta); // Para verificar que los libros se están asignando
+          this.totalPaginas = Array.from(
+            { length: data.totalPages },
+            (_, i) => i + 1
+          );
+          this.currentPage = data.number;
+          this.paginacion = data.totalPages > 1;
+        },
+        error: (error) => {
+          this.errorMessage = 'Error al cargar la lista de libros.';
+          console.error('Error fetching books', error);
+        }
+      })
+    );
+  }
+
   // Método para recargar la tabla de libros
   recargarTablaLibros(): void {
     this.cargarTablaLibros(this.currentPage, this.pageSize);

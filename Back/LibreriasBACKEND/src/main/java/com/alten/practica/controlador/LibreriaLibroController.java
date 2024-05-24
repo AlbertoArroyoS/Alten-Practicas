@@ -184,5 +184,14 @@ public class LibreriaLibroController {
         Page<LibreriaLibroDTO> libros = libreriaLibroService.findByTituloContaining(titulo, pageable);
         return ResponseEntity.ok(libros);
     }
+	
+	/*
+	 * Metodo para mostar los libros a la venta con el id de la libreria, del usuario logueado
+     */
+	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA
+			+ LibreriaConstant.RESOURCE_LIBRERIA_ID)
+    public Page<LibreriaLibroDTO> getBooksByAuthorId(@PathVariable int idLibreria, Pageable pageable) {
+        return libreriaLibroService.findByLibraryId(idLibreria, pageable);
+    }
 
 }

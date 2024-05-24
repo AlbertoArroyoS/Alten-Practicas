@@ -32,6 +32,12 @@
   <h1>Libros a la venta</h1>
   <!-- Tabla de libros en las librerías -->
   <div class="tablaLibros">
+    <button (click)="cargarLibrosPorLibreria()" type="button" class="btn btn-dark">
+      Mis libros a la venta
+    </button>
+    <button (click)="recargarTablaLibros()" type="button" class="btn btn-dark">
+      Todos
+    </button>
     <table class="table table-striped table-hover shadow">
       <thead>
         <tr class="table-primary">
