@@ -115,9 +115,9 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
           this.currentPage = data.number;
           this.paginacion = data.totalPages > 1;
           
-          console.log('Total Paginas:', this.totalPaginas);
-          console.log('Current Page:', this.currentPage);
-          console.log('Paginacion:', this.paginacion);
+          //console.log('Total Paginas:', this.totalPaginas);
+          //console.log('Current Page:', this.currentPage);
+          //console.log('Paginacion:', this.paginacion);
         },
         error: (error) => {
           this.errorMessage = 'Error al cargar la lista de libros.';
