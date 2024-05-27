@@ -6,7 +6,7 @@
       <p class="lead">Vende los libros que ya no quieres.</p>
       <hr class="my-4">
       <p>Explora nuestras colecciones</p>
-      <a *ngIf user$.role="USER"class="btn btn-primary btn-lg" href="/book-catalog/book-shop" role="button">Ver Libros</a>
+      <a *ngIf="(user$ | async)?.role === 'USER'" class="btn btn-primary btn-lg" href="/book-catalog/book-shop" role="button">Ver Libros</a>
     </div>
 </div>
   
