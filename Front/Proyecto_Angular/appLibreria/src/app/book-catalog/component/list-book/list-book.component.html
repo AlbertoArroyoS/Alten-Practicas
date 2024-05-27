@@ -45,207 +45,184 @@
 <!-- Contenedor principal -->
 <div class="container">
   <!-- Formulario de registro de libros -->
-  <div class="formularioRegistro">
-    <!-- El formulario se envía al método guardarLibro() y se valida con formularioLibro -->
-    <form
-      class="form-group"
-      (ngSubmit)="guardarLibro()"
-      [formGroup]="formularioLibro"
-      *ngIf="botonNuevoLibroVisible"
-    >
-      <!-- Campos para el autor y título del libro -->
-      <div class="row mt-3">
-        <h1>Añadir un nuevo libro</h1>
-        <!-- Campo para el nombre del autor -->
-        <div>
-          <label for="nombreAutor">Nombre del autor</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="nombreAutor"
-            placeholder="Nombre autor"
-            aria-label="NombreAutor"
-          />
-          <!-- Mensaje de error si el campo nombre del autor está vacío -->
-          <div
-            *ngIf="
-              formularioLibro.get('nombreAutor')?.invalid &&
-              (formularioLibro.get('nombreAutor')?.dirty ||
-                formularioLibro.get('nombreAutor')?.touched)
-            "
-            class="text-danger"
-          >
-            <div
-              *ngIf="formularioLibro.get('nombreAutor')?.errors?.['required']"
-            >
-              El campo nombre del autor es requerido
-            </div>
-          </div>
-        </div>
-        <!-- Campo para los apellidos del autor -->
-        <div>
-          <label for="apellidosAutor">Apellidos del autor</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="apellidosAutor"
-            placeholder="Apellidos Autor"
-            aria-label="ApellidosAutor"
-          />
-          <!-- Mensaje de error si el campo apellidos del autor está vacío -->
-          <div
-            *ngIf="
-              formularioLibro.get('apellidosAutor')?.invalid &&
-              (formularioLibro.get('apellidosAutor')?.dirty ||
-                formularioLibro.get('apellidosAutor')?.touched)
-            "
-            class="text-danger"
-          >
-            <div
-              *ngIf="formularioLibro.get('apellidosAutor')?.errors?.['required']"
-            >
-              El campo Apellido del autor es requerido
-            </div>
+  <!-- Formulario de registro de libros -->
+<div class="formularioRegistro">
+  <form
+    class="form-group"
+    [formGroup]="formularioLibro"
+    *ngIf="botonNuevoLibroVisible"
+  >
+    <div class="row mt-3">
+      <h1 *ngIf="!modificarLibro">Añadir un nuevo libro</h1>
+      <h1 *ngIf="modificarLibro">Editar libro</h1>
+      <div>
+        <label for="nombreAutor">Nombre del autor</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="nombreAutor"
+          placeholder="Nombre autor"
+          aria-label="NombreAutor"
+        />
+        <div
+          *ngIf="
+            formularioLibro.get('nombreAutor')?.invalid &&
+            (formularioLibro.get('nombreAutor')?.dirty ||
+              formularioLibro.get('nombreAutor')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="formularioLibro.get('nombreAutor')?.errors?.['required']">
+            El campo nombre del autor es requerido
           </div>
         </div>
       </div>
+      <div>
+        <label for="apellidosAutor">Apellidos del autor</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="apellidosAutor"
+          placeholder="Apellidos Autor"
+          aria-label="ApellidosAutor"
+        />
+        <div
+          *ngIf="
+            formularioLibro.get('apellidosAutor')?.invalid &&
+            (formularioLibro.get('apellidosAutor')?.dirty ||
+              formularioLibro.get('apellidosAutor')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="formularioLibro.get('apellidosAutor')?.errors?.['required']">
+            El campo Apellido del autor es requerido
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <!-- Campo para el título del libro -->
-      <div class="row mt-3">
-        <div>
-          <label for="titulo">Título del libro</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="titulo"
-            placeholder="Título"
-            aria-label="Titulo"
-          />
-          <!-- Mensaje de error si el campo título del libro está vacío -->
-          <div
-            *ngIf="
-              formularioLibro.get('titulo')?.invalid &&
-              (formularioLibro.get('titulo')?.dirty ||
-                formularioLibro.get('titulo')?.touched)
-            "
-            class="text-danger"
-          >
-            <div *ngIf="formularioLibro.get('titulo')?.errors?.['required']">
-              El campo Título es requerido
-            </div>
+    <div class="row mt-3">
+      <div>
+        <label for="titulo">Título del libro</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="titulo"
+          placeholder="Título"
+          aria-label="Titulo"
+        />
+        <div
+          *ngIf="
+            formularioLibro.get('titulo')?.invalid &&
+            (formularioLibro.get('titulo')?.dirty ||
+              formularioLibro.get('titulo')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="formularioLibro.get('titulo')?.errors?.['required']">
+            El campo Título es requerido
           </div>
-        </div>
-        <!-- Campo para el género del libro -->
-        <div>
-          <label for="genero">Género del libro</label>
-          <select
-            class="form-select form-select-sm"
-            formControlName="genero"
-            aria-label="Small select example"
-          >
-            <option disabled selected value="">Selecciona un género</option>
-            <option value="Fantasía">Fantasía</option>
-            <option value="Infantil">Infantil</option>
-            <option value="Poesía">Poesía</option>
-            <option value="Ciencia ficción">Ciencia ficción</option>
-            <option value="Misterio">Misterio</option>
-            <option value="Romance">Romance</option>
-            <option value="Otros">Otros</option>
-          </select>
-          <!-- Mensaje de error si el campo género del libro está vacío -->
-          <div
-            *ngIf="
-              formularioLibro.get('genero')?.invalid &&
-              (formularioLibro.get('genero')?.dirty ||
-                formularioLibro.get('genero')?.touched)
-            "
-            class="text-danger"
-          >
-            <div *ngIf="formularioLibro.get('genero')?.errors?.['required']">
-              El campo Género es requerido
-            </div>
-          </div>
-          <!-- Campo para el número de páginas del libro -->
-          <label for="paginas">Páginas del libro</label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="paginas"
-            placeholder="Páginas"
-            aria-label="Paginas"
-          />
-          <!-- Mensaje de error si el campo páginas del libro está vacío -->
-          <div
-            *ngIf="
-              formularioLibro.get('paginas')?.invalid &&
-              (formularioLibro.get('paginas')?.dirty ||
-                formularioLibro.get('paginas')?.touched)
-            "
-            class="text-danger"
-          >
-            <div *ngIf="formularioLibro.get('paginas')?.errors?.['required']">
-              El campo Páginas es requerido
-            </div>
-          </div>
-        </div>
-        <!-- Campo para la editorial del libro -->
-        <div>
-          <label for="editorial">Editorial del libro</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="editorial"
-            placeholder="Editorial"
-            aria-label="Editorial"
-          />
-          <!-- Mensaje de error si el campo editorial del libro está vacío -->
-          <div
-            *ngIf="
-              formularioLibro.get('editorial')?.invalid &&
-              (formularioLibro.get('editorial')?.dirty ||
-                formularioLibro.get('editorial')?.touched)
-            "
-            class="text-danger"
-          >
-            <div *ngIf="formularioLibro.get('editorial')?.errors?.['required']">
-              El campo Editorial es requerido
-            </div>
-          </div>
-        </div>
-        <!-- Campo para la descripción del libro -->
-        <div>
-          <label for="descripcion">Descripción del libro</label>
-          <textarea
-            class="form-control"
-            formControlName="descripcion"
-            placeholder="Descripción"
-            aria-label="Descripcion"
-          ></textarea>
         </div>
       </div>
+      <div>
+        <label for="genero">Género del libro</label>
+        <select
+          class="form-select form-select-sm"
+          formControlName="genero"
+          aria-label="Small select example"
+        >
+          <option disabled selected value="">Selecciona un género</option>
+          <option value="Fantasía">Fantasía</option>
+          <option value="Infantil">Infantil</option>
+          <option value="Poesía">Poesía</option>
+          <option value="Ciencia ficción">Ciencia ficción</option>
+          <option value="Misterio">Misterio</option>
+          <option value="Romance">Romance</option>
+          <option value="Otros">Otros</option>
+        </select>
+        <div
+          *ngIf="
+            formularioLibro.get('genero')?.invalid &&
+            (formularioLibro.get('genero')?.dirty ||
+              formularioLibro.get('genero')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="formularioLibro.get('genero')?.errors?.['required']">
+            El campo Género es requerido
+          </div>
+        </div>
+        <label for="paginas">Páginas del libro</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="paginas"
+          placeholder="Páginas"
+          aria-label="Paginas"
+        />
+        <div
+          *ngIf="
+            formularioLibro.get('paginas')?.invalid &&
+            (formularioLibro.get('paginas')?.dirty ||
+              formularioLibro.get('paginas')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="formularioLibro.get('paginas')?.errors?.['required']">
+            El campo Páginas es requerido
+          </div>
+        </div>
+      </div>
+      <div>
+        <label for="editorial">Editorial del libro</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="editorial"
+          placeholder="Editorial"
+          aria-label="Editorial"
+        />
+        <div
+          *ngIf="
+            formularioLibro.get('editorial')?.invalid &&
+            (formularioLibro.get('editorial')?.dirty ||
+              formularioLibro.get('editorial')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="formularioLibro.get('editorial')?.errors?.['required']">
+            El campo Editorial es requerido
+          </div>
+        </div>
+      </div>
+      <div>
+        <label for="descripcion">Descripción del libro</label>
+        <textarea
+          class="form-control"
+          formControlName="descripcion"
+          placeholder="Descripción"
+          aria-label="Descripcion"
+        ></textarea>
+      </div>
+    </div>
 
-      <!-- Botón para guardar un nuevo libro -->
-      <div class="mt-3" *ngIf="mostrarBotonGuardar">
-        <button type="submit" class="btn btn-primary">Añadir libro</button>
-      </div>
-    </form>
-    <!-- Botón para actualizar un libro existente -->
+    <div class="mt-3" *ngIf="mostrarBotonGuardar">
+      <button (click)="guardarLibro()" class="btn btn-primary" [disabled]="formularioLibro.invalid">Añadir libro</button>
+    </div>
     <div class="mt-3" *ngIf="modificarLibro">
-      <button (click)="actualizarLibro()" [disabled]="formularioLibro.invalid">
-        Actualizar Libro
-      </button>
+      <button (click)="actualizarLibro()" [disabled]="formularioLibro.invalid" class="btn btn-warning">Actualizar Libro</button>
     </div>
+  </form>
 
-    <!-- Mensajes de éxito y advertencia -->
-    <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
-      {{ successMessage }}
-    </div>
+  <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
+    {{ successMessage }}
+  </div>
 
-    <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
-      {{ warningMessage }}
-    </div>
+  <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
+    {{ warningMessage }}
   </div>
 </div>
+
 
 <!-- Contenedor para la tabla de libros y mensajes de éxito -->
 <div class="container">

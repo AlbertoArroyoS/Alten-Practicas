@@ -49,7 +49,7 @@ export class ListBookComponent implements OnInit, OnDestroy {
   idUsuario!: number;
   idCliente!: number;
   idLibreria!: number;
-  private routeSub!: Subscription;// Suscripción a la ruta activa
+  private routeSub!: Subscription; // Suscripción a la ruta activa
 
   // Referencias a elementos del DOM
   @ViewChild('content', { static: true }) modalContent!: ElementRef;
@@ -100,7 +100,7 @@ export class ListBookComponent implements OnInit, OnDestroy {
       if (authorId) {
         this.loadBooksByAuthor(authorId);
         console.log('****Author ID:', authorId);
-      }else {
+      } else {
         this.loadBooks();
       }
     });
@@ -108,9 +108,6 @@ export class ListBookComponent implements OnInit, OnDestroy {
 
   // Método que se ejecuta al inicializar el componente
   ngOnInit(): void {
-    // Cargar libros al iniciar
-    //this.loadBooks();
-    
     // Suscribirse a los datos del usuario
     this.subscription.add(
       this.user$.subscribe({
@@ -132,28 +129,18 @@ export class ListBookComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-   /**
-   * Carga los datos del usuario desde el servicio de usuario.
-   * @param userId El ID del usuario.
-   */
-   loadUserData(userId: number): void {
+  // Método para cargar los datos del usuario desde el servicio de usuario
+  loadUserData(userId: number): void {
     this.userService.getUser(userId).subscribe({
       next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
         this.userData = userData;
         this.idUsuario = this.userData.idUsuario;
-        //console.log('ID Usuario:', this.idUsuario);
         this.idCliente = this.userData.idCliente;
-        //console.log('ID Cliente:', this.idCliente);
         this.idLibreria = this.userData.idLibreria;
-        //console.log('ID Libreria:', this.idLibreria);
-        // Aquí puedes utilizar los datos del usuario para otras operaciones, si es necesario
       },
       error: (errorData) => {
         this.errorMessage = errorData;
       },
-      complete: () => {
-        //console.info("User Data ok");
-      }
     });
   }
 
@@ -183,7 +170,6 @@ export class ListBookComponent implements OnInit, OnDestroy {
       this.booksService.searchBooksByKeyword(keyword).subscribe({
         next: (data) => {
           this.books = Array.isArray(data.content) ? data.content : [];
-          //Cuando busco por keyWord, la respuesta viene en un objeto con la propiedad content que es un array de libros
           this.tableData = this.books; // Cambiar al conjunto de datos de la búsqueda
         },
         error: (error) => {
@@ -216,6 +202,9 @@ export class ListBookComponent implements OnInit, OnDestroy {
 
   // Método para guardar un libro
   guardarLibro(): void {
+    this.botonNuevoLibroVisible = false;
+    this.modificarLibro = false;
+    this.mostrarBotonGuardar = true;
     if (this.formularioLibro.valid) {
       this.subscription.add(
         this.booksService.addBook(this.formularioLibro.value).subscribe({
@@ -239,6 +228,8 @@ export class ListBookComponent implements OnInit, OnDestroy {
   botonNuevoLibro(): void {
     this.formularioLibro.reset();
     this.botonNuevoLibroVisible = !this.botonNuevoLibroVisible;
+    this.modificarLibro = false;
+    this.mostrarBotonGuardar= true;
   }
 
   // Método para obtener un libro por su ID
@@ -338,63 +329,38 @@ export class ListBookComponent implements OnInit, OnDestroy {
   }
 
   // Método para confirmar la adición del libro a la librería
- // Método para confirmar la adición del libro a la librería
-confirmAddBook(modal: NgbModalRef): void {
-  if (this.addBookForm.valid && this.userData) {
-    const book: BookToShopLibrary = {
-      idLibro: this.currentBookId,
-      idLibreria: this.userData.idLibreria,
-      cantidad: this.addBookForm.value.cantidad,
-      precio: this.addBookForm.value.precio,
-      edicion: this.addBookForm.value.edicion,
-      fechaPublicacion: this.addBookForm.value.fechaPublicacion
-    };
+  confirmAddBook(modal: NgbModalRef): void {
+    if (this.addBookForm.valid && this.userData) {
+      const book: BookToShopLibrary = {
+        idLibro: this.currentBookId,
+        idLibreria: this.userData.idLibreria,
+        cantidad: this.addBookForm.value.cantidad,
+        precio: this.addBookForm.value.precio,
+        edicion: this.addBookForm.value.edicion,
+        fechaPublicacion: this.addBookForm.value.fechaPublicacion
+      };
 
-    this.subscription.add(
-      this.bookShopService.addBookToLibrary(book).subscribe({
-        next: (response) => {
-          this.book = response;
-          modal.close(); // Cierra el modal actual
-          this.showSuccessAlert('Libro agregado a la librería correctamente.');
-          // Remueve la llamada a abrir el segundo modal.
-        },
-        error: (error) => {
-          this.showWarningAlert('Conflicto al agregar el libro a la librería.');
-        }
-      })
-    );
-  } else {
-    this.showWarningAlert('Por favor, completa todos los campos correctamente.');
+      this.subscription.add(
+        this.bookShopService.addBookToLibrary(book).subscribe({
+          next: (response) => {
+            this.book = response;
+            modal.close(); // Cierra el modal actual
+            this.showSuccessAlert('Libro agregado a la librería correctamente.');
+          },
+          error: (error) => {
+            this.showWarningAlert('Conflicto al agregar el libro a la librería.');
+          }
+        })
+      );
+    } else {
+      this.showWarningAlert('Por favor, completa todos los campos correctamente.');
+    }
   }
-}
 
-// Método para cargar los libros por autor
-private loadBooksByAuthor(authorId: number): void {
-  this.subscription.add(
-    this.booksService.getBooksByAuthor(authorId, this.currentPage, this.pageSize).subscribe({
-      next: (data) => {
-        console.log('****Data:', data); // Para verificar los datos recibidos
-        this.books = Array.isArray(data.content) ? data.content : [];
-        console.log('****Books:', this.books); // Para verificar que los libros se están asignando
-        this.totalPaginas = Array.from(
-          { length: data.totalPages },
-          (_, i) => i + 1
-        );
-        this.currentPage = data.number;
-        this.paginacion = data.totalPages > 1;
-      },
-      error: (error) => {
-        this.errorMessage = 'Error al cargar la lista de libros.';
-        console.error('Error fetching books', error);
-      }
-    })
-  );
-
-
-  /*
-  private loadBooks(): void {
+  // Método para cargar los libros por autor
+  private loadBooksByAuthor(authorId: number): void {
     this.subscription.add(
-      this.booksService.getAllBooks(this.currentPage, this.pageSize).subscribe({
+      this.booksService.getBooksByAuthor(authorId, this.currentPage, this.pageSize).subscribe({
         next: (data) => {
           this.books = Array.isArray(data.content) ? data.content : [];
           this.totalPaginas = Array.from(
@@ -402,6 +368,7 @@ private loadBooksByAuthor(authorId: number): void {
             (_, i) => i + 1
           );
           this.currentPage = data.number;
+          this.paginacion = data.totalPages > 1;
         },
         error: (error) => {
           this.errorMessage = 'Error al cargar la lista de libros.';
@@ -411,8 +378,6 @@ private loadBooksByAuthor(authorId: number): void {
     );
   }
 
-  );*/
-}
   // Método para mostrar una alerta de éxito
   showSuccessAlert(message: string): void {
     this.guardadoExitoso = true;

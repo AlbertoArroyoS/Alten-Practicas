@@ -2,6 +2,7 @@ package com.alten.practica.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -208,16 +209,31 @@ public class LibroServiceImpl implements ILibroService {
 	 */
 	@Override
 	public HrefEntityDTO update(LibroDTORequest dto, int id) {
-		Libro libro = libroRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El libro con id %s no existe", id)));
+	    // Encuentra el libro por id
+	    Libro libro = libroRepository.findById(id)
+	            .orElseThrow(() -> new EntityNotFoundException(String.format("El libro con id %s no existe", id)));
 
-		libro.setTitulo(dto.getTitulo());
-		libro.setGenero(dto.getGenero());
-		libro.setPaginas(dto.getPaginas());
-		libro.setEditorial(dto.getEditorial());
-		libro.setDescripcion(dto.getDescripcion());
-		return libreriaUtil.createHrefFromResource(libroRepository.save(libro).getId(), LibreriaResource.LIBRO);
+	    // Comprobar si existen duplicados antes de actualizar, excluyendo el libro actual
+	    List<Libro> librosDuplicados = libroRepository.findByTitulo(dto.getTitulo()).stream()
+	            .filter(a -> a.getId() != id)
+	            .collect(Collectors.toList());
+
+	    if (!librosDuplicados.isEmpty()) {
+	        throw new IllegalStateException("El libro con el título '" + dto.getTitulo() + "' ya existe");
+	    }
+
+	    // Actualiza los campos del libro
+	    libro.setTitulo(dto.getTitulo());
+	    libro.setGenero(dto.getGenero());
+	    libro.setPaginas(dto.getPaginas());
+	    libro.setEditorial(dto.getEditorial());
+	    libro.setDescripcion(dto.getDescripcion());
+
+	    // Guarda los cambios y retorna la entidad
+	    Libro libroActualizado = libroRepository.save(libro);
+	    return libreriaUtil.createHrefFromResource(libroActualizado.getId(), LibreriaResource.LIBRO);
 	}
+
 
 	/**
 	 * Elimina un libro de la base de datos.
