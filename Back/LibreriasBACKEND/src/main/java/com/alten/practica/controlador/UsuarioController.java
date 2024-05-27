@@ -1,10 +1,17 @@
 package com.alten.practica.controlador;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +50,9 @@ public class UsuarioController {
 
 
 	}
+	/*
+	 * Metodo para actualizar un usuario
+	 */
 	
 	@PutMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO
 			+ LibreriaConstant.RESOURCE_GENERIC_ID)
@@ -52,7 +62,9 @@ public class UsuarioController {
 
 
 	}
-	
+	/*
+	 * Metodo para registrar un usuario
+     */
 	@PostMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO)
 	public ResponseEntity<HrefEntityDTO> save(@Valid @RequestBody UsuarioDTORequest dto) {
 
@@ -64,16 +76,64 @@ public class UsuarioController {
      */
 	@GetMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO
 			+ "/user")
-    public Page<UsuarioDTO> findAllUser(Pageable pageable) {
+    public ResponseEntity<Page<UsuarioDTO>> findAllUser(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
 		
-        return usuarioService.findAllUser(pageable);
+        //return usuarioService.findAllUser(pageable);
+		
+		Page<UsuarioDTO> page = usuarioService
+				.findAllUser(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+		
+		model.addAttribute("page", page);
+		var totalPages = page.getTotalPages();
+		var currentPage = page.getNumber();
+		
+		var start = Math.max(1, currentPage);
+		var end = Math.min(currentPage + 5, totalPages);
+		
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = new ArrayList<>();
+			for (int i = start; i <= end; i++) {
+				pageNumbers.add(i);
+			}
+			
+			model.addAttribute("pageNumbers", pageNumbers);
+					
+		}
+		List<Integer> pageSizeOptions = Arrays.asList(10,20, 50, 100);
+		model.addAttribute("pageSizeOptions", pageSizeOptions);
+		
+		return new ResponseEntity<>(page, HttpStatus.OK);
     }
 	
 	@GetMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO
 			+ "/admin")
-    public Page<UsuarioAdminDTO> findAllAdmin(Pageable pageable) {
+    public ResponseEntity<Page<UsuarioAdminDTO>> findAllAdmin(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
 		
-        return usuarioService.findAllAdmin(pageable);
+        //return usuarioService.findAllAdmin(pageable);
+        
+        Page<UsuarioAdminDTO> page = usuarioService
+				.findAllAdmin(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+		
+		model.addAttribute("page", page);
+		var totalPages = page.getTotalPages();
+		var currentPage = page.getNumber();
+		
+		var start = Math.max(1, currentPage);
+		var end = Math.min(currentPage + 5, totalPages);
+		
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = new ArrayList<>();
+			for (int i = start; i <= end; i++) {
+				pageNumbers.add(i);
+			}
+			
+			model.addAttribute("pageNumbers", pageNumbers);
+					
+		}
+		List<Integer> pageSizeOptions = Arrays.asList(10,20, 50, 100);
+		model.addAttribute("pageSizeOptions", pageSizeOptions);
+		
+		return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
 }

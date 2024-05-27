@@ -190,8 +190,32 @@ public class LibreriaLibroController {
      */
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA
 			+ LibreriaConstant.RESOURCE_LIBRERIA_ID)
-    public Page<LibreriaLibroDTO> getBooksByAuthorId(@PathVariable int idLibreria, Pageable pageable) {
-        return libreriaLibroService.findByLibraryId(idLibreria, pageable);
+    public ResponseEntity<Page<LibreriaLibroDTO>> getBooksByAuthorId(@PathVariable int idLibreria, @PageableDefault(size = 100, page = 0) Pageable pageable, 
+            Model model) {
+        //return libreriaLibroService.findByLibraryId(idLibreria, pageable);
+		
+		Page<LibreriaLibroDTO> page = libreriaLibroService.findByLibraryId(idLibreria, pageable);
+
+        model.addAttribute("page", page);
+        int totalPages = page.getTotalPages();
+        int currentPage = page.getNumber();
+
+        int start = Math.max(1, currentPage + 1);
+        int end = Math.min(currentPage + 5, totalPages);
+
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = new ArrayList<>();
+            for (int i = start; i <= end; i++) {
+                pageNumbers.add(i);
+            }
+
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        List<Integer> pageSizeOptions = Arrays.asList(10, 20, 50, 100);
+        model.addAttribute("pageSizeOptions", pageSizeOptions);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 	
 	/*
@@ -199,8 +223,32 @@ public class LibreriaLibroController {
      */
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA +"/not"
 			+ LibreriaConstant.RESOURCE_LIBRERIA_ID)
-    public Page<LibreriaLibroDTO> findByLibraryNotId(@PathVariable int idLibreria, Pageable pageable) {
-        return libreriaLibroService.findByLibraryNotId(idLibreria, pageable);
+    public ResponseEntity<Page<LibreriaLibroDTO>> findByLibraryNotId(@PathVariable int idLibreria, @PageableDefault(size = 100, page = 0) Pageable pageable, 
+            Model model) {
+        //return libreriaLibroService.findByLibraryNotId(idLibreria, pageable);
+        
+        Page<LibreriaLibroDTO> page = libreriaLibroService.findByLibraryNotId(idLibreria, pageable);
+
+        model.addAttribute("page", page);
+        int totalPages = page.getTotalPages();
+        int currentPage = page.getNumber();
+
+        int start = Math.max(1, currentPage + 1);
+        int end = Math.min(currentPage + 5, totalPages);
+
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = new ArrayList<>();
+            for (int i = start; i <= end; i++) {
+                pageNumbers.add(i);
+            }
+
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        List<Integer> pageSizeOptions = Arrays.asList(10, 20, 50, 100);
+        model.addAttribute("pageSizeOptions", pageSizeOptions);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
 }
