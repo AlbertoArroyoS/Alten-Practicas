@@ -63,6 +63,9 @@
               <div *ngIf="formularioUsuario.get('password')?.errors?.['required']">
                 El campo Contraseña es requerido.
               </div>
+              <div *ngIf="formularioUsuario.controls['password'].errors?.['minlength']">
+                El Password debe tener al menos 6 caracteres.
+              </div>
             </div>
           </div>
   

@@ -154,35 +154,31 @@ public class LibreriaServiceImpl implements ILibreriaService {
 	 */
 	@Override
 	public HrefEntityDTO update(LibreriaDTORequest dto, int id) {
+	    // Encuentra la librería por id
+	    Libreria libreria = libreriaRepository.findById(id)
+	            .orElseThrow(() -> new EntityNotFoundException(String.format("La librería con id %s no existe", id)));
+	    libreria.setId(id);
 
-		Libreria libreria = libreriaRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
-		libreria.setId(id);
+	    // Comprobar si existen duplicados antes de actualizar, excluyendo la librería actual
+	    List<Libreria> libreriasDuplicados = libreriaRepository.findByNombreLibreria(dto.getNombreLibreria()).stream()
+	            .filter(a -> a.getId() != id)
+	            .collect(Collectors.toList());
 
-		// Comprobar si existen duplicados antes de actualizar
-		List<Libreria> libreriasDuplicados = libreriaRepository.findByNombreLibreria(dto.getNombreLibreria()).stream()
-				.filter(a -> a.getId() != id) // Excluir el autor actual de la comprobación de duplicados
-				.collect(Collectors.toList());
+	    if (!libreriasDuplicados.isEmpty()) {
+	        throw new IllegalStateException("La librería con el nombre '" + dto.getNombreLibreria() + "' ya existe");
+	    }
 
-		if (!libreriasDuplicados.isEmpty()) {
-			throw new IllegalStateException("La libreria con el nombre '" + dto.getNombreLibreria() + "' ya existe");
-		}
+	    // Actualiza los campos de la librería
+	    libreria.setNombreLibreria(dto.getNombreLibreria());
+	    libreria.setNombreDueno(dto.getNombreDueno());
+	    libreria.setDireccion(dto.getDireccion());
+	    libreria.setCiudad(dto.getCiudad());
 
-		libreria.setNombreLibreria(dto.getNombreLibreria());
-		libreria.setNombreDueno(dto.getNombreDueno());
-		libreria.setDireccion(dto.getDireccion());
-		libreria.setCiudad(dto.getCiudad());
-		Libreria libreriaActualizada = libreriaRepository.save(libreria);
-		return libreriaUtil.createHrefFromResource(libreriaActualizada.getId(), LibreriaResource.LIBRERIA);
-
-		/*
-		 * Forma vieja Libreria bean = this.libreriaRepository.findById(id).get();
-		 * bean.setId(id); bean.setNombreLibreria(dto.getNombreLibreria());
-		 * bean.setNombreDueno(dto.getNombreDueno());
-		 * bean.setDireccion(dto.getDireccion()); bean.setCiudad(dto.getCiudad());
-		 * return this.libreriaRepository.save(bean).getId();
-		 */
+	    // Guarda los cambios y retorna la entidad
+	    Libreria libreriaActualizada = libreriaRepository.save(libreria);
+	    return libreriaUtil.createHrefFromResource(libreriaActualizada.getId(), LibreriaResource.LIBRERIA);
 	}
+
 
 	/**
 	 * Elimina una librería de la base de datos.

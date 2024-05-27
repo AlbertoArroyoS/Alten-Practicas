@@ -101,21 +101,29 @@ public class ClienteServiceImpl implements IClienteService {
 	 */
 	@Override
 	public HrefEntityDTO update(ClienteDTORequest dto, int id) {
-		clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
-			throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
-					+ dto.getApellidos() + "' ya existe");
-		});
-		Cliente cpl = clienteRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
-		cpl.setNombre(dto.getNombre());
-		cpl.setApellidos(dto.getApellidos());
-		cpl.setEmail(dto.getEmail());
-		cpl.setPassword(dto.getPassword());
+	    // Encuentra el cliente por id
+	    Cliente cpl = clienteRepository.findById(id)
+	            .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
 
-		
-		return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
+	    // Verifica si ya existe otro cliente con el mismo nombre y apellidos, excluyendo el cliente actual
+	    clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
+	        if (a.getId() != id) {
+	            throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
+	                    + dto.getApellidos() + "' ya existe");
+	        }
+	    });
 
+	    // Actualiza los campos del cliente
+	    cpl.setNombre(dto.getNombre());
+	    cpl.setApellidos(dto.getApellidos());
+	    cpl.setEmail(dto.getEmail());
+	    cpl.setPassword(dto.getPassword());
+
+	    // Guarda los cambios y retorna la entidad
+	    return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
 	}
+
+
 
 	/**
 	 * Elimina un cliente de la base de datos.

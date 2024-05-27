@@ -22,7 +22,7 @@ export class AddUserComponent {
   ) { 
     this.formularioUsuario = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       nombre: ['', [Validators.required]],
       apellidos: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],

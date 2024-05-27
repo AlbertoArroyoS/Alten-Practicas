@@ -9,32 +9,40 @@
     {{ warningMessage }}
   </div>
 
-  <div *ngIf="userLoginOn$ | async" class="card mb-4">
+  <div *ngIf="userLoginOn$ | async" class="card mb-4" [ngSwitch]="userData?.role">
     <div class="card-header card-padding">
-      <h5>Información del Usuario</h5>
+      <h5 *ngSwitchCase="'USER'">Información del Usuario</h5>
+      <h5 *ngSwitchCase="'ADMIN'">Información del Administrador</h5>
     </div>
     <div class="card-body card-padding">
-      <p class="card-text"><strong>Username:</strong> {{userData?.username}}</p>
-      <p class="card-text"><strong>ID Usuario:</strong> {{userData?.idUsuario}}</p>
-      <p class="card-text"><strong>Nombre:</strong> {{userData?.nombre}}</p>
-      <p class="card-text"><strong>Apellido:</strong> {{userData?.apellidos}}</p>
-      <p class="card-text"><strong>Email:</strong> {{userData?.email}}</p>
-      <p class="card-text"><strong>Role:</strong> {{userData?.role}}</p>
-      <p class="card-text"><strong>ID Cliente:</strong> {{userData?.idCliente}}</p>
-      <p class="card-text"><strong>ID Librería:</strong> {{userData?.idLibreria}}</p>
-      <p class="card-text"><strong>Nombre Librería:</strong> {{userData?.nombreLibreria}}</p>
-      <p class="card-text"><strong>Nombre Dueño:</strong> {{userData?.nombreDueno}}</p>
-      <p class="card-text"><strong>Dirección:</strong> {{userData?.direccion}}</p>
-      <p class="card-text"><strong>Ciudad:</strong> {{userData?.ciudad}}</p>
-      <button *ngIf="!editMode" (click)="editMode=true" class="btn btn-dark">
-        <img src="https://cdn.icon-icons.com/icons2/1572/PNG/96/3592815-compose-create-edit-edit-file-office-pencil-writing_107734.png" width="8%" alt="editar" />
-        Editar Datos Personales
-      </button>
+      <ng-container *ngSwitchCase="'USER'">
+        <p class="card-text"><strong>Username:</strong> {{userData?.username}}</p>
+        <p class="card-text"><strong>ID Usuario:</strong> {{userData?.idUsuario}}</p>
+        <p class="card-text"><strong>Nombre:</strong> {{userData?.nombre}}</p>
+        <p class="card-text"><strong>Apellido:</strong> {{userData?.apellidos}}</p>
+        <p class="card-text"><strong>Email:</strong> {{userData?.email}}</p>
+        <p class="card-text"><strong>Role:</strong> {{userData?.role}}</p>
+        <p class="card-text"><strong>ID Cliente:</strong> {{userData?.idCliente}}</p>
+        <p class="card-text"><strong>ID Librería:</strong> {{userData?.idLibreria}}</p>
+        <p class="card-text"><strong>Nombre Librería:</strong> {{userData?.nombreLibreria}}</p>
+        <p class="card-text"><strong>Nombre Dueño:</strong> {{userData?.nombreDueno}}</p>
+        <p class="card-text"><strong>Dirección:</strong> {{userData?.direccion}}</p>
+        <p class="card-text"><strong>Ciudad:</strong> {{userData?.ciudad}}</p>
+        <button *ngIf="!editMode" (click)="editMode=true" class="btn btn-dark">
+          <img src="https://cdn.icon-icons.com/icons2/1572/PNG/96/3592815-compose-create-edit-edit-file-office-pencil-writing_107734.png" width="8%" alt="editar" />
+          Editar Datos Personales
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="'ADMIN'">
+        <p class="card-text"><strong>Username:</strong> {{userData?.username}}</p>
+        <p class="card-text"><strong>ID Usuario:</strong> {{userData?.idUsuario}}</p>
+        <p class="card-text"><strong>Role:</strong> {{userData?.role}}</p>
+      </ng-container>
     </div>
   </div>
-
+  
   <!-- Formulario para datos de usuario -->
-  <div *ngIf="editMode" class="card mb-4">
+  <div *ngIf="editMode && userData?.role === 'USER'" class="card mb-4">
     <div class="card-header card-padding">
       <h5>Editar Información del Usuario</h5>
     </div>
@@ -54,7 +62,7 @@
         <div class="form-group row">
           <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
           <div class="col-sm-10">
-            <input type="text" formControlName="password" class="form-control" id="inputPassword">
+            <input type="password" formControlName="password" class="form-control" id="inputPassword">
             <div *ngIf="formularioUsuario.controls['password'].invalid && (formularioUsuario.controls['password'].dirty || formularioUsuario.controls['password'].touched)" class="text-danger">
               <div *ngIf="formularioUsuario.controls['password'].errors?.['required']">
                 El Password es requerido.
@@ -71,9 +79,9 @@
       </form>
     </div>
   </div>
-
+  
   <!-- Formulario para datos de cliente -->
-  <div *ngIf="editMode" class="card mb-4">
+  <div *ngIf="editMode && userData?.role === 'USER'" class="card mb-4">
     <div class="card-header card-padding">
       <h5>Editar Información del Cliente</h5>
     </div>
@@ -116,14 +124,14 @@
           </div>
         </div>
         <div class="text-center mt-3">
-          <button type="submit" (click)="saveClientDetailsData()" class="btn btn-dark">Guardar Cliente</button>
+          <button type="submit" (click)="saveClientDetailsData()" class="btn btn-dark" [disabled]="formularioCliente.invalid">Guardar Cliente</button>
         </div>
       </form>
     </div>
   </div>
-
+  
   <!-- Formulario para datos de librería -->
-  <div *ngIf="editMode" class="card mb-4">
+  <div *ngIf="editMode && userData?.role === 'USER'" class="card mb-4">
     <div class="card-header card-padding">
       <h5>Editar Información de la Librería</h5>
     </div>
@@ -174,10 +182,11 @@
           </div>
         </div>
         <div class="text-center mt-3">
-          <button type="submit" (click)="saveLibraryDetailsData()" class="btn btn-dark">Guardar Librería</button>
+          <button type="submit" (click)="saveLibraryDetailsData()" class="btn btn-dark" [disabled]="formularioLibreria.invalid">Guardar Librería</button>
         </div>
       </form>
       <button type="button" (click)="editMode=false" class="btn btn-danger">Cancelar</button>
     </div>
   </div>
+  
 </div>
