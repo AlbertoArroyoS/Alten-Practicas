@@ -63,25 +63,25 @@ public class ClienteCompraLibroController {
 				.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 		
 		model.addAttribute("page", page);
-		var totalPages = page.getTotalPages();
-		var currentPage = page.getNumber();
-		
-		var start = Math.max(1, currentPage);
-		var end = Math.min(currentPage + 5, totalPages);
-		
-		if (totalPages > 0) {
-			List<Integer> pageNumbers = new ArrayList<>();
-			for (int i = start; i <= end; i++) {
-				pageNumbers.add(i);
-			}
-			
-			model.addAttribute("pageNumbers", pageNumbers);
-					
-		}
-		List<Integer> pageSizeOptions = Arrays.asList(10,20, 50, 100);
-		model.addAttribute("pageSizeOptions", pageSizeOptions);
-		
-		return new ResponseEntity<>(page, HttpStatus.OK);
+        int totalPages = page.getTotalPages();
+        int currentPage = page.getNumber();
+
+        int start = Math.max(1, currentPage + 1);
+        int end = Math.min(currentPage + 5, totalPages);
+
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = new ArrayList<>();
+            for (int i = start; i <= end; i++) {
+                pageNumbers.add(i);
+            }
+
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        List<Integer> pageSizeOptions = Arrays.asList(10, 20, 50, 100);
+        model.addAttribute("pageSizeOptions", pageSizeOptions);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
 	}
 
 	/**

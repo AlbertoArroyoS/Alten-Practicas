@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { BookPurchaseService } from 'src/app/services/book-purchase/book-purchase.service';
 import { UserService } from 'src/app/services/users/user.service';
@@ -62,37 +61,31 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
   }
 
   /**
- * Carga los datos del usuario desde el servicio de usuario.
- * @param userId El ID del usuario.
- */
-loadUserData(userId: number): void {
-  this.userService.getUser(userId).subscribe({
-    next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
-      this.idUsuario = userData.idUsuario;
-      this.idCliente = userData.idCliente;
-      this.idLibreria = userData.idLibreria;
-      //console.log('ID Usuario:', this.idUsuario);
-      //console.log('ID Cliente:', this.idCliente);
-      //console.log('ID Libreria:', this.idLibreria);
+   * Carga los datos del usuario desde el servicio de usuario.
+   * @param userId El ID del usuario.
+   */
+  loadUserData(userId: number): void {
+    this.userService.getUser(userId).subscribe({
+      next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
+        this.idUsuario = userData.idUsuario;
+        this.idCliente = userData.idCliente;
+        this.idLibreria = userData.idLibreria;
+        console.log('ID Usuario:', this.idUsuario);
+        console.log('ID Cliente:', this.idCliente);
+        console.log('ID Libreria:', this.idLibreria);
 
-      // Cargar las compras del cliente después de obtener los datos del usuario
-      //this.loadClientPurchases(0, 10);
-      this.cargarTablaLibros(0, 10);
-    },
-    error: (errorData) => {
-      this.errorMessage = errorData;
-    },
-    complete: () => {
-      //console.info("User Data ok");
-    }
-  });
-}
-
+        // Cargar las compras del cliente después de obtener los datos del usuario
+        this.loadClientPurchases(0, this.pageSize);
+      },
+      error: (errorData) => {
+        this.errorMessage = errorData;
+      }
+    });
+  }
 
   // Método para recargar la tabla de libros comprados
   recargarTablaLibros(): void {
     this.loadClientPurchases(this.currentPage, this.pageSize);
-    this.paginacion = true;
   }
 
   // Método para cambiar la página de la tabla
@@ -110,9 +103,9 @@ loadUserData(userId: number): void {
 
   // Método para cargar las compras del cliente
   private loadClientPurchases(page: number, size: number): void {
-    //console.log('ID Cliente load purchase:', this.idCliente);
+    console.log('ID Cliente load purchase:', this.idCliente);
     this.subscription.add(
-      this.librosCompradosService.getClientPurchases(this.idCliente, this.currentPage, this.pageSize).subscribe({
+      this.librosCompradosService.getClientPurchases(this.idCliente, page, size).subscribe({
         next: (data) => {
           this.librosCompra = Array.isArray(data.content) ? data.content : [];
           this.totalPaginas = Array.from(
@@ -120,6 +113,11 @@ loadUserData(userId: number): void {
             (_, i) => i + 1
           );
           this.currentPage = data.number;
+          this.paginacion = data.totalPages > 1;
+          
+          console.log('Total Paginas:', this.totalPaginas);
+          console.log('Current Page:', this.currentPage);
+          console.log('Paginacion:', this.paginacion);
         },
         error: (error) => {
           this.errorMessage = 'Error al cargar la lista de libros.';
@@ -127,22 +125,7 @@ loadUserData(userId: number): void {
         }
       })
     );
-  } 
-
-  cargarTablaLibros(page: number, size: number): void {
-    this.subscription.add(
-      this.librosCompradosService.getClientPurchases(this.idCliente,page, size).subscribe((data) => {
-        this.librosCompra = Array.isArray(data.content) ? data.content : [];
-        this.totalPaginas = Array.from(
-          { length: data.totalPages },
-          (_, i) => i + 1
-        );
-        this.currentPage = data.number;
-        //console.log('DataNumber:', data.number);
-      })
-    );
   }
-  
 }
 
 
