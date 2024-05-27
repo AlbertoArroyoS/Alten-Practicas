@@ -1,8 +1,5 @@
 package com.alten.practica.service.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +19,7 @@ import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.LoginDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.RegisterDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
+import com.alten.practica.modelo.entidad.dto.request.UsuarioSimpleDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IUsuarioAdminMapper;
 import com.alten.practica.modelo.entidad.mapper.IUsuarioMapper;
 import com.alten.practica.repository.IClienteRepository;
@@ -121,7 +119,7 @@ public class AuthServiceImpl implements IAuthService {
 		// Crear y guardar una nueva Librería
 		Libreria libreria = Libreria.builder().nombreLibreria(request.getNombreLibreria())
 				.nombreDueno(request.getNombreDueno()).direccion(request.getDireccion()).ciudad(request.getCiudad())
-				.email(request.getEmail()).build();
+				.build();
 		libreria = libreriaRepository.save(libreria);
 
 		// Crear un nuevo Usuario y asignar Cliente y Librería
@@ -165,48 +163,14 @@ public class AuthServiceImpl implements IAuthService {
 	}
 
 	@Override
-	public HrefEntityDTO updateUser(RegisterDTORequest request, int id) {
-		// Crear y guardar un nuevo Cliente
-		clienteRepository.findByNombreAndApellidos(request.getNombre(), request.getApellidos()).ifPresent(a -> {
-			throw new IllegalStateException("Cliente con el nombre '" + request.getNombre() + "' y apellidos '"
-					+ request.getApellidos() + "' ya existe");
-		});
-		Cliente cpl = clienteRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
-		cpl.setNombre(request.getNombre());
-		cpl.setApellidos(request.getApellidos());
-		cpl.setEmail(request.getEmail());
-		cpl.setPassword(request.getPassword());
-		this.clienteRepository.save(cpl);
-
-		// Crear y guardar una nueva Librería
-		Libreria libreria = libreriaRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
-		libreria.setId(id);
-
-		// Comprobar si existen duplicados antes de actualizar
-		List<Libreria> libreriasDuplicados = libreriaRepository.findByNombreLibreria(request.getNombreLibreria())
-				.stream().filter(a -> a.getId() != id) // Excluir el autor actual de la comprobación de duplicados
-				.collect(Collectors.toList());
-
-		if (!libreriasDuplicados.isEmpty()) {
-			throw new IllegalStateException(
-					"La libreria con el nombre '" + request.getNombreLibreria() + "' ya existe");
-		}
-
-		libreria.setNombreLibreria(request.getNombreLibreria());
-		libreria.setNombreDueno(request.getNombreDueno());
-		libreria.setDireccion(request.getDireccion());
-		libreria.setCiudad(request.getCiudad());
-		libreria.setEmail(request.getEmail());
-		Libreria libreriaActualizada = libreriaRepository.save(libreria);
-
+	public HrefEntityDTO updateUser(UsuarioSimpleDTORequest request, int id) {
+		// Crear y guardar un nuevo Cliente	
 		// Crear un nuevo Usuario y asignar Cliente y Librería
 		Usuario usuario = usuarioRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
 
 		// Actualizar los campos del usuario con los valores del DTO
-		usuario.setUsername(request.getUsername());
+		//usuario.setUsername(request.getUsername());
 		usuario.setPassword(passwordEncoder.encode(request.getPassword()));
 		// Guardar el Usuario en la base de datos
 		usuario = usuarioRepository.save(usuario);

@@ -12,8 +12,12 @@ import { CookieService } from 'ngx-cookie-service';
 export class UserService {
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/usuarios';
   private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/usuarios/usuario';
-  private API_SERVER3 = 'http://localhost:8080/auth/register/admins';
-  private API_SERVER4 = 'http://localhost:8080/auth/register';
+  private API_SERVER_REGISTER_ADMIN = 'http://localhost:8080/auth/register/admins';
+  private API_SERVER_REGISTER_USER = 'http://localhost:8080/auth/register';
+  private API_SERVER_UPDATE_USER = 'http://localhost:8080/auth/update/users/user';
+  private API_SERVER_UPDATE_CLIENT = 'http://localhost:8080/v1/app-libreria/clientes/cliente';
+  private API_SERVER_UPDATE_LIBRARY = 'http://localhost:8080/v1/app-libreria/librerias/libreria';
+
 
   constructor(private httpClient: HttpClient, private cookies: CookieService) {}
 
@@ -59,13 +63,13 @@ export class UserService {
   }
 
   addUser(user: any): Observable<any> {
-    return this.httpClient.post<any>(this.API_SERVER4, user).pipe(
+    return this.httpClient.post<any>(this.API_SERVER_REGISTER_USER, user).pipe(
       catchError(this.handleError)
     );
   }
 
   addAdmin(user: any): Observable<any> {
-    return this.httpClient.post<any>(this.API_SERVER3, user).pipe(
+    return this.httpClient.post<any>(this.API_SERVER_REGISTER_ADMIN, user).pipe(
       catchError(this.handleError)
     );
   }
@@ -78,7 +82,21 @@ export class UserService {
   }
 
   updateUser(userId: number, userData: any): Observable<any> {
-    const url = `${this.API_SERVER2}/${userId}`;
+    const url = `${this.API_SERVER_UPDATE_USER}/${userId}`;
+    return this.httpClient.put<any>(url, userData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateClient(clientId: number, userData: any): Observable<any> {
+    const url = `${this.API_SERVER_UPDATE_CLIENT}/${clientId}`;
+    return this.httpClient.put<any>(url, userData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateLibrary(libraryId: number, userData: any): Observable<any> {
+    const url = `${this.API_SERVER_UPDATE_LIBRARY}/${libraryId}`;
     return this.httpClient.put<any>(url, userData).pipe(
       catchError(this.handleError)
     );

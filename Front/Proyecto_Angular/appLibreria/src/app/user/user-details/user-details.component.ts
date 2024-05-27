@@ -17,10 +17,20 @@ export class UserDetailsComponent implements OnInit {
   userLoginOn$: Observable<boolean>;
   user$: Observable<AuthResponse | null>;
   editMode: boolean = false;
-  userData?: UserRequest; // Nota: Cambiado a UserRequest
+  userData?: UserRequest;
   errorMessage: string = '';
+  formularioCliente: FormGroup;
   formularioUsuario: FormGroup;
-  idControl!: number;
+  formularioLibreria: FormGroup;
+  idUsuario!: number;
+  idCliente!: number;
+  idLibreria!: number;
+
+  // Variables para mensajes de éxito y advertencia
+  guardadoExitoso: boolean = false;
+  alertaConflicto: boolean = false;
+  successMessage: string = '';
+  warningMessage: string = '';
 
   constructor(
     private userService: UserService,
@@ -32,17 +42,22 @@ export class UserDetailsComponent implements OnInit {
     this.userLoginOn$ = this.loginService.userLoginOn$;
     this.user$ = this.loginService.user$;
 
-    // Inicializa el formulario
+    // Inicializa los formularios
     this.formularioUsuario = this.fb.group({
       idUsuario: [''],
-      username: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required),
+      username: new FormControl({ value: '', disabled: true }),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    });
+
+    this.formularioCliente = this.fb.group({
+      idCliente: new FormControl({ value: '', disabled: true }),
       nombre: new FormControl('', Validators.required),
       apellidos: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      enabled: new FormControl('', Validators.required),
-      role: new FormControl('', Validators.required),
-      idCliente: new FormControl('', Validators.required),
+    });
+
+    this.formularioLibreria = this.fb.group({
+      idCliente: new FormControl({ value: '', disabled: true }),
       idLibreria: new FormControl('', Validators.required),
       nombreLibreria: new FormControl('', Validators.required),
       nombreDueno: new FormControl('', Validators.required),
@@ -56,7 +71,6 @@ export class UserDetailsComponent implements OnInit {
     this.user$.subscribe({
       next: (userData) => {
         if (userData) {
-          this.formularioUsuario.patchValue(userData);
           this.loadUserData(userData.idUsuario);
         }
       },
@@ -79,16 +93,19 @@ export class UserDetailsComponent implements OnInit {
    */
   loadUserData(userId: number): void {
     this.userService.getUser(userId).subscribe({
-      next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
+      next: (userData: UserRequest) => { 
         this.userData = userData;
-        this.idControl = this.userData?.idUsuario;
-        this.formularioUsuario.patchValue(this.userData);
+        this.idUsuario = userData.idUsuario;
+        this.idCliente = userData.idCliente;
+        this.idLibreria = userData.idLibreria;
+
+        // Parchear los formularios con los datos del usuario
+        this.formularioUsuario.patchValue(userData);
+        this.formularioCliente.patchValue(userData);
+        this.formularioLibreria.patchValue(userData);
       },
       error: (errorData) => {
         this.errorMessage = errorData;
-      },
-      complete: () => {
-        //console.info("User Data ok");
       }
     });
   }
@@ -98,15 +115,76 @@ export class UserDetailsComponent implements OnInit {
    */
   saveUserDetailsData() {
     if (this.formularioUsuario.valid) {
-      if (this.idControl) {
-        this.userService.updateUser(this.idControl, this.formularioUsuario.value).subscribe({
-          next: () => {
-            this.editMode = false;
-            this.userData = this.formularioUsuario.value;
-          },
-          error: (errorData) => console.error(errorData)
-        });
-      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.userService.updateUser(this.idUsuario, this.formularioUsuario.value).subscribe({
+        next: () => {
+          this.editMode = false;
+          this.loadUserData(this.idUsuario);  // Recargar los datos del usuario después de guardar
+          this.showSuccessAlert('Contraseña de acceso guardada correctamente.');
+        },
+        error: (errorData) => {
+          console.error(errorData);
+          this.showWarningAlert('Error al guardar los datos del usuario.');
+        }
+      });
     }
+  }
+
+  /**
+   * Guarda los datos del cliente actualizados.
+   */
+  saveClientDetailsData() {
+    if (this.formularioCliente.valid) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.userService.updateClient(this.idCliente, this.formularioCliente.value).subscribe({
+        next: () => {
+          this.editMode = false;
+          this.loadUserData(this.idUsuario);  // Recargar los datos del usuario después de guardar
+          this.showSuccessAlert('Datos del cliente guardados correctamente.');
+        },
+        error: (errorData) => {
+          console.error(errorData);
+          this.showWarningAlert('Error al guardar los datos del cliente. Ya existe un cliente con ese nombre.');
+        }
+      });
+    }
+  }
+
+  /**
+   * Guarda los datos de la librería actualizados.
+   */
+  saveLibraryDetailsData() {
+    if (this.formularioLibreria.valid) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.userService.updateLibrary(this.idLibreria, this.formularioLibreria.value).subscribe({
+        next: () => {
+          this.editMode = false;
+          this.loadUserData(this.idUsuario);  // Recargar los datos del usuario después de guardar
+          this.showSuccessAlert('Datos de la librería guardados correctamente.');
+        },
+        error: (errorData) => {
+          console.error(errorData);
+          this.showWarningAlert('Error al guardar los datos de la librería. Nombre de libreria ya utilizado.');
+        }
+      });
+    }
+  }
+
+  // Método para mostrar una alerta de éxito
+  showSuccessAlert(message: string) {
+    this.guardadoExitoso = true;
+    this.successMessage = message;
+    setTimeout(() => {
+      this.guardadoExitoso = false;
+    }, 4000);
+  }
+
+  // Método para mostrar una alerta de advertencia
+  showWarningAlert(message: string) {
+    this.warningMessage = message;
+    this.alertaConflicto = true;
+    setTimeout(() => {
+      this.alertaConflicto = false;
+    }, 4000);
   }
 }

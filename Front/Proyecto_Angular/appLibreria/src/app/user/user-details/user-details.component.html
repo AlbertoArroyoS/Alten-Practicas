@@ -1,140 +1,183 @@
-<div *ngIf="(userLoginOn$ | async) && userData?.role === 'USER'" class="card mb-4">
-  <div class="card-header card-padding">
-    <h5>Información del Usuario</h5>
+<!-- Contenedor principal -->
+<div class="container">
+  <!-- Mensajes de éxito y advertencia -->
+  <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
+    {{ successMessage }}
   </div>
-  <div class="card-body card-padding">
-    <p class="card-text"><strong>Username:</strong> {{userData?.username}}</p>
-    <p class="card-text"><strong>ID Usuario:</strong> {{userData?.idUsuario}}</p>
-    <p class="card-text"><strong>Nombre:</strong> {{userData?.nombre}}</p>
-    <p class="card-text"><strong>Apellido:</strong> {{userData?.apellidos}}</p>
-    <p class="card-text"><strong>Email:</strong> {{userData?.email}}</p>
-    <p class="card-text"><strong>Role:</strong> {{userData?.role}}</p>
-    <p class="card-text"><strong>ID Cliente:</strong> {{userData?.idCliente}}</p>
-    <p class="card-text"><strong>ID Librería:</strong> {{userData?.idLibreria}}</p>
-    <p class="card-text"><strong>Nombre Librería:</strong> {{userData?.nombreLibreria}}</p>
-    <p class="card-text"><strong>Nombre Dueño:</strong> {{userData?.nombreDueno}}</p>
-    <p class="card-text"><strong>Dirección:</strong> {{userData?.direccion}}</p>
-    <p class="card-text"><strong>Ciudad:</strong> {{userData?.ciudad}}</p>
-    <button *ngIf="!editMode" (click)="editMode=true" class="btn btn-dark">
-      <img src="https://cdn.icon-icons.com/icons2/1572/PNG/96/3592815-compose-create-edit-edit-file-office-pencil-writing_107734.png" width="8%" alt="editar" />
-      Editar Datos Personales
-    </button>
-  </div>
-</div>
 
-<div *ngIf="(userLoginOn$ | async) && userData?.role === 'ADMIN'" class="card mb-4">
-  <div class="card-header card-padding">
-    <h5>Información del Administrador</h5>
+  <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
+    {{ warningMessage }}
   </div>
-  <div class="card-body card-padding">
-    <p class="card-text"><strong>Username:</strong> {{userData?.username}}</p>
-    <p class="card-text"><strong>ID Usuario:</strong> {{userData?.idUsuario}}</p>
-    <p class="card-text"><strong>Enabled:</strong> {{userData?.enabled}}</p>
-    <p class="card-text"><strong>Role:</strong> {{userData?.role}}</p>
-  </div>
-</div>
 
-<div *ngIf="(userLoginOn$ | async) && userData?.role === 'USER' && editMode" class="card mb-4">
-  <div class="card-header card-padding">
-    <h5>Editar Información del Usuario</h5>
+  <div *ngIf="userLoginOn$ | async" class="card mb-4">
+    <div class="card-header card-padding">
+      <h5>Información del Usuario</h5>
+    </div>
+    <div class="card-body card-padding">
+      <p class="card-text"><strong>Username:</strong> {{userData?.username}}</p>
+      <p class="card-text"><strong>ID Usuario:</strong> {{userData?.idUsuario}}</p>
+      <p class="card-text"><strong>Nombre:</strong> {{userData?.nombre}}</p>
+      <p class="card-text"><strong>Apellido:</strong> {{userData?.apellidos}}</p>
+      <p class="card-text"><strong>Email:</strong> {{userData?.email}}</p>
+      <p class="card-text"><strong>Role:</strong> {{userData?.role}}</p>
+      <p class="card-text"><strong>ID Cliente:</strong> {{userData?.idCliente}}</p>
+      <p class="card-text"><strong>ID Librería:</strong> {{userData?.idLibreria}}</p>
+      <p class="card-text"><strong>Nombre Librería:</strong> {{userData?.nombreLibreria}}</p>
+      <p class="card-text"><strong>Nombre Dueño:</strong> {{userData?.nombreDueno}}</p>
+      <p class="card-text"><strong>Dirección:</strong> {{userData?.direccion}}</p>
+      <p class="card-text"><strong>Ciudad:</strong> {{userData?.ciudad}}</p>
+      <button *ngIf="!editMode" (click)="editMode=true" class="btn btn-dark">
+        <img src="https://cdn.icon-icons.com/icons2/1572/PNG/96/3592815-compose-create-edit-edit-file-office-pencil-writing_107734.png" width="8%" alt="editar" />
+        Editar Datos Personales
+      </button>
+    </div>
   </div>
-  <div class="card-body card-padding">
-    <form *ngIf="editMode" [formGroup]="formularioUsuario">
-      <div class="form-group row">
-        <label for="inputUsername" class="col-sm-2 col-form-label">Username</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="username" class="form-control" id="inputUsername">
-          <div *ngIf="formularioUsuario.controls['username'].invalid && (formularioUsuario.controls['username'].dirty || formularioUsuario.controls['username'].touched)" class="text-danger">
-            <div *ngIf="formularioUsuario.controls['username'].errors?.['required']">
-              El Username es requerido.
+
+  <!-- Formulario para datos de usuario -->
+  <div *ngIf="editMode" class="card mb-4">
+    <div class="card-header card-padding">
+      <h5>Editar Información del Usuario</h5>
+    </div>
+    <div class="card-body card-padding">
+      <form [formGroup]="formularioUsuario">
+        <div class="form-group row">
+          <label for="inputUsername" class="col-sm-2 col-form-label">Username</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="username" class="form-control" id="inputUsername">
+            <div *ngIf="formularioUsuario.controls['username'].invalid && (formularioUsuario.controls['username'].dirty || formularioUsuario.controls['username'].touched)" class="text-danger">
+              <div *ngIf="formularioUsuario.controls['username'].errors?.['required']">
+                El Username es requerido.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="nombre" class="form-control" id="inputNombre">
-          <div *ngIf="formularioUsuario.controls['nombre'].invalid && (formularioUsuario.controls['nombre'].dirty || formularioUsuario.controls['nombre'].touched)" class="text-danger">
-            <div *ngIf="formularioUsuario.controls['nombre'].errors?.['required']">
-              El Nombre es requerido.
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="password" class="form-control" id="inputPassword">
+            <div *ngIf="formularioUsuario.controls['password'].invalid && (formularioUsuario.controls['password'].dirty || formularioUsuario.controls['password'].touched)" class="text-danger">
+              <div *ngIf="formularioUsuario.controls['password'].errors?.['required']">
+                El Password es requerido.
+              </div>
+              <div *ngIf="formularioUsuario.controls['password'].errors?.['minlength']">
+                El Password debe tener al menos 6 caracteres.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputApellidos" class="col-sm-2 col-form-label">Apellidos</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="apellidos" class="form-control" id="inputApellidos">
-          <div *ngIf="formularioUsuario.controls['apellidos'].invalid && (formularioUsuario.controls['apellidos'].dirty || formularioUsuario.controls['apellidos'].touched)" class="text-danger">
-            <div *ngIf="formularioUsuario.controls['apellidos'].errors?.['required']">
-              El Apellido es requerido.
+        <div class="text-center mt-3">
+          <button type="submit" (click)="saveUserDetailsData()" class="btn btn-dark" [disabled]="formularioUsuario.invalid">Guardar Usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Formulario para datos de cliente -->
+  <div *ngIf="editMode" class="card mb-4">
+    <div class="card-header card-padding">
+      <h5>Editar Información del Cliente</h5>
+    </div>
+    <div class="card-body card-padding">
+      <form [formGroup]="formularioCliente">
+        <div class="form-group row">
+          <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="nombre" class="form-control" id="inputNombre">
+            <div *ngIf="formularioCliente.controls['nombre'].invalid && (formularioCliente.controls['nombre'].dirty || formularioCliente.controls['nombre'].touched)" class="text-danger">
+              <div *ngIf="formularioCliente.controls['nombre'].errors?.['required']">
+                El Nombre es requerido.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-10">
-          <input type="email" formControlName="email" class="form-control" id="inputEmail">
-          <div *ngIf="formularioUsuario.controls['email'].invalid && (formularioUsuario.controls['email'].dirty || formularioUsuario.controls['email'].touched)" class="text-danger">
-            <div *ngIf="formularioUsuario.controls['email'].errors?.['required']">
-              El Email es requerido.
-            </div>
-            <div *ngIf="formularioUsuario.controls['email'].errors?.['email']">
-              Email no válido.
+        <div class="form-group row">
+          <label for="inputApellidos" class="col-sm-2 col-form-label">Apellidos</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="apellidos" class="form-control" id="inputApellidos">
+            <div *ngIf="formularioCliente.controls['apellidos'].invalid && (formularioCliente.controls['apellidos'].dirty || formularioCliente.controls['apellidos'].touched)" class="text-danger">
+              <div *ngIf="formularioCliente.controls['apellidos'].errors?.['required']">
+                El Apellido es requerido.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputNombreLibreria" class="col-sm-2 col-form-label">Nombre Librería</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="nombreLibreria" class="form-control" id="inputNombreLibreria">
-          <div *ngIf="formularioUsuario.controls['nombreLibreria'].invalid && (formularioUsuario.controls['nombreLibreria'].dirty || formularioUsuario.controls['nombreLibreria'].touched)" class="text-danger">
-            <div *ngIf="formularioUsuario.controls['nombreLibreria'].errors?.['required']">
-              El Nombre Librería es requerido.
+        <div class="form-group row">
+          <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" formControlName="email" class="form-control" id="inputEmail">
+            <div *ngIf="formularioCliente.controls['email'].invalid && (formularioCliente.controls['email'].dirty || formularioCliente.controls['email'].touched)" class="text-danger">
+              <div *ngIf="formularioCliente.controls['email'].errors?.['required']">
+                El Email es requerido.
+              </div>
+              <div *ngIf="formularioCliente.controls['email'].errors?.['email']">
+                Email no válido.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputNombreDueno" class="col-sm-2 col-form-label">Nombre Dueño</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="nombreDueno" class="form-control" id="inputNombreDueno">
-          <div *ngIf="formularioUsuario.controls['nombreDueno'].invalid && (formularioUsuario.controls['nombreDueno'].dirty || formularioUsuario.controls['nombreDueno'].touched)" class="text-danger">
-            <div *ngIf="formularioUsuario.controls['nombreDueno'].errors?.['required']">
-              El Nombre Dueño es requerido.
+        <div class="text-center mt-3">
+          <button type="submit" (click)="saveClientDetailsData()" class="btn btn-dark">Guardar Cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Formulario para datos de librería -->
+  <div *ngIf="editMode" class="card mb-4">
+    <div class="card-header card-padding">
+      <h5>Editar Información de la Librería</h5>
+    </div>
+    <div class="card-body card-padding">
+      <form [formGroup]="formularioLibreria">
+        <div class="form-group row">
+          <label for="inputNombreLibreria" class="col-sm-2 col-form-label">Nombre Librería</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="nombreLibreria" class="form-control" id="inputNombreLibreria">
+            <div *ngIf="formularioLibreria.controls['nombreLibreria'].invalid && (formularioLibreria.controls['nombreLibreria'].dirty || formularioLibreria.controls['nombreLibreria'].touched)" class="text-danger">
+              <div *ngIf="formularioLibreria.controls['nombreLibreria'].errors?.['required']">
+                El Nombre Librería es requerido.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="inputDireccion" class="col-sm-2 col-form-label">Dirección</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="direccion" class="form-control" id="inputDireccion">
-          <div *ngIf="formularioUsuario.controls['direccion'].invalid && (formularioUsuario.controls['direccion'].dirty || formularioUsuario.controls['direccion'].touched)" class="text-danger">
-            <div *ngIf="formularioUsuario.controls['direccion'].errors?.['required']">
-              La Dirección es requerida.
+        <div class="form-group row">
+          <label for="inputNombreDueno" class="col-sm-2 col-form-label">Nombre Dueño</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="nombreDueno" class="form-control" id="inputNombreDueno">
+            <div *ngIf="formularioLibreria.controls['nombreDueno'].invalid && (formularioLibreria.controls['nombreDueno'].dirty || formularioLibreria.controls['nombreDueno'].touched)" class="text-danger">
+              <div *ngIf="formularioLibreria.controls['nombreDueno'].errors?.['required']">
+                El Nombre Dueño es requerido.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group row border-bottom pb-3">
-        <label for="inputCiudad" class="col-sm-2 col-form-label">Ciudad</label>
-        <div class="col-sm-10">
-          <input type="text" formControlName="ciudad" class="form-control" id="inputCiudad">
-          <div *ngIf="formularioUsuario.controls['ciudad'].invalid && (formularioUsuario.controls['ciudad'].dirty || formularioUsuario.controls['ciudad'].touched)" class="text-danger">
-            <div *ngIf="formularioUsuario.controls['ciudad'].errors?.['required']">
-              La Ciudad es requerida.
+        <div class="form-group row">
+          <label for="inputDireccion" class="col-sm-2 col-form-label">Dirección</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="direccion" class="form-control" id="inputDireccion">
+            <div *ngIf="formularioLibreria.controls['direccion'].invalid && (formularioLibreria.controls['direccion'].dirty || formularioLibreria.controls['direccion'].touched)" class="text-danger">
+              <div *ngIf="formularioLibreria.controls['direccion'].errors?.['required']">
+                La Dirección es requerida.
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="text-center mt-3">
-        <button type="submit" (click)="saveUserDetailsData()" class="btn btn-dark">Guardar</button>
-        <button type="button" (click)="editMode=false" class="btn btn-danger">Cancelar</button>
-      </div>
-    </form>
+        <div class="form-group row">
+          <label for="inputCiudad" class="col-sm-2 col-form-label">Ciudad</label>
+          <div class="col-sm-10">
+            <input type="text" formControlName="ciudad" class="form-control" id="inputCiudad">
+            <div *ngIf="formularioLibreria.controls['ciudad'].invalid && (formularioLibreria.controls['ciudad'].dirty || formularioLibreria.controls['ciudad'].touched)" class="text-danger">
+              <div *ngIf="formularioLibreria.controls['ciudad'].errors?.['required']">
+                La Ciudad es requerida.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <button type="submit" (click)="saveLibraryDetailsData()" class="btn btn-dark">Guardar Librería</button>
+        </div>
+      </form>
+      <button type="button" (click)="editMode=false" class="btn btn-danger">Cancelar</button>
+    </div>
   </div>
 </div>

@@ -9,6 +9,7 @@ import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.LoginDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.RegisterDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
+import com.alten.practica.modelo.entidad.dto.request.UsuarioSimpleDTORequest;
 
 /*
  * Interfaz para el servicio de autenticación.
@@ -26,7 +27,7 @@ public interface IAuthService {
 	
 	public HrefEntityDTO updateAdmin(UsuarioDTORequest dto, int id);
 	
-	public HrefEntityDTO updateUser(RegisterDTORequest request, int id);
+	public HrefEntityDTO updateUser(UsuarioSimpleDTORequest request, int id);
 	
 	public UsuarioDTO findById(int id);
 	

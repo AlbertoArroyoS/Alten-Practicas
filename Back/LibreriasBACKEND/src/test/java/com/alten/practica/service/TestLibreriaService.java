@@ -62,7 +62,7 @@ public class TestLibreriaService {
     @DisplayName("Test para guardar una nueva librería")
     @Test
     public void testSave() {
-        LibreriaDTORequest dtoRequest = new LibreriaDTORequest("NombreLibreria", "NombreDueño", "Dirección", "Ciudad", "correo@example.com");
+        LibreriaDTORequest dtoRequest = new LibreriaDTORequest("NombreLibreria", "NombreDueño", "Dirección", "Ciudad");
         Libreria libreria = new Libreria();
         libreria.setId(1);
         when(libreriaRepository.findByNombreLibreria("NombreLibreria")).thenReturn(Optional.empty());
@@ -123,7 +123,7 @@ public class TestLibreriaService {
     @DisplayName("Test para actualizar una librería")
     @Test
     public void testUpdate() {
-        LibreriaDTORequest dtoRequest = new LibreriaDTORequest("NombreLibreria", "NombreDueño", "Dirección", "Ciudad", "correo@example.com");
+        LibreriaDTORequest dtoRequest = new LibreriaDTORequest("NombreLibreria", "NombreDueño", "Dirección", "Ciudad");
         Libreria libreria = new Libreria();
         libreria.setId(1);
         when(libreriaRepository.findById(1)).thenReturn(Optional.of(libreria));

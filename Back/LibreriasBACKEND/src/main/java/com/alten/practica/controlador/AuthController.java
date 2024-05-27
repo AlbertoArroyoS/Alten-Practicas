@@ -13,6 +13,7 @@ import com.alten.practica.modelo.entidad.dto.AuthDTO;
 import com.alten.practica.modelo.entidad.dto.request.LoginDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.RegisterDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
+import com.alten.practica.modelo.entidad.dto.request.UsuarioSimpleDTORequest;
 import com.alten.practica.service.impl.AuthServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -66,8 +67,8 @@ public class AuthController {
 	/*
 	 * Endpoint para actualizar un administrador.
 	 */
-    @PutMapping(value = "update/users/{id}")
-	public ResponseEntity<HrefEntityDTO> update(@RequestBody RegisterDTORequest dto, @PathVariable("id") int id) {
+    @PutMapping(value = "update/users/user/{id}")
+	public ResponseEntity<HrefEntityDTO> update(@RequestBody UsuarioSimpleDTORequest dto, @PathVariable("id") int id) {
 
 		return ResponseEntity.ok(authService.updateUser(dto, id));
 	}

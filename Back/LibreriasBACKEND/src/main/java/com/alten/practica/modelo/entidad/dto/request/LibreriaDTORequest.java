@@ -1,6 +1,5 @@
 package com.alten.practica.modelo.entidad.dto.request;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -53,9 +52,6 @@ public class LibreriaDTORequest {
 	@Size(min = 2, max = 250, message = "El nombre de la ciudad debe tener entre 2 y 250 caracteres")
 	private String ciudad;
 
-	@NotNull(message = "El email no puede ser nulo")
-	@NotBlank(message = "El email no puede estar vacío")
-	@Email(message = "El formato del email no es válido")
-	private String email;
+
 
 }

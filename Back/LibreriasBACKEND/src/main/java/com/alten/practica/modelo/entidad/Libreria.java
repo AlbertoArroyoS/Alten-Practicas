@@ -45,10 +45,6 @@ public class Libreria {
 	private String direccion;
 	@Column(name = "ciudad")
 	private String ciudad;
-	@Column(name = "nivel_permiso")
-	private int nivelPermiso;
-	@Column(name = "email")
-	private String email;
 	
 	@OneToMany(mappedBy = "libreria")
 	private List<LibreriaLibro> libreriaLibros;
