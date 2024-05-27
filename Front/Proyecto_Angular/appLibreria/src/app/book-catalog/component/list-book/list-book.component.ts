@@ -346,6 +346,9 @@ export class ListBookComponent implements OnInit, OnDestroy {
             this.book = response;
             modal.close(); // Cierra el modal actual
             this.showSuccessAlert('Libro agregado a la librería correctamente.');
+            this.addBookForm.reset(); // Resetea el formulario después de cerrar el modal
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
           },
           error: (error) => {
             this.showWarningAlert('Conflicto al agregar el libro a la librería.');
