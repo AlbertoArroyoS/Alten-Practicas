@@ -18,7 +18,7 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
   totalPaginas?: number[];
   currentPage: number = 0;
   pageSize: number = 10;
-  paginacion: boolean = true;
+  paginacion: boolean = true; // Siempre verdadero
   public title: string = 'Libros Comprados';
   userLoginOn$: Observable<boolean>;
   user$: Observable<AuthResponse | null>;
@@ -53,7 +53,6 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
       })
     );
   }
-  
 
   ngOnDestroy(): void {
     // Desuscribirse de todas las suscripciones
@@ -113,11 +112,11 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
             (_, i) => i + 1
           );
           this.currentPage = data.number;
-          this.paginacion = data.totalPages > 1;
+          this.paginacion = true; // Mostrar siempre la paginación
           
-          //console.log('Total Paginas:', this.totalPaginas);
-          //console.log('Current Page:', this.currentPage);
-          //console.log('Paginacion:', this.paginacion);
+          console.log('Total Paginas:', this.totalPaginas);
+          console.log('Current Page:', this.currentPage);
+          console.log('Paginacion:', this.paginacion);
         },
         error: (error) => {
           this.errorMessage = 'Error al cargar la lista de libros.';
