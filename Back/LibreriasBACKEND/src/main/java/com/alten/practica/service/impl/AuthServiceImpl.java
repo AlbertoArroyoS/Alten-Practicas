@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alten.practica.errorhandler.EntityNotFoundException;
+import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.Cliente;
 import com.alten.practica.modelo.entidad.Libreria;
 import com.alten.practica.modelo.entidad.Usuario;
@@ -28,6 +29,7 @@ import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IAuthService;
 import com.alten.practica.service.jwt.JwtService;
+import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 import com.alten.practica.util.Role;
 
@@ -138,7 +140,7 @@ public class AuthServiceImpl implements IAuthService {
 	}
 
 	@Override
-	public AuthDTO registerAdmin(UsuarioDTORequest dto) {
+	public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
 
 		Usuario usuario = Usuario.builder().username(dto.getUsername())
 				.password(passwordEncoder.encode(dto.getPassword())).role(Role.ADMIN).enabled((byte) 1).build();
@@ -147,19 +149,21 @@ public class AuthServiceImpl implements IAuthService {
 		usuario = usuarioRepository.save(usuario);
 
 		// Generar un token de autenticación para el usuario
-		String token = jwtService.getToken(usuario);
+		//String token = jwtService.getToken(usuario);
 
-		return AuthDTO.builder().token(token).build();
+		//return UsuarioAdminDTO.builder().build();
+		
+		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
 	@Override
-	public AuthDTO updateAdmin(UsuarioDTORequest dto, int id) {
+	public HrefEntityDTO updateAdmin(UsuarioDTORequest dto, int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UsuarioDTO updateUser(RegisterDTORequest request, int id) {
+	public HrefEntityDTO updateUser(RegisterDTORequest request, int id) {
 		// Crear y guardar un nuevo Cliente
 		clienteRepository.findByNombreAndApellidos(request.getNombre(), request.getApellidos()).ifPresent(a -> {
 			throw new IllegalStateException("Cliente con el nombre '" + request.getNombre() + "' y apellidos '"
@@ -209,7 +213,9 @@ public class AuthServiceImpl implements IAuthService {
 		String token = jwtService.getToken(usuario);
 
 		// Devolver el DTO de autenticación 
-		return UsuarioDTO.builder().build();
+		//return UsuarioDTO.builder().build();
+		
+		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
 	@Transactional(readOnly = true)

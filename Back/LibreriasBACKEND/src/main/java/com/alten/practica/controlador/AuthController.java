@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alten.practica.errorhandler.HrefEntityDTO;
 import com.alten.practica.modelo.entidad.dto.AuthDTO;
-import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.LoginDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.RegisterDTORequest;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
@@ -59,7 +59,7 @@ public class AuthController {
      * Endpoint para registrar un nuevo administrador.
      */
     @PostMapping(value = "register/admins")
-    public ResponseEntity<AuthDTO> registerAdmin(@RequestBody UsuarioDTORequest request) {
+    public ResponseEntity<HrefEntityDTO> registerAdmin(@RequestBody UsuarioDTORequest request) {
         return ResponseEntity.ok(authService.registerAdmin(request));
     }
     
@@ -67,7 +67,7 @@ public class AuthController {
 	 * Endpoint para actualizar un administrador.
 	 */
     @PutMapping(value = "update/users/{id}")
-	public ResponseEntity<UsuarioDTO> update(@RequestBody RegisterDTORequest dto, @PathVariable("id") int id) {
+	public ResponseEntity<HrefEntityDTO> update(@RequestBody RegisterDTORequest dto, @PathVariable("id") int id) {
 
 		return ResponseEntity.ok(authService.updateUser(dto, id));
 	}
