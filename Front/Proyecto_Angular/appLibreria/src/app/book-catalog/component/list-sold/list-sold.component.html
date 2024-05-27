@@ -1,1 +1,78 @@
-<p>list-sold works!</p>
+
+<div class="container">
+    <h1>Libros Comprados</h1>
+    <!-- Tabla de libros comprados -->
+    <div class="tablaLibros">
+      <table class="table table-striped table-hover shadow">
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">ID Factura</th>
+            <th scope="col">Id Cliente</th>
+            <th scope="col">Nombre comprador</th>
+            <th scope="col">Apellidos comprador</th>
+            <th scope="col">Id Libro</th>
+            <th scope="col">Titulo libro</th>
+            <th scope="col">Fecha venta</th>
+            <th scope="col">Precio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Lista de libros comprados -->
+          <tr *ngFor="let item of librosCompra">
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.idCliente }}</td>
+            <td>{{ item.nombreCliente }}</td>
+            <td>{{ item.apellidosCliente }}</td>
+            <td>{{ item.idLibro }}</td>
+            <td>{{ item.tituloLibro }}</td>
+            <td>{{ item.fechaCompra }}</td>
+            <td>{{ item.precio | currency : "EUR" : "symbol" }}</td>
+            <!-- Botón para opciones -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Paginación -->
+    <div *ngIf="paginacion">
+      <ul *ngIf="totalPaginas && totalPaginas.length > 0" class="pagination">
+        <!-- Botón "Anterior" -->
+        <li [class.disabled]="currentPage <= 0">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage <= 0"
+            class="page-link"
+          >
+            Anterior
+          </button>
+        </li>
+  
+        <!-- Números de página -->
+        <li
+          *ngFor="let page of totalPaginas"
+          [class.active]="currentPage === page - 1"
+          class="page-item"
+        >
+          <a (click)="changePage(page - 1)" class="page-link">{{ page }}</a>
+        </li>
+  
+        <!-- Botón "Siguiente" -->
+        <li [class.disabled]="currentPage >= totalPaginas.length - 1">
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage >= totalPaginas.length - 1"
+            class="page-link"
+          >
+            Siguiente
+          </button>
+        </li>
+      </ul>
+      <!-- Selector de tamaño de página -->
+      <select (change)="changePageSize($event)">
+        <option *ngFor="let size of [10, 20, 50, 100]" [value]="size">
+          {{ size }}
+        </option>
+      </select>
+    </div>
+  </div>
+  

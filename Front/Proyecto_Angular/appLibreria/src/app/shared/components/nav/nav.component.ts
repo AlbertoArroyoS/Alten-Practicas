@@ -51,6 +51,10 @@ export class NavComponent {
   public goToPurchases(): void {
     this.router.navigate(['book-catalog/purchases']);
   }
+
+  public goToSold(): void {
+    this.router.navigate(['book-catalog/solds']);
+  }
   public goToNewUser(): void {
     this.router.navigate(['admin/add-user']);
   }

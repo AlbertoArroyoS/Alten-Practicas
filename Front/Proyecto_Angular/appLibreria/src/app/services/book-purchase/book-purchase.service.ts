@@ -10,6 +10,7 @@ export class BookPurchaseService {
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/compras';
   private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/compras/compra';
   private SEARCH_ENDPOINT = 'libro'; 
+  private SEARCH_VENTAS = 'http://localhost:8080/v1/app-libreria/ventas/libreria';
 
   constructor(
     private httpClient: HttpClient
@@ -36,7 +37,7 @@ export class BookPurchaseService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.httpClient.get(`${this.API_SERVER2}/cliente/${idCliente}`, { params: params });
+    return this.httpClient.get(`${this.SEARCH_VENTAS}/${idCliente}`, { params: params });
   }
 
   public purchaseBook(purchaseData: { fechaCompra: string, precio: number, idCliente: number, idLibro: number, idLibreria: number, idLibreriaLibro: number }): Observable<any> {
