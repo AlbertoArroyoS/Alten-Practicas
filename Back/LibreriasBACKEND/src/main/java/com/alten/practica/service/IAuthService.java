@@ -17,7 +17,7 @@ import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
 public interface IAuthService {
 
 	// Metodo para registrar un usuario
-	public AuthDTO register(RegisterDTORequest request);
+	public HrefEntityDTO register(RegisterDTORequest request);
 
 	// Metodo para loguear un usuario
 	public AuthDTO login(LoginDTORequest request);

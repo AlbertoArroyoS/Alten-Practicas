@@ -52,7 +52,7 @@ public class AuthController {
      * @return ResponseEntity con AuthDTO que contiene el token de autenticación
      */
     @PostMapping(value = "register")
-    public ResponseEntity<AuthDTO> register(@RequestBody RegisterDTORequest request) {
+    public ResponseEntity<HrefEntityDTO> register(@RequestBody RegisterDTORequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
     /*

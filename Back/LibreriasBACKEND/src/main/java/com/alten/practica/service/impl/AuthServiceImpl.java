@@ -112,7 +112,7 @@ public class AuthServiceImpl implements IAuthService {
 	 * @return AuthDTO que contiene el token de autenticación
 	 */
 	@Override
-	public AuthDTO register(RegisterDTORequest request) {
+	public HrefEntityDTO register(RegisterDTORequest request) {
 		// Crear y guardar un nuevo Cliente
 		Cliente cliente = Cliente.builder().nombre(request.getNombre()).apellidos(request.getApellidos())
 				.email(request.getEmail()).build();
@@ -133,10 +133,12 @@ public class AuthServiceImpl implements IAuthService {
 		usuario = usuarioRepository.save(usuario);
 
 		// Generar un token de autenticación para el usuario
-		String token = jwtService.getToken(usuario);
+		//String token = jwtService.getToken(usuario);
 
 		// Devolver el DTO de autenticación con el token
-		return AuthDTO.builder().token(token).build();
+		//return AuthDTO.builder().token(token).build();
+		
+		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
 	@Override
