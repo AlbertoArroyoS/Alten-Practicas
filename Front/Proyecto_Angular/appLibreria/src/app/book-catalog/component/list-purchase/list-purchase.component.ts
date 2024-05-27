@@ -45,7 +45,6 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
         next: (userData) => {
           if (userData) {
             this.loadUserData(userData.idUsuario);
-            //console.log('User Data:', userData);          
           }
         },
         error: (error) => {
@@ -54,10 +53,8 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
         }
       })
     );
-
-    // Realizar una carga inicial de las compras del cliente al inicializar el componente
-    this.loadClientPurchases(this.currentPage, this.pageSize);
   }
+  
 
   ngOnDestroy(): void {
     // Desuscribirse de todas las suscripciones
@@ -65,27 +62,31 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Carga los datos del usuario desde el servicio de usuario.
-   * @param userId El ID del usuario.
-   */
-  loadUserData(userId: number): void {
-    this.userService.getUser(userId).subscribe({
-      next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
-        this.idUsuario = userData.idUsuario;
-        //console.log('ID Usuario:', this.idUsuario);
-        this.idCliente = userData.idCliente;
-        //console.log('ID Cliente:', this.idCliente);
-        this.idLibreria = userData.idLibreria;
-        //console.log('ID Libreria:', this.idLibreria);
-      },
-      error: (errorData) => {
-        this.errorMessage = errorData;
-      },
-      complete: () => {
-        //console.info("User Data ok");
-      }
-    });
-  }
+ * Carga los datos del usuario desde el servicio de usuario.
+ * @param userId El ID del usuario.
+ */
+loadUserData(userId: number): void {
+  this.userService.getUser(userId).subscribe({
+    next: (userData: UserRequest) => { // Asegúrate de que el tipo es UserRequest
+      this.idUsuario = userData.idUsuario;
+      this.idCliente = userData.idCliente;
+      this.idLibreria = userData.idLibreria;
+      //console.log('ID Usuario:', this.idUsuario);
+      //console.log('ID Cliente:', this.idCliente);
+      //console.log('ID Libreria:', this.idLibreria);
+
+      // Cargar las compras del cliente después de obtener los datos del usuario
+      this.loadClientPurchases(0, this.pageSize);
+    },
+    error: (errorData) => {
+      this.errorMessage = errorData;
+    },
+    complete: () => {
+      //console.info("User Data ok");
+    }
+  });
+}
+
 
   // Método para recargar la tabla de libros comprados
   recargarTablaLibros(): void {
@@ -108,16 +109,9 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
 
   // Método para cargar las compras del cliente
   private loadClientPurchases(page: number, size: number): void {
+    //console.log('ID Cliente load purchase:', this.idCliente);
     this.subscription.add(
-      this.user$.pipe(
-        switchMap(userData => {
-          if (userData) {
-            return this.librosCompradosService.getClientPurchases(userData.idUsuario, page, size);
-          } else {
-            return [];
-          }
-        })
-      ).subscribe({
+      this.librosCompradosService.getClientPurchases(this.idCliente, this.currentPage, this.pageSize).subscribe({
         next: (data) => {
           this.librosCompra = Array.isArray(data.content) ? data.content : [];
           this.totalPaginas = Array.from(
@@ -125,14 +119,16 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
             (_, i) => i + 1
           );
           this.currentPage = data.number;
+          this.paginacion = data.totalPages > 1;
         },
         error: (error) => {
-          this.errorMessage = 'Error al cargar las compras del cliente.';
-          console.error('Error fetching client purchases', error);
+          this.errorMessage = 'Error al cargar la lista de libros.';
+          console.error('Error fetching books', error);
         }
       })
     );
   }
+  
 }
 
 
