@@ -56,7 +56,7 @@ public class ClienteCompraLibroController {
 	 *         de libros. El estado HTTP de la respuesta es 200 (OK) si la operación es exitosa.
 	 */
 	@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS)
-	public ResponseEntity<Page<ClienteCompraLibroDTO>> findAll(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
+	public ResponseEntity<Page<ClienteCompraLibroDTO>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
 		//return new ResponseEntity<>(this.clienteLibroService.findAll(), HttpStatus.OK); // 200 OK
 		
 		Page<ClienteCompraLibroDTO> page = clienteLibroService
@@ -176,7 +176,7 @@ public class ClienteCompraLibroController {
 			+LibreriaConstant.RESOURCE_CLIENTE + LibreriaConstant.RESOURCE_GENERIC_ID )
 	public ResponseEntity<Page<ClienteCompraLibroDTO>> findByIdCliente(
             @PathVariable("id") int id, 
-            @PageableDefault(size = 100, page = 0) Pageable pageable, 
+            @PageableDefault(size = 10, page = 0) Pageable pageable, 
             Model model) {
 
         Page<ClienteCompraLibroDTO> page = clienteLibroService.findByCliente(id, pageable);

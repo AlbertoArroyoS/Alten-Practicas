@@ -76,7 +76,7 @@ public class UsuarioController {
      */
 	@GetMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO
 			+ "/user")
-    public ResponseEntity<Page<UsuarioDTO>> findAllUser(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
+    public ResponseEntity<Page<UsuarioDTO>> findAllUser(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
 		
         //return usuarioService.findAllUser(pageable);
 		
@@ -107,7 +107,7 @@ public class UsuarioController {
 	
 	@GetMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO
 			+ "/admin")
-    public ResponseEntity<Page<UsuarioAdminDTO>> findAllAdmin(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
+    public ResponseEntity<Page<UsuarioAdminDTO>> findAllAdmin(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
 		
         //return usuarioService.findAllAdmin(pageable);
         

@@ -101,7 +101,7 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
           (_, i) => i + 1
         );
         this.currentPage = data.number;
-        console.log('DataNumber:', data.number);
+        //console.log('DataNumber:', data.number);
       })
     );
   }

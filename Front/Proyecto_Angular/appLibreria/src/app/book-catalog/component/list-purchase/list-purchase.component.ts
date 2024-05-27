@@ -76,7 +76,8 @@ loadUserData(userId: number): void {
       //console.log('ID Libreria:', this.idLibreria);
 
       // Cargar las compras del cliente después de obtener los datos del usuario
-      this.loadClientPurchases(0, 10);
+      //this.loadClientPurchases(0, 10);
+      this.cargarTablaLibros(0, 10);
     },
     error: (errorData) => {
       this.errorMessage = errorData;
@@ -127,6 +128,20 @@ loadUserData(userId: number): void {
       })
     );
   } 
+
+  cargarTablaLibros(page: number, size: number): void {
+    this.subscription.add(
+      this.librosCompradosService.getClientPurchases(this.idCliente,page, size).subscribe((data) => {
+        this.librosCompra = Array.isArray(data.content) ? data.content : [];
+        this.totalPaginas = Array.from(
+          { length: data.totalPages },
+          (_, i) => i + 1
+        );
+        this.currentPage = data.number;
+        //console.log('DataNumber:', data.number);
+      })
+    );
+  }
   
 }
 

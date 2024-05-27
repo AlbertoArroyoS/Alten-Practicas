@@ -61,7 +61,7 @@ public class LibreriaLibroController {
 	 *         operación.
 	 */
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS)
-	public ResponseEntity<Page<LibreriaLibroDTO>> findAll(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
+	public ResponseEntity<Page<LibreriaLibroDTO>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
 		//return new ResponseEntity<>(this.libreriaLibroService.findAll(), HttpStatus.OK); // 200 OK
 		
 		Page<LibreriaLibroDTO> page = libreriaLibroService
@@ -190,7 +190,7 @@ public class LibreriaLibroController {
      */
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA
 			+ LibreriaConstant.RESOURCE_LIBRERIA_ID)
-    public ResponseEntity<Page<LibreriaLibroDTO>> getBooksByAuthorId(@PathVariable int idLibreria, @PageableDefault(size = 100, page = 0) Pageable pageable, 
+    public ResponseEntity<Page<LibreriaLibroDTO>> getBooksByAuthorId(@PathVariable int idLibreria, @PageableDefault(size = 10, page = 0) Pageable pageable, 
             Model model) {
         //return libreriaLibroService.findByLibraryId(idLibreria, pageable);
 		
@@ -223,7 +223,7 @@ public class LibreriaLibroController {
      */
 	@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA +"/not"
 			+ LibreriaConstant.RESOURCE_LIBRERIA_ID)
-    public ResponseEntity<Page<LibreriaLibroDTO>> findByLibraryNotId(@PathVariable int idLibreria, @PageableDefault(size = 100, page = 0) Pageable pageable, 
+    public ResponseEntity<Page<LibreriaLibroDTO>> findByLibraryNotId(@PathVariable int idLibreria, @PageableDefault(size = 10, page = 0) Pageable pageable, 
             Model model) {
         //return libreriaLibroService.findByLibraryNotId(idLibreria, pageable);
         

@@ -77,7 +77,7 @@ public class LibroController {
 
 	// @GetMapping para listar todos las librerias de la base de datos
 	@GetMapping(LibreriaConstant.RESOURCE_LIBROS)
-	public ResponseEntity<Page<LibroDTO>> findAll(@PageableDefault(size = 100, page = 0) Pageable pageable, Model model) {
+	public ResponseEntity<Page<LibroDTO>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {
 		//return new ResponseEntity<>(this.libroService.findAll(), HttpStatus.OK); // 200 OK
 		Page<LibroDTO> page = libroService
 				.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
