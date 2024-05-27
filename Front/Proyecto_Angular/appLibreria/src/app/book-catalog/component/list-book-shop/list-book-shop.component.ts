@@ -114,7 +114,7 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.ventaLibroService.getBooksByIdLibreria(this.idLibreria, this.currentPage, this.pageSize).subscribe({
         next: (data) => {
-          console.log('*IdLibreria:', this.idLibreria);
+          //console.log('*IdLibreria:', this.idLibreria);
           //console.log('****Data:', data); // Para verificar los datos recibidos
           this.librosVenta = Array.isArray(data.content) ? data.content : [];
           //console.log('****Books:', this.librosVenta); // Para verificar que los libros se están asignando
