@@ -1,13 +1,50 @@
+<nav class="navbar2 navbar-expand-lg navbar-dark">
+  <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+    <ul class="navbar-nav align-items-center" style="cursor: pointer; width: 100%;">
+      <li class="nav-item mx-3">
+        <button
+          (click)="recargarTablaLibros()"
+          type="button"
+          class="btn navbar-button"
+        >
+          Tabla
+        </button>
+      </li>
+      <li class="nav-item mx-3">
+        <button (click)="botonNuevoLibro()" type="button" class="btn navbar-button">
+          Nuevo libro
+        </button>
+      </li>
+      <!-- Campo de búsqueda de libros -->
+      <li class="nav-item mx-3 search-bar">
+        <div class="input-group">
+          <input
+            #keywordInput
+            type="text"
+            class="form-control"
+            placeholder="Buscar..."
+            aria-label="Buscar"
+            aria-describedby="basic-addon2"
+          />
+          <!-- Botón para buscar libros -->
+          <div class="input-group-append">
+            <button
+              (click)="buscarLibros(keywordInput.value)"
+              class="btn btn-outline-secondary navbar-button2"
+              type="button"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
 <!-- Contenedor principal -->
 <div class="container">
-  <div class="row">
-    <!-- Enlace para recargar la tabla de libros -->
-    <span>
-      <a href="javascript:void(0)" (click)="recargarTablaLibros()">{{
-        title
-      }}</a>
-    </span>
-  </div>
   <!-- Formulario de registro de libros -->
   <div class="formularioRegistro">
     <!-- El formulario se envía al método guardarLibro() y se valida con formularioLibro -->
@@ -211,29 +248,6 @@
   </div>
 
   <br />
-  <!-- Campo de búsqueda de libros -->
-  <div>
-    <div class="input-group mb-3">
-      <input
-        #keywordInput
-        type="text"
-        class="form-control"
-        placeholder="Buscar..."
-        aria-label="Buscar"
-        aria-describedby="basic-addon2"
-      />
-      <!-- Botón para buscar libros -->
-      <div class="input-group-append">
-        <button
-          (click)="buscarLibros(keywordInput.value)"
-          class="btn btn-outline-secondary"
-          type="button"
-        >
-          Buscar
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- Contenedor para la tabla de libros y mensajes de éxito -->
@@ -245,10 +259,6 @@
   <!-- Encabezado de la tabla de libros -->
   <div class="EncabezadoTabla">
     <h1>Tabla de libros</h1>
-    <!-- Botón para crear un nuevo libro -->
-    <button (click)="botonNuevoLibro()" type="button" class="btn btn-dark">
-      Nuevo libro
-    </button>
   </div>
 
   <!-- Tabla de libros -->
@@ -283,7 +293,7 @@
             >
               Ver libro
             </button>
-            <button 
+            <button
               (click)="openAddBookModal(item.id)"
               type="button"
               class="btn btn-success"
@@ -385,7 +395,12 @@
 <ng-template #addBookModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Agregar Libro a Librería</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -393,25 +408,61 @@
     <form [formGroup]="addBookForm">
       <div class="form-group">
         <label for="cantidad">Cantidad</label>
-        <input type="number" id="cantidad" formControlName="cantidad" class="form-control" required>
+        <input
+          type="number"
+          id="cantidad"
+          formControlName="cantidad"
+          class="form-control"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="precio">Precio</label>
-        <input type="number" id="precio" formControlName="precio" class="form-control" required>
+        <input
+          type="number"
+          id="precio"
+          formControlName="precio"
+          class="form-control"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="edicion">Edición</label>
-        <input type="number" id="edicion" formControlName="edicion" class="form-control" required>
+        <input
+          type="number"
+          id="edicion"
+          formControlName="edicion"
+          class="form-control"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="fechaPublicacion">Fecha de Publicación</label>
-        <input type="text" id="fechaPublicacion" formControlName="fechaPublicacion" class="form-control" placeholder="dd-MM-yyyy" required>
+        <input
+          type="text"
+          id="fechaPublicacion"
+          formControlName="fechaPublicacion"
+          class="form-control"
+          placeholder="dd-MM-yyyy"
+          required
+        />
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancelar</button>
-    <button type="button" class="btn btn-primary" (click)="confirmAddBook(modal)">Agregar</button>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.dismiss('Cross click')"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="confirmAddBook(modal)"
+    >
+      Agregar
+    </button>
   </div>
 </ng-template>
-

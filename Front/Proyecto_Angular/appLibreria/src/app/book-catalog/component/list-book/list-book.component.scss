@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start; /* Para alinear el botón a la parte superior */
-  margin-top: 30px;
+  //margin-top: 30px;
 }
 
 .EncabezadoTabla h1 {
@@ -32,6 +32,55 @@ table td:nth-child(2) {
 }
 
 .container{
-  margin-top: 23px;
+  margin-top: 2px;
 }
 
+.navbar2 {
+  background-color: rgba(72, 67, 228, 1) !important;
+  padding-left: 60px;
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  margin: 0 10px; /* Separación entre los elementos */
+}
+
+.navbar-button {
+  background-color: rgba(72, 67, 228, 1);
+  border-color: rgba(72, 67, 228, 1);
+  color: white; /* Cambia el color del texto a blanco para mejor visibilidad */
+}
+
+.navbar-button2 {
+  background-color: rgb(59, 53, 231);
+  border-color: rgba(72, 67, 228, 1);
+  color: white; /* Cambia el color del texto a blanco para mejor visibilidad */
+}
+
+
+.navbar-button:hover {
+  background-color: rgba(60, 56, 190, 1); /* Opción de color más oscuro para el hover */
+  border-color: rgba(60, 56, 190, 1);
+}
+
+.search-bar {
+  flex-grow: 1; /* Permite que la barra de búsqueda crezca para ocupar el espacio disponible */
+}
+
+.input-group {
+  width: 60%; /* Asegura que el grupo de entrada ocupe el ancho completo del contenedor */
+}
+
+.input-group .form-control {
+  flex-grow: 1; /* Permite que el campo de entrada crezca dentro del grupo de entrada */
+}
