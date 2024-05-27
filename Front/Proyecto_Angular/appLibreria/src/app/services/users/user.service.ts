@@ -12,6 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class UserService {
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/usuarios';
   private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/usuarios/usuario';
+  private API_SERVER3 = 'http://localhost:8080/auth/register/admins';
 
   constructor(private httpClient: HttpClient, private cookies: CookieService) {}
 
@@ -58,6 +59,12 @@ export class UserService {
 
   addUser(user: any): Observable<any> {
     return this.httpClient.post<any>(this.API_SERVER, user).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  addAdmin(user: any): Observable<any> {
+    return this.httpClient.post<any>(this.API_SERVER3, user).pipe(
       catchError(this.handleError)
     );
   }

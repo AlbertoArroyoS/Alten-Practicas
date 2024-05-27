@@ -7,6 +7,8 @@ import { UserModule } from '../user/user.module';
 import { AddUserComponent } from './pages/user/add-user/add-user.component';
 import { AddAdminComponent } from './pages/user/add-admin/add-admin.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -16,12 +18,16 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
        AddAdminComponent,
        AdminUserComponent,
       ListUserComponent,
+      
 
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
-    UserModule
+    UserModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
   ]
 })
 export class AdminModule { }

@@ -1,4 +1,4 @@
-<div *ngIf="userLoginOn$ && userData?.role === 'USER'" class="card mb-4">
+<div *ngIf="(userLoginOn$ | async) && userData?.role === 'USER'" class="card mb-4">
   <div class="card-header card-padding">
     <h5>Información del Usuario</h5>
   </div>
@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<div *ngIf="userLoginOn$ && userData?.role === 'ADMIN'" class="card mb-4">
+<div *ngIf="(userLoginOn$ | async) && userData?.role === 'ADMIN'" class="card mb-4">
   <div class="card-header card-padding">
     <h5>Información del Administrador</h5>
   </div>
@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<div *ngIf="userLoginOn$ && userData?.role === 'USER'$$ editMode==true" class="card mb-4">
+<div *ngIf="(userLoginOn$ | async) && userData?.role === 'USER' && editMode" class="card mb-4">
   <div class="card-header card-padding">
     <h5>Editar Información del Usuario</h5>
   </div>

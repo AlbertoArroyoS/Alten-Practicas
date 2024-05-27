@@ -51,6 +51,12 @@ export class NavComponent {
   public goToPurchases(): void {
     this.router.navigate(['book-catalog/purchases']);
   }
+  public goToNewUser(): void {
+    this.router.navigate(['admin/add-user']);
+  }
+  public goToNewAdmin(): void {
+    this.router.navigate(['admin/add-admin']);
+  }
 
   ngOnInit(): void {
     this.loginService.userLoginOn$.subscribe(

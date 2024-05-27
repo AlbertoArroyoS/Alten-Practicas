@@ -60,7 +60,7 @@ export class LoginService {
     return this.httpClient.post<AuthResponse>(this.API_SERVER, credentials).pipe(
       tap((userData) => {
         this.storeUser(userData);
-        console.log('Usuario logueado:', userData); // Agrega este console.log para mostrar el usuario
+        //console.log('Usuario logueado:', userData); // Agrega este console.log para mostrar el usuario
       }),
       catchError(this.handleError)
     );
@@ -74,8 +74,8 @@ export class LoginService {
     this.removeUserFromSessionStorage();
     this.currentUser = null;
     this.userSubject.next(this.currentUser);
-    console.log('Usuario que sale:', this.currentUser)
-    console.log('Usuario que sale2:', this.userSubject)
+    //console.log('Usuario que sale:', this.currentUser)
+    //console.log('Usuario que sale2:', this.userSubject)
     //this.router.navigate(['/sign-in']);
   }
   
