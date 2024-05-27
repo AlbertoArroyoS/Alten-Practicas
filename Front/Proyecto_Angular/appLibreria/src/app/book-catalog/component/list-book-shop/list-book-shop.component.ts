@@ -52,7 +52,7 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
         next: (userData) => {
           if (userData) {
             this.loadUserData(userData.idUsuario);
-            console.log('User Data:', userData);
+            //console.log('User Data:', userData);
           }
         },
         error: (error) => {
@@ -81,9 +81,9 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
         this.idUsuario = this.userData.idUsuario;
         this.idCliente = this.userData.idCliente;
         this.idLibreria = this.userData.idLibreria;
-        console.log('ID Usuario:', this.idUsuario);
-        console.log('ID Cliente:', this.idCliente);
-        console.log('ID Libreria:', this.idLibreria);
+        //console.log('ID Usuario:', this.idUsuario);
+        //console.log('ID Cliente:', this.idCliente);
+        //console.log('ID Libreria:', this.idLibreria);
       },
       error: (errorData) => {
         this.errorMessage = errorData;
@@ -101,6 +101,7 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
           (_, i) => i + 1
         );
         this.currentPage = data.number;
+        console.log('DataNumber:', data.number);
       })
     );
   }

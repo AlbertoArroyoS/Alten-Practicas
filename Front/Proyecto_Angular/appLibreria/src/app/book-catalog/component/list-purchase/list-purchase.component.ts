@@ -76,7 +76,7 @@ loadUserData(userId: number): void {
       //console.log('ID Libreria:', this.idLibreria);
 
       // Cargar las compras del cliente después de obtener los datos del usuario
-      this.loadClientPurchases(0, this.pageSize);
+      this.loadClientPurchases(0, 10);
     },
     error: (errorData) => {
       this.errorMessage = errorData;
@@ -119,7 +119,6 @@ loadUserData(userId: number): void {
             (_, i) => i + 1
           );
           this.currentPage = data.number;
-          this.paginacion = data.totalPages > 1;
         },
         error: (error) => {
           this.errorMessage = 'Error al cargar la lista de libros.';
@@ -127,7 +126,7 @@ loadUserData(userId: number): void {
         }
       })
     );
-  }
+  } 
   
 }
 
