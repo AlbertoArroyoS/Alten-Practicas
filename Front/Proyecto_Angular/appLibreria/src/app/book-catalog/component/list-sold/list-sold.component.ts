@@ -70,7 +70,7 @@ export class ListSoldComponent {
         this.idLibreria = userData.idLibreria;
         //console.log('ID Usuario:', this.idUsuario);
         //console.log('ID Cliente:', this.idCliente);
-        console.log('ID Libreria:', this.idLibreria);
+        //console.log('ID Libreria:', this.idLibreria);
 
         // Cargar las compras del cliente después de obtener los datos del usuario
         this.loadClientSolds(0, this.pageSize);
@@ -102,7 +102,7 @@ export class ListSoldComponent {
   // Método para cargar las compras del cliente
   private loadClientSolds(page: number, size: number): void {
     //console.log('ID Cliente load purchase:', this.idCliente);
-    console.log('ID Libreria load:', this.idLibreria);
+    //console.log('ID Libreria load:', this.idLibreria);
     this.subscription.add(
       this.librosCompradosService.getLibraryPurchases(this.idLibreria, page, size).subscribe({
         next: (data) => {
