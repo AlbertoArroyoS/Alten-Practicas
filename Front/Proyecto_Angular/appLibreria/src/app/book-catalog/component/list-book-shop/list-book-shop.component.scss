@@ -1,12 +1,12 @@
-**{
-  border: 1px solid rgb(249, 5, 5); /* Borde sólido para celdas de la tabla */ 
+** {
+  border: 1px solid rgb(249, 5, 5); /* Borde sólido para celdas de la tabla */
 }
 
 .EncabezadoTabla {
   display: flex;
   justify-content: space-between;
   align-items: flex-start; /* Para alinear el botón a la parte superior */
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .EncabezadoTabla h1 {
@@ -15,42 +15,74 @@
 }
 
 .acciones {
-  //display: flex;
+  display: flex;
   justify-content: center;
 }
 
 .acciones button {
   margin-left: 5px; /* Añade un pequeño espacio entre los botones */
 }
-tr{
+tr {
   text-align: center;
-  
 }
-.container {
-  margin-top: 30px; /* Espacio de 100px en la parte superior */
-}
-
 
 table td:nth-child(2) {
-  font-size: 18px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
+  font-size: 15px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
   font-weight: bold; /* Texto en negrita para los resultados de la columna "Nombre" */
 }
 
-table td:nth-child(3) {
-  font-size: 18px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
-  font-weight: bold; /* Texto en negrita para los resultados de la columna "Nombre" */
-}
-table td:nth-child(4) {
-  font-size: 18px; /* Tamaño de fuente deseado para los resultados de la columna "Nombre" */
-  font-weight: bold; /* Texto en negrita para los resultados de la columna "Nombre" */
+.container{
+  margin-top: 10px;
 }
 
-.sortable {
-  cursor: pointer;
+.navbar2 {
+  background-color: rgba(72, 67, 228, 1) !important;
+  padding-left: 60px;
 }
 
-.enlaceLista a {
-  text-decoration: none !important;
-  color: black !important;
-
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  margin: 0 10px; /* Separación entre los elementos */
+}
+
+.navbar-button {
+  background-color: rgba(72, 67, 228, 1);
+  border-color: rgba(72, 67, 228, 1);
+  color: white; /* Cambia el color del texto a blanco para mejor visibilidad */
+}
+
+.navbar-button2 {
+  background-color: rgb(59, 53, 231);
+  border-color: rgba(72, 67, 228, 1);
+  color: white; /* Cambia el color del texto a blanco para mejor visibilidad */
+}
+
+
+.navbar-button:hover {
+  background-color: rgba(60, 56, 190, 1); /* Opción de color más oscuro para el hover */
+  border-color: rgba(60, 56, 190, 1);
+}
+
+.search-bar {
+  flex-grow: 1; /* Permite que la barra de búsqueda crezca para ocupar el espacio disponible */
+}
+
+.input-group {
+  width: 60%; /* Asegura que el grupo de entrada ocupe el ancho completo del contenedor */
+}
+
+.input-group .form-control {
+  flex-grow: 1; /* Permite que el campo de entrada crezca dentro del grupo de entrada */
+}
+
+
