@@ -176,4 +176,11 @@ public class ClienteCompraLibroServiceImpl implements IClienteCompraLibroService
         return lista.map(clienteCompraLibrosMapper::toDTO);
     }
 
+
+	@Override
+	public Page<ClienteCompraLibroDTO> findByLibreria(int idCliente, Pageable pageable) {
+		Page<ClienteCompraLibro> lista = clienteCompraLibroRepository.findByIdLibreria(idCliente, pageable);
+        return lista.map(clienteCompraLibrosMapper::toDTO);
+	}
+
 }

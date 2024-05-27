@@ -202,5 +202,35 @@ public class ClienteCompraLibroController {
 
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
+	@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_VENDE_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA
+			 + LibreriaConstant.RESOURCE_LIBRERIA_ID )
+	public ResponseEntity<Page<ClienteCompraLibroDTO>> findByIdLibreria(
+            @PathVariable("idLibreria") int id, 
+            @PageableDefault(size = 10, page = 0) Pageable pageable, 
+            Model model) {
+
+        Page<ClienteCompraLibroDTO> page = clienteLibroService.findByLibreria(id, pageable);
+
+        model.addAttribute("page", page);
+        int totalPages = page.getTotalPages();
+        int currentPage = page.getNumber();
+
+        int start = Math.max(1, currentPage + 1);
+        int end = Math.min(currentPage + 5, totalPages);
+
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = new ArrayList<>();
+            for (int i = start; i <= end; i++) {
+                pageNumbers.add(i);
+            }
+
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        List<Integer> pageSizeOptions = Arrays.asList(10, 20, 50, 100);
+        model.addAttribute("pageSizeOptions", pageSizeOptions);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
 
 }

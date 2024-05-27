@@ -31,6 +31,14 @@ export class BookPurchaseService {
     return this.httpClient.get(`${this.API_SERVER2}/cliente/${idCliente}`, { params: params });
   }
 
+  public getLibraryPurchases(idCliente: number, page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get(`${this.API_SERVER2}/cliente/${idCliente}`, { params: params });
+  }
+
   public purchaseBook(purchaseData: { fechaCompra: string, precio: number, idCliente: number, idLibro: number, idLibreria: number, idLibreriaLibro: number }): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

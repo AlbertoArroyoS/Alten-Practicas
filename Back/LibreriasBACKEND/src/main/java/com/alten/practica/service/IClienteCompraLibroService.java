@@ -30,5 +30,8 @@ public interface IClienteCompraLibroService {
 	
 	//Metodo para listar las compras de un cliente
 	public Page<ClienteCompraLibroDTO> findByCliente(int idCliente, Pageable pageable);
+	
+	//Metodo para listar las compras de un cliente
+	public Page<ClienteCompraLibroDTO> findByLibreria(int idCliente, Pageable pageable);
 
 }

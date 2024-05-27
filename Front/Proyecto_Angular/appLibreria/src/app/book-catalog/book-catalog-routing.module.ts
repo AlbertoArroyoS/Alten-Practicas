@@ -9,6 +9,7 @@ import { AddBookComponent } from './component/add-book/add-book.component';
 import { ListAuthorComponent } from './component/list-author/list-author.component';
 import { ListBookComponent } from './component/list-book/list-book.component';
 import { ListPurchaseComponent } from './component/list-purchase/list-purchase.component';
+import { ListSoldComponent } from './component/list-sold/list-sold.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'book/list-book', component: ListBookComponent, title: 'Lista de libros' },
       { path: 'purchases', component: ListPurchaseComponent, title: 'Lista de compras' },
       { path: 'list-book/author/:authorId', component: ListBookComponent , title: 'Libros del autor' }, // Ruta con parámetro
+      { path: 'solds', component: ListSoldComponent, title: 'Lista de ventas' },
 
     ]
   }

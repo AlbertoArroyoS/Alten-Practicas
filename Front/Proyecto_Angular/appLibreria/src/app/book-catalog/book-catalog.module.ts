@@ -15,6 +15,7 @@ import { ListBookComponent } from './component/list-book/list-book.component';
 import { ListBookShopComponent } from './component/list-book-shop/list-book-shop.component';
 import { PurchaseComponent } from './pages/purchase/purchase.component';
 import { ListPurchaseComponent } from './component/list-purchase/list-purchase.component';
+import { ListSoldComponent } from './component/list-sold/list-sold.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ListPurchaseComponent } from './component/list-purchase/list-purchase.c
     ListBookShopComponent,
     PurchaseComponent,
     ListPurchaseComponent,
+    ListSoldComponent,
   ],
   imports: [
     CommonModule,
