@@ -69,9 +69,9 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
         this.idUsuario = userData.idUsuario;
         this.idCliente = userData.idCliente;
         this.idLibreria = userData.idLibreria;
-        console.log('ID Usuario:', this.idUsuario);
-        console.log('ID Cliente:', this.idCliente);
-        console.log('ID Libreria:', this.idLibreria);
+        //console.log('ID Usuario:', this.idUsuario);
+        //console.log('ID Cliente:', this.idCliente);
+        //console.log('ID Libreria:', this.idLibreria);
 
         // Cargar las compras del cliente después de obtener los datos del usuario
         this.loadClientPurchases(0, this.pageSize);
@@ -102,7 +102,7 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
 
   // Método para cargar las compras del cliente
   private loadClientPurchases(page: number, size: number): void {
-    console.log('ID Cliente load purchase:', this.idCliente);
+    //console.log('ID Cliente load purchase:', this.idCliente);
     this.subscription.add(
       this.librosCompradosService.getClientPurchases(this.idCliente, page, size).subscribe({
         next: (data) => {
@@ -114,9 +114,9 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
           this.currentPage = data.number;
           this.paginacion = true; // Mostrar siempre la paginación
           
-          console.log('Total Paginas:', this.totalPaginas);
-          console.log('Current Page:', this.currentPage);
-          console.log('Paginacion:', this.paginacion);
+          //console.log('Total Paginas:', this.totalPaginas);
+          //console.log('Current Page:', this.currentPage);
+          //console.log('Paginacion:', this.paginacion);
         },
         error: (error) => {
           this.errorMessage = 'Error al cargar la lista de libros.';
