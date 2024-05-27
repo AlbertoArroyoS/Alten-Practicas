@@ -1,1 +1,242 @@
-<p>add-user works!</p>
+<!-- Contenedor principal -->
+<div class="container my-4">
+    <!-- Mensajes de éxito y advertencia -->
+    <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
+      {{ successMessage }}
+    </div>
+  
+    <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
+      {{ warningMessage }}
+    </div>
+    
+    <!-- Formulario de registro de usuario -->
+    <div class="formularioRegistro">
+      <!-- El formulario se envía al método guardarUsuario() y se valida con formularioUsuario -->
+      <form class="form-group" (ngSubmit)="guardarUsuario()" [formGroup]="formularioUsuario">
+        <!-- Campos para el nombre y apellidos del usuario -->
+        <div class="row mt-3">
+          <h1>Datos del usuario</h1>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+              placeholder="Email acceso usuario"
+              aria-label="usuario"
+            />
+            <!-- Mensaje de error si el campo username está vacío o no es un email válido -->
+            <div
+              *ngIf="
+              formularioUsuario.get('username')?.invalid &&
+                (formularioUsuario.get('username')?.dirty ||
+                formularioUsuario.get('username')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.controls['username'].errors?.['required']">
+                El campo Email usuario es requerido.
+              </div>
+              <div *ngIf="formularioUsuario.controls['username'].errors?.['email']">
+                El nombre de usuario debe ser en formato email.
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="password"
+              placeholder="Contraseña"
+              aria-label="password"
+            />
+            <!-- Mensaje de error si el campo contraseña está vacío -->
+            <div
+              *ngIf="
+              formularioUsuario.get('password')?.invalid &&
+                (formularioUsuario.get('password')?.dirty ||
+                formularioUsuario.get('password')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.get('password')?.errors?.['required']">
+                El campo Contraseña es requerido.
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="nombre"
+              placeholder="Nombre"
+              aria-label="nombre"
+            />
+            <!-- Mensaje de error si el campo nombre está vacío -->
+            <div
+              *ngIf="
+              formularioUsuario.get('nombre')?.invalid &&
+                (formularioUsuario.get('nombre')?.dirty ||
+                formularioUsuario.get('nombre')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.controls['nombre'].errors?.['required']">
+                El campo Nombre es requerido.
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="apellidos"
+              placeholder="Apellidos"
+              aria-label="apellidos"
+            />
+            <!-- Mensaje de error si el campo apellidos está vacío -->
+            <div
+              *ngIf="
+              formularioUsuario.get('apellidos')?.invalid &&
+                (formularioUsuario.get('apellidos')?.dirty ||
+                formularioUsuario.get('apellidos')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.controls['apellidos'].errors?.['required']">
+                El campo Apellidos es requerido.
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              placeholder="Email"
+              aria-label="email"
+            />
+            <!-- Mensaje de error si el campo email está vacío o no es un email válido -->
+            <div
+              *ngIf="
+              formularioUsuario.get('email')?.invalid &&
+                (formularioUsuario.get('email')?.dirty ||
+                formularioUsuario.get('email')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.controls['email'].errors?.['required']">
+                El campo Email es requerido.
+              </div>
+              <div *ngIf="formularioUsuario.controls['email'].errors?.['email']">
+                Email no válido.
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="nombreLibreria"
+              placeholder="Nombre Librería"
+              aria-label="nombreLibreria"
+            />
+            <!-- Mensaje de error si el campo nombreLibreria está vacío -->
+            <div
+              *ngIf="
+              formularioUsuario.get('nombreLibreria')?.invalid &&
+                (formularioUsuario.get('nombreLibreria')?.dirty ||
+                formularioUsuario.get('nombreLibreria')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.controls['nombreLibreria'].errors?.['required']">
+                El campo Nombre Librería es requerido.
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="nombreDueno"
+              placeholder="Nombre Dueño"
+              aria-label="nombreDueno"
+            />
+            <!-- Mensaje de error si el campo nombreDueno está vacío -->
+            <div
+              *ngIf="
+              formularioUsuario.get('nombreDueno')?.invalid &&
+                (formularioUsuario.get('nombreDueno')?.dirty ||
+                formularioUsuario.get('nombreDueno')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.controls['nombreDueno'].errors?.['required']">
+                El campo Nombre Dueño es requerido.
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="direccion"
+              placeholder="Dirección"
+              aria-label="direccion"
+            />
+            <!-- Mensaje de error si el campo dirección está vacío -->
+            <div
+              *ngIf="
+              formularioUsuario.get('direccion')?.invalid &&
+                (formularioUsuario.get('direccion')?.dirty ||
+                formularioUsuario.get('direccion')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.controls['direccion'].errors?.['required']">
+                El campo Dirección es requerido.
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 input-spacing">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="ciudad"
+              placeholder="Ciudad"
+              aria-label="ciudad"
+            />
+            <!-- Mensaje de error si el campo ciudad está vacío -->
+            <div
+              *ngIf="
+              formularioUsuario.get('ciudad')?.invalid &&
+                (formularioUsuario.get('ciudad')?.dirty ||
+                formularioUsuario.get('ciudad')?.touched)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="formularioUsuario.controls['ciudad'].errors?.['required']">
+                El campo Ciudad es requerido.
+              </div>
+            </div>
+          </div>
+  
+        </div>
+  
+        <!-- Botón para guardar un nuevo usuario -->
+        <div class="mt-3">
+          <button type="submit" class="btn btn-primary">Añadir usuario</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

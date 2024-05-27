@@ -13,6 +13,7 @@ export class UserService {
   private API_SERVER = 'http://localhost:8080/v1/app-libreria/usuarios';
   private API_SERVER2 = 'http://localhost:8080/v1/app-libreria/usuarios/usuario';
   private API_SERVER3 = 'http://localhost:8080/auth/register/admins';
+  private API_SERVER4 = 'http://localhost:8080/auth/register';
 
   constructor(private httpClient: HttpClient, private cookies: CookieService) {}
 
@@ -58,7 +59,7 @@ export class UserService {
   }
 
   addUser(user: any): Observable<any> {
-    return this.httpClient.post<any>(this.API_SERVER, user).pipe(
+    return this.httpClient.post<any>(this.API_SERVER4, user).pipe(
       catchError(this.handleError)
     );
   }
