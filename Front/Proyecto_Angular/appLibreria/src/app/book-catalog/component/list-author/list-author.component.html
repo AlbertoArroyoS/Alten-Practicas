@@ -1,14 +1,57 @@
-<br />
+<nav class="navbar2 navbar-expand-lg navbar-dark">
+  <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+    <ul class="navbar-nav align-items-center" style="cursor: pointer; width: 100%;">
+      <li class="nav-item mx-3">
+        <button
+          (click)="cargarTablaAutores(0, 10)"
+          type="button"
+          class="btn navbar-button"
+        >
+          Tabla
+        </button>
+      </li>
+      <li class="nav-item mx-3">
+        <button (click)="botonNuevoAutor()" type="button" class="btn navbar-button">
+          Nuevo Autor
+        </button>
+      </li>
+      <!-- Campo de búsqueda de libros -->
+      <li class="nav-item mx-3 search-bar">
+        <div class="input-group">
+          <input
+            #keywordInput
+            type="text"
+            class="form-control"
+            placeholder="Buscar..."
+            aria-label="Buscar"
+            aria-describedby="basic-addon2"
+          />
+          <!-- Botón para buscar libros -->
+          <div class="input-group-append">
+            <button
+              (click)="buscarAutores(keywordInput.value)"
+              class="btn btn-outline-secondary navbar-button2"
+              type="button"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
 <!-- Contenedor principal -->
 <div class="container">
-  <div class="row">
-    <!-- Enlace para cargar la tabla de autores -->
-    <span>
-      <a href="javascript:void(0)" (click)="cargarTablaAutores(0, 10)">{{
-        title
-      }}</a>
-    </span>
+  <!-- Mensajes de éxito y advertencia -->
+  <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
+    {{ successMessage }}
   </div>
+
+  <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
+    {{ warningMessage }}
+  </div>
+</div>
   <!-- Formulario de registro de autores -->
   <div class="formularioRegistro">
     <!-- El formulario se envía al método guardarAutor() y se valida con formularioAutor -->
@@ -84,43 +127,6 @@
         Actualizar autor
       </button>
     </div>
-
-    <br />
-
-    <!-- Mensajes de éxito y advertencia -->
-    <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
-      {{ successMessage }}
-    </div>
-
-    <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
-      {{ warningMessage }}
-    </div>
-  </div>
-
-  <br />
-  <!-- Campo de búsqueda de autores -->
-  <div>
-    <div class="input-group mb-3">
-      <input
-        #keywordInput
-        type="text"
-        class="form-control"
-        placeholder="Buscar..."
-        aria-label="Buscar"
-        aria-describedby="basic-addon2"
-      />
-      <!-- Botón para buscar autores -->
-      <div class="input-group-append">
-        <button
-          (click)="buscarAutores(keywordInput.value)"
-          class="btn btn-outline-secondary"
-          type="button"
-        >
-          Buscar
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- Contenedor para la tabla de autores y mensajes de éxito -->
@@ -133,9 +139,6 @@
   <div class="EncabezadoTabla">
     <h1>Tabla de autores</h1>
     <!-- Botón para crear un nuevo autor -->
-    <button (click)="botonNuevoAutor()" type="button" class="btn btn-dark">
-      Nuevo autor
-    </button>
   </div>
 
   <div class="tablaLibros">

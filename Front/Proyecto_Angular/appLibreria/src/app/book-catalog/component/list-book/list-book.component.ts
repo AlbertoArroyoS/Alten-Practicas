@@ -158,7 +158,7 @@ export class ListBookComponent implements OnInit, OnDestroy {
   }
 
   // Método para cargar la lista de libros
-  private loadBooks(): void {
+  loadBooks(): void {
     this.subscription.add(
       this.booksService.getAllBooks(this.currentPage, this.pageSize).subscribe({
         next: (data) => {
@@ -308,7 +308,7 @@ export class ListBookComponent implements OnInit, OnDestroy {
             this.recargarTablaLibros();
           },
           error: (error: HttpErrorResponse) => {
-            this.showWarningAlert('Conflicto al actualizar el libro. El libro ya existe.');
+            this.showWarningAlert('Conflicto al actualizar el libro.');
           }
         })
       );

@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start; /* Para alinear el botón a la parte superior */
-  //margin-top: 30px;
+  margin-top: 15px;
 }
 
 .EncabezadoTabla h1 {
@@ -84,3 +84,5 @@ table td:nth-child(2) {
 .input-group .form-control {
   flex-grow: 1; /* Permite que el campo de entrada crezca dentro del grupo de entrada */
 }
+
+

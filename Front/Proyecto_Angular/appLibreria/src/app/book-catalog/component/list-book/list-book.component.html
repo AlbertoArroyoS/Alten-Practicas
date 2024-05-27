@@ -3,7 +3,7 @@
     <ul class="navbar-nav align-items-center" style="cursor: pointer; width: 100%;">
       <li class="nav-item mx-3">
         <button
-          (click)="recargarTablaLibros()"
+        (click)="loadBooks()"
           type="button"
           class="btn navbar-button"
         >
@@ -41,7 +41,6 @@
     </ul>
   </div>
 </nav>
-
 
 <!-- Contenedor principal -->
 <div class="container">
@@ -246,8 +245,6 @@
       {{ warningMessage }}
     </div>
   </div>
-
-  <br />
 </div>
 
 <!-- Contenedor para la tabla de libros y mensajes de éxito -->

@@ -205,7 +205,7 @@ export class ListAuthorComponent {
             },
             (error: HttpErrorResponse) => {
               this.showWarningAlert(
-                'Conflicto al guardar el autor. El autor ya existe.'
+                'Conflicto al guardar el autor.'
               );
             }
           )
