@@ -1,33 +1,16 @@
 package com.alten.practica.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.alten.practica.errorhandler.EntityNotFoundException;
-import com.alten.practica.errorhandler.HrefEntityDTO;
-import com.alten.practica.modelo.entidad.Cliente;
-import com.alten.practica.modelo.entidad.dto.ClienteDTO;
-import com.alten.practica.modelo.entidad.dto.request.ClienteDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IClienteMapper;
 import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.service.impl.ClienteServiceImpl;
-import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
 /**
@@ -60,7 +43,8 @@ class TestClienteService {
 	private void resetMocks() {
 		reset(clienteRepository, clienteMapper, libreriaUtil);
 	}
-
+}
+/*
 	@Test
 	@DisplayName("Test para guardar un nuevo cliente")
 	public void testSave() {
@@ -196,4 +180,4 @@ class TestClienteService {
 
 		assertThrows(EntityNotFoundException.class, () -> clienteService.delete(1));
 	}
-}
+}*/

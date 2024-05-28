@@ -1,5 +1,6 @@
 package com.alten.practica.modelo.entidad.mapper;
 
+
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 

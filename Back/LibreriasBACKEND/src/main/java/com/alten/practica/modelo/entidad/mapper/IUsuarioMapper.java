@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 import com.alten.practica.modelo.entidad.Usuario;
 import com.alten.practica.modelo.entidad.dto.UsuarioDTO;
 import com.alten.practica.modelo.entidad.dto.request.UsuarioDTORequest;
-
 @Mapper(builder = @Builder(disableBuilder = true))
 public interface IUsuarioMapper {
 
