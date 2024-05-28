@@ -1,0 +1,166 @@
+<mxfile host="app.diagrams.net" modified="2024-05-28T10:07:38.657Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="_-ZxUs7U_HKBQobh_YCF" version="24.4.9" type="device">
+  <diagram name="Página-1" id="GPRWNke8b9FuyAA1N5X-">
+    <mxGraphModel dx="1808" dy="618" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-1" value="&lt;&lt;controller&gt;&gt;&#xa;AuthController (Autenticación y registro)" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="140" width="760" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-2" value=" @PostMapping(value = &quot;login&quot;)&#xa;    public ResponseEntity&lt;AuthDTO&gt; login(@RequestBody LoginDTORequest request)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-1">
+          <mxGeometry y="40" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-4" value=" @PostMapping(value = &quot;register&quot;)&#xa;    public ResponseEntity&lt;HrefEntityDTO&gt; register(@RequestBody RegisterDTORequest request)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-1">
+          <mxGeometry y="80" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-5" value="@PostMapping(value = &quot;register/admins&quot;)&#xa;    public ResponseEntity&lt;HrefEntityDTO&gt; registerAdmin(@RequestBody UsuarioDTORequest request)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-1">
+          <mxGeometry y="120" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-6" value="@PutMapping(value = &quot;update/users/user/{id}&quot;)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; update(@RequestBody UsuarioSimpleDTORequest dto, @PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-1">
+          <mxGeometry y="160" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-9" value="&lt;&lt;controller&gt;&gt;&#xa;AutorController" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="370" width="760" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-10" value="@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)&#xa; public ResponseEntity&lt;List&lt;AutorDTO&gt;&gt; buscarKeyWordSQL(@RequestParam String key_word)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-9">
+          <mxGeometry y="40" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-11" value="@GetMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;AutorDTO&gt; findById(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-9">
+          <mxGeometry y="80" width="760" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-12" value="@GetMapping(LibreriaConstant.RESOURCE_AUTORES)&#xa;public ResponseEntity&lt;Page&lt;AutorDTO&gt;&gt; findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-9">
+          <mxGeometry y="140" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-13" value="@PostMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR)&#xa;public ResponseEntity&lt;HrefEntityDTO&gt; save(@Valid @RequestBody AutorDTORequest dto)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-9">
+          <mxGeometry y="180" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-15" value="@DeleteMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; delete(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-9">
+          <mxGeometry y="220" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-14" value="@PutMapping(LibreriaConstant.RESOURCE_AUTORES + LibreriaConstant.RESOURCE_AUTOR&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; update(@Valid @RequestBody AutorDTORequest dto, @PathVariable(&quot;id&quot;) int id) {&#xa;" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-9">
+          <mxGeometry y="270" width="760" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-16" value="&lt;&lt;controller&gt;&gt;&#xa;ClienteCompraLibroController" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="730" width="760" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-17" value="@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS)&#xa;public ResponseEntity&lt;Page&lt;ClienteCompraLibroDTO&gt;&gt; findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-16">
+          <mxGeometry y="40" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-18" value="@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;public ResponseEntity&lt;ClienteCompraLibroDTO&gt; findById(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-16">
+          <mxGeometry y="80" width="760" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-19" value="@PostMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO)&#xa;public ResponseEntity&lt;HrefEntityDTO&gt; save(@Valid @RequestBody ClienteCompraLibroDTORequest dto)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-16">
+          <mxGeometry y="140" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-20" value="@PutMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; update(@RequestBody ClienteCompraLibroDTORequest dto, @PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-16">
+          <mxGeometry y="180" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-21" value="@DeleteMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;public ResponseEntity&lt;HrefEntityDTO&gt; delete(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-16">
+          <mxGeometry y="230" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-22" value="@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBROS + LibreriaConstant.RESOURCE_CLIENTE_COMPRA_LIBRO&#xa;&#x9;&#x9;&#x9;+LibreriaConstant.RESOURCE_CLIENTE + LibreriaConstant.RESOURCE_GENERIC_ID )&#xa;public ResponseEntity&lt;Page&lt;ClienteCompraLibroDTO&gt;&gt; findByIdCliente(@PathVariable(&quot;id&quot;) int id, @PageableDefault(size = 10, page = 0) &#xa;Pageable pageable, Model model)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-16">
+          <mxGeometry y="280" width="760" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-23" value="@GetMapping(LibreriaConstant.RESOURCE_CLIENTE_VENDE_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA&#xa;&#x9;&#x9;&#x9; + LibreriaConstant.RESOURCE_LIBRERIA_ID )&#xa;public ResponseEntity&lt;Page&lt;ClienteCompraLibroDTO&gt;&gt; findByIdLibreria(@PathVariable(&quot;idLibreria&quot;) int id, &#xa;@PageableDefault(size = 10, page = 0) Pageable pageable, Model model)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-16">
+          <mxGeometry y="350" width="760" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-24" value="&lt;&lt;controller&gt;&gt;&#xa;ClienteController" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="1180" width="760" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-25" value=" @GetMapping(LibreriaConstant.RESOURCE_CLIENTES)&#xa; public ResponseEntity&lt;List&lt;ClienteDTO&gt;&gt; findAll()" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-24">
+          <mxGeometry y="40" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-26" value=" @GetMapping(LibreriaConstant.RESOURCE_CLIENTES + LibreriaConstant.RESOURCE_CLIENTE&#xa;            + LibreriaConstant.RESOURCE_GENERIC_ID)&#xa; public ResponseEntity&lt;ClienteDTO&gt; findById(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-24">
+          <mxGeometry y="80" width="760" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-27" value="@PostMapping(LibreriaConstant.RESOURCE_CLIENTES + LibreriaConstant.RESOURCE_CLIENTE)&#xa; public ResponseEntity&lt;HrefEntityDTO&gt; save(@Valid @RequestBody ClienteDTORequest dto)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-24">
+          <mxGeometry y="140" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-28" value="@PutMapping(LibreriaConstant.RESOURCE_CLIENTES + LibreriaConstant.RESOURCE_CLIENTE&#xa;            + LibreriaConstant.RESOURCE_GENERIC_ID)&#xa; public ResponseEntity&lt;HrefEntityDTO&gt; update(@RequestBody ClienteDTORequest dto, @PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-24">
+          <mxGeometry y="180" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-29" value="@DeleteMapping(LibreriaConstant.RESOURCE_CLIENTES + LibreriaConstant.RESOURCE_CLIENTE&#xa;            + LibreriaConstant.RESOURCE_GENERIC_ID)&#xa; public ResponseEntity&lt;HrefEntityDTO&gt; delete(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-24">
+          <mxGeometry y="230" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-32" value="&lt;&lt;controller&gt;&gt;&#xa;LibreriaController" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="1510" width="760" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-33" value="@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS)&#xa;&#x9;public ResponseEntity&lt;List&lt;LibreriaDTO&gt;&gt; findAll()" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-32">
+          <mxGeometry y="40" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-34" value="@GetMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;LibreriaDTO&gt; findById(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-32">
+          <mxGeometry y="80" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-35" value="@PostMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; save(@Valid @RequestBody LibreriaDTORequest dto)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-32">
+          <mxGeometry y="130" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-36" value="@PutMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; update(@Valid @RequestBody LibreriaDTORequest dto,@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-32">
+          <mxGeometry y="170" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-37" value="@DeleteMapping(LibreriaConstant.RESOURCE_LIBRERIAS + LibreriaConstant.RESOURCE_LIBRERIA&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;public ResponseEntity&lt;HrefEntityDTO&gt; delete(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-32">
+          <mxGeometry y="210" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-38" value="&lt;&lt;controller&gt;&gt;&#xa;LibreriaLibroController" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="1830" width="760" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-39" value="@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS)&#xa;&#x9;public ResponseEntity&lt;Page&lt;LibreriaLibroDTO&gt;&gt; findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-38">
+          <mxGeometry y="40" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-40" value="@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA_LIBRO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;LibreriaLibroDTO&gt; findById(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-38">
+          <mxGeometry y="80" width="760" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-41" value="@PostMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA_LIBRO)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; save(@Valid @RequestBody LibreriaLibroDTORequest dto)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-38">
+          <mxGeometry y="140" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-42" value="@PutMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA_LIBRO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; update(@RequestBody LibreriaLibroDTORequest dto, @PathVariable(&quot;id&quot;) int id) " style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-38">
+          <mxGeometry y="180" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-43" value="@DeleteMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA_LIBRO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; delete(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-38">
+          <mxGeometry y="230" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-45" value="@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_LIBRERIA_ID)&#xa;public ResponseEntity&lt;Page&lt;LibreriaLibroDTO&gt;&gt; getBooksByAuthorId(@PathVariable int idLibreria, @PageableDefault(size = 10, page = 0) &#xa;Pageable pageable, Model model)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-38">
+          <mxGeometry y="280" width="760" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-44" value="@GetMapping(LibreriaConstant.RESOURCE_LIBRERIA_LIBROS + LibreriaConstant.RESOURCE_LIBRERIA +&quot;/not&quot;&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_LIBRERIA_ID)&#xa;public ResponseEntity&lt;Page&lt;LibreriaLibroDTO&gt;&gt; findByLibraryNotId(@PathVariable int idLibreria, @PageableDefault(size = 10, page = 0) Pageable pageable, &#xa;            Model model)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-38">
+          <mxGeometry y="350" width="760" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-46" value="&lt;&lt;controller&gt;&gt;&#xa;LibroController" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="2290" width="760" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-47" value="@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)&#xa;&#x9;public Page&lt;LibroDTO&gt; buscarKeyWordSQL(@RequestParam String key_word, PageableDTO pageable) " style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-46">
+          <mxGeometry y="40" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-48" value="@GetMapping(LibreriaConstant.RESOURCE_LIBROS)&#xa;&#x9;public ResponseEntity&lt;Page&lt;LibroDTO&gt;&gt; findAll(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) " style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-46">
+          <mxGeometry y="80" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-49" value="@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;LibroDTO&gt; findById(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-46">
+          <mxGeometry y="120" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-50" value="@PostMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; save(@Valid @RequestBody LibroDTORequest dto)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-46">
+          <mxGeometry y="170" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-51" value="@PutMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_LIBRO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; update(@RequestBody LibroDTORequest dto, @PathVariable(&quot;id&quot;) int id) " style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-46">
+          <mxGeometry y="210" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-52" value="@GetMapping(LibreriaConstant.RESOURCE_LIBROS + LibreriaConstant.RESOURCE_AUTOR&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_AUTOR_ID)&#xa;public Page&lt;LibroDTO&gt; getBooksByAuthorId(@PathVariable int authorId, Pageable pageable)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-46">
+          <mxGeometry y="260" width="760" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-54" value="&lt;&lt;controller&gt;&gt;&#xa;UsuarioController" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="2650" width="760" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-55" value="@GetMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;UsuarioDTO&gt; findById(@PathVariable(&quot;id&quot;) int id)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-54">
+          <mxGeometry y="40" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-56" value="@PutMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO&#xa;&#x9;&#x9;&#x9;+ LibreriaConstant.RESOURCE_GENERIC_ID)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; update(@Valid @RequestBody UsuarioDTORequest dto, @PathVariable(&quot;id&quot;) int id) " style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-54">
+          <mxGeometry y="90" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-57" value="@PostMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO)&#xa;&#x9;public ResponseEntity&lt;HrefEntityDTO&gt; save(@Valid @RequestBody UsuarioDTORequest dto)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-54">
+          <mxGeometry y="140" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nNwjpjfjsOodcCdzehqQ-58" value="@GetMapping(LibreriaConstant.RESOURCE_USUARIOS + LibreriaConstant.RESOURCE_USUARIO&#xa;&#x9;&#x9;&#x9;+ &quot;/admin&quot;)&#xa;public ResponseEntity&lt;Page&lt;UsuarioAdminDTO&gt;&gt; findAllAdmin(@PageableDefault(size = 10, page = 0) Pageable pageable, Model model) {&#xa;&#x9;&#x9;" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="nNwjpjfjsOodcCdzehqQ-54">
+          <mxGeometry y="180" width="760" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
