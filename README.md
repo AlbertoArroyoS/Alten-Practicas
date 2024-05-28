@@ -20,12 +20,12 @@ Realizada por:
 
 ## Práctica Alberto: 
 
-La idea del proyecto es una pagina web de venta de libros de segunda mano para un colegio. Libros
-particulares o exclusivos. Donde los usuarios pueden poner a la venta sus librerias
-y podran ver los libros que ponen a la venta otros usuarios.
+El proyecto consiste en desarrollar una página web de compra-venta de libros de segunda mano específica para un colegio. 
+La plataforma permitirá a los padres y estudiantes vender y comprar libros que ya no utilizan, 
+promoviendo así la reutilización y el ahorro en la adquisición de material educativo.
 
 
-A través de la web podran acceder 3 tipos de usuarios:
+A través de la web podran acceder 2 tipos de usuarios:
 
 
 - Usuarios: Podrá comprar y consultar los libros que están disponibles.
@@ -54,5 +54,13 @@ Diagrama de clases
 Diagrama de casos de uso
 
 ![Imagen](imgReadme/DiagramaUso.png)
+
+Spring boot
+
+![Imagen](imgReadme/SpringBootDiagrama.png)
+
+Angular
+
+![Imagen](imgReadme/AngularDiagrama.png)
 
 
