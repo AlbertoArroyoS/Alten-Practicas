@@ -41,7 +41,8 @@ export class UserDetailsComponent implements OnInit {
     // Asigna los observables del LoginService a las propiedades del componente
     this.userLoginOn$ = this.loginService.userLoginOn$;
     this.user$ = this.loginService.user$;
-
+    console.log('User login observable:', this.userLoginOn$);
+    console.log('User observable:', this.user$);
     // Inicializa los formularios
     this.formularioUsuario = this.fb.group({
       idUsuario: [''],
@@ -72,6 +73,8 @@ export class UserDetailsComponent implements OnInit {
       next: (userData) => {
         if (userData) {
           this.loadUserData(userData.idUsuario);
+          console.log('Datos del usuario:', userData);
+          console.log('user$:', this.user$);
         }
       },
       error: (error) => {
@@ -82,6 +85,7 @@ export class UserDetailsComponent implements OnInit {
 
     // Cargar datos del usuario si ya está logueado
     const userId = this.loginService.getUserId();
+    console.log('User ID:', userId);
     if (userId) {
       this.loadUserData(userId);
     }
@@ -92,12 +96,14 @@ export class UserDetailsComponent implements OnInit {
    * @param userId El ID del usuario.
    */
   loadUserData(userId: number): void {
+  
     this.userService.getUser(userId).subscribe({
       next: (userData: UserRequest) => { 
         this.userData = userData;
         this.idUsuario = userData.idUsuario;
         this.idCliente = userData.idCliente;
         this.idLibreria = userData.idLibreria;
+        console.log('Datos del usuario en loadUserData: ', userData);
 
         // Parchear los formularios con los datos del usuario
         this.formularioUsuario.patchValue(userData);

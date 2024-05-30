@@ -22,7 +22,9 @@ export class UserService {
   constructor(private httpClient: HttpClient, private cookies: CookieService) {}
 
   getUser(id: number): Observable<UserRequest> {
-    return this.httpClient.get<UserRequest>(`${this.API_SERVER2}/${id}`).pipe(
+    const url = `${this.API_SERVER2}/${id}`;
+    console.log("URL being requested:", url); // Esto te ayudará a verificar que la URL es correcta
+    return this.httpClient.get<UserRequest>(url).pipe(
       catchError(this.handleError)
     );
   }
