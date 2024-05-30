@@ -92,43 +92,41 @@ public class AuthServiceImpl implements IAuthService {
 	 */
 	@Override
 	public AuthDTO login(LoginDTORequest request) {
-		
-		
-	    // Encripta el username del request
-	    String encryptedUsername = encryptionService.encrypt(request.getUsername());
+        // Encripta el username del request
+        String encryptedUsername = encryptionService.encrypt(request.getUsername());
 
-	    // Imprime el username encriptado
-	    System.out.println("Encrypted Username: " + encryptedUsername);
+        // Imprime el username encriptado
+        System.out.println("Encrypted Username: " + encryptedUsername);
 
-	    // Busca los detalles del usuario en el repositorio usando el username encriptado
-	    Optional<Usuario> userOptional = usuarioRepository.findByUsername(encryptedUsername);
+        // Busca los detalles del usuario en el repositorio usando el username encriptado
+        Optional<Usuario> userOptional = usuarioRepository.findByUsername(encryptedUsername);
 
-	    if (!userOptional.isPresent()) {
-	        throw new BadCredentialsException("Invalid username or password");
-	    }
+        if (!userOptional.isPresent()) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
 
-	    Usuario user = userOptional.get();
+        Usuario user = userOptional.get();
 
-	    // Verifica la contraseña utilizando el PasswordEncoder
-	    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-	        throw new BadCredentialsException("Invalid username or password");
-	    }
+        // Verifica la contraseña utilizando el PasswordEncoder
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
 
-	    // Desencripta los campos sensibles del usuario
-	    user.setEncryptionService(encryptionService);
-	    user.decryptFields();
+        // Desencripta los campos sensibles del usuario
+        user.setEncryptionService(encryptionService);
+        user.decryptFields();
 
-	    // Imprime los valores desencriptados para verificar
-	    System.out.println("Decrypted Username: " + user.getUsername());
-	    System.out.println("Decrypted Password: " + user.getPassword());
+        // Imprime los valores desencriptados para verificar
+        System.out.println("Decrypted Username: " + user.getUsername());
+        System.out.println("Decrypted Password: " + user.getPassword());
 
-	    // Genera un token de autenticación para el usuario
-	    String token = jwtService.getToken(user);
+        // Genera un token de autenticación para el usuario
+        String token = jwtService.getToken(user);
 
-	    // Devuelve el DTO de autenticación con el token y los datos del usuario
-	    return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
-	            .role(user.getRole()).build();
-	}
+        // Devuelve el DTO de autenticación con el token y los datos del usuario
+        return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
+                .role(user.getRole()).build();
+    }
 
 
 	/*
@@ -162,20 +160,17 @@ public class AuthServiceImpl implements IAuthService {
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
-	@Override
-	public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
-		Usuario usuario = Usuario.builder().username(dto.getUsername())
-				.password(passwordEncoder.encode(dto.getPassword())).role(("ADMIN"))																										// necesario
-				.enabled("1").build();
-		usuario.setEncryptionService(encryptionService);
-		usuario.encryptFields();
-		usuario = usuarioRepository.save(usuario);
-		// Imprime los valores desencriptados para verificar
-	    System.out.println("Decrypted Username: " + usuario.getUsername());
-	    System.out.println("Decrypted Password: " + usuario.getPassword());
+	 @Override
+	    public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
+	        Usuario usuario = Usuario.builder().username(encryptionService.encrypt(dto.getUsername()))
+	                .password(passwordEncoder.encode(dto.getPassword())).role("ADMIN")
+	                .enabled("1").build();
+	        usuario.setEncryptionService(encryptionService);
+	        usuario.encryptFields();
+	        usuario = usuarioRepository.save(usuario);
 
-		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
-	}
+	        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+	    }
 
 	@Override
 	public HrefEntityDTO updateAdmin(UsuarioDTORequest dto, int id) {

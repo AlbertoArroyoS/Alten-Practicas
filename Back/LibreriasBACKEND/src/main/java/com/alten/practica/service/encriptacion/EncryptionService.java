@@ -1,53 +1,56 @@
 package com.alten.practica.service.encriptacion;
 
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.jasypt.util.text.AES256TextEncryptor;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 @Service
 public class EncryptionService {
 
-    private AES256TextEncryptor textEncryptor;
+	private SecretKey secretKey = null;
 
-    public EncryptionService(@Value("${jasypt.encryptor.password}") String encryptionKey) {
-        this.textEncryptor = new AES256TextEncryptor();
-        textEncryptor.setPassword(encryptionKey);
+    public EncryptionService(@Value("${encryption.key}") String encryptionKey) throws NoSuchAlgorithmException {
+        this.secretKey = generateKey(encryptionKey);
+    }
+
+    private SecretKey generateKey(String key) throws NoSuchAlgorithmException {
+        byte[] decodedKey = Base64.getDecoder().decode(key);
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
     }
 
     public String encrypt(String data) {
-        String encryptedData = textEncryptor.encrypt(data);
-        // Encode in Base64 and then truncate
-        String base64Encoded = Base64.encodeBase64String(encryptedData.getBytes());
-        return truncateToLength(base64Encoded, 10);
+        try {
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] encryptedData = cipher.doFinal(data.getBytes());
+            return Base64.getEncoder().encodeToString(encryptedData);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while encrypting: " + e.toString());
+        }
     }
 
     public String decrypt(String encryptedData) {
-        // Decode from Base64 before decrypting
-        String base64Decoded = new String(Base64.decodeBase64(encryptedData));
-        return textEncryptor.decrypt(base64Decoded);
-    }
-
-    public String encryptInt(int number) {
-        return encrypt(Integer.toString(number));
-    }
-
-    public int decryptInt(String encryptedNumber) {
-        return Integer.parseInt(decrypt(encryptedNumber));
-    }
-
-    public String encryptByte(byte number) {
-        return encrypt(Byte.toString(number));
-    }
-
-    public byte decryptByte(String encryptedNumber) {
-        return Byte.parseByte(decrypt(encryptedNumber));
-    }
-
-    private String truncateToLength(String data, int length) {
-        if (data.length() > length) {
-            return data.substring(0, length);
+        try {
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] decryptedData = cipher.doFinal(Base64.getDecoder().decode(encryptedData));
+            return new String(decryptedData);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while decrypting: " + e.toString());
         }
-        return data;
+    }
+    
+    public static void generarBase64() throws NoSuchAlgorithmException {
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256); // Puedes usar 128 o 192 bits también
+        SecretKey secretKey = keyGen.generateKey();
+        String base64Key = Base64.getEncoder().encodeToString(secretKey.getEncoded());
+        System.out.println("Base64 Encoded Key: " + base64Key);
     }
 }
