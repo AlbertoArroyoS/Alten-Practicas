@@ -2,8 +2,6 @@ package com.alten.practica.modelo.entidad.dto;
 
 import java.io.Serializable;
 
-import com.alten.practica.util.Role;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +18,9 @@ public class UsuarioAdminDTO implements Serializable{/**
 	
 	private String username;
 
-	private byte enabled;
+	private String enabled;
 
-	private Role role;
+	private String role;
 	
 	
 

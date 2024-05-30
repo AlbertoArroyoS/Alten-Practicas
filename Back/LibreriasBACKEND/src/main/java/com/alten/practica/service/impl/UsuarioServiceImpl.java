@@ -16,6 +16,7 @@ import com.alten.practica.modelo.entidad.mapper.IUsuarioAdminMapper;
 import com.alten.practica.modelo.entidad.mapper.IUsuarioMapper;
 import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IUsuarioService;
+import com.alten.practica.service.encrypt.DeterministicEncryptionService;
 import com.alten.practica.util.LibreriaUtil;
 /**
  * Clase que implementa la interfaz IAutorService
@@ -34,6 +35,11 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	IUsuarioAdminMapper usuarioAdminMapper;
 	@Autowired
 	LibreriaUtil libreriaUtil;
+	
+	@Autowired
+	private DeterministicEncryptionService encryptionService;
+	
+	
 	// Servicio para manejar la lógica de JWT
    // @Autowired
     //AuthServiceImpl authService;
@@ -50,62 +56,92 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	 *                                 proporcionado.
 	 */
 	@Transactional(readOnly = true)
-	@Override
-	public UsuarioDTO findById(int id) {
-		// Buscar el autor por su ID en el repositorio de autores
-		Usuario usuario = usuarioRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El autor con id %s no existe", id)));
+    @Override
+    public UsuarioDTO findById(int id) {
+        Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con ID: " + id));
 
-		return usuarioMapper.toDTO(usuario);
-	}
+        // Descifrar datos sensibles antes de enviarlos al cliente
+        usuario.setUsername(encryptionService.decrypt(usuario.getUsername()));
+        usuario.setRole(encryptionService.decrypt(usuario.getRole()));
+        if (usuario.getEnabled() != null) {
+            usuario.setEnabled(encryptionService.decrypt(usuario.getEnabled()));
+        }
+
+        // Asumiendo que la entidad Usuario contiene relaciones directas o métodos para obtener los datos de Cliente y Librería
+        if (usuario.getCliente() != null) {
+            usuario.getCliente().setNombre(encryptionService.decrypt(usuario.getCliente().getNombre()));
+            usuario.getCliente().setApellidos(encryptionService.decrypt(usuario.getCliente().getApellidos()));
+            usuario.getCliente().setEmail(encryptionService.decrypt(usuario.getCliente().getEmail()));
+        }
+
+        if (usuario.getLibreria() != null) {
+            usuario.getLibreria().setNombreLibreria(encryptionService.decrypt(usuario.getLibreria().getNombreLibreria()));
+            usuario.getLibreria().setNombreDueno(encryptionService.decrypt(usuario.getLibreria().getNombreDueno()));
+            usuario.getLibreria().setDireccion(encryptionService.decrypt(usuario.getLibreria().getDireccion()));
+            usuario.getLibreria().setCiudad(encryptionService.decrypt(usuario.getLibreria().getCiudad()));
+        }
+
+        // Mapear la entidad Usuario al DTO UsuarioDTO
+        return usuarioMapper.toDTO(usuario);
+    }
 
 	@Override
-	public HrefEntityDTO update(UsuarioDTORequest dto, int id) {
+    public HrefEntityDTO update(UsuarioDTORequest dto, int id) {
 		return null;
-		/*
-	    // Buscar el usuario por su ID en el repositorio de usuarios
-	    Usuario usuario = usuarioRepository.findById(id)
-	            .orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
-
-	    // Actualizar los campos del usuario con los valores del DTO
-	    usuario.setUsername(dto.getUsername());
-	    usuario.setEnabled(dto.getEnabled());
-	    usuario.setRole(dto.getRole());
-	    
-
-	    // Guardar el usuario actualizado en el repositorio y crear un HrefEntityDTO
-	    return libreriaUtil.createHrefFromResource(usuarioRepository.save(usuario).getId(), LibreriaResource.USUARIO);*/
-	}
-
-	@Override
-	public HrefEntityDTO save(UsuarioDTORequest dto) {
-		return null;
-		/*
 		
-		Usuario usuario = Usuario.builder()
-                .username(dto.getUsername())
-                //.password(passwordEncoder.encode(dto.getPassword()))
-                .role(dto.getRole())
-                .enabled((byte) 1)
-                .build();
-
-        // Guardar el Usuario en la base de datos
+		/*
+        Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con ID: " + id));
+        usuario.setUsername(encryptionService.encrypt(dto.getUsername()));
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+        usuario.setRole(encryptionService.encrypt(dto.getRole()));
+        usuario.setEnabled(dto.getEnabled());
         usuario = usuarioRepository.save(usuario);
-
-		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);*/
-	}
+        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);*/
+    }
 
 	@Override
-	public Page<UsuarioDTO> findAllUser(Pageable pageable) {
-		Page<Usuario> usuario = usuarioRepository.findUsers(pageable);
-        return usuario.map(usuarioMapper::toDTO);
-	}
+    public HrefEntityDTO save(UsuarioDTORequest dto) {
+		return null;
+		
+		/*
+        Usuario usuario = Usuario.builder()
+            .username(encryptionService.encrypt(dto.getUsername()))
+            .password(passwordEncoder.encode(dto.getPassword()))
+            .role(encryptionService.encrypt(dto.getRole()))
+            .enabled(dto.getEnabled())
+            .build();
+        usuario = usuarioRepository.save(usuario);
+        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);*/
+    }
+
+	@Override
+    public Page<UsuarioDTO> findAllUser(Pageable pageable) {
+        Page<Usuario> usuarioPage = usuarioRepository.findAll(pageable);
+        return usuarioPage.map(usuario -> {
+            usuario.setUsername(encryptionService.decrypt(usuario.getUsername()));
+            return usuarioMapper.toDTO(usuario);
+        });
+    }
 
 	@Override
 	public Page<UsuarioAdminDTO> findAllAdmin(Pageable pageable) {
-		Page<Usuario> usuario = usuarioRepository.findAdmins(pageable);
-        return usuario.map(usuarioAdminMapper::toDTO);
+	    Page<Usuario> usuarioPage = usuarioRepository.findAdmins(pageable);
+	    return usuarioPage.map(usuario -> {
+	        // Descifrar el nombre de usuario y otros campos necesarios antes de mapear a DTO
+	        usuario.setUsername(encryptionService.decrypt(usuario.getUsername()));
+	        usuario.setRole(encryptionService.decrypt(usuario.getRole()));
+	        // Si otros campos como 'enabled' también están cifrados, deben ser descifrados de manera similar
+	        if (usuario.getEnabled() != null) {
+	            usuario.setEnabled(encryptionService.decrypt(usuario.getEnabled()));
+	        }
+	        return usuarioAdminMapper.toDTO(usuario);
+	    });
 	}
+
 
 
 }
