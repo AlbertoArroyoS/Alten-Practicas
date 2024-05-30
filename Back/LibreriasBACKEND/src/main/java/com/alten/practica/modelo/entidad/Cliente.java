@@ -57,19 +57,23 @@ public class Cliente {
 	@OneToOne(mappedBy = "cliente")
 	private Usuario usuario;
 
-    @Transient
+	@Transient
     private static EncryptionService encryptionService;
+
+    public void setEncryptionService(EncryptionService encryptionService) {
+        Cliente.encryptionService = encryptionService;
+    }
 
     @PrePersist
     @PreUpdate
-    public void encryptFields(EncryptionService encryptionService) {
+    public void encryptFields() {
         this.nombre = encryptionService.encrypt(this.nombre);
         this.apellidos = encryptionService.encrypt(this.apellidos);
         this.email = encryptionService.encrypt(this.email);
     }
 
     @PostLoad
-    public void decryptFields(EncryptionService encryptionService) {
+    public void decryptFields() {
         this.nombre = encryptionService.decrypt(this.nombre);
         this.apellidos = encryptionService.decrypt(this.apellidos);
         this.email = encryptionService.decrypt(this.email);

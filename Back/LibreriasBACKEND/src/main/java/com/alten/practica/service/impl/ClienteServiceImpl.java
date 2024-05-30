@@ -51,13 +51,14 @@ public class ClienteServiceImpl implements IClienteService {
      */
     @Override
     public HrefEntityDTO save(ClienteDTORequest dto) {
-        clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
+    	clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
             throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
                     + dto.getApellidos() + "' ya existe");
         });
 
         Cliente cliente = this.clienteMapper.toBean(dto);
-        cliente.encryptFields(encryptionService);
+        cliente.setEncryptionService(encryptionService);
+        cliente.encryptFields();
         cliente = this.clienteRepository.save(cliente);
 
         return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
@@ -77,7 +78,8 @@ public class ClienteServiceImpl implements IClienteService {
         Cliente cpl = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
 
-        cpl.decryptFields(encryptionService);
+        cpl.setEncryptionService(encryptionService);
+        cpl.decryptFields();
         return clienteMapper.toDTO(cpl);
     }
 
@@ -91,7 +93,10 @@ public class ClienteServiceImpl implements IClienteService {
     @Override
     public List<ClienteDTO> findAll() {
         List<Cliente> clientes = clienteRepository.findAll();
-        clientes.forEach(cliente -> cliente.decryptFields(encryptionService));
+        clientes.forEach(cliente -> {
+            cliente.setEncryptionService(encryptionService);
+            cliente.decryptFields();
+        });
         return clientes.stream().map(clienteMapper::toDTO).toList();
     }
 
@@ -125,7 +130,8 @@ public class ClienteServiceImpl implements IClienteService {
         cpl.setNombre(dto.getNombre());
         cpl.setApellidos(dto.getApellidos());
         cpl.setEmail(dto.getEmail());
-        cpl.encryptFields(encryptionService);
+        cpl.setEncryptionService(encryptionService);
+        cpl.encryptFields();
 
         // Guarda los cambios y retorna la entidad
         return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
