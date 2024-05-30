@@ -42,7 +42,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
     private loginService: LoginService
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
-    this.user$ = this.loginService.user$;
+    this.user$ = this.loginService.currentUser$;
   }
 
   ngOnInit(): void {

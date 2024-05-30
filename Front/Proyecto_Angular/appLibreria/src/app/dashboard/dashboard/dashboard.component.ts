@@ -17,6 +17,5 @@ export class DashboardComponent {
   constructor(private loginService: LoginService) {
     // Asigna los observables del LoginService a las propiedades del componente
     this.userLoginOn$ = this.loginService.userLoginOn$;
-    this.user$ = this.loginService.user$;
-  }
+    this.user$ = this.loginService.currentUser$;  }
 }
