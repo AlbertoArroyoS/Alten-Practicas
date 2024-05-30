@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = LibreriaConstant.TABLA_NOMBRE_CLIENTE_COMPRA_LIBRO, schema = LibreriaConstant.ESQUEMA_NOMBRE)
+@Table(name = LibreriaConstant.TABLA_NOMBRE_CLIENTE_COMPRA_LIBRO, schema = LibreriaConstant.ESQUEMA_NOMBRE_ENCRTIPTADA)
 public class ClienteCompraLibro {
 
 	@Id
