@@ -3,7 +3,6 @@ package com.alten.practica.modelo.entidad;
 import java.util.List;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.service.encriptacion.DeterministicEncryptionService;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,11 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -60,27 +55,5 @@ public class Libreria {
 	@OneToMany(mappedBy = "libreria")
 	private List<ClienteCompraLibro> listaComprasLibrerias;
 
-	@Transient
-    private DeterministicEncryptionService encryptionService;
-
-    public void setEncryptionService(DeterministicEncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
-    }
-
-    @PrePersist
-    @PreUpdate
-    public void encryptFields() {
-        this.nombreLibreria = encryptionService.encrypt(this.nombreLibreria);
-        this.nombreDueno = encryptionService.encrypt(this.nombreDueno);
-        this.direccion = encryptionService.encrypt(this.direccion);
-        this.ciudad = encryptionService.encrypt(this.ciudad);
-    }
-
-    @PostLoad
-    public void decryptFields() {
-        this.nombreLibreria = encryptionService.decrypt(this.nombreLibreria);
-        this.nombreDueno = encryptionService.decrypt(this.nombreDueno);
-        this.direccion = encryptionService.decrypt(this.direccion);
-        this.ciudad = encryptionService.decrypt(this.ciudad);
-    }
+	
 }

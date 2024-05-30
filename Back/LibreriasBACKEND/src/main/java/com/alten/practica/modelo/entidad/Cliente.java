@@ -3,7 +3,6 @@ package com.alten.practica.modelo.entidad;
 import java.util.List;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.service.encriptacion.DeterministicEncryptionService;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,11 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,10 +41,6 @@ public class Cliente {
 	private String apellidos;
 	@Column(name = "email")
 	private String email;
-	//@Column(name = "password")
-	//private String password;
-	//@Column(name = "nivel_permiso")
-	//private int nivelPermiso;
 
 	@OneToMany(mappedBy = "cliente")
 	private List<ClienteCompraLibro> listaCompras;
@@ -57,25 +48,5 @@ public class Cliente {
 	@OneToOne(mappedBy = "cliente")
 	private Usuario usuario;
 
-	@Transient
-    private DeterministicEncryptionService encryptionService;
-
-    public void setEncryptionService(DeterministicEncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
-    }
-
-    @PrePersist
-    @PreUpdate
-    public void encryptFields() {
-        this.nombre = encryptionService.encrypt(this.nombre);
-        this.apellidos = encryptionService.encrypt(this.apellidos);
-        this.email = encryptionService.encrypt(this.email);
-    }
-
-    @PostLoad
-    public void decryptFields() {
-        this.nombre = encryptionService.decrypt(this.nombre);
-        this.apellidos = encryptionService.decrypt(this.apellidos);
-        this.email = encryptionService.decrypt(this.email);
-    }
+	
 }

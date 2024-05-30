@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -79,15 +78,62 @@ public class DeterministicEncryptionService {
     }
 
     /**
-     * Método estático para generar una nueva clave AES y mostrarla en formato Base64.
+     * Cifra un valor entero utilizando el método de cifrado de cadenas.
      *
-     * @throws NoSuchAlgorithmException Si el algoritmo de generación de claves no está disponible.
+     * @param data El valor entero que se desea cifrar.
+     * @return String El valor entero cifrado, codificado en Base64.
      */
-    public static void generarBase64() throws NoSuchAlgorithmException {
-        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(256); // Puedes usar 128 o 192 bits también
-        SecretKey secretKey = keyGen.generateKey();
-        String base64Key = Base64.getEncoder().encodeToString(secretKey.getEncoded());
-        System.out.println("Base64 Encoded Key: " + base64Key);
+    public String encrypt(int data) {
+        return encrypt(String.valueOf(data));
+    }
+
+    /**
+     * Descifra un valor entero cifrado.
+     *
+     * @param encryptedData El valor entero cifrado, codificado en Base64.
+     * @return int El valor entero descifrado.
+     */
+    public int decryptToInt(String encryptedData) {
+        return Integer.parseInt(decrypt(encryptedData));
+    }
+
+    /**
+     * Cifra un valor de punto flotante doble utilizando el método de cifrado de cadenas.
+     *
+     * @param data El valor doble que se desea cifrar.
+     * @return String El valor doble cifrado, codificado en Base64.
+     */
+    public String encrypt(double data) {
+        return encrypt(String.valueOf(data));
+    }
+
+    /**
+     * Descifra un valor de punto flotante doble cifrado.
+     *
+     * @param encryptedData El valor doble cifrado, codificado en Base64.
+     * @return double El valor doble descifrado.
+     */
+    public double decryptToDouble(String encryptedData) {
+        return Double.parseDouble(decrypt(encryptedData));
+    }
+
+    /**
+     * Cifra un arreglo de bytes utilizando el método de cifrado de cadenas.
+     *
+     * @param data El arreglo de bytes que se desea cifrar.
+     * @return String El arreglo de bytes cifrado, codificado en Base64.
+     */
+    public String encrypt(byte[] data) {
+        return encrypt(new String(data));
+    }
+
+    /**
+     * Descifra un arreglo de bytes cifrado.
+     *
+     * @param encryptedData El arreglo de bytes cifrado, codificado en Base64.
+     * @return byte[] El arreglo de bytes descifrado.
+     */
+    public byte[] decryptToBytes(String encryptedData) {
+        return decrypt(encryptedData).getBytes();
     }
 }

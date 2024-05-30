@@ -51,14 +51,18 @@ public class ClienteServiceImpl implements IClienteService {
      */
     @Override
     public HrefEntityDTO save(ClienteDTORequest dto) {
-    	clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
+        clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
             throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
                     + dto.getApellidos() + "' ya existe");
         });
 
         Cliente cliente = this.clienteMapper.toBean(dto);
-        cliente.setEncryptionService(encryptionService);
-        cliente.encryptFields();
+
+        // Encripta los campos sensibles del cliente
+        cliente.setNombre(encryptionService.encrypt(cliente.getNombre()));
+        cliente.setApellidos(encryptionService.encrypt(cliente.getApellidos()));
+        cliente.setEmail(encryptionService.encrypt(cliente.getEmail()));
+
         cliente = this.clienteRepository.save(cliente);
 
         return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
@@ -75,12 +79,15 @@ public class ClienteServiceImpl implements IClienteService {
     @Transactional(readOnly = true)
     @Override
     public ClienteDTO findById(int id) {
-        Cliente cpl = clienteRepository.findById(id)
+        Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
 
-        cpl.setEncryptionService(encryptionService);
-        cpl.decryptFields();
-        return clienteMapper.toDTO(cpl);
+        // Desencripta los campos sensibles del cliente
+        cliente.setNombre(encryptionService.decrypt(cliente.getNombre()));
+        cliente.setApellidos(encryptionService.decrypt(cliente.getApellidos()));
+        cliente.setEmail(encryptionService.decrypt(cliente.getEmail()));
+
+        return clienteMapper.toDTO(cliente);
     }
 
     /**
@@ -94,8 +101,10 @@ public class ClienteServiceImpl implements IClienteService {
     public List<ClienteDTO> findAll() {
         List<Cliente> clientes = clienteRepository.findAll();
         clientes.forEach(cliente -> {
-            cliente.setEncryptionService(encryptionService);
-            cliente.decryptFields();
+            // Desencripta los campos sensibles del cliente
+            cliente.setNombre(encryptionService.decrypt(cliente.getNombre()));
+            cliente.setApellidos(encryptionService.decrypt(cliente.getApellidos()));
+            cliente.setEmail(encryptionService.decrypt(cliente.getEmail()));
         });
         return clientes.stream().map(clienteMapper::toDTO).toList();
     }
@@ -115,7 +124,7 @@ public class ClienteServiceImpl implements IClienteService {
     @Override
     public HrefEntityDTO update(ClienteDTORequest dto, int id) {
         // Encuentra el cliente por id
-        Cliente cpl = clienteRepository.findById(id)
+        Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
 
         // Verifica si ya existe otro cliente con el mismo nombre y apellidos, excluyendo el cliente actual
@@ -127,14 +136,12 @@ public class ClienteServiceImpl implements IClienteService {
         });
 
         // Actualiza los campos del cliente
-        cpl.setNombre(dto.getNombre());
-        cpl.setApellidos(dto.getApellidos());
-        cpl.setEmail(dto.getEmail());
-        cpl.setEncryptionService(encryptionService);
-        cpl.encryptFields();
+        cliente.setNombre(encryptionService.encrypt(dto.getNombre()));
+        cliente.setApellidos(encryptionService.encrypt(dto.getApellidos()));
+        cliente.setEmail(encryptionService.encrypt(dto.getEmail()));
 
         // Guarda los cambios y retorna la entidad
-        return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
+        return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cliente).getId(), LibreriaResource.CLIENTE);
     }
 
     /**
@@ -148,13 +155,11 @@ public class ClienteServiceImpl implements IClienteService {
      */
     @Override
     public HrefEntityDTO delete(int id) {
-        Cliente cpl = clienteRepository.findById(id)
+        Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
 
-        this.clienteRepository.delete(cpl);
+        this.clienteRepository.delete(cliente);
 
-        return libreriaUtil.createHrefFromResource(cpl.getId(), LibreriaResource.CLIENTE);
+        return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
     }
-
 }
-

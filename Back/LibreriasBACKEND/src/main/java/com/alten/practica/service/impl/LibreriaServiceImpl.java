@@ -27,7 +27,7 @@ import jakarta.persistence.EntityExistsException;
  * @see com.alten.practica.service.ILibreriaService
  * 
  */
-@Transactional
+@Transactional // Transacción para todos los métodos del servicio
 @Service
 public class LibreriaServiceImpl implements ILibreriaService {
 
@@ -58,8 +58,13 @@ public class LibreriaServiceImpl implements ILibreriaService {
         });
 
         Libreria libreria = this.libreriaMapper.toBean(dto);
-        libreria.setEncryptionService(encryptionService);
-        libreria.encryptFields();
+
+        // Encripta los campos sensibles de la librería
+        libreria.setNombreLibreria(encryptionService.encrypt(libreria.getNombreLibreria()));
+        libreria.setNombreDueno(encryptionService.encrypt(libreria.getNombreDueno()));
+        libreria.setDireccion(encryptionService.encrypt(libreria.getDireccion()));
+        libreria.setCiudad(encryptionService.encrypt(libreria.getCiudad()));
+
         libreria = this.libreriaRepository.save(libreria);
 
         return libreriaUtil.createHrefFromResource(libreria.getId(), LibreriaResource.LIBRERIA);
@@ -79,8 +84,12 @@ public class LibreriaServiceImpl implements ILibreriaService {
         Libreria libreria = libreriaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("La libreria con id %s no existe", id)));
 
-        libreria.setEncryptionService(encryptionService);
-        libreria.decryptFields();
+        // Desencripta los campos sensibles de la librería
+        libreria.setNombreLibreria(encryptionService.decrypt(libreria.getNombreLibreria()));
+        libreria.setNombreDueno(encryptionService.decrypt(libreria.getNombreDueno()));
+        libreria.setDireccion(encryptionService.decrypt(libreria.getDireccion()));
+        libreria.setCiudad(encryptionService.decrypt(libreria.getCiudad()));
+
         return libreriaMapper.toDTO(libreria);
     }
 
@@ -95,10 +104,13 @@ public class LibreriaServiceImpl implements ILibreriaService {
     public List<LibreriaDTO> findAll() {
         List<Libreria> lista = this.libreriaRepository.findAll();
         lista.forEach(libreria -> {
-            libreria.setEncryptionService(encryptionService);
-            libreria.decryptFields();
+            // Desencripta los campos sensibles de la librería
+            libreria.setNombreLibreria(encryptionService.decrypt(libreria.getNombreLibreria()));
+            libreria.setNombreDueno(encryptionService.decrypt(libreria.getNombreDueno()));
+            libreria.setDireccion(encryptionService.decrypt(libreria.getDireccion()));
+            libreria.setCiudad(encryptionService.decrypt(libreria.getCiudad()));
         });
-        return lista.stream().map(libreria -> libreriaMapper.toDTO(libreria)).collect(Collectors.toList());
+        return lista.stream().map(libreriaMapper::toDTO).collect(Collectors.toList());
     }
 
     /**
@@ -128,12 +140,10 @@ public class LibreriaServiceImpl implements ILibreriaService {
         }
 
         // Actualiza los campos de la librería
-        libreria.setNombreLibreria(dto.getNombreLibreria());
-        libreria.setNombreDueno(dto.getNombreDueno());
-        libreria.setDireccion(dto.getDireccion());
-        libreria.setCiudad(dto.getCiudad());
-        libreria.setEncryptionService(encryptionService);
-        libreria.encryptFields();
+        libreria.setNombreLibreria(encryptionService.encrypt(dto.getNombreLibreria()));
+        libreria.setNombreDueno(encryptionService.encrypt(dto.getNombreDueno()));
+        libreria.setDireccion(encryptionService.encrypt(dto.getDireccion()));
+        libreria.setCiudad(encryptionService.encrypt(dto.getCiudad()));
 
         // Guarda los cambios y retorna la entidad
         Libreria libreriaActualizada = libreriaRepository.save(libreria);
@@ -158,6 +168,5 @@ public class LibreriaServiceImpl implements ILibreriaService {
 
         return libreriaUtil.createHrefFromResource(libreria.getId(), LibreriaResource.LIBRERIA);
     }
-
-
 }
+

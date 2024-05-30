@@ -5,7 +5,7 @@ export interface UserRequest {
   username: string;
   password: string;
   enabled: number;
-  role: Role;
+  role: string;
   idCliente: number;
   nombre: string;
   apellidos: string;

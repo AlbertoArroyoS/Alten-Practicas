@@ -41,18 +41,14 @@ export class AddAdminComponent {
         },
         (error: HttpErrorResponse) => {
           if (error.status === 409) {
-            this.showWarningAlert(
-              'Conflicto al guardar el autor. El autor ya existe.'
-            );
+            this.showWarningAlert('Conflicto al guardar el usuario. El usuario ya existe.');
           } else {
-            this.showWarningAlert('Conflicto al guardar el autor.');
+            this.showWarningAlert('Error al guardar el usuario.');
           }
         }
       );
-      this.formularioAdmin.reset();
     } else {
       this.formularioAdmin.markAllAsTouched();
-      //alert('Formulario invalido');
     }
   }
 

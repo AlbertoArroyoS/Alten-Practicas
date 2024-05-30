@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UserRequest } from 'src/app/shared/model/request/userRequest';
@@ -69,7 +69,8 @@ export class UserService {
   }
 
   addAdmin(user: any): Observable<any> {
-    return this.httpClient.post<any>(this.API_SERVER_REGISTER_ADMIN, user).pipe(
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post<any>(this.API_SERVER_REGISTER_ADMIN, user, { headers }).pipe(
       catchError(this.handleError)
     );
   }

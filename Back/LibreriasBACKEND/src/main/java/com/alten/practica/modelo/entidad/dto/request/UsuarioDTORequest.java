@@ -1,7 +1,5 @@
 package com.alten.practica.modelo.entidad.dto.request;
 
-import com.alten.practica.util.Role;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,9 +21,9 @@ public class UsuarioDTORequest {
 	
     private String password;
 
-	private byte enabled;
+	private String enabled;
 
-	private Role role;
+	private String role;
 
 
 }
