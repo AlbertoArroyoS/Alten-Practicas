@@ -14,7 +14,7 @@ import com.alten.practica.modelo.entidad.dto.request.ClienteDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IClienteMapper;
 import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.service.IClienteService;
-import com.alten.practica.service.encriptacion.EncryptionService;
+import com.alten.practica.service.encriptacion.DeterministicEncryptionService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
@@ -38,7 +38,7 @@ public class ClienteServiceImpl implements IClienteService {
     LibreriaUtil libreriaUtil;
 
     @Autowired
-    EncryptionService encryptionService;
+    DeterministicEncryptionService encryptionService;
 
     /**
      * Guarda un nuevo cliente en la base de datos.

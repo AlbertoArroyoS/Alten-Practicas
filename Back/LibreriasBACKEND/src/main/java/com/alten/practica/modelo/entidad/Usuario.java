@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.service.encriptacion.EncryptionService;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,11 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,7 +42,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "users", schema = LibreriaConstant.ESQUEMA_NOMBRE_ENCRTIPTADA, uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 public class Usuario implements UserDetails {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -63,7 +58,6 @@ public class Usuario implements UserDetails {
     @Column(name = "role", length = 512)
     private String role;
 
-
     @OneToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     private Cliente cliente;
@@ -71,28 +65,7 @@ public class Usuario implements UserDetails {
     @OneToOne
     @JoinColumn(name = "id_libreria", referencedColumnName = "id_libreria")
     private Libreria libreria;
-    
-    @Transient
-    private EncryptionService encryptionService;
 
-    public void setEncryptionService(EncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
-    }
-    
-    @PrePersist
-    @PreUpdate
-    public void encryptFields() {
-        this.username = encryptionService.encrypt(this.username);
-        this.role = encryptionService.encrypt(this.role);
-        this.enabled = encryptionService.encrypt(this.enabled);
-    }
-
-    @PostLoad
-    public void decryptFields() {
-        this.username = encryptionService.decrypt(this.username);
-        this.role = encryptionService.decrypt(this.role);
-        this.enabled = encryptionService.decrypt(this.enabled);
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

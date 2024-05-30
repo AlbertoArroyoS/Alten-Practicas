@@ -28,7 +28,7 @@ import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IAuthService;
-import com.alten.practica.service.encriptacion.EncryptionService;
+import com.alten.practica.service.encriptacion.DeterministicEncryptionService;
 import com.alten.practica.service.jwt.JwtService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
@@ -64,11 +64,10 @@ public class AuthServiceImpl implements IAuthService {
 
 	// Servicio para manejar la lógica de encriptación
 	@Autowired
-	private EncryptionService encryptionService;
+	private DeterministicEncryptionService encryptionService;
 
 	// Gestor de autenticación para autenticar usuarios
-	@Autowired
-	AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
 	@Autowired
 	LibreriaUtil libreriaUtil;
@@ -91,42 +90,31 @@ public class AuthServiceImpl implements IAuthService {
 	 * @return AuthDTO que contiene el token de autenticación
 	 */
 	@Override
-	public AuthDTO login(LoginDTORequest request) {
-        // Encripta el username del request
+    public AuthDTO login(LoginDTORequest request) {
         String encryptedUsername = encryptionService.encrypt(request.getUsername());
-
-        // Imprime el username encriptado
-        System.out.println("Encrypted Username: " + encryptedUsername);
-
-        // Busca los detalles del usuario en el repositorio usando el username encriptado
         Optional<Usuario> userOptional = usuarioRepository.findByUsername(encryptedUsername);
+        
+        System.out.println("usuario login: " + encryptedUsername);
 
         if (!userOptional.isPresent()) {
             throw new BadCredentialsException("Invalid username or password");
         }
 
         Usuario user = userOptional.get();
-
-        // Verifica la contraseña utilizando el PasswordEncoder
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Invalid username or password");
         }
 
-        // Desencripta los campos sensibles del usuario
-        user.setEncryptionService(encryptionService);
-        user.decryptFields();
+        user.setUsername(encryptionService.decrypt(user.getUsername()));
+        user.setRole(encryptionService.decrypt(user.getRole()));
+        user.setEnabled(encryptionService.decrypt(user.getEnabled()));
 
-        // Imprime los valores desencriptados para verificar
-        System.out.println("Decrypted Username: " + user.getUsername());
-        System.out.println("Decrypted Password: " + user.getPassword());
-
-        // Genera un token de autenticación para el usuario
         String token = jwtService.getToken(user);
 
-        // Devuelve el DTO de autenticación con el token y los datos del usuario
         return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
                 .role(user.getRole()).build();
     }
+
 
 
 	/*
@@ -138,73 +126,94 @@ public class AuthServiceImpl implements IAuthService {
 	 * @return AuthDTO que contiene el token de autenticación
 	 */
 	@Override
-	public HrefEntityDTO register(RegisterDTORequest request) {
-		Cliente cliente = Cliente.builder().nombre(request.getNombre()).apellidos(request.getApellidos())
-				.email(request.getEmail()).build();
-		
-		cliente.encryptFields();
-		cliente = clienteRepository.save(cliente);
+    public HrefEntityDTO register(RegisterDTORequest request) {
+        Cliente cliente = Cliente.builder()
+                .nombre(request.getNombre())
+                .apellidos(request.getApellidos())
+                .email(request.getEmail())
+                .build();
+        // Assuming Cliente has encryption methods if needed
+        cliente = clienteRepository.save(cliente);
 
-		Libreria libreria = Libreria.builder().nombreLibreria(request.getNombreLibreria())
-				.nombreDueno(request.getNombreDueno()).direccion(request.getDireccion()).ciudad(request.getCiudad())
-				.build();
-		libreria.encryptFields();
-		libreria = libreriaRepository.save(libreria);
+        Libreria libreria = Libreria.builder()
+                .nombreLibreria(request.getNombreLibreria())
+                .nombreDueno(request.getNombreDueno())
+                .direccion(request.getDireccion())
+                .ciudad(request.getCiudad())
+                .build();
+        // Assuming Libreria has encryption methods if needed
+        libreria = libreriaRepository.save(libreria);
 
-		Usuario usuario = Usuario.builder().username(request.getUsername())
-				.password(passwordEncoder.encode(request.getPassword())).cliente(cliente).libreria(libreria)
-				.role(encryptionService.encrypt("USER")).enabled("1").build();
-		usuario.encryptFields();
-		usuario = usuarioRepository.save(usuario);
+        Usuario usuario = Usuario.builder()
+                .username(encryptionService.encrypt(request.getUsername()))
+                .password(passwordEncoder.encode(request.getPassword()))
+                .cliente(cliente)
+                .libreria(libreria)
+                .role(encryptionService.encrypt("USER"))
+                .enabled(encryptionService.encrypt("1"))
+                .build();
+        usuario = usuarioRepository.save(usuario);
 
-		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
-	}
+        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+    }
 
-	 @Override
-	    public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
-	        Usuario usuario = Usuario.builder().username(encryptionService.encrypt(dto.getUsername()))
-	                .password(passwordEncoder.encode(dto.getPassword())).role("ADMIN")
-	                .enabled("1").build();
-	        usuario.setEncryptionService(encryptionService);
-	        usuario.encryptFields();
-	        usuario = usuarioRepository.save(usuario);
-
-	        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
-	    }
 
 	@Override
-	public HrefEntityDTO updateAdmin(UsuarioDTORequest dto, int id) {
-		// TODO: Implementar la lógica de actualización del administrador
-		return null;
-	}
+    public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
+        Usuario usuario = Usuario.builder()
+                .username(encryptionService.encrypt(dto.getUsername()))
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .role(encryptionService.encrypt("ADMIN"))
+                .enabled(encryptionService.encrypt("1"))
+                .build();
+        usuario = usuarioRepository.save(usuario);
+        System.out.println("usuario: " + usuario.getUsername());
+
+        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+    }
 
 	@Override
-	public HrefEntityDTO updateUser(UsuarioSimpleDTORequest request, int id) {
-		Usuario usuario = usuarioRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
-		usuario.setEncryptionService(encryptionService);
-		usuario.setPassword(passwordEncoder.encode(request.getPassword()));
-		usuario.encryptFields();
-		usuario = usuarioRepository.save(usuario);
+    public HrefEntityDTO updateAdmin(UsuarioDTORequest dto, int id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
+        usuario.setUsername(encryptionService.encrypt(dto.getUsername()));
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        usuario.setRole(encryptionService.encrypt("ADMIN"));
+        usuario.setEnabled(encryptionService.encrypt("1"));
+        usuario = usuarioRepository.save(usuario);
 
-		// String token = jwtService.getToken(usuario);
+        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+    }
 
-		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
-	}
+	@Override
+    public HrefEntityDTO updateUser(UsuarioSimpleDTORequest request, int id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
+        usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+        usuario = usuarioRepository.save(usuario);
+
+        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+    }
 
 	@Transactional(readOnly = true)
-	@Override
-	public UsuarioDTO findById(int id) {
-		Usuario usuario = usuarioRepository.findById(id).orElseThrow();
-		usuario.decryptFields();
-		return usuarioMapper.toDTO(usuario);
-	}
+    @Override
+    public UsuarioDTO findById(int id) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow();
+        usuario.setUsername(encryptionService.decrypt(usuario.getUsername()));
+        usuario.setRole(encryptionService.decrypt(usuario.getRole()));
+        usuario.setEnabled(encryptionService.decrypt(usuario.getEnabled()));
+        return usuarioMapper.toDTO(usuario);
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public Page<UsuarioDTO> findAll(Pageable pageable) {
-		Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
-		usuarios.forEach(usuario -> usuario.decryptFields());
-		return usuarios.map(usuarioMapper::toDTO);
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public Page<UsuarioDTO> findAll(Pageable pageable) {
+        Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
+        usuarios.forEach(usuario -> {
+            usuario.setUsername(encryptionService.decrypt(usuario.getUsername()));
+            usuario.setRole(encryptionService.decrypt(usuario.getRole()));
+            usuario.setEnabled(encryptionService.decrypt(usuario.getEnabled()));
+        });
+        return usuarios.map(usuarioMapper::toDTO);
+    }
 }

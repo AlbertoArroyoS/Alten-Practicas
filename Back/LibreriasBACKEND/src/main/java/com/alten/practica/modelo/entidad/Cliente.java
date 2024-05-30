@@ -3,7 +3,7 @@ package com.alten.practica.modelo.entidad;
 import java.util.List;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.service.encriptacion.EncryptionService;
+import com.alten.practica.service.encriptacion.DeterministicEncryptionService;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,9 +58,9 @@ public class Cliente {
 	private Usuario usuario;
 
 	@Transient
-    private EncryptionService encryptionService;
+    private DeterministicEncryptionService encryptionService;
 
-    public void setEncryptionService(EncryptionService encryptionService) {
+    public void setEncryptionService(DeterministicEncryptionService encryptionService) {
         this.encryptionService = encryptionService;
     }
 

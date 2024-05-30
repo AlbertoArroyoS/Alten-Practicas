@@ -1,6 +1,5 @@
 package com.alten.practica.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,8 +24,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AplicationConfig {
 
-	@Autowired
-    IUsuarioRepository userRepository;
+	// Repositorio de usuarios para acceder a los datos de usuario
+    private final IUsuarioRepository userRepository;
 
     /*
      * Define el bean AuthenticationManager que gestiona la autenticación.

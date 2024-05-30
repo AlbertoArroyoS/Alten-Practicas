@@ -15,7 +15,7 @@ import com.alten.practica.modelo.entidad.dto.request.LibreriaDTORequest;
 import com.alten.practica.modelo.entidad.mapper.ILibreriaMapper;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.service.ILibreriaService;
-import com.alten.practica.service.encriptacion.EncryptionService;
+import com.alten.practica.service.encriptacion.DeterministicEncryptionService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
@@ -41,7 +41,7 @@ public class LibreriaServiceImpl implements ILibreriaService {
     LibreriaUtil libreriaUtil;
 
     @Autowired
-    EncryptionService encryptionService;
+    DeterministicEncryptionService encryptionService;
 
     /**
      * Guarda una nueva librería en la base de datos.
