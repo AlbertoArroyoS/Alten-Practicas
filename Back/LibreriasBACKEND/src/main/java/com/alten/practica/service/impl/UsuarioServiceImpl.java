@@ -16,7 +16,6 @@ import com.alten.practica.modelo.entidad.mapper.IUsuarioAdminMapper;
 import com.alten.practica.modelo.entidad.mapper.IUsuarioMapper;
 import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IUsuarioService;
-import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 /**
  * Clase que implementa la interfaz IAutorService
@@ -62,6 +61,8 @@ public class UsuarioServiceImpl implements IUsuarioService{
 
 	@Override
 	public HrefEntityDTO update(UsuarioDTORequest dto, int id) {
+		return null;
+		/*
 	    // Buscar el usuario por su ID en el repositorio de usuarios
 	    Usuario usuario = usuarioRepository.findById(id)
 	            .orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
@@ -73,11 +74,13 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	    
 
 	    // Guardar el usuario actualizado en el repositorio y crear un HrefEntityDTO
-	    return libreriaUtil.createHrefFromResource(usuarioRepository.save(usuario).getId(), LibreriaResource.USUARIO);
+	    return libreriaUtil.createHrefFromResource(usuarioRepository.save(usuario).getId(), LibreriaResource.USUARIO);*/
 	}
 
 	@Override
 	public HrefEntityDTO save(UsuarioDTORequest dto) {
+		return null;
+		/*
 		
 		Usuario usuario = Usuario.builder()
                 .username(dto.getUsername())
@@ -89,7 +92,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
         // Guardar el Usuario en la base de datos
         usuario = usuarioRepository.save(usuario);
 
-		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);*/
 	}
 
 	@Override

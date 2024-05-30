@@ -36,11 +36,10 @@ public class WebConfig implements WebMvcConfigurer {
     
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping(MAPPING)
-            .allowedOrigins(ORIGINS)
-            .allowedMethods(METHODS)
-            .allowedHeaders(HEADERS)
-            .maxAge(3600) // Define el tiempo máximo en segundos que los resultados de una solicitud de pre-vuelo pueden ser cachéados.
-            .allowCredentials(false); // Configura si se deben exponer las credenciales al navegador.
+    	 registry.addMapping("/**")
+         .allowedOrigins("http://localhost:4200") // Asegúrate de permitir tu origen específico
+         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+         .allowedHeaders("*")
+         .allowCredentials(true);
     }
 }

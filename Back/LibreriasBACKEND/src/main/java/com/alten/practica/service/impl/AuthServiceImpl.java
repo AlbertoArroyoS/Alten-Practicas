@@ -26,10 +26,10 @@ import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IAuthService;
+import com.alten.practica.service.encrypt.DeterministicEncryptionService;
 import com.alten.practica.service.jwt.JwtService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
-import com.alten.practica.util.Role;
 
 import lombok.RequiredArgsConstructor;
 
@@ -74,6 +74,9 @@ public class AuthServiceImpl implements IAuthService {
 
 	// Codificador de contraseñas para codificar contraseñas de usuario
 	public final PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private DeterministicEncryptionService encryptionService;
 
 	/*
 	 * Autentica un usuario.
@@ -85,12 +88,20 @@ public class AuthServiceImpl implements IAuthService {
 	 */
 	@Override
 	public AuthDTO login(LoginDTORequest request) {
+		// Cifra el nombre de usuario para buscarlo en la base de datos
+	    String encryptedUsername = encryptionService.encrypt(request.getUsername());
+	    System.out.println("encryptedUsername: " + encryptedUsername);
 		// Autentica al usuario utilizando las credenciales proporcionadas
 		authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+				.authenticate(new UsernamePasswordAuthenticationToken(encryptedUsername, request.getPassword()));
 
 		// Busca los detalles del usuario en el repositorio
-		Usuario user = usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
+		Usuario user = usuarioRepository.findByUsername(encryptedUsername).orElseThrow();
+		
+		// Si la autenticación es exitosa, descifra los datos del usuario
+	    user.setUsername(encryptionService.decrypt(user.getUsername()));
+	    user.setRole(encryptionService.decrypt(user.getRole()));
+	    user.setEnabled(encryptionService.decrypt(user.getEnabled()));
 
 		// Genera un token de autenticación para el usuario
 		String token = jwtService.getToken(user);
@@ -98,7 +109,7 @@ public class AuthServiceImpl implements IAuthService {
 		// Devuelve el DTO de autenticación con el token
 		// Devuelve el DTO de autenticación con el token y los datos del usuario
 		return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
-				.role(user.getRole().name()).build();
+				.role(user.getRole()).build();
 	}
 
 	/*
@@ -125,7 +136,7 @@ public class AuthServiceImpl implements IAuthService {
 		// Crear un nuevo Usuario y asignar Cliente y Librería
 		Usuario usuario = Usuario.builder().username(request.getUsername())
 				.password(passwordEncoder.encode(request.getPassword())).cliente(cliente).libreria(libreria)
-				.role(Role.USER).enabled((byte) 1).build();
+				.role("USER").enabled("1").build();
 
 		// Guardar el Usuario en la base de datos
 		usuario = usuarioRepository.save(usuario);
@@ -141,19 +152,18 @@ public class AuthServiceImpl implements IAuthService {
 
 	@Override
 	public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
+	    Usuario usuario = Usuario.builder()
+	            .username(encryptionService.encrypt(dto.getUsername()))
+	            .password(passwordEncoder.encode(dto.getPassword()))
+	            .role(encryptionService.encrypt("ADMIN"))
+	            .enabled(encryptionService.encrypt("1"))
+	            .build();
+	    
+	    // Guardar el Usuario en la base de datos
+	    usuario = usuarioRepository.save(usuario);
+	    System.out.println("usuario: " + usuario.getUsername());
 
-		Usuario usuario = Usuario.builder().username(dto.getUsername())
-				.password(passwordEncoder.encode(dto.getPassword())).role(Role.ADMIN).enabled((byte) 1).build();
-
-		// Guardar el Usuario en la base de datos
-		usuario = usuarioRepository.save(usuario);
-
-		// Generar un token de autenticación para el usuario
-		//String token = jwtService.getToken(usuario);
-
-		//return UsuarioAdminDTO.builder().build();
-		
-		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+	    return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
 	@Override

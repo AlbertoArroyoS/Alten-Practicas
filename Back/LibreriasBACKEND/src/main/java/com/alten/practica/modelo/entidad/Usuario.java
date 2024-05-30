@@ -8,12 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.util.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -56,10 +53,10 @@ public class Usuario implements UserDetails {
 	private String password;
 
 	@Column(name = "enabled")
-	private byte enabled;
+	private String enabled;
 
-	@Enumerated(EnumType.STRING)
-	private Role role;
+	@Column(name = "role")
+	private String role;
 
 	@OneToOne
 	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
@@ -77,7 +74,7 @@ public class Usuario implements UserDetails {
 	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority((role.name())));
+		return List.of(new SimpleGrantedAuthority((this.role)));
 	}
 
 	/*

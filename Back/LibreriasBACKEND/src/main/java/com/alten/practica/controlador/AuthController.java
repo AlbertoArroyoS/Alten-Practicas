@@ -61,7 +61,9 @@ public class AuthController {
      */
     @PostMapping(value = "register/admins")
     public ResponseEntity<HrefEntityDTO> registerAdmin(@RequestBody UsuarioDTORequest request) {
+    
         return ResponseEntity.ok(authService.registerAdmin(request));
+        
     }
     
 	/*
