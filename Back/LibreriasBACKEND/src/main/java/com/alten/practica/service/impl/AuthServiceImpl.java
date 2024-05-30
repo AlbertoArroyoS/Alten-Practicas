@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,30 +91,40 @@ public class AuthServiceImpl implements IAuthService {
 	 * @return AuthDTO que contiene el token de autenticación
 	 */
 	@Override
-    public AuthDTO login(LoginDTORequest request) {
-        String encryptedUsername = encryptionService.encrypt(request.getUsername());
-        Optional<Usuario> userOptional = usuarioRepository.findByUsername(encryptedUsername);
-        
-        System.out.println("usuario login: " + encryptedUsername);
+	public AuthDTO login(LoginDTORequest request) {
+	    // Cifra el nombre de usuario para buscarlo en la base de datos
+	    String encryptedUsername = encryptionService.encrypt(request.getUsername());
+	    System.out.println("encryptedUsername: " + encryptedUsername);
+	    
+	    // Busca el usuario cifrado en la base de datos
+	    Optional<Usuario> userOptional = usuarioRepository.findByUsername(encryptedUsername);
+	    
+	    if (!userOptional.isPresent()) {
+	        throw new BadCredentialsException("Invalid username or password");
+	    }
 
-        if (!userOptional.isPresent()) {
-            throw new BadCredentialsException("Invalid username or password");
-        }
+	    Usuario user = userOptional.get();
 
-        Usuario user = userOptional.get();
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("Invalid username or password");
-        }
+	    // Usa el authenticationManager para autenticar al usuario
+	    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(encryptedUsername, request.getPassword()));
 
-        user.setUsername(encryptionService.decrypt(user.getUsername()));
-        user.setRole(encryptionService.decrypt(user.getRole()));
-        user.setEnabled(encryptionService.decrypt(user.getEnabled()));
+	    // Si la autenticación es exitosa, descifra los datos del usuario
+	    user.setUsername(encryptionService.decrypt(user.getUsername()));
+	    user.setRole(encryptionService.decrypt(user.getRole()));
+	    user.setEnabled(encryptionService.decrypt(user.getEnabled()));
 
-        String token = jwtService.getToken(user);
+	    // Genera el token JWT
+	    String token = jwtService.getToken(user);
 
-        return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
-                .role(user.getRole()).build();
-    }
+	    // Devuelve el DTO de autenticación con el token
+	    return AuthDTO.builder()
+	            .token(token)
+	            .idUsuario((long) user.getId())
+	            .username(user.getUsername())
+	            .role(user.getRole())
+	            .build();
+	}
+
 
 
 
