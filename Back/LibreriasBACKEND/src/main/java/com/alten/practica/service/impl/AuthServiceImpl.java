@@ -26,6 +26,7 @@ import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IAuthService;
+import com.alten.practica.service.encriptacion.EncryptionService;
 import com.alten.practica.service.jwt.JwtService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
@@ -44,36 +45,41 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements IAuthService {
-
-	// Repositorio de usuarios para acceder a los datos de usuario
+	
 	@Autowired
-	private IUsuarioRepository usuarioRepository;
-
+    private IUsuarioRepository usuarioRepository;
 	// Repositorio de clientes para acceder a los datos de cliente
-	@Autowired
-	private IClienteRepository clienteRepository;
+    @Autowired
+    private IClienteRepository clienteRepository;
 
-	// Repositorio de librerías para acceder a los datos de librería
-	@Autowired
-	private ILibreriaRepository libreriaRepository;
+    // Repositorio de librerías para acceder a los datos de librería
+    @Autowired
+    private ILibreriaRepository libreriaRepository;
 
-	// Servicio para manejar la lógica de JWT
-	@Autowired
-	private JwtService jwtService;
+    // Servicio para manejar la lógica de JWT
+ // Servicio para manejar la lógica de JWT
+ 	@Autowired
+ 	private JwtService jwtService;
 
-	// Gestor de autenticación para autenticar usuarios
-	private final AuthenticationManager authenticationManager;
+    // Servicio para manejar la lógica de encriptación
+    @Autowired
+    private EncryptionService encryptionService;
 
-	@Autowired
-	LibreriaUtil libreriaUtil;
+    // Gestor de autenticación para autenticar usuarios
+    @Autowired
+    AuthenticationManager authenticationManager;
 
-	@Autowired
-	IUsuarioMapper usuarioMapper;
-	@Autowired
-	IUsuarioAdminMapper usuarioAdminMapper;
+    @Autowired
+    LibreriaUtil libreriaUtil;
 
-	// Codificador de contraseñas para codificar contraseñas de usuario
-	public final PasswordEncoder passwordEncoder;
+    @Autowired
+    IUsuarioMapper usuarioMapper;
+
+    @Autowired
+    IUsuarioAdminMapper usuarioAdminMapper;
+    
+    @Autowired
+	PasswordEncoder passwordEncoder;
 
 	/*
 	 * Autentica un usuario.
@@ -98,7 +104,7 @@ public class AuthServiceImpl implements IAuthService {
 		// Devuelve el DTO de autenticación con el token
 		// Devuelve el DTO de autenticación con el token y los datos del usuario
 		return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
-				.role(user.getRole().name()).build();
+				.role(user.getRole()).build();
 	}
 
 	/*
@@ -111,76 +117,54 @@ public class AuthServiceImpl implements IAuthService {
 	 */
 	@Override
 	public HrefEntityDTO register(RegisterDTORequest request) {
-		// Crear y guardar un nuevo Cliente
 		Cliente cliente = Cliente.builder().nombre(request.getNombre()).apellidos(request.getApellidos())
 				.email(request.getEmail()).build();
+		cliente.encryptFields(encryptionService);
 		cliente = clienteRepository.save(cliente);
 
-		// Crear y guardar una nueva Librería
 		Libreria libreria = Libreria.builder().nombreLibreria(request.getNombreLibreria())
 				.nombreDueno(request.getNombreDueno()).direccion(request.getDireccion()).ciudad(request.getCiudad())
 				.build();
+		libreria.encryptFields(encryptionService);
 		libreria = libreriaRepository.save(libreria);
 
-		// Crear un nuevo Usuario y asignar Cliente y Librería
 		Usuario usuario = Usuario.builder().username(request.getUsername())
 				.password(passwordEncoder.encode(request.getPassword())).cliente(cliente).libreria(libreria)
-				.role(Role.USER).enabled((byte) 1).build();
-
-		// Guardar el Usuario en la base de datos
+				.role(encryptionService.encryptRole(Role.USER)).enabled(Byte.toString((byte) 1)).build();
+		usuario.encryptFields(encryptionService);
 		usuario = usuarioRepository.save(usuario);
 
-		// Generar un token de autenticación para el usuario
-		//String token = jwtService.getToken(usuario);
-
-		// Devolver el DTO de autenticación con el token
-		//return AuthDTO.builder().token(token).build();
-		
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
 	@Override
 	public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
-
 		Usuario usuario = Usuario.builder().username(dto.getUsername())
-				.password(passwordEncoder.encode(dto.getPassword())).role(Role.ADMIN).enabled((byte) 1).build();
-
-		// Guardar el Usuario en la base de datos
+				.password(passwordEncoder.encode(dto.getPassword())).role(encryptionService.encryptRole(Role.ADMIN))
+				.enabled(Byte.toString((byte) 1)).build();
+		usuario.encryptFields(encryptionService);
 		usuario = usuarioRepository.save(usuario);
 
-		// Generar un token de autenticación para el usuario
-		//String token = jwtService.getToken(usuario);
-
-		//return UsuarioAdminDTO.builder().build();
-		
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
 	@Override
 	public HrefEntityDTO updateAdmin(UsuarioDTORequest dto, int id) {
-		// TODO Auto-generated method stub
+		// TODO: Implementar la lógica de actualización del administrador
 		return null;
 	}
 
 	@Override
 	public HrefEntityDTO updateUser(UsuarioSimpleDTORequest request, int id) {
-		// Crear y guardar un nuevo Cliente	
-		// Crear un nuevo Usuario y asignar Cliente y Librería
 		Usuario usuario = usuarioRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
 
-		// Actualizar los campos del usuario con los valores del DTO
-		//usuario.setUsername(request.getUsername());
 		usuario.setPassword(passwordEncoder.encode(request.getPassword()));
-		// Guardar el Usuario en la base de datos
+		usuario.encryptFields(encryptionService);
 		usuario = usuarioRepository.save(usuario);
 
-		// Generar un token de autenticación para el usuario
 		String token = jwtService.getToken(usuario);
 
-		// Devolver el DTO de autenticación 
-		//return UsuarioDTO.builder().build();
-		
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
 
@@ -188,13 +172,15 @@ public class AuthServiceImpl implements IAuthService {
 	@Override
 	public UsuarioDTO findById(int id) {
 		Usuario usuario = usuarioRepository.findById(id).orElseThrow();
+		usuario.decryptFields(encryptionService);
 		return usuarioMapper.toDTO(usuario);
 	}
+
 	@Transactional(readOnly = true)
 	@Override
 	public Page<UsuarioDTO> findAll(Pageable pageable) {
 		Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
-		return usuarios.map(usuario ->usuarioMapper.toDTO(usuario));
+		usuarios.forEach(usuario -> usuario.decryptFields(encryptionService));
+		return usuarios.map(usuarioMapper::toDTO);
 	}
-
 }

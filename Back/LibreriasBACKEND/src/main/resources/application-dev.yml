@@ -44,6 +44,9 @@ cors:
   allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
   allowed-headers: "*"
 
+jasypt:
+  encryptor:
+    password: jA$yptS3cUr3Pa$$w0rD!@#2024!@#AAS
 
  
  ## CONFIGURACION DE LOS LOGS

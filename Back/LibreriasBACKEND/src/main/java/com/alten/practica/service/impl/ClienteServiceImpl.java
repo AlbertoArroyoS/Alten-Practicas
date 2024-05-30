@@ -14,6 +14,7 @@ import com.alten.practica.modelo.entidad.dto.request.ClienteDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IClienteMapper;
 import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.service.IClienteService;
+import com.alten.practica.service.encriptacion.EncryptionService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
@@ -27,121 +28,127 @@ import com.alten.practica.util.LibreriaUtil;
 @Service
 public class ClienteServiceImpl implements IClienteService {
 
-	@Autowired
-	IClienteRepository clienteRepository;
-	@Autowired
-	IClienteMapper clienteMapper;
-	@Autowired
-	LibreriaUtil libreriaUtil;
+    @Autowired
+    IClienteRepository clienteRepository;
 
-	/**
-	 * Guarda un nuevo cliente en la base de datos.
-	 * 
-	 * @param dto Los datos del cliente a guardar.
-	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
-	 *         cliente creado.
-	 * @throws IllegalStateException Si ya existe un cliente con el mismo nombre y
-	 *                               apellidos proporcionados en los datos.
-	 */
-	@Override
-	public HrefEntityDTO save(ClienteDTORequest dto) {
+    @Autowired
+    IClienteMapper clienteMapper;
 
-		clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
-			throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
-					+ dto.getApellidos() + "' ya existe");
-		});
+    @Autowired
+    LibreriaUtil libreriaUtil;
 
-		Cliente cliente = this.clienteRepository.save(this.clienteMapper.toBean(dto));
+    @Autowired
+    EncryptionService encryptionService;
 
-		return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
+    /**
+     * Guarda un nuevo cliente en la base de datos.
+     * 
+     * @param dto Los datos del cliente a guardar.
+     * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
+     *         cliente creado.
+     * @throws IllegalStateException Si ya existe un cliente con el mismo nombre y
+     *                               apellidos proporcionados en los datos.
+     */
+    @Override
+    public HrefEntityDTO save(ClienteDTORequest dto) {
+        clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
+            throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
+                    + dto.getApellidos() + "' ya existe");
+        });
 
-	}
+        Cliente cliente = this.clienteMapper.toBean(dto);
+        cliente.encryptFields(encryptionService);
+        cliente = this.clienteRepository.save(cliente);
 
-	/**
-	 * Busca un cliente por su ID en la base de datos.
-	 * 
-	 * @param id El ID del cliente a buscar.
-	 * @return Un objeto {@code ClienteDTO} que representa el cliente encontrado.
-	 * @throws EntityNotFoundException Si no se encuentra ningún cliente con el ID
-	 *                                 proporcionado.
-	 */
-	@Transactional(readOnly = true)
-	@Override
-	public ClienteDTO findById(int id) {
-		Cliente cpl = clienteRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
+        return libreriaUtil.createHrefFromResource(cliente.getId(), LibreriaResource.CLIENTE);
+    }
 
-		return clienteMapper.toDTO(cpl);
-	}
+    /**
+     * Busca un cliente por su ID en la base de datos.
+     * 
+     * @param id El ID del cliente a buscar.
+     * @return Un objeto {@code ClienteDTO} que representa el cliente encontrado.
+     * @throws EntityNotFoundException Si no se encuentra ningún cliente con el ID
+     *                                 proporcionado.
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public ClienteDTO findById(int id) {
+        Cliente cpl = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
 
-	/**
-	 * Obtiene una lista de todos los clientes en la base de datos.
-	 * 
-	 * @return Una lista de objetos {@code ClienteDTO} que representan todos los
-	 *         clientes en la base de datos.
-	 */
-	@Transactional(readOnly = true)
-	@Override
-	public List<ClienteDTO> findAll() {
-		List<Cliente> clientes = clienteRepository.findAll();
-		return clientes.stream().map(clienteMapper::toDTO).toList();
-	}
+        cpl.decryptFields(encryptionService);
+        return clienteMapper.toDTO(cpl);
+    }
 
-	/**
-	 * Actualiza los datos de un cliente existente en la base de datos.
-	 * 
-	 * @param dto Los nuevos datos del cliente.
-	 * @param id  El ID del cliente a actualizar.
-	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
-	 *         cliente actualizado.
-	 * @throws IllegalStateException   Si ya existe un cliente con el mismo nombre y
-	 *                                 apellidos proporcionados en los datos.
-	 * @throws EntityNotFoundException Si no se encuentra ningún cliente con el ID
-	 *                                 proporcionado.
-	 */
-	@Override
-	public HrefEntityDTO update(ClienteDTORequest dto, int id) {
-	    // Encuentra el cliente por id
-	    Cliente cpl = clienteRepository.findById(id)
-	            .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
+    /**
+     * Obtiene una lista de todos los clientes en la base de datos.
+     * 
+     * @return Una lista de objetos {@code ClienteDTO} que representan todos los
+     *         clientes en la base de datos.
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<ClienteDTO> findAll() {
+        List<Cliente> clientes = clienteRepository.findAll();
+        clientes.forEach(cliente -> cliente.decryptFields(encryptionService));
+        return clientes.stream().map(clienteMapper::toDTO).toList();
+    }
 
-	    // Verifica si ya existe otro cliente con el mismo nombre y apellidos, excluyendo el cliente actual
-	    clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
-	        if (a.getId() != id) {
-	            throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
-	                    + dto.getApellidos() + "' ya existe");
-	        }
-	    });
+    /**
+     * Actualiza los datos de un cliente existente en la base de datos.
+     * 
+     * @param dto Los nuevos datos del cliente.
+     * @param id  El ID del cliente a actualizar.
+     * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
+     *         cliente actualizado.
+     * @throws IllegalStateException   Si ya existe un cliente con el mismo nombre y
+     *                                 apellidos proporcionados en los datos.
+     * @throws EntityNotFoundException Si no se encuentra ningún cliente con el ID
+     *                                 proporcionado.
+     */
+    @Override
+    public HrefEntityDTO update(ClienteDTORequest dto, int id) {
+        // Encuentra el cliente por id
+        Cliente cpl = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
 
-	    // Actualiza los campos del cliente
-	    cpl.setNombre(dto.getNombre());
-	    cpl.setApellidos(dto.getApellidos());
-	    cpl.setEmail(dto.getEmail());
-	    cpl.setPassword(dto.getPassword());
+        // Verifica si ya existe otro cliente con el mismo nombre y apellidos, excluyendo el cliente actual
+        clienteRepository.findByNombreAndApellidos(dto.getNombre(), dto.getApellidos()).ifPresent(a -> {
+            if (a.getId() != id) {
+                throw new IllegalStateException("Cliente con el nombre '" + dto.getNombre() + "' y apellidos '"
+                        + dto.getApellidos() + "' ya existe");
+            }
+        });
 
-	    // Guarda los cambios y retorna la entidad
-	    return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
-	}
+        // Actualiza los campos del cliente
+        cpl.setNombre(dto.getNombre());
+        cpl.setApellidos(dto.getApellidos());
+        cpl.setEmail(dto.getEmail());
+        cpl.encryptFields(encryptionService);
 
+        // Guarda los cambios y retorna la entidad
+        return libreriaUtil.createHrefFromResource(this.clienteRepository.save(cpl).getId(), LibreriaResource.CLIENTE);
+    }
 
+    /**
+     * Elimina un cliente de la base de datos.
+     * 
+     * @param id El ID del cliente a eliminar.
+     * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
+     *         cliente eliminado.
+     * @throws EntityNotFoundException Si no se encuentra ningún cliente con el ID
+     *                                 proporcionado.
+     */
+    @Override
+    public HrefEntityDTO delete(int id) {
+        Cliente cpl = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
 
-	/**
-	 * Elimina un cliente de la base de datos.
-	 * 
-	 * @param id El ID del cliente a eliminar.
-	 * @return Un objeto {@code HrefEntityDTO} que contiene un enlace al recurso del
-	 *         cliente eliminado.
-	 * @throws EntityNotFoundException Si no se encuentra ningún cliente con el ID
-	 *                                 proporcionado.
-	 */
-	@Override
-	public HrefEntityDTO delete(int id) {
-		Cliente cpl = clienteRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El cliente con id %s no existe", id)));
+        this.clienteRepository.delete(cpl);
 
-		this.clienteRepository.delete(cpl);
-
-		return libreriaUtil.createHrefFromResource(cpl.getId(), LibreriaResource.CLIENTE);
-	}
+        return libreriaUtil.createHrefFromResource(cpl.getId(), LibreriaResource.CLIENTE);
+    }
 
 }
+
