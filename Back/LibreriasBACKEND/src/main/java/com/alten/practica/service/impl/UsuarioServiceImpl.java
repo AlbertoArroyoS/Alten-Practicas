@@ -59,12 +59,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Transactional(readOnly = true)
 	@Override
 	public UsuarioDTO findById(int id) {
-		// Buscar el usuario por su ID en el repositorio de usuarios
-		Usuario usuario = usuarioRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
-		usuario.decryptFields(encryptionService);
-		return usuarioMapper.toDTO(usuario);
-	}
+        // Buscar el usuario por su ID en el repositorio de usuarios
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
+        usuario.setEncryptionService(encryptionService);
+        usuario.decryptFields();
+        return usuarioMapper.toDTO(usuario);
+    }
 
 	/**
 	 * Actualiza un usuario existente en la base de datos.
@@ -78,20 +79,21 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	 */
 	@Override
 	public HrefEntityDTO update(UsuarioDTORequest dto, int id) {
-		// Buscar el usuario por su ID en el repositorio de usuarios
-		Usuario usuario = usuarioRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
+        // Buscar el usuario por su ID en el repositorio de usuarios
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
 
-		// Actualizar los campos del usuario con los valores del DTO
-		usuarioMapper.updateUsuarioFromDto(dto, usuario);
-		if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-			usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
-		}
-		usuario.encryptFields(encryptionService);
+        // Actualizar los campos del usuario con los valores del DTO
+        usuarioMapper.updateUsuarioFromDto(dto, usuario);
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+        usuario.setEncryptionService(encryptionService);
+        usuario.encryptFields();
 
-		// Guardar el usuario actualizado en el repositorio y crear un HrefEntityDTO
-		return libreriaUtil.createHrefFromResource(usuarioRepository.save(usuario).getId(), LibreriaResource.USUARIO);
-	}
+        // Guardar el usuario actualizado en el repositorio y crear un HrefEntityDTO
+        return libreriaUtil.createHrefFromResource(usuarioRepository.save(usuario).getId(), LibreriaResource.USUARIO);
+    }
 
 	/**
 	 * Guarda un nuevo usuario en la base de datos.
@@ -102,15 +104,16 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	 */
 	@Override
 	public HrefEntityDTO save(UsuarioDTORequest dto) {
-		Usuario usuario = usuarioMapper.toBean(dto);
-		usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
-		usuario.encryptFields(encryptionService);
+        Usuario usuario = usuarioMapper.toBean(dto);
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        usuario.setEncryptionService(encryptionService);
+        usuario.encryptFields();
 
-		// Guardar el Usuario en la base de datos
-		usuario = usuarioRepository.save(usuario);
+        // Guardar el Usuario en la base de datos
+        usuario = usuarioRepository.save(usuario);
 
-		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
-	}
+        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+    }
 
 	/**
 	 * Encuentra todos los usuarios con paginación.
@@ -126,11 +129,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public Page<UsuarioDTO> findAllUser(Pageable pageable) {
-		Page<Usuario> usuario = usuarioRepository.findUsers(pageable);
-		usuario.forEach(u -> u.decryptFields(encryptionService));
-		return usuario.map(usuarioMapper::toDTO);
-	}
+	 public Page<UsuarioDTO> findAllUser(Pageable pageable) {
+        Page<Usuario> usuario = usuarioRepository.findUsers(pageable);
+        usuario.forEach(u -> {
+            u.setEncryptionService(encryptionService);
+            u.decryptFields();
+        });
+        return usuario.map(usuarioMapper::toDTO);
+    }
 
 	/**
 	 * Encuentra todos los administradores con paginación.
@@ -142,8 +148,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Transactional(readOnly = true)
 	@Override
 	public Page<UsuarioAdminDTO> findAllAdmin(Pageable pageable) {
-		Page<Usuario> usuario = usuarioRepository.findAdmins(pageable);
-		usuario.forEach(u -> u.decryptFields(encryptionService));
-		return usuario.map(usuarioAdminMapper::toDTO);
-	}
+        Page<Usuario> usuario = usuarioRepository.findAdmins(pageable);
+        usuario.forEach(u -> {
+            u.setEncryptionService(encryptionService);
+            u.decryptFields();
+        });
+        return usuario.map(usuarioAdminMapper::toDTO);
+    }
 }

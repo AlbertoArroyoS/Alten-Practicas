@@ -4,8 +4,6 @@ import org.jasypt.util.text.AES256TextEncryptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.alten.practica.util.Role;
-
 @Service
 public class EncryptionService {
 
@@ -22,14 +20,6 @@ public class EncryptionService {
 
     public String decrypt(String encryptedData) {
         return textEncryptor.decrypt(encryptedData);
-    }
-
-    public String encryptRole(Role role) {
-        return textEncryptor.encrypt(role.name());
-    }
-
-    public Role decryptRole(String encryptedRole) {
-        return Role.valueOf(textEncryptor.decrypt(encryptedRole));
     }
 
     public String encryptInt(int number) {

@@ -60,13 +60,16 @@ public class Libreria {
 	@OneToMany(mappedBy = "libreria")
 	private List<ClienteCompraLibro> listaComprasLibrerias;
 
-    @Transient
-    private static EncryptionService encryptionService;
+	@Transient
+    private EncryptionService encryptionService;
 
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
 
     @PrePersist
     @PreUpdate
-    public void encryptFields(EncryptionService encryptionService) {
+    public void encryptFields() {
         this.nombreLibreria = encryptionService.encrypt(this.nombreLibreria);
         this.nombreDueno = encryptionService.encrypt(this.nombreDueno);
         this.direccion = encryptionService.encrypt(this.direccion);
@@ -74,7 +77,7 @@ public class Libreria {
     }
 
     @PostLoad
-    public void decryptFields(EncryptionService encryptionService) {
+    public void decryptFields() {
         this.nombreLibreria = encryptionService.decrypt(this.nombreLibreria);
         this.nombreDueno = encryptionService.decrypt(this.nombreDueno);
         this.direccion = encryptionService.decrypt(this.direccion);

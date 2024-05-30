@@ -17,7 +17,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,21 +47,22 @@ import lombok.NoArgsConstructor;
 @Table(name = "users", schema = LibreriaConstant.ESQUEMA_NOMBRE_ENCRTIPTADA, uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 public class Usuario implements UserDetails {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true, length = 512)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 512)
     private String password;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled", length = 512)
     private String enabled;
 
-    @Column(name = "role")
+    @Column(name = "role", length = 512)
     private String role;
+
 
     @OneToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
@@ -66,19 +71,29 @@ public class Usuario implements UserDetails {
     @OneToOne
     @JoinColumn(name = "id_libreria", referencedColumnName = "id_libreria")
     private Libreria libreria;
+    
+    @Transient
+    private EncryptionService encryptionService;
 
-    public void encryptFields(EncryptionService encryptionService) {
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
+    
+    @PrePersist
+    @PreUpdate
+    public void encryptFields() {
         this.username = encryptionService.encrypt(this.username);
         this.password = encryptionService.encrypt(this.password);
         this.role = encryptionService.encrypt(this.role);
-        this.enabled = encryptionService.encryptByte(Byte.parseByte(this.enabled));
+        this.enabled = encryptionService.encrypt(this.enabled);
     }
 
-    public void decryptFields(EncryptionService encryptionService) {
+    @PostLoad
+    public void decryptFields() {
         this.username = encryptionService.decrypt(this.username);
         this.password = encryptionService.decrypt(this.password);
         this.role = encryptionService.decrypt(this.role);
-        this.enabled = Byte.toString(encryptionService.decryptByte(this.enabled));
+       // this.enabled = encryptionService.decrypt(this.enabled);
     }
 
     @Override

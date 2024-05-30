@@ -30,7 +30,6 @@ import com.alten.practica.service.encriptacion.EncryptionService;
 import com.alten.practica.service.jwt.JwtService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
-import com.alten.practica.util.Role;
 
 import lombok.RequiredArgsConstructor;
 
@@ -119,19 +118,19 @@ public class AuthServiceImpl implements IAuthService {
 	public HrefEntityDTO register(RegisterDTORequest request) {
 		Cliente cliente = Cliente.builder().nombre(request.getNombre()).apellidos(request.getApellidos())
 				.email(request.getEmail()).build();
-		cliente.encryptFields(encryptionService);
+		cliente.encryptFields();
 		cliente = clienteRepository.save(cliente);
 
 		Libreria libreria = Libreria.builder().nombreLibreria(request.getNombreLibreria())
 				.nombreDueno(request.getNombreDueno()).direccion(request.getDireccion()).ciudad(request.getCiudad())
 				.build();
-		libreria.encryptFields(encryptionService);
+		libreria.encryptFields();
 		libreria = libreriaRepository.save(libreria);
 
 		Usuario usuario = Usuario.builder().username(request.getUsername())
 				.password(passwordEncoder.encode(request.getPassword())).cliente(cliente).libreria(libreria)
-				.role(encryptionService.encryptRole(Role.USER)).enabled(Byte.toString((byte) 1)).build();
-		usuario.encryptFields(encryptionService);
+				.role(encryptionService.encrypt("USER")).enabled("1").build();
+		usuario.encryptFields();
 		usuario = usuarioRepository.save(usuario);
 
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
@@ -140,13 +139,14 @@ public class AuthServiceImpl implements IAuthService {
 	@Override
 	public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
 		Usuario usuario = Usuario.builder().username(dto.getUsername())
-				.password(passwordEncoder.encode(dto.getPassword())).role(encryptionService.encryptRole(Role.ADMIN))
-				.enabled(Byte.toString((byte) 1)).build();
-		usuario.encryptFields(encryptionService);
-		usuario = usuarioRepository.save(usuario);
+                .password(passwordEncoder.encode(dto.getPassword())).role(encryptionService.encrypt("ADMIN"))
+                .enabled("1").build();
+        usuario.setEncryptionService(encryptionService);
+        usuario.encryptFields();
+        usuario = usuarioRepository.save(usuario);
 
-		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
-	}
+        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+    }
 
 	@Override
 	public HrefEntityDTO updateAdmin(UsuarioDTORequest dto, int id) {
@@ -158,12 +158,12 @@ public class AuthServiceImpl implements IAuthService {
 	public HrefEntityDTO updateUser(UsuarioSimpleDTORequest request, int id) {
 		Usuario usuario = usuarioRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format("El usuario con id %s no existe", id)));
-
+		usuario.setEncryptionService(encryptionService);
 		usuario.setPassword(passwordEncoder.encode(request.getPassword()));
-		usuario.encryptFields(encryptionService);
+		usuario.encryptFields();
 		usuario = usuarioRepository.save(usuario);
 
-		String token = jwtService.getToken(usuario);
+		//String token = jwtService.getToken(usuario);
 
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}
@@ -172,7 +172,7 @@ public class AuthServiceImpl implements IAuthService {
 	@Override
 	public UsuarioDTO findById(int id) {
 		Usuario usuario = usuarioRepository.findById(id).orElseThrow();
-		usuario.decryptFields(encryptionService);
+		usuario.decryptFields();
 		return usuarioMapper.toDTO(usuario);
 	}
 
@@ -180,7 +180,7 @@ public class AuthServiceImpl implements IAuthService {
 	@Override
 	public Page<UsuarioDTO> findAll(Pageable pageable) {
 		Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
-		usuarios.forEach(usuario -> usuario.decryptFields(encryptionService));
+		usuarios.forEach(usuario -> usuario.decryptFields());
 		return usuarios.map(usuarioMapper::toDTO);
 	}
 }

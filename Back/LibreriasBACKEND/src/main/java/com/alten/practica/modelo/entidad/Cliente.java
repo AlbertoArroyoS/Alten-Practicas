@@ -58,10 +58,10 @@ public class Cliente {
 	private Usuario usuario;
 
 	@Transient
-    private static EncryptionService encryptionService;
+    private EncryptionService encryptionService;
 
     public void setEncryptionService(EncryptionService encryptionService) {
-        Cliente.encryptionService = encryptionService;
+        this.encryptionService = encryptionService;
     }
 
     @PrePersist

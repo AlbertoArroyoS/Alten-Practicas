@@ -53,13 +53,13 @@ public class LibreriaServiceImpl implements ILibreriaService {
      */
     @Override
     public HrefEntityDTO save(LibreriaDTORequest dto) {
-
         libreriaRepository.findByNombreLibreria(dto.getNombreLibreria()).ifPresent(libreria -> {
             throw new EntityExistsException(String.format("La libreria %s ya existe", dto.getNombreLibreria()));
         });
 
         Libreria libreria = this.libreriaMapper.toBean(dto);
-        libreria.encryptFields(encryptionService);
+        libreria.setEncryptionService(encryptionService);
+        libreria.encryptFields();
         libreria = this.libreriaRepository.save(libreria);
 
         return libreriaUtil.createHrefFromResource(libreria.getId(), LibreriaResource.LIBRERIA);
@@ -76,11 +76,11 @@ public class LibreriaServiceImpl implements ILibreriaService {
     @Transactional(readOnly = true)
     @Override
     public LibreriaDTO findById(int id) {
-
         Libreria libreria = libreriaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("La libreria con id %s no existe", id)));
 
-        libreria.decryptFields(encryptionService);
+        libreria.setEncryptionService(encryptionService);
+        libreria.decryptFields();
         return libreriaMapper.toDTO(libreria);
     }
 
@@ -94,9 +94,11 @@ public class LibreriaServiceImpl implements ILibreriaService {
     @Override
     public List<LibreriaDTO> findAll() {
         List<Libreria> lista = this.libreriaRepository.findAll();
-        lista.forEach(libreria-> libreria.decryptFields(encryptionService));
+        lista.forEach(libreria -> {
+            libreria.setEncryptionService(encryptionService);
+            libreria.decryptFields();
+        });
         return lista.stream().map(libreria -> libreriaMapper.toDTO(libreria)).collect(Collectors.toList());
-        
     }
 
     /**
@@ -115,7 +117,6 @@ public class LibreriaServiceImpl implements ILibreriaService {
         // Encuentra la librería por id
         Libreria libreria = libreriaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("La librería con id %s no existe", id)));
-        libreria.setId(id);
 
         // Comprobar si existen duplicados antes de actualizar, excluyendo la librería actual
         List<Libreria> libreriasDuplicados = libreriaRepository.findByNombreLibreria(dto.getNombreLibreria()).stream()
@@ -131,7 +132,8 @@ public class LibreriaServiceImpl implements ILibreriaService {
         libreria.setNombreDueno(dto.getNombreDueno());
         libreria.setDireccion(dto.getDireccion());
         libreria.setCiudad(dto.getCiudad());
-        libreria.encryptFields(encryptionService);
+        libreria.setEncryptionService(encryptionService);
+        libreria.encryptFields();
 
         // Guarda los cambios y retorna la entidad
         Libreria libreriaActualizada = libreriaRepository.save(libreria);
@@ -156,5 +158,6 @@ public class LibreriaServiceImpl implements ILibreriaService {
 
         return libreriaUtil.createHrefFromResource(libreria.getId(), LibreriaResource.LIBRERIA);
     }
+
 
 }
