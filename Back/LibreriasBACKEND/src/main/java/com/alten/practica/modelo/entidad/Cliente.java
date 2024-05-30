@@ -42,10 +42,6 @@ public class Cliente {
 	private String apellidos;
 	@Column(name = "email")
 	private String email;
-	@Column(name = "password")
-	private String password;
-	@Column(name = "nivel_permiso")
-	private int nivelPermiso;
 
 	@OneToMany(mappedBy = "cliente")
 	private List<ClienteCompraLibro> listaCompras;

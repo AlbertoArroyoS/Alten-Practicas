@@ -38,7 +38,6 @@ public class ClienteDTORequest {
 	@Email(message = "El formato del email no es válido")
 	private String email;
 
-	private String password;
 
 
 }

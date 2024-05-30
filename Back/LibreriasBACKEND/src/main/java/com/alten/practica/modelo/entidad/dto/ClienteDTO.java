@@ -31,8 +31,5 @@ public class ClienteDTO implements Serializable {
 
 	private String email;
 
-	private String password;
-
-	private int nivelPermiso;
 
 }
