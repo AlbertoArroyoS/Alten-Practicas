@@ -1,10 +1,12 @@
 package com.alten.practica.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,40 +46,40 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements IAuthService {
-	
+
 	@Autowired
-    private IUsuarioRepository usuarioRepository;
+	private IUsuarioRepository usuarioRepository;
 	// Repositorio de clientes para acceder a los datos de cliente
-    @Autowired
-    private IClienteRepository clienteRepository;
+	@Autowired
+	private IClienteRepository clienteRepository;
 
-    // Repositorio de librerías para acceder a los datos de librería
-    @Autowired
-    private ILibreriaRepository libreriaRepository;
+	// Repositorio de librerías para acceder a los datos de librería
+	@Autowired
+	private ILibreriaRepository libreriaRepository;
 
-    // Servicio para manejar la lógica de JWT
- // Servicio para manejar la lógica de JWT
- 	@Autowired
- 	private JwtService jwtService;
+	// Servicio para manejar la lógica de JWT
+	// Servicio para manejar la lógica de JWT
+	@Autowired
+	private JwtService jwtService;
 
-    // Servicio para manejar la lógica de encriptación
-    @Autowired
-    private EncryptionService encryptionService;
+	// Servicio para manejar la lógica de encriptación
+	@Autowired
+	private EncryptionService encryptionService;
 
-    // Gestor de autenticación para autenticar usuarios
-    @Autowired
-    AuthenticationManager authenticationManager;
+	// Gestor de autenticación para autenticar usuarios
+	@Autowired
+	AuthenticationManager authenticationManager;
 
-    @Autowired
-    LibreriaUtil libreriaUtil;
+	@Autowired
+	LibreriaUtil libreriaUtil;
 
-    @Autowired
-    IUsuarioMapper usuarioMapper;
+	@Autowired
+	IUsuarioMapper usuarioMapper;
 
-    @Autowired
-    IUsuarioAdminMapper usuarioAdminMapper;
-    
-    @Autowired
+	@Autowired
+	IUsuarioAdminMapper usuarioAdminMapper;
+
+	@Autowired
 	PasswordEncoder passwordEncoder;
 
 	/*
@@ -90,21 +92,44 @@ public class AuthServiceImpl implements IAuthService {
 	 */
 	@Override
 	public AuthDTO login(LoginDTORequest request) {
-		// Autentica al usuario utilizando las credenciales proporcionadas
-		authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+		
+		
+	    // Encripta el username del request
+	    String encryptedUsername = encryptionService.encrypt(request.getUsername());
 
-		// Busca los detalles del usuario en el repositorio
-		Usuario user = usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
+	    // Imprime el username encriptado
+	    System.out.println("Encrypted Username: " + encryptedUsername);
 
-		// Genera un token de autenticación para el usuario
-		String token = jwtService.getToken(user);
+	    // Busca los detalles del usuario en el repositorio usando el username encriptado
+	    Optional<Usuario> userOptional = usuarioRepository.findByUsername(encryptedUsername);
 
-		// Devuelve el DTO de autenticación con el token
-		// Devuelve el DTO de autenticación con el token y los datos del usuario
-		return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
-				.role(user.getRole()).build();
+	    if (!userOptional.isPresent()) {
+	        throw new BadCredentialsException("Invalid username or password");
+	    }
+
+	    Usuario user = userOptional.get();
+
+	    // Verifica la contraseña utilizando el PasswordEncoder
+	    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+	        throw new BadCredentialsException("Invalid username or password");
+	    }
+
+	    // Desencripta los campos sensibles del usuario
+	    user.setEncryptionService(encryptionService);
+	    user.decryptFields();
+
+	    // Imprime los valores desencriptados para verificar
+	    System.out.println("Decrypted Username: " + user.getUsername());
+	    System.out.println("Decrypted Password: " + user.getPassword());
+
+	    // Genera un token de autenticación para el usuario
+	    String token = jwtService.getToken(user);
+
+	    // Devuelve el DTO de autenticación con el token y los datos del usuario
+	    return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
+	            .role(user.getRole()).build();
 	}
+
 
 	/*
 	 * Registra un nuevo usuario.
@@ -118,6 +143,7 @@ public class AuthServiceImpl implements IAuthService {
 	public HrefEntityDTO register(RegisterDTORequest request) {
 		Cliente cliente = Cliente.builder().nombre(request.getNombre()).apellidos(request.getApellidos())
 				.email(request.getEmail()).build();
+		
 		cliente.encryptFields();
 		cliente = clienteRepository.save(cliente);
 
@@ -139,14 +165,17 @@ public class AuthServiceImpl implements IAuthService {
 	@Override
 	public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
 		Usuario usuario = Usuario.builder().username(dto.getUsername())
-                .password(passwordEncoder.encode(dto.getPassword())).role(encryptionService.encrypt("ADMIN"))
-                .enabled("1").build();
-        usuario.setEncryptionService(encryptionService);
-        usuario.encryptFields();
-        usuario = usuarioRepository.save(usuario);
+				.password(passwordEncoder.encode(dto.getPassword())).role(("ADMIN"))																										// necesario
+				.enabled("1").build();
+		usuario.setEncryptionService(encryptionService);
+		usuario.encryptFields();
+		usuario = usuarioRepository.save(usuario);
+		// Imprime los valores desencriptados para verificar
+	    System.out.println("Decrypted Username: " + usuario.getUsername());
+	    System.out.println("Decrypted Password: " + usuario.getPassword());
 
-        return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
-    }
+		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
+	}
 
 	@Override
 	public HrefEntityDTO updateAdmin(UsuarioDTORequest dto, int id) {
@@ -163,7 +192,7 @@ public class AuthServiceImpl implements IAuthService {
 		usuario.encryptFields();
 		usuario = usuarioRepository.save(usuario);
 
-		//String token = jwtService.getToken(usuario);
+		// String token = jwtService.getToken(usuario);
 
 		return libreriaUtil.createHrefFromResource(usuario.getId(), LibreriaResource.USUARIO);
 	}

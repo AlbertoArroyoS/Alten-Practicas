@@ -83,7 +83,6 @@ public class Usuario implements UserDetails {
     @PreUpdate
     public void encryptFields() {
         this.username = encryptionService.encrypt(this.username);
-        this.password = encryptionService.encrypt(this.password);
         this.role = encryptionService.encrypt(this.role);
         this.enabled = encryptionService.encrypt(this.enabled);
     }
@@ -91,9 +90,8 @@ public class Usuario implements UserDetails {
     @PostLoad
     public void decryptFields() {
         this.username = encryptionService.decrypt(this.username);
-        this.password = encryptionService.decrypt(this.password);
         this.role = encryptionService.decrypt(this.role);
-       // this.enabled = encryptionService.decrypt(this.enabled);
+        this.enabled = encryptionService.decrypt(this.enabled);
     }
 
     @Override
