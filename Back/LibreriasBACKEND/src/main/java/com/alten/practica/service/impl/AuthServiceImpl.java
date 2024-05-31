@@ -26,6 +26,7 @@ import com.alten.practica.repository.IClienteRepository;
 import com.alten.practica.repository.ILibreriaRepository;
 import com.alten.practica.repository.IUsuarioRepository;
 import com.alten.practica.service.IAuthService;
+import com.alten.practica.service.encrypt.DeterministicEncryptionService;
 import com.alten.practica.service.jwt.JwtService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
@@ -71,6 +72,9 @@ public class AuthServiceImpl implements IAuthService {
 	IUsuarioMapper usuarioMapper;
 	@Autowired
 	IUsuarioAdminMapper usuarioAdminMapper;
+	
+	@Autowired
+	private DeterministicEncryptionService encryptionService;
 
 	// Codificador de contraseñas para codificar contraseñas de usuario
 	public final PasswordEncoder passwordEncoder;
@@ -85,19 +89,26 @@ public class AuthServiceImpl implements IAuthService {
 	 */
 	@Override
 	public AuthDTO login(LoginDTORequest request) {
+		
+		String usuarioEncriptado = encryptionService.encrypt(request.getUsername());
+		
+		//System.out.println("usuarioEncriptado: " + usuarioEncriptado);
+		
+		
 		// Autentica al usuario utilizando las credenciales proporcionadas
 		authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+				.authenticate(new UsernamePasswordAuthenticationToken(usuarioEncriptado, request.getPassword()));
 
 		// Busca los detalles del usuario en el repositorio
-		Usuario user = usuarioRepository.findByUsername(request.getUsername()).orElseThrow();
+		Usuario user = usuarioRepository.findByUsername(usuarioEncriptado).orElseThrow();
 
 		// Genera un token de autenticación para el usuario
 		String token = jwtService.getToken(user);
 
 		// Devuelve el DTO de autenticación con el token
+		String usernameDesencriptado = encryptionService.decrypt(user.getUsername());
 		// Devuelve el DTO de autenticación con el token y los datos del usuario
-		return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(user.getUsername())
+		return AuthDTO.builder().token(token).idUsuario((long) user.getId()).username(usernameDesencriptado)
 				.role(user.getRole().name()).build();
 	}
 
@@ -141,9 +152,12 @@ public class AuthServiceImpl implements IAuthService {
 
 	@Override
 	public HrefEntityDTO registerAdmin(UsuarioDTORequest dto) {
+		
+		String usuarioEncriptado = encryptionService.encrypt(dto.getUsername());
+		String passwordEncoded = passwordEncoder.encode(dto.getPassword());
 
-		Usuario usuario = Usuario.builder().username(dto.getUsername())
-				.password(passwordEncoder.encode(dto.getPassword())).role(Role.ADMIN).enabled((byte) 1).build();
+		Usuario usuario = Usuario.builder().username(usuarioEncriptado)
+				.password(passwordEncoded).role(Role.ADMIN).enabled((byte) 1).build();
 
 		// Guardar el Usuario en la base de datos
 		usuario = usuarioRepository.save(usuario);
