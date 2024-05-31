@@ -155,6 +155,7 @@ public class AuthServiceImpl implements IAuthService {
 		
 		String usuarioEncriptado = encryptionService.encrypt(dto.getUsername());
 		String passwordEncoded = passwordEncoder.encode(dto.getPassword());
+		String roleEncriptado = encryptionService.encrypt("ADMIN");
 
 		Usuario usuario = Usuario.builder().username(usuarioEncriptado)
 				.password(passwordEncoded).role(Role.ADMIN).enabled((byte) 1).build();

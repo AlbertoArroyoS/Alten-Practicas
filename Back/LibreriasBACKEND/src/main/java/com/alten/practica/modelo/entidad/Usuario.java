@@ -8,12 +8,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.alten.practica.constantes.LibreriaConstant;
+import com.alten.practica.service.encrypt.RoleConverter;
 import com.alten.practica.util.Role;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -58,8 +58,9 @@ public class Usuario implements UserDetails {
 	@Column(name = "enabled")
 	private byte enabled;
 
-	@Enumerated(EnumType.STRING)
-	private Role role;
+	@Convert(converter = RoleConverter.class)
+    @Column(name = "role")
+    private Role role;
 
 	@OneToOne
 	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
