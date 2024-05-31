@@ -1,6 +1,5 @@
 package com.alten.practica.service.encrypt;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
@@ -19,15 +18,14 @@ import org.springframework.stereotype.Service;
 public class DeterministicEncryptionService {
 
     // Clave secreta utilizada para el cifrado y descifrado
-    private SecretKey secretKey = null;
+    private SecretKey secretKey;
 
     /**
      * Constructor que inicializa el servicio con una clave de cifrado proporcionada.
      *
      * @param encryptionKey Clave de cifrado en formato Base64, proporcionada a través del archivo de configuración.
-     * @throws NoSuchAlgorithmException Si el algoritmo de generación de claves no está disponible.
      */
-    public DeterministicEncryptionService(@Value("${encryption.key}") String encryptionKey) throws NoSuchAlgorithmException {
+    public DeterministicEncryptionService(@Value("${encryption.key}") String encryptionKey) {
         this.secretKey = generateKey(encryptionKey);
     }
 
@@ -36,9 +34,8 @@ public class DeterministicEncryptionService {
      *
      * @param key Clave en formato Base64.
      * @return SecretKey La clave secreta generada.
-     * @throws NoSuchAlgorithmException Si el algoritmo de generación de claves no está disponible.
      */
-    private SecretKey generateKey(String key) throws NoSuchAlgorithmException {
+    private SecretKey generateKey(String key) {
         byte[] decodedKey = Base64.getDecoder().decode(key);
         return new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
     }
@@ -75,65 +72,5 @@ public class DeterministicEncryptionService {
         } catch (Exception e) {
             throw new RuntimeException("Error while decrypting: " + e.toString());
         }
-    }
-
-    /**
-     * Cifra un valor entero utilizando el método de cifrado de cadenas.
-     *
-     * @param data El valor entero que se desea cifrar.
-     * @return String El valor entero cifrado, codificado en Base64.
-     */
-    public String encrypt(int data) {
-        return encrypt(String.valueOf(data));
-    }
-
-    /**
-     * Descifra un valor entero cifrado.
-     *
-     * @param encryptedData El valor entero cifrado, codificado en Base64.
-     * @return int El valor entero descifrado.
-     */
-    public int decryptToInt(String encryptedData) {
-        return Integer.parseInt(decrypt(encryptedData));
-    }
-
-    /**
-     * Cifra un valor de punto flotante doble utilizando el método de cifrado de cadenas.
-     *
-     * @param data El valor doble que se desea cifrar.
-     * @return String El valor doble cifrado, codificado en Base64.
-     */
-    public String encrypt(double data) {
-        return encrypt(String.valueOf(data));
-    }
-
-    /**
-     * Descifra un valor de punto flotante doble cifrado.
-     *
-     * @param encryptedData El valor doble cifrado, codificado en Base64.
-     * @return double El valor doble descifrado.
-     */
-    public double decryptToDouble(String encryptedData) {
-        return Double.parseDouble(decrypt(encryptedData));
-    }
-
-    /**
-     * Cifra un arreglo de bytes utilizando el método de cifrado de cadenas.
-     *
-     * @param data El arreglo de bytes que se desea cifrar.
-     * @return String El arreglo de bytes cifrado, codificado en Base64.
-     */
-    public String encrypt(byte[] data) {
-        return encrypt(new String(data));
-    }
-
-    /**
-     * Descifra un arreglo de bytes cifrado.
-     *
-     * @param encryptedData El arreglo de bytes cifrado, codificado en Base64.
-     * @return byte[] El arreglo de bytes descifrado.
-     */
-    public byte[] decryptToBytes(String encryptedData) {
-        return decrypt(encryptedData).getBytes();
     }
 }
