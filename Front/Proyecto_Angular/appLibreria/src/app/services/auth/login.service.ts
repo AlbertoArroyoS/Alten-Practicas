@@ -1,11 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject, throwError } from 'rxjs';
+import { Observable, ReplaySubject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { LoginRequest } from 'src/app/shared/model/request/loginRequest';
 import { AuthResponse } from 'src/app/shared/model/response/authResponse';
 import { Router } from '@angular/router';
-import { UserRequest } from 'src/app/shared/model/request/userRequest';
 
 /**
  * Servicio de autenticación que maneja el estado de autenticación del usuario,
@@ -24,18 +23,13 @@ export class LoginService {
   /**
    * Observable que expone los datos del usuario.
    */
-  private currentUser: AuthResponse | null = null;
-
-  private currentUserSubject = new BehaviorSubject<UserRequest | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
-  public user$: Observable<UserRequest | null>;
+  public user$: Observable<AuthResponse | null> = this.userSubject.asObservable();
 
   
   /**
    * Observable que indica si el usuario está logueado.
    */
   public userLoginOn$: Observable<boolean> = this.user$.pipe(map(user => !!user));
-
 
   /**
    * URL del servidor API.
@@ -45,12 +39,7 @@ export class LoginService {
   /**
    * Variable local para almacenar los datos del usuario logueado.
    */
-  
-
-  setCurrentUser(user: UserRequest): void {
-    this.currentUserSubject.next(user);
-  }
-  
+  private currentUser: AuthResponse | null = null;
 
   /**
    * Constructor que inyecta las dependencias necesarias.
@@ -59,7 +48,6 @@ export class LoginService {
    */
   constructor(private httpClient: HttpClient, private router: Router) {
     // Inicializa el usuario desde sessionStorage si está presente.
-    this.user$ = new Observable<UserRequest | null>();
     this.loadUserFromSessionStorage();
   }
 

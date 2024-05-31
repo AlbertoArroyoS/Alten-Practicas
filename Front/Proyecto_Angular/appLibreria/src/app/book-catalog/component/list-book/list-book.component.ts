@@ -72,7 +72,8 @@ export class ListBookComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
-    this.user$ = this.loginService.currentUser$;
+    this.user$ = this.loginService.user$;
+
     // Inicialización del formulario principal
     this.formularioLibro = this.fb.group({
       id: [''],

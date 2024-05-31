@@ -42,7 +42,8 @@ export class ListBookShopComponent implements OnInit, OnDestroy {
     private modalService: NgbModal // Inyecta el servicio de modal
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
-    this.user$ = this.loginService.currentUser$;  }
+    this.user$ = this.loginService.user$;
+  }
 
   ngOnInit(): void {
     // Suscribirse a los datos del usuario

@@ -15,7 +15,7 @@ import { AuthResponse } from 'src/app/shared/model/response/authResponse';
 export class UserDetailsComponent implements OnInit {
 
   userLoginOn$: Observable<boolean>;
-  user$: Observable<UserRequest | null>;
+  user$: Observable<AuthResponse | null>;
   editMode: boolean = false;
   userData?: UserRequest;
   errorMessage: string = '';
@@ -40,17 +40,13 @@ export class UserDetailsComponent implements OnInit {
   ) {
     // Asigna los observables del LoginService a las propiedades del componente
     this.userLoginOn$ = this.loginService.userLoginOn$;
-    this.user$ = this.loginService.currentUser$;
-    console.log('User login observable:', this.userLoginOn$);
-    console.log('User observable:', this.user$);
+    this.user$ = this.loginService.user$;
+
     // Inicializa los formularios
     this.formularioUsuario = this.fb.group({
       idUsuario: [''],
       username: new FormControl({ value: '', disabled: true }),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      // Add new fields here
-      nuevoCampo1: [''],
-      nuevoCampo2: [''],
     });
 
     this.formularioCliente = this.fb.group({
@@ -58,9 +54,6 @@ export class UserDetailsComponent implements OnInit {
       nombre: new FormControl('', Validators.required),
       apellidos: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      // Add new fields here
-      nuevoCampo1: [''],
-      nuevoCampo2: [''],
     });
 
     this.formularioLibreria = this.fb.group({
@@ -70,9 +63,6 @@ export class UserDetailsComponent implements OnInit {
       nombreDueno: new FormControl('', Validators.required),
       direccion: new FormControl('', Validators.required),
       ciudad: new FormControl('', Validators.required),
-      // Add new fields here
-      nuevoCampo1: [''],
-      nuevoCampo2: [''],
     });
   }
 
@@ -82,8 +72,6 @@ export class UserDetailsComponent implements OnInit {
       next: (userData) => {
         if (userData) {
           this.loadUserData(userData.idUsuario);
-          console.log('Datos del usuario:', userData);
-          console.log('user$:', this.user$);
         }
       },
       error: (error) => {
@@ -92,6 +80,11 @@ export class UserDetailsComponent implements OnInit {
       }
     });
 
+    // Cargar datos del usuario si ya está logueado
+    const userId = this.loginService.getUserId();
+    if (userId) {
+      this.loadUserData(userId);
+    }
   }
 
   /**
@@ -99,21 +92,15 @@ export class UserDetailsComponent implements OnInit {
    * @param userId El ID del usuario.
    */
   loadUserData(userId: number): void {
-  
     this.userService.getUser(userId).subscribe({
       next: (userData: UserRequest) => { 
         this.userData = userData;
         this.idUsuario = userData.idUsuario;
         this.idCliente = userData.idCliente;
         this.idLibreria = userData.idLibreria;
-        console.log('Datos del usuario en loadUserData: ', userData);
 
         // Parchear los formularios con los datos del usuario
-        this.formularioUsuario.patchValue({
-          idUsuario: userData.idUsuario,
-          username: userData.username,
-          password: userData.password,
-        });
+        this.formularioUsuario.patchValue(userData);
         this.formularioCliente.patchValue(userData);
         this.formularioLibreria.patchValue(userData);
       },

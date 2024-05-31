@@ -34,7 +34,8 @@ export class ListPurchaseComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {
     this.userLoginOn$ = this.loginService.userLoginOn$;
-    this.user$ = this.loginService.currentUser$;  }
+    this.user$ = this.loginService.user$;
+  }
 
   ngOnInit(): void {
     // Suscribirse a los datos del usuario
