@@ -89,7 +89,7 @@ public class LibreriaConstant {
 	// =============================================================================================
 	// NOMBRE DE LOS ESQUEMAS
 	// =============================================================================================
-	public static final String ESQUEMA_NOMBRE = "dbo";
+	public static final String ESQUEMA_NOMBRE = "dbo_encriptada";
 
 	// =============================================================================================
 	// NOMBRE DE LOS PROCEDIMIENTOS ALMACENADOS (FUNCIONES DE SQL SERVER)

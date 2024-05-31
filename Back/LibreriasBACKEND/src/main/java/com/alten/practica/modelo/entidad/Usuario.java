@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.alten.practica.constantes.LibreriaConstant;
 import com.alten.practica.util.Role;
 
 import jakarta.persistence.Column;
@@ -41,7 +42,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users", schema = "dbo", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+@Table(name = "users", schema = LibreriaConstant.ESQUEMA_NOMBRE , uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 public class Usuario implements UserDetails {
 
 	@Id

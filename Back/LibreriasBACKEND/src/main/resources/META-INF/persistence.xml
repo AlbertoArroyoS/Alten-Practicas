@@ -12,7 +12,7 @@
         <properties>
             <!-- Configuración de la conexión a la base de datos -->
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/db_libreria_Alten?currentSchema=dbo"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/db_libreria_Alten?currentSchema=dbo_encriptada"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
             <property name="javax.persistence.jdbc.password" value="root"/>
 
