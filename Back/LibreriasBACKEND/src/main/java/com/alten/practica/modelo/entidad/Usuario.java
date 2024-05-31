@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.alten.practica.constantes.LibreriaConstant;
-import com.alten.practica.service.encrypt.RoleConverter;
+import com.alten.practica.service.encrypt.EncriptadorDesencriptadorAutomatico;
 import com.alten.practica.util.Role;
 
 import jakarta.persistence.Column;
@@ -49,16 +49,18 @@ public class Usuario implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
 
 	@Column(name = "password", nullable = false)
 	private String password;
-
+	
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "enabled")
 	private byte enabled;
 
-	@Convert(converter = RoleConverter.class)
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
     @Column(name = "role")
     private Role role;
 
