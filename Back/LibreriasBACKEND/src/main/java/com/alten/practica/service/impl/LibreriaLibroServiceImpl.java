@@ -1,7 +1,11 @@
 package com.alten.practica.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -177,8 +181,43 @@ public class LibreriaLibroServiceImpl implements ILibreriaLibroService {
     @Override
     @Transactional(readOnly = true)
     public Page<LibreriaLibroDTO> findByTituloContaining(String titulo, Pageable pageable) {
-        Page<LibreriaLibro> lista = libreriaLibroRepository.findByTituloContainingNative(titulo, pageable);
-        return lista.map(libreriaLibroMapper::toDTO);
+        if (titulo == null || titulo.isEmpty()) {
+            System.out.println("El título proporcionado está vacío o es nulo.");
+            return Page.empty(pageable);
+        }
+
+        // Obtener todos los registros desde la base de datos
+        List<LibreriaLibro> listaLibros = (List<LibreriaLibro>) libreriaLibroRepository.findAll();
+
+        if (listaLibros.isEmpty()) {
+            System.out.println("No se encontraron registros en la base de datos.");
+            return Page.empty(pageable);
+        }
+
+        // Transformar el título de búsqueda a minúsculas y eliminar espacios
+        String lowerCaseTitle = titulo.toLowerCase().replace(" ", "");
+
+        // Desencriptar y buscar en la aplicación
+        List<LibreriaLibro> filteredLibros = listaLibros.stream()
+            .filter(libreriaLibro -> {
+                String decryptedTitle = libreriaLibro.getLibro().getTitulo();
+                String lowerCaseDecryptedTitle = decryptedTitle.toLowerCase().replace(" ", "");
+                return lowerCaseDecryptedTitle.contains(lowerCaseTitle);
+            })
+            .collect(Collectors.toList());
+
+        // Paginar la lista filtrada
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filteredLibros.size());
+        List<LibreriaLibro> sublist = filteredLibros.subList(start, end);
+
+        // Mapear a DTOs
+        Page<LibreriaLibro> libroPage = new PageImpl<>(sublist, pageable, filteredLibros.size());
+        return libroPage.map(libreriaLibro -> libreriaLibroMapper.toDTO(libreriaLibro));
+    	
+    	
+        //Page<LibreriaLibro> lista = libreriaLibroRepository.findByTituloContainingNative(titulo, pageable);
+        //return lista.map(libreriaLibroMapper::toDTO);
     }
 
 	@Override
