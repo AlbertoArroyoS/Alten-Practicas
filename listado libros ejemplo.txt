@@ -1,0 +1,136 @@
+
+{
+    "titulo": "El monstruo de colores",
+    "nombreAutor": "Anna",
+    "apellidosAutor": "Llenas",
+    "genero": "Infantil",
+    "paginas": 20,
+    "editorial": "Flamboyant",
+    "descripcion": "Un cuento que ayuda a los niños a identificar y comprender sus emociones a través de un monstruo que cambia de color según su estado de ánimo."
+}
+{
+    "titulo": "La oruga muy hambrienta",
+    "nombreAutor": "Eric",
+    "apellidosAutor": "Carle",
+    "genero": "Infantil",
+    "paginas": 26,
+    "editorial": "Kókinos",
+    "descripcion": "La historia de una pequeña oruga que come y come hasta convertirse en una hermosa mariposa, enseñando a los niños sobre la metamorfosis."
+}
+{
+    "titulo": "Adivina cuánto te quiero",
+    "nombreAutor": "Sam",
+    "apellidosAutor": "McBratney",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Kalandraka",
+    "descripcion": "Un conmovedor cuento que muestra el amor entre un conejito y su padre, perfecto para la hora de dormir."
+}
+{
+    "titulo": "El Grúfalo",
+    "nombreAutor": "Julia",
+    "apellidosAutor": "Donaldson",
+    "genero": "Infantil",
+    "paginas": 28,
+    "editorial": "Macmillan",
+    "descripcion": "Un ingenioso ratón se inventa una criatura espantosa para asustar a sus depredadores, solo para encontrarse cara a cara con su propia creación."
+}
+{
+    "titulo": "Pequeña Azul y Pequeño Amarillo",
+    "nombreAutor": "Leo",
+    "apellidosAutor": "Lionni",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Lumen",
+    "descripcion": "Una historia simple y conmovedora sobre la amistad y la aceptación a través de los colores y sus mezclas."
+}
+{
+    "titulo": "¿A qué sabe la luna?",
+    "nombreAutor": "Michael",
+    "apellidosAutor": "Grejniec",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Kalandraka",
+    "descripcion": "Un cuento sobre animales que quieren descubrir a qué sabe la luna y colaboran entre ellos para alcanzarla."
+}
+{
+    "titulo": "El pollo Pepe",
+    "nombreAutor": "Nick",
+    "apellidosAutor": "Denchfield",
+    "genero": "Infantil",
+    "paginas": 12,
+    "editorial": "SM",
+    "descripcion": "Un libro interactivo y divertido sobre el pequeño y travieso pollo Pepe, perfecto para la hora del cuento."
+}
+{
+    "titulo": "Un beso antes de dormir",
+    "nombreAutor": "Amy",
+    "apellidosAutor": "Hest",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Corimbo",
+    "descripcion": "Una dulce historia que sigue la rutina de un osito antes de irse a dormir, mostrando el amor y el cuidado de su madre."
+}
+{
+    "titulo": "La pequeña oruga glotona",
+    "nombreAutor": "Eric",
+    "apellidosAutor": "Carle",
+    "genero": "Infantil",
+    "paginas": 26,
+    "editorial": "Kókinos",
+    "descripcion": "La historia de una oruga que come y come hasta convertirse en una mariposa, enseñando a los niños sobre la metamorfosis y los días de la semana."
+}
+{
+    "titulo": "Donde viven los monstruos",
+    "nombreAutor": "Maurice",
+    "apellidosAutor": "Sendak",
+    "genero": "Infantil",
+    "paginas": 48,
+    "editorial": "Alfaguara",
+    "descripcion": "El cuento clásico de Max, un niño travieso que viaja a una isla habitada por monstruos, donde se convierte en su rey."
+}
+{
+    "titulo": "Cocodrilo se enamora",
+    "nombreAutor": "Daniel",
+    "apellidosAutor": "François",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Corimbo",
+    "descripcion": "Una historia sobre un cocodrilo que se enamora y hace todo lo posible para impresionar a su amada, mostrando la belleza del amor y la perseverancia."
+}
+{
+    "titulo": "Oso pardo, oso pardo, ¿qué ves?",
+    "nombreAutor": "Bill",
+    "apellidosAutor": "Martin Jr.",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Kalandraka",
+    "descripcion": "Un libro rítmico y repetitivo que introduce a los niños a diferentes animales y colores, con ilustraciones vibrantes."
+}
+{
+    "titulo": "De la cabeza a los pies",
+    "nombreAutor": "Eric",
+    "apellidosAutor": "Carle",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Kókinos",
+    "descripcion": "Un libro interactivo que anima a los niños a moverse y a imitar las acciones de los animales presentados, desarrollando habilidades motoras."
+}
+{
+    "titulo": "La pequeña locomotora que sí pudo",
+    "nombreAutor": "Watty",
+    "apellidosAutor": "Piper",
+    "genero": "Infantil",
+    "paginas": 48,
+    "editorial": "Grosset & Dunlap",
+    "descripcion": "La inspiradora historia de una pequeña locomotora que, a pesar de sus dudas, logra arrastrar un tren pesado sobre una montaña, enseñando a los niños sobre la perseverancia."
+}
+{
+    "titulo": "Elmer",
+    "nombreAutor": "David",
+    "apellidosAutor": "McKee",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Anaya",
+    "descripcion": "Elmer es un elefante diferente, con un patrón de colores brillante, que aprende a aceptar su individualidad y a ser feliz con quien es."
+}
