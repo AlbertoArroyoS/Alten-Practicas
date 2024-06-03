@@ -5,8 +5,10 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alten.practica.constantes.LibreriaConstant;
+import com.alten.practica.service.encrypt.EncriptadorDesencriptadorAutomatico;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -47,16 +49,22 @@ public class LibreriaLibro {
 	@ManyToOne
 	@JoinColumn(name = "id_libro", referencedColumnName = "id_libro")
 	private Libro libro;
+
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "cantidad")
 	private int cantidad;
+
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "precio")
 	private double precio;
 
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "edicion")
 	private int edicion;
 
-	// @Column(name = "fecha_publicacion")
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "fecha_publicacion")
 	private Date fechaPublicacion;
 
 }

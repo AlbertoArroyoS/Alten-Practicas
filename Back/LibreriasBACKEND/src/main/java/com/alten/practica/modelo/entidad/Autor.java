@@ -3,9 +3,11 @@ package com.alten.practica.modelo.entidad;
 import java.util.List;
 
 import com.alten.practica.constantes.LibreriaConstant;
+import com.alten.practica.service.encrypt.EncriptadorDesencriptadorAutomatico;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,8 +37,12 @@ public class Autor {
 	@Column(name = "id_autor")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "nombre")
 	private String nombre;
+
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "apellidos")
 	private String apellidos;
 

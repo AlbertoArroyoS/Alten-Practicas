@@ -50,6 +50,8 @@ export class ListBookComponent implements OnInit, OnDestroy {
   idCliente!: number;
   idLibreria!: number;
   private routeSub!: Subscription; // Suscripción a la ruta activa
+  sortDirection = true; // true = ascendente, false = descendente
+
 
   // Referencias a elementos del DOM
   @ViewChild('content', { static: true }) modalContent!: ElementRef;
@@ -379,6 +381,22 @@ export class ListBookComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  // Método para ordenar la tabla
+  sortTable(column: string): void {
+    this.sortDirection = !this.sortDirection;
+    const direction = this.sortDirection ? 1 : -1;
+
+    this.books.sort((a, b) => {
+      if (a[column] < b[column]) {
+        return -1 * direction;
+      } else if (a[column] > b[column]) {
+        return 1 * direction;
+      } else {
+        return 0;
+      }
+    });
   }
 
   // Método para mostrar una alerta de éxito

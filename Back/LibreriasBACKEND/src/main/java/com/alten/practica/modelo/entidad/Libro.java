@@ -3,8 +3,10 @@ package com.alten.practica.modelo.entidad;
 import java.util.List;
 
 import com.alten.practica.constantes.LibreriaConstant;
+import com.alten.practica.service.encrypt.EncriptadorDesencriptadorAutomatico;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,6 +39,8 @@ public class Libro {
 	@Column(name = "id_libro")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "titulo")
 	private String titulo;
 
@@ -44,12 +48,19 @@ public class Libro {
 	@JoinColumn(name = "id_autor", referencedColumnName = "id_autor")
 	private Autor autor;
 
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "genero")
 	private String genero;
+	
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "paginas")
 	private int paginas;
+	
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "editorial")
 	private String editorial;
+	
+	@Convert(converter = EncriptadorDesencriptadorAutomatico.class)
 	@Column(name = "descripcion")
 	private String descripcion;
 

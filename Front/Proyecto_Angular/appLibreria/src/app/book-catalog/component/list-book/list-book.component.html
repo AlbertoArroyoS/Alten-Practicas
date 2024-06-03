@@ -1,17 +1,23 @@
 <nav class="navbar2 navbar-expand-lg navbar-dark">
-  <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
-    <ul class="navbar-nav align-items-center" style="cursor: pointer; width: 100%;">
+  <div
+    class="collapse navbar-collapse justify-content-center"
+    id="navbarNavDropdown"
+  >
+    <ul
+      class="navbar-nav align-items-center"
+      style="cursor: pointer; width: 100%"
+    >
       <li class="nav-item mx-3">
-        <button
-        (click)="loadBooks()"
-          type="button"
-          class="btn navbar-button"
-        >
+        <button (click)="loadBooks()" type="button" class="btn navbar-button">
           Tabla
         </button>
       </li>
       <li class="nav-item mx-3">
-        <button (click)="botonNuevoLibro()" type="button" class="btn navbar-button">
+        <button
+          (click)="botonNuevoLibro()"
+          type="button"
+          class="btn navbar-button"
+        >
           Nuevo libro
         </button>
       </li>
@@ -46,389 +52,407 @@
 <div class="container">
   <!-- Formulario de registro de libros -->
   <!-- Formulario de registro de libros -->
-<div class="formularioRegistro">
-  <form
-    class="form-group"
-    [formGroup]="formularioLibro"
-    *ngIf="botonNuevoLibroVisible"
-  >
-    <div class="row mt-3">
-      <h1 *ngIf="!modificarLibro">Añadir un nuevo libro</h1>
-      <h1 *ngIf="modificarLibro">Editar libro</h1>
-      <div>
-        <label for="nombreAutor">Nombre del autor</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="nombreAutor"
-          placeholder="Nombre autor"
-          aria-label="NombreAutor"
-        />
-        <div
-          *ngIf="
-            formularioLibro.get('nombreAutor')?.invalid &&
-            (formularioLibro.get('nombreAutor')?.dirty ||
-              formularioLibro.get('nombreAutor')?.touched)
-          "
-          class="text-danger"
-        >
-          <div *ngIf="formularioLibro.get('nombreAutor')?.errors?.['required']">
-            El campo nombre del autor es requerido
-          </div>
-        </div>
-      </div>
-      <div>
-        <label for="apellidosAutor">Apellidos del autor</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="apellidosAutor"
-          placeholder="Apellidos Autor"
-          aria-label="ApellidosAutor"
-        />
-        <div
-          *ngIf="
-            formularioLibro.get('apellidosAutor')?.invalid &&
-            (formularioLibro.get('apellidosAutor')?.dirty ||
-              formularioLibro.get('apellidosAutor')?.touched)
-          "
-          class="text-danger"
-        >
-          <div *ngIf="formularioLibro.get('apellidosAutor')?.errors?.['required']">
-            El campo Apellido del autor es requerido
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div>
-        <label for="titulo">Título del libro</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="titulo"
-          placeholder="Título"
-          aria-label="Titulo"
-        />
-        <div
-          *ngIf="
-            formularioLibro.get('titulo')?.invalid &&
-            (formularioLibro.get('titulo')?.dirty ||
-              formularioLibro.get('titulo')?.touched)
-          "
-          class="text-danger"
-        >
-          <div *ngIf="formularioLibro.get('titulo')?.errors?.['required']">
-            El campo Título es requerido
-          </div>
-        </div>
-      </div>
-      <div>
-        <label for="genero">Género del libro</label>
-        <select
-          class="form-select form-select-sm"
-          formControlName="genero"
-          aria-label="Small select example"
-        >
-          <option disabled selected value="">Selecciona un género</option>
-          <option value="Fantasía">Fantasía</option>
-          <option value="Infantil">Infantil</option>
-          <option value="Poesía">Poesía</option>
-          <option value="Ciencia ficción">Ciencia ficción</option>
-          <option value="Misterio">Misterio</option>
-          <option value="Romance">Romance</option>
-          <option value="Otros">Otros</option>
-        </select>
-        <div
-          *ngIf="
-            formularioLibro.get('genero')?.invalid &&
-            (formularioLibro.get('genero')?.dirty ||
-              formularioLibro.get('genero')?.touched)
-          "
-          class="text-danger"
-        >
-          <div *ngIf="formularioLibro.get('genero')?.errors?.['required']">
-            El campo Género es requerido
-          </div>
-        </div>
-        <label for="paginas">Páginas del libro</label>
-        <input
-          type="number"
-          class="form-control"
-          formControlName="paginas"
-          placeholder="Páginas"
-          aria-label="Paginas"
-        />
-        <div
-          *ngIf="
-            formularioLibro.get('paginas')?.invalid &&
-            (formularioLibro.get('paginas')?.dirty ||
-              formularioLibro.get('paginas')?.touched)
-          "
-          class="text-danger"
-        >
-          <div *ngIf="formularioLibro.get('paginas')?.errors?.['required']">
-            El campo Páginas es requerido
-          </div>
-        </div>
-      </div>
-      <div>
-        <label for="editorial">Editorial del libro</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="editorial"
-          placeholder="Editorial"
-          aria-label="Editorial"
-        />
-        <div
-          *ngIf="
-            formularioLibro.get('editorial')?.invalid &&
-            (formularioLibro.get('editorial')?.dirty ||
-              formularioLibro.get('editorial')?.touched)
-          "
-          class="text-danger"
-        >
-          <div *ngIf="formularioLibro.get('editorial')?.errors?.['required']">
-            El campo Editorial es requerido
-          </div>
-        </div>
-      </div>
-      <div>
-        <label for="descripcion">Descripción del libro</label>
-        <textarea
-          class="form-control"
-          formControlName="descripcion"
-          placeholder="Descripción"
-          aria-label="Descripcion"
-        ></textarea>
-      </div>
-    </div>
-
-    <div class="mt-3" *ngIf="mostrarBotonGuardar">
-      <button (click)="guardarLibro()" class="btn btn-primary" [disabled]="formularioLibro.invalid">Añadir libro</button>
-    </div>
-    <div class="mt-3" *ngIf="modificarLibro">
-      <button (click)="actualizarLibro()" [disabled]="formularioLibro.invalid" class="btn btn-warning">Actualizar Libro</button>
-    </div>
-  </form>
-
-  <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
-    {{ successMessage }}
-  </div>
-
-  <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
-    {{ warningMessage }}
-  </div>
-</div>
-
-
-<!-- Contenedor para la tabla de libros y mensajes de éxito -->
-<div class="container">
-  <!-- Mensaje de éxito al eliminar un libro -->
-  <div class="alert alert-success" role="alert" *ngIf="eliminadoExitoso">
-    Libro eliminado correctamente
-  </div>
-  <!-- Encabezado de la tabla de libros -->
-  <div class="EncabezadoTabla">
-    <h1>Tabla de libros</h1>
-  </div>
-
-  <!-- Tabla de libros -->
-  <div class="tablaLibros">
-    <table class="table table-striped table-hover shadow">
-      <thead>
-        <tr class="table-primary">
-          <th scope="col">id</th>
-          <th scope="col">Título</th>
-          <th scope="col">Nombre autor</th>
-          <th scope="col">Apellidos autor</th>
-          <th scope="col">Género</th>
-          <th scope="col">Editorial</th>
-          <th scope="col">Opción</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Lista de libros -->
-        <tr *ngFor="let item of books">
-          <th scope="row">{{ item.id }}</th>
-          <td>{{ item.titulo }}</td>
-          <td>{{ item.nombreAutor }}</td>
-          <td>{{ item.apellidosAutor }}</td>
-          <td>{{ item.genero }}</td>
-          <td>{{ item.editorial }}</td>
-          <!-- Botones para ver, editar y eliminar libros -->
-          <td class="acciones">
-            <button
-              (click)="obtenerLibroPorId(item.id)"
-              type="button"
-              class="btn btn-success"
-            >
-              Ver libro
-            </button>
-            <button
-              (click)="openAddBookModal(item.id)"
-              type="button"
-              class="btn btn-info"
-            >
-              Vender libro
-            </button>
-            <button
-              (click)="editarLibro(item)"
-              type="button"
-              class="btn btn-warning"
-            >
-              Editar libro
-            </button>
-            <button
-              (click)="eliminarLibro(item)"
-              type="button"
-              class="btn btn-danger"
-            >
-              Eliminar libro
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Paginación -->
-  <div *ngIf="paginacion">
-    <ul *ngIf="totalPaginas && totalPaginas.length > 0" class="pagination">
-      <!-- Botón "Anterior" -->
-      <li [class.disabled]="currentPage <= 0">
-        <button
-          (click)="changePage(currentPage - 1)"
-          [disabled]="currentPage <= 0"
-          class="page-link"
-        >
-          Anterior
-        </button>
-      </li>
-
-      <!-- Números de página -->
-      <li
-        *ngFor="let page of totalPaginas"
-        [class.active]="currentPage === page - 1"
-        class="page-item"
-      >
-        <a (click)="changePage(page - 1)" class="page-link">{{ page }}</a>
-      </li>
-
-      <!-- Botón "Siguiente" -->
-      <li [class.disabled]="currentPage >= totalPaginas.length - 1">
-        <button
-          (click)="changePage(currentPage + 1)"
-          [disabled]="currentPage >= totalPaginas.length - 1"
-          class="page-link"
-        >
-          Siguiente
-        </button>
-      </li>
-    </ul>
-
-    <!-- Selector de tamaño de página -->
-    <select (change)="changePageSize($event)">
-      <option *ngFor="let size of [10, 20, 50, 100]" [value]="size">
-        {{ size }}
-      </option>
-    </select>
-  </div>
-</div>
-
-<!-- ng-template con la referencia local 'content' que contiene el modal -->
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Detalles del Libro</h4>
-  </div>
-  <div class="modal-body">
-    <p><strong>Título:</strong> {{ book?.titulo }}</p>
-    <p>
-      <strong>Autor:</strong> {{ book.nombreAutor }} {{ book.apellidosAutor }}
-    </p>
-    <p><strong>Género:</strong> {{ book.genero }}</p>
-    <p><strong>Páginas:</strong> {{ book.paginas }}</p>
-    <p><strong>Editorial:</strong> {{ book.editorial }}</p>
-    <p><strong>Descripción:</strong> {{ book.descripcion }}</p>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.close('Close click')"
+  <div class="formularioRegistro">
+    <form
+      class="form-group"
+      [formGroup]="formularioLibro"
+      *ngIf="botonNuevoLibroVisible"
     >
-      Cerrar
-    </button>
-  </div>
-</ng-template>
+      <div class="row mt-3">
+        <h1 *ngIf="!modificarLibro">Añadir un nuevo libro</h1>
+        <h1 *ngIf="modificarLibro">Editar libro</h1>
+        <div>
+          <label for="nombreAutor">Nombre del autor</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nombreAutor"
+            placeholder="Nombre autor"
+            aria-label="NombreAutor"
+          />
+          <div
+            *ngIf="
+              formularioLibro.get('nombreAutor')?.invalid &&
+              (formularioLibro.get('nombreAutor')?.dirty ||
+                formularioLibro.get('nombreAutor')?.touched)
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="formularioLibro.get('nombreAutor')?.errors?.['required']"
+            >
+              El campo nombre del autor es requerido
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="apellidosAutor">Apellidos del autor</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="apellidosAutor"
+            placeholder="Apellidos Autor"
+            aria-label="ApellidosAutor"
+          />
+          <div
+            *ngIf="
+              formularioLibro.get('apellidosAutor')?.invalid &&
+              (formularioLibro.get('apellidosAutor')?.dirty ||
+                formularioLibro.get('apellidosAutor')?.touched)
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="formularioLibro.get('apellidosAutor')?.errors?.['required']"
+            >
+              El campo Apellido del autor es requerido
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- ng-template con la referencia local 'addBook' que contiene el modal para añadir libros -->
+      <div class="row mt-3">
+        <div>
+          <label for="titulo">Título del libro</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="titulo"
+            placeholder="Título"
+            aria-label="Titulo"
+          />
+          <div
+            *ngIf="
+              formularioLibro.get('titulo')?.invalid &&
+              (formularioLibro.get('titulo')?.dirty ||
+                formularioLibro.get('titulo')?.touched)
+            "
+            class="text-danger"
+          >
+            <div *ngIf="formularioLibro.get('titulo')?.errors?.['required']">
+              El campo Título es requerido
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="genero">Género del libro</label>
+          <select
+            class="form-select form-select-sm"
+            formControlName="genero"
+            aria-label="Small select example"
+          >
+            <option disabled selected value="">Selecciona un género</option>
+            <option value="Fantasía">Fantasía</option>
+            <option value="Infantil">Infantil</option>
+            <option value="Poesía">Poesía</option>
+            <option value="Ciencia ficción">Ciencia ficción</option>
+            <option value="Misterio">Misterio</option>
+            <option value="Romance">Romance</option>
+            <option value="Otros">Otros</option>
+          </select>
+          <div
+            *ngIf="
+              formularioLibro.get('genero')?.invalid &&
+              (formularioLibro.get('genero')?.dirty ||
+                formularioLibro.get('genero')?.touched)
+            "
+            class="text-danger"
+          >
+            <div *ngIf="formularioLibro.get('genero')?.errors?.['required']">
+              El campo Género es requerido
+            </div>
+          </div>
+          <label for="paginas">Páginas del libro</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="paginas"
+            placeholder="Páginas"
+            aria-label="Paginas"
+          />
+          <div
+            *ngIf="
+              formularioLibro.get('paginas')?.invalid &&
+              (formularioLibro.get('paginas')?.dirty ||
+                formularioLibro.get('paginas')?.touched)
+            "
+            class="text-danger"
+          >
+            <div *ngIf="formularioLibro.get('paginas')?.errors?.['required']">
+              El campo Páginas es requerido
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="editorial">Editorial del libro</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="editorial"
+            placeholder="Editorial"
+            aria-label="Editorial"
+          />
+          <div
+            *ngIf="
+              formularioLibro.get('editorial')?.invalid &&
+              (formularioLibro.get('editorial')?.dirty ||
+                formularioLibro.get('editorial')?.touched)
+            "
+            class="text-danger"
+          >
+            <div *ngIf="formularioLibro.get('editorial')?.errors?.['required']">
+              El campo Editorial es requerido
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="descripcion">Descripción del libro</label>
+          <textarea
+            class="form-control"
+            formControlName="descripcion"
+            placeholder="Descripción"
+            aria-label="Descripcion"
+          ></textarea>
+        </div>
+      </div>
 
-<ng-template #addBookModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Agregar Libro a Librería</h4>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="addBookForm">
-      <div class="form-group">
-        <label for="cantidad">Cantidad</label>
-        <input
-          type="number"
-          id="cantidad"
-          formControlName="cantidad"
-          class="form-control"
-          required
-        />
+      <div class="mt-3" *ngIf="mostrarBotonGuardar">
+        <button
+          (click)="guardarLibro()"
+          class="btn btn-primary"
+          [disabled]="formularioLibro.invalid"
+        >
+          Añadir libro
+        </button>
       </div>
-      <div class="form-group">
-        <label for="precio">Precio</label>
-        <input
-          type="number"
-          id="precio"
-          formControlName="precio"
-          class="form-control"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="edicion">Edición</label>
-        <input
-          type="number"
-          id="edicion"
-          formControlName="edicion"
-          class="form-control"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="fechaPublicacion">Fecha de Publicación</label>
-        <input
-          type="text"
-          id="fechaPublicacion"
-          formControlName="fechaPublicacion"
-          class="form-control"
-          placeholder="dd-MM-yyyy"
-          required
-        />
+      <div class="mt-3" *ngIf="modificarLibro">
+        <button
+          (click)="actualizarLibro()"
+          [disabled]="formularioLibro.invalid"
+          class="btn btn-warning"
+        >
+          Actualizar Libro
+        </button>
       </div>
     </form>
+
+    <div class="alert alert-success" role="alert" *ngIf="guardadoExitoso">
+      {{ successMessage }}
+    </div>
+
+    <div class="alert alert-warning" role="alert" *ngIf="alertaConflicto">
+      {{ warningMessage }}
+    </div>
   </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="modal.dismiss('Cross click')"
-    >
-      Cancelar
-    </button>
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="confirmAddBook(modal)"
-    >
-      Agregar
-    </button>
+
+  <!-- Contenedor para la tabla de libros y mensajes de éxito -->
+  <div class="container">
+    <!-- Mensaje de éxito al eliminar un libro -->
+    <div class="alert alert-success" role="alert" *ngIf="eliminadoExitoso">
+      Libro eliminado correctamente
+    </div>
+    <!-- Encabezado de la tabla de libros -->
+    <div class="EncabezadoTabla">
+      <h1>Tabla de libros</h1>
+    </div>
+
+    <!-- Tabla de libros -->
+    <div class="tablaLibros">
+      <table class="table table-striped table-hover shadow">
+        <thead>
+          <tr class="table-primary">
+            <th scope="col" class="sortable" (click)="sortTable('id')">id</th>
+            <th scope="col" class="sortable" (click)="sortTable('titulo')">
+              Título
+            </th>
+            <th scope="col">Nombre autor</th>
+            <th scope="col">Apellidos autor</th>
+            <th scope="col">Género</th>
+            <th scope="col">Editorial</th>
+            <th scope="col">Opción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Lista de libros -->
+          <tr *ngFor="let item of books">
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.titulo }}</td>
+            <td>{{ item.nombreAutor }}</td>
+            <td>{{ item.apellidosAutor }}</td>
+            <td>{{ item.genero }}</td>
+            <td>{{ item.editorial }}</td>
+            <!-- Botones para ver, editar y eliminar libros -->
+            <td class="acciones">
+              <button
+                (click)="obtenerLibroPorId(item.id)"
+                type="button"
+                class="btn btn-success"
+              >
+                Ver libro
+              </button>
+              <button
+                (click)="openAddBookModal(item.id)"
+                type="button"
+                class="btn btn-info"
+              >
+                Vender libro
+              </button>
+              <button
+                (click)="editarLibro(item)"
+                type="button"
+                class="btn btn-warning"
+              >
+                Editar libro
+              </button>
+              <button
+                (click)="eliminarLibro(item)"
+                type="button"
+                class="btn btn-danger"
+              >
+                Eliminar libro
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div *ngIf="paginacion">
+      <ul *ngIf="totalPaginas && totalPaginas.length > 0" class="pagination">
+        <!-- Botón "Anterior" -->
+        <li [class.disabled]="currentPage <= 0">
+          <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage <= 0"
+            class="page-link"
+          >
+            Anterior
+          </button>
+        </li>
+
+        <!-- Números de página -->
+        <li
+          *ngFor="let page of totalPaginas"
+          [class.active]="currentPage === page - 1"
+          class="page-item"
+        >
+          <a (click)="changePage(page - 1)" class="page-link">{{ page }}</a>
+        </li>
+
+        <!-- Botón "Siguiente" -->
+        <li [class.disabled]="currentPage >= totalPaginas.length - 1">
+          <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage >= totalPaginas.length - 1"
+            class="page-link"
+          >
+            Siguiente
+          </button>
+        </li>
+      </ul>
+
+      <!-- Selector de tamaño de página -->
+      <select (change)="changePageSize($event)">
+        <option *ngFor="let size of [10, 20, 50, 100]" [value]="size">
+          {{ size }}
+        </option>
+      </select>
+    </div>
   </div>
-</ng-template>
+
+  <!-- ng-template con la referencia local 'content' que contiene el modal -->
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Detalles del Libro</h4>
+    </div>
+    <div class="modal-body">
+      <p><strong>Título:</strong> {{ book?.titulo }}</p>
+      <p>
+        <strong>Autor:</strong> {{ book.nombreAutor }} {{ book.apellidosAutor }}
+      </p>
+      <p><strong>Género:</strong> {{ book.genero }}</p>
+      <p><strong>Páginas:</strong> {{ book.paginas }}</p>
+      <p><strong>Editorial:</strong> {{ book.editorial }}</p>
+      <p><strong>Descripción:</strong> {{ book.descripcion }}</p>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="modal.close('Close click')"
+      >
+        Cerrar
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- ng-template con la referencia local 'addBook' que contiene el modal para añadir libros -->
+
+  <ng-template #addBookModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Agregar Libro a Librería</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="addBookForm">
+        <div class="form-group">
+          <label for="cantidad">Cantidad</label>
+          <input
+            type="number"
+            id="cantidad"
+            formControlName="cantidad"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="precio">Precio</label>
+          <input
+            type="number"
+            id="precio"
+            formControlName="precio"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="edicion">Edición</label>
+          <input
+            type="number"
+            id="edicion"
+            formControlName="edicion"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="fechaPublicacion">Fecha de Publicación</label>
+          <input
+            type="text"
+            id="fechaPublicacion"
+            formControlName="fechaPublicacion"
+            class="form-control"
+            placeholder="dd-MM-yyyy"
+            required
+          />
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="modal.dismiss('Cross click')"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="confirmAddBook(modal)"
+      >
+        Agregar
+      </button>
+    </div>
+  </ng-template>
+</div>

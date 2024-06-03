@@ -1,5 +1,10 @@
 package com.alten.practica.service.encrypt;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +12,7 @@ import com.alten.practica.util.Role;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+
 /*
  * Convertidor de atributos de entidad para cifrado y descifrado automático.
  */
@@ -14,32 +20,35 @@ import jakarta.persistence.Converter;
 @Converter(autoApply = true)
 public class EncriptadorDesencriptadorAutomatico implements AttributeConverter<Object, String> {
 
-    // Inyección de la dependencia del servicio de cifrado
     @Autowired
     private DeterministicEncryptionService encryptionService;
 
-    // Convierte el atributo a una columna de base de datos cifrada
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+    static {
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+
     @Override
     public String convertToDatabaseColumn(Object attribute) {
         if (attribute == null) {
             return null;
         }
-        // Verifica si el atributo es de un tipo soportado antes de cifrar
-        if (attribute instanceof String || attribute instanceof Byte || attribute instanceof Integer || attribute instanceof Double || attribute instanceof Role) {
+        if (attribute instanceof String || attribute instanceof Byte || attribute instanceof Integer || attribute instanceof Double || attribute instanceof Role || attribute instanceof Date) {
+            if (attribute instanceof Date) {
+                return encryptionService.encrypt(dateFormat.format((Date) attribute));
+            }
             return encryptionService.encrypt(attribute.toString());
         }
-        // Lanza una excepción si el tipo del atributo no es soportado
         throw new IllegalArgumentException("Unsupported attribute type: " + attribute.getClass().getName());
     }
 
-    // Convierte la columna de la base de datos desencriptada al atributo de entidad
     @Override
     public Object convertToEntityAttribute(String dbData) {
         if (dbData == null) {
             return null;
         }
         String decryptedData = encryptionService.decrypt(dbData);
-        // Determina el tipo de datos del valor desencriptado y lo convierte en consecuencia
         if (isByte(decryptedData)) {
             return Byte.valueOf(decryptedData);
         } else if (isInteger(decryptedData)) {
@@ -48,12 +57,17 @@ public class EncriptadorDesencriptadorAutomatico implements AttributeConverter<O
             return Double.valueOf(decryptedData);
         } else if (isRole(decryptedData)) {
             return Role.valueOf(decryptedData);
+        } else if (isDate(decryptedData)) {
+            try {
+                return dateFormat.parse(decryptedData);
+            } catch (ParseException e) {
+                throw new IllegalArgumentException("Unable to parse date: " + decryptedData, e);
+            }
         } else {
             return decryptedData;
         }
     }
 
-    // Métodos privados para verificar el tipo de datos del valor desencriptado
     private boolean isByte(String data) {
         try {
             Byte.valueOf(data);
@@ -86,6 +100,15 @@ public class EncriptadorDesencriptadorAutomatico implements AttributeConverter<O
             Role.valueOf(data);
             return true;
         } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private boolean isDate(String data) {
+        try {
+            dateFormat.parse(data);
+            return true;
+        } catch (ParseException e) {
             return false;
         }
     }
