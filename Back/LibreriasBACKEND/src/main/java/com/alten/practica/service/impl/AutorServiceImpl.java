@@ -247,15 +247,11 @@ public class AutorServiceImpl implements IAutorService {
         // Transformar el nombre de búsqueda a minúsculas y eliminar espacios
         String lowerCaseNombre = nombre.toLowerCase().replace(" ", "");
 
-        System.out.println("Nombre de búsqueda (procesado): " + lowerCaseNombre);
-
         // Desencriptar y buscar en la aplicación
         List<Autor> filteredAutores = new ArrayList<>();
         for (Autor autor : listaAutores) {
             String decryptedNombre = autor.getNombre();
             String decryptedApellidos = autor.getApellidos();
-
-            System.out.println("Autor desencriptado - Nombre: " + decryptedNombre + ", Apellidos: " + decryptedApellidos);
 
             String fullName = (decryptedNombre + " " + decryptedApellidos).toLowerCase().replace(" ", "");
 

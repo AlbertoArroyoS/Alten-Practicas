@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -264,11 +265,44 @@ public class LibroServiceImpl implements ILibroService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public Page<LibroDTO> findByTitle(String title, Pageable pageable) {
-		Page<Libro> listaPages = this.libroRepository.buscarKeyWordSQL(title, pageable);
-		return listaPages.map(libro -> libroMapper.toDTO(libro));
+    public Page<LibroDTO> findByTitle(String title, Pageable pageable) {
+        if (title == null || title.isEmpty()) {
+            System.out.println("El título proporcionado está vacío o es nulo.");
+            return Page.empty(pageable);
+        }
 
-	}
+        // Obtener todos los libros desde la base de datos
+        List<Libro> listaLibros = (List<Libro>) libroRepository.findAll();
+
+        if (listaLibros.isEmpty()) {
+            System.out.println("No se encontraron libros en la base de datos.");
+            return Page.empty(pageable);
+        }
+
+        // Transformar el título de búsqueda a minúsculas y eliminar espacios
+        String lowerCaseTitle = title.toLowerCase().replace(" ", "");
+
+        // Desencriptar y buscar en la aplicación
+        List<Libro> filteredLibros = listaLibros.stream()
+            .filter(libro -> {
+                String decryptedTitle = libro.getTitulo();
+                String lowerCaseDecryptedTitle = decryptedTitle.toLowerCase().replace(" ", "");
+                return lowerCaseDecryptedTitle.contains(lowerCaseTitle);
+            })
+            .collect(Collectors.toList());
+
+        //System.out.println("Libros filtrados: " + filteredLibros.size());
+
+        // Paginar la lista filtrada
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filteredLibros.size());
+        List<Libro> sublist = filteredLibros.subList(start, end);
+
+        // Mapear a DTOs
+        Page<Libro> libroPage = new PageImpl<>(sublist, pageable, filteredLibros.size());
+        return libroPage.map(libro -> libroMapper.toDTO(libro));
+    }
+		
 
 	/**
 	 * Obtiene el ID de un autor por su nombre completo.
