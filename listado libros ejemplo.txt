@@ -133,4 +133,113 @@
     "paginas": 32,
     "editorial": "Anaya",
     "descripcion": "Elmer es un elefante diferente, con un patrón de colores brillante, que aprende a aceptar su individualidad y a ser feliz con quien es."
+-------------------------
+{
+    "titulo": "Peppa Pig",
+    "nombreAutor": "Neville",
+    "apellidosAutor": "Astley",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Scholastic",
+    "descripcion": "Las aventuras de una cerdita llamada Peppa y su familia, enseñando valores y habilidades sociales a los más pequeños."
+}
+json
+Copiar código
+{
+    "titulo": "El pez arcoiris",
+    "nombreAutor": "Marcus",
+    "apellidosAutor": "Pfister",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "NorthSouth Books",
+    "descripcion": "La historia de un pez con escamas brillantes que aprende sobre la importancia de compartir y la amistad."
+}
+json
+Copiar código
+{
+    "titulo": "El camioncito azul",
+    "nombreAutor": "Alice",
+    "apellidosAutor": "Schertle",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Houghton Mifflin Harcourt",
+    "descripcion": "Un pequeño camión azul que ayuda a otros vehículos en problemas, enseñando sobre la amabilidad y el trabajo en equipo."
+}
+json
+Copiar código
+{
+    "titulo": "El pato y el conejo",
+    "nombreAutor": "Amy",
+    "apellidosAutor": "Krouse Rosenthal",
+    "genero": "Infantil",
+    "paginas": 40,
+    "editorial": "Chronicle Books",
+    "descripcion": "Un libro ingenioso que juega con la percepción y la imaginación de los niños, mostrándoles cómo las cosas pueden ser vistas de diferentes maneras."
+}
+json
+Copiar código
+{
+    "titulo": "De la cabeza a los pies",
+    "nombreAutor": "Eric",
+    "apellidosAutor": "Carle",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Kókinos",
+    "descripcion": "Un libro interactivo que anima a los niños a moverse y a imitar las acciones de los animales presentados, desarrollando habilidades motoras."
+}
+json
+Copiar código
+{
+    "titulo": "El granjero y el sombrero",
+    "nombreAutor": "Margaret",
+    "apellidosAutor": "Wise Brown",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "HarperCollins",
+    "descripcion": "Una historia sobre un granjero y su amado sombrero, enseñando sobre el valor de las cosas simples y queridas."
+}
+json
+Copiar código
+{
+    "titulo": "Buenas noches, luna",
+    "nombreAutor": "Margaret",
+    "apellidosAutor": "Wise Brown",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "HarperCollins",
+    "descripcion": "Un clásico de la hora de dormir que sigue a un conejito mientras dice buenas noches a todo lo que hay en su habitación."
+}
+json
+Copiar código
+{
+    "titulo": "El oso polar y su amigo",
+    "nombreAutor": "Beatrix",
+    "apellidosAutor": "Potter",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Warne",
+    "descripcion": "Las aventuras de un oso polar y su amigo en el Ártico, enseñando sobre la amistad y la naturaleza."
+}
+json
+Copiar código
+{
+    "titulo": "Mi amigo extraterrestre",
+    "nombreAutor": "James",
+    "apellidosAutor": "Bong",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Penguin Random House",
+    "descripcion": "La historia de un niño que se hace amigo de un extraterrestre, enseñando sobre la aceptación y la diversidad."
+}
+json
+Copiar código
+{
+    "titulo": "El tren de los animales",
+    "nombreAutor": "Samantha",
+    "apellidosAutor": "Berger",
+    "genero": "Infantil",
+    "paginas": 32,
+    "editorial": "Little Simon",
+    "descripcion": "Un tren lleno de animales que viaja por diversas tierras, enseñando a los niños sobre diferentes especies y hábitats."
+}
 }
