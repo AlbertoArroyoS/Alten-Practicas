@@ -63,4 +63,8 @@ Angular
 
 ![Imagen](imgReadme/AngularDiagrama.png)
 
+Añadido servicio para encriptación del proyecto. Cifrado y descifrado determinista utilizando el algoritmo AES, Base64.
+
+![Imagen](imgReadme/cifrado.png)
+
 
