@@ -12,6 +12,7 @@ public class LibreriasBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LibreriasBackendApplication.class, args);
+		
 	}
 	
 	//Configuracion de la documentacion de la API con Swagger
@@ -34,4 +35,7 @@ public class LibreriasBackendApplication {
 			}
 		};
 	}*/
+	
+   
+
 }

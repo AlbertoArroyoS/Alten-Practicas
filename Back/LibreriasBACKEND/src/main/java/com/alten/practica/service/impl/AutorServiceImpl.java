@@ -1,5 +1,7 @@
 package com.alten.practica.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,6 +20,7 @@ import com.alten.practica.modelo.entidad.dto.request.AutorDTORequest;
 import com.alten.practica.modelo.entidad.mapper.IAutorMapper;
 import com.alten.practica.repository.IAutorRepository;
 import com.alten.practica.service.IAutorService;
+import com.alten.practica.service.encrypt.DeterministicEncryptionService;
 import com.alten.practica.util.LibreriaResource;
 import com.alten.practica.util.LibreriaUtil;
 
@@ -37,6 +40,8 @@ public class AutorServiceImpl implements IAutorService {
 	IAutorMapper autorMapper;
 	@Autowired
 	LibreriaUtil libreriaUtil;
+	@Autowired
+	private DeterministicEncryptionService encryptionService;
 
 	// Metodo para convertir de entidad a dto. Ya no se necesita, realizar el mapeo
 	// con MapStruct
@@ -131,7 +136,8 @@ public class AutorServiceImpl implements IAutorService {
 	@Override
 	public Page<AutorDTO> findAll(Pageable pageable) {
 		Page<Autor> lista = this.autorRepository.findAll(pageable);
-		//return lista.stream().map(autor -> autorMapper.toDTO(autor)).collect(Collectors.toList());
+		// return lista.stream().map(autor ->
+		// autorMapper.toDTO(autor)).collect(Collectors.toList());
 		return lista.map(autor -> autorMapper.toDTO(autor));
 
 		/*
@@ -224,11 +230,48 @@ public class AutorServiceImpl implements IAutorService {
 	 *         encontrados.
 	 */
 	@Override
-	public List<AutorDTO> buscarKeyWordSQL(String nombre) {
-		List<Autor> listaAutores = this.autorRepository.buscarKeyWordSQL(nombre);
-		return listaAutores.stream().map((bean) -> autorMapper.toDTO(bean)).collect(Collectors.toList());
+    public List<AutorDTO> buscarKeyWordSQL(String nombre) {
+        if (nombre == null || nombre.isEmpty()) {
+            System.out.println("El nombre proporcionado está vacío o es nulo.");
+            return Collections.emptyList();
+        }
 
-	}
+        // Obtener todos los autores desde la base de datos
+        List<Autor> listaAutores = autorRepository.findAll();
+
+        if (listaAutores.isEmpty()) {
+            System.out.println("No se encontraron autores en la base de datos.");
+            return Collections.emptyList();
+        }
+
+        // Transformar el nombre de búsqueda a minúsculas y eliminar espacios
+        String lowerCaseNombre = nombre.toLowerCase().replace(" ", "");
+
+        System.out.println("Nombre de búsqueda (procesado): " + lowerCaseNombre);
+
+        // Desencriptar y buscar en la aplicación
+        List<Autor> filteredAutores = new ArrayList<>();
+        for (Autor autor : listaAutores) {
+            String decryptedNombre = autor.getNombre();
+            String decryptedApellidos = autor.getApellidos();
+
+            System.out.println("Autor desencriptado - Nombre: " + decryptedNombre + ", Apellidos: " + decryptedApellidos);
+
+            String fullName = (decryptedNombre + " " + decryptedApellidos).toLowerCase().replace(" ", "");
+
+            if (fullName.contains(lowerCaseNombre)) {
+                System.out.println("Coincidencia encontrada");
+                filteredAutores.add(autor);
+            }
+        }
+
+        System.out.println("Autores filtrados: " + filteredAutores.size());
+
+        // Mapear a DTOs
+        return filteredAutores.stream()
+            .map(autorMapper::toDTO)
+            .collect(Collectors.toList());
+    }
 
 	/**
 	 * Obtiene el ID de un autor en la base de datos dado su nombre completo.
