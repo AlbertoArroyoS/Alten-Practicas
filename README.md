@@ -51,9 +51,6 @@ Diagrama de clases
 
 ![Imagen](imgReadme/DiagramaClases.png)
 
-Diagrama de casos de uso
-
-![Imagen](imgReadme/DiagramaUso.png)
 
 Spring boot
 
