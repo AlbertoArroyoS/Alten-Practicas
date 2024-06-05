@@ -1,5 +1,5 @@
 # Alten-Prácticas
-## Proyecto API REST Spring boot + PostgreSQL + Angular + Encriptación
+## Proyecto API REST Spring Boot + PostgreSQL + Angular + Encriptación
 
 
 
