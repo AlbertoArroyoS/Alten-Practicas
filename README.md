@@ -54,7 +54,7 @@ Diagrama de clases
 
 Spring boot
 
-![Imagen](imgReadme/SpringBootDiagrama.png)
+![Imagen](imgReadme/SpringBootDiagrama2.png)
 
 Angular
 
