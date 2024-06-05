@@ -11,3 +11,5 @@ Eclipse
 - Implementar el modelo de datos
 - Crear un proyecto back del tipo API Rest en SpringBoot
 - Diseñar los métodos y verbos del proyecto
+
+![Imagen](imgReadme/SpringBootDiagrama2.png)
