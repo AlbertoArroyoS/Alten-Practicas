@@ -12,4 +12,4 @@ Eclipse
 - Crear un proyecto back del tipo API Rest en SpringBoot
 - Diseñar los métodos y verbos del proyecto
 
-![Imagen](././imgReadme/SpringBootDiagrama2.png)
+![Imagen](https://github.com/AlbertoArroyoS/Alten-Practicas/blob/main/imgReadme/SpringBootDiagrama2.png)
