@@ -24,9 +24,15 @@ El proyecto consiste en desarrollar una página web de compra-venta de libros de
 La plataforma permitirá a los padres y estudiantes vender y comprar libros que ya no utilizan, 
 promoviendo así la reutilización y el ahorro en la adquisición de material educativo.
 
+## Video de funcionalidad Spring Boot.
+
 [![Spring Boot](https://img.youtube.com/vi/lGqhp_10Nkw/0.jpg)](https://youtu.be/lGqhp_10Nkw)
 
+## Video de funcionalidad aplicación Angular.
+
 [![Angular](https://img.youtube.com/vi/Tk5CsE9LMew/0.jpg)](https://youtu.be/Tk5CsE9LMew)
+
+## Video de funcionalidad aplicación Web.
 
 [![Web](https://img.youtube.com/vi/hzIaBil2ATM/0.jpg)](https://youtu.be/hzIaBil2ATM)
 
