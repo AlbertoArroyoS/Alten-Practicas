@@ -26,7 +26,7 @@ promoviendo así la reutilización y el ahorro en la adquisición de material ed
 
 [![Spring Boot](https://img.youtube.com/vi/lGqhp_10Nkw/0.jpg)](https://youtu.be/lGqhp_10Nkw)
 
-[![Angular](https://img.youtube.com/vi/wN3u-erMvHY/0.jpg)](https://youtu.be/wN3u-erMvHY)
+[![Angular](https://img.youtube.com/vi/Tk5CsE9LMew/0.jpg)](https://youtu.be/Tk5CsE9LMew)
 
 [![Web](https://img.youtube.com/vi/hzIaBil2ATM/0.jpg)](https://youtu.be/hzIaBil2ATM)
 
